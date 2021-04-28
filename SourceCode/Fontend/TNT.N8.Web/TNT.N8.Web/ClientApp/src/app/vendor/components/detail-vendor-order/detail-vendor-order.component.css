@@ -1,0 +1,790 @@
+.vendor-order-detail .btn-move {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.vendor-order-detail .mr-5 {
+  margin-right: 5px;
+}
+
+.vendor-order-detail .icons-move {
+  font-size: 10px !important;
+}
+
+.vendor-order-detail {
+  font-family: 'Inter UI';
+}
+
+.vendor-order-detail .vendor-order-detail-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.vendor-order-detail .buffer-bottom {
+  margin-bottom: 1rem;
+}
+
+.vendor-order-detail .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.vendor-order-detail .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #eee;
+  border: 1px solid #cccccc;
+}
+
+.vendor-order-detail .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-detail .backgroup-vendor-infor {
+  background-color: #f2f4f8;
+  border: 1px dotted #ded5d5;
+}
+
+.vendor-order-detail .mt-15 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.vendor-order-detail .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.vendor-order-detail .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-detail .notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.vendor-order-detail .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.vendor-order-detail .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.vendor-order-detail .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.vendor-order-detail .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.vendor-order-detail .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.vendor-order-detail .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.vendor-order-detail .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+.vendor-order-detail .button-group .cancel {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .button-group .cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .button-group .save-and-new {
+  width: 160px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .button-group .save-and-new .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .button-group .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-detail .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.vendor-order-detail .text-order-code {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.vendor-order-detail .sub-text-order-code {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .mt-5 {
+  margin-top: 5px;
+}
+
+.vendor-order-detail .mt-10 {
+  margin-top: 10px;
+}
+
+.vendor-order-detail .mt-20 {
+  margin-top: 20px;
+}
+
+::ng-deep .vendor-order-detail .ui-datepicker {
+  top: 31px !important;
+}
+
+.vendor-order-detail .require {
+  color: #F94E4E;
+}
+
+.vendor-order-detail .error-message-span {
+  color: red !important;
+}
+
+.vendor-order-detail .w100 {
+  width: 100%;
+}
+
+.vendor-order-detail .option-customer {
+  height: 64px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #f2f4f8;
+}
+
+.vendor-order-detail .border-customer-infor {
+  border-right: 1px dashed #ccc;
+  border-bottom: 1px dashed #ccc;
+  border-left: 1px dashed #ccc;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.vendor-order-detail .input-text {
+  min-height: 2.55em !important;
+}
+
+.vendor-order-detail .ios-add-circle-outline {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-detail .add-product-text {
+  width: 146px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+/* Phần tổng hợp bên phải */
+
+.vendor-order-detail .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.vendor-order-detail .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.vendor-order-detail .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.vendor-order-detail .box-part-1 {
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 0px;
+}
+
+.vendor-order-detail .overview .total-monney-label {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.vendor-order-detail .overview .total-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #121619;
+}
+
+.vendor-order-detail .result-monney-label {
+  height: 14px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.vendor-order-detail .result-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.vendor-order-detail .result-monney-text {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+/* End */
+
+.vendor-order-detail .allocation {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .allocation .text-allocation {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .cancel-popup {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.vendor-order-detail .cancel-popup .text-cancel-popup {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-detail .save-popup {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .save-popup .text-save-popup {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.vendor-order-detail .btn-cancel-note {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.vendor-order-detail .save-cancel-lable {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.vendor-order-detail .btn-save-note {
+  width: 158px;
+  height: 32px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  border: solid 1px #cccccc;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .save-note-lable {
+  width: 110px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* CSS time line */
+
+.vendor-order-detail .timeline>li {
+  margin-right: 0 !important;
+}
+
+.vendor-order-detail .style-delete {
+  color: #FE747A;
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.vendor-order-detail .style-edit {
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.vendor-order-detail .note-user {
+  font-family: 'Inter UI';
+  font-weight: bold;
+}
+
+.vendor-order-detail .timeline>li>.timeline-item {
+  box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.vendor-order-detail .timeline-content {
+  margin-top: 20px;
+}
+
+.vendor-order-detail .bg-blueX {
+  background-color: #4E6BA5 !important;
+}
+
+.vendor-order-detail .color-w {
+  color: #fff !important;
+}
+
+.vendor-order-detail .timeline-item .onHover {
+  display: none;
+}
+
+.vendor-order-detail .timeline-item:hover .onHover {
+  display: block;
+}
+
+.vendor-order-detail .material-icons {
+  cursor: pointer;
+}
+
+.vendor-order-detail .timeline-user-avatar {
+  border-radius: 50%;
+  margin-right: 5px;
+  float: left;
+}
+
+.vendor-order-detail .note-title {
+  font-size: 11px !important;
+  color: #222 !important;
+  font-weight: normal !important;
+}
+
+.vendor-order-detail .time-note {
+  font-size: 10px !important;
+  color: #5d5a5a !important;
+  font-weight: normal !important;
+}
+
+.vendor-order-detail .timeline-body {
+  padding: 10px 15px;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.vendor-order-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.vendor-order-detail .file-item div:nth-child(1), .vendor-order-detail .file-item div:nth-child(3) {
+  padding-left: 0 !important;
+}
+
+.vendor-order-detail .file-item div:nth-child(2) {
+  padding: 0 5px !important;
+}
+
+.vendor-order-detail .item-name {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.vendor-order-detail .preview-doc {
+  cursor: pointer;
+}
+
+.vendor-order-detail .box-search {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.vendor-order-detail .text-search {
+  width: 364px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.vendor-order-detail .btn-create {
+  width: 116px;
+  height: 32px;
+  border: solid 1px #c1c7cd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .btn-create-text {
+  width: 68px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* End */
+
+.vendor-order-detail .invalid-item {
+  color: red;
+}
+
+.vendor-order-detail .remove {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #c01120;
+  margin-left: 5px;
+}
+
+.vendor-order-detail .text-remove {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 375px) {
+  .vendor-order-detail .save {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+}

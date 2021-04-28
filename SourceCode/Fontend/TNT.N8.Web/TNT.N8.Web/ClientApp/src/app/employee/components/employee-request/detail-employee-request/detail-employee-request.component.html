@@ -1,0 +1,191 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<section class="add-content">
+  <div class="row">
+    <div class="hidden-md hidden-lg">
+      <h4>Thông tin đề xuất phê duyệt phép</h4>
+    </div>
+    <div class="button-action bg-white shadow">
+      <h4 class="hidden-xs hidden-sm">Thông tin đề xuất phê duyệt phép</h4>
+      <button mat-raised-button class="btn-bordered" *ngIf="isViewMode" (click)="goBack()">Quay lại</button>
+      <button mat-raised-button class="btn-bordered" *ngIf="!isViewMode" (click)="cancel()">Hủy</button>
+      <button mat-raised-button (click)='sendApprove()' color="primary"
+        *ngIf="isCreater && !isInApprovalProgress && !isApproved && (isApprover || ((auth.UserId == employeeRequestModel.CreateById)) || isPosition) && actionEdit">Gửi
+        phê duyệt</button>
+      <button mat-raised-button color="accent" class="btn-bordered"
+        *ngIf="isInApprovalProgress && (isApprover || isPosition) && actionEdit" (click)="goToNextStep('reject')">Từ
+        chối</button>
+      <button mat-raised-button color="primary" (click)="goToNextStep('approve')" class="btn-bordered"
+        *ngIf="isInApprovalProgress && (isApprover || isPosition) && actionEdit">Phê duyệt</button>
+      <button mat-raised-button color="primary" class="btn-bordered"
+        *ngIf="!isInApprovalProgress && !isApproved && isViewMode && checkEditButton() && actionEdit "
+        (click)="changeMode()">Sửa</button>
+      <button mat-raised-button color="primary" (click)="updateEmployeeRequest()" class="btn-bordered"
+        *ngIf="!isInApprovalProgress && !isApproved && !isViewMode && actionEdit">Lưu</button>
+      <!--*ngIf="isInApprovalProgress && (isApprover || isPosition)"-->
+    </div>
+  </div>
+  <div class="row">
+    <div class="bg-white shadow form-content">
+      <div class="row">
+        <div class="col-md-10">
+          <label style="color: #ff4081">Trạng thái: {{ statusName }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="empRequestFormGroup" action="" class="form-horizontal" accept-charset="utf-8">
+    <div class="row">
+      <div class="bg-white shadow form-content">
+        <div class="row">
+          <div class="col-md-6">
+            <label>Mã phiếu: {{employeeRequestModel.EmployeeRequestCode}}</label>
+            <p>Ngày tạo: {{employeeRequestModel.RequestDate | date:'dd/MM/yyyy'}}</p>
+            <p>Người tạo: {{createdName}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="w100">
+              <input type="text" placeholder="Đề xuất cho" name="OfferEmployeeName" matInput
+                formControlName="OfferEmployeeName" [matAutocomplete]="autoOfferEmployeeId" required>
+              <mat-autocomplete autoActiveFirstOption #autoOfferEmployeeId="matAutocomplete"
+                (optionSelected)="selectOfferEmployee($event)">
+                <mat-option *ngFor="let account of filteredOptionsOfferEmpAccount | async" [value]="account">
+                  {{account.employeeCode}} - {{account.employeeName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="w100">
+              <mat-label>Loại đề xuất</mat-label>
+              <mat-select formControlName="typeRequestFormCtr" [(ngModel)]="employeeRequestModel.TypeRequest" required>
+                <mat-option *ngFor="let t of typeReasons" [value]="t.categoryId">
+                  {{t.categoryName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field class="w100">
+              <input matInput [matDatepicker]="pickerFromDate" [matDatepickerFilter]="filterStartedDate"
+                placeholder="Từ ngày" [(ngModel)]="employeeRequestModel.StartDate" name="startDate"
+                formControlName="startDateFormCtr" (dateChange)="compareTwoDate()" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w100">
+              <mat-select (selectionChange)="onChangeStartDate($event)" name="amShift" formControlName="amShift"
+                [(ngModel)]="employeeRequestModel.StartTypeTime" placeholder="Ca">
+                <mat-option *ngFor='let item of shifts' [value]="item.categoryId">{{item.categoryName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-6">
+            <mat-error style="padding-top: 20px;"
+              *ngIf="empRequestFormGroup.controls['amShift'].hasError('invalidShift')">Thời điểm bắt đầu nghỉ &le; thời
+              điểm kết thúc nghỉ</mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field class="w100">
+              <input matInput [matDatepicker]="pickerToDate" [matDatepickerFilter]="filterEndDate"
+                placeholder="Đến ngày" [(ngModel)]="employeeRequestModel.EnDate" name="endDate"
+                formControlName="endDateFormCtr" (dateChange)="compareTwoDate()" required>
+              <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerToDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field class="w100">
+              <mat-select (selectionChange)="onChangeEndDate($event)" name="pmShift" formControlName="pmShift"
+                [(ngModel)]="employeeRequestModel.EndTypeTime" placeholder="Ca">
+                <mat-option *ngFor='let item of shifts' [value]="item.categoryId">{{item.categoryName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-form-field class="w100">
+              <input matInput placeholder="Tổng số ngày nghỉ" readonly formControlName="amountAbsentFormCtr" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="w100">
+              <textarea matInput rows="5" placeholder="Chi tiết lý do nghỉ" formControlName="detailFormCtr"
+                [(ngModel)]="employeeRequestModel.Detail"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <!-- <mat-form-field class="w100">
+              <input matInput placeholder="Người phê duyệt" required value="" />
+            </mat-form-field> -->
+            <mat-form-field class="w100">
+              <input type="text" placeholder="Người phê duyệt" required name="ApproverEmployeeName" matInput
+                formControlName="ApproverEmployeeName" [matAutocomplete]="autoApproverId" required>
+              <mat-autocomplete autoActiveFirstOption #autoApproverId="matAutocomplete"
+                (optionSelected)="selectApproverEmployee($event)">
+                <mat-option *ngFor="let account of filteredOptionsApproveEmpAccount | async" [value]="account">
+                  {{account.employeeCode}} - {{account.employeeName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="w100">
+              <mat-chip-list #notifyList>
+                <mat-chip *ngFor="let item of selectedNotifier" [selectable]="selectable && !isViewMode"
+                  [removable]="removable && !isViewMode" (removed)="removeNotifier(item)" [value]="item.employeeId">
+                  {{item.employeeCode + " - " + item.employeeName}}
+                  <i class="material-icons" matChipRemove *ngIf="removable && !isViewMode">clear</i>
+                  <i class="material-icons" *ngIf="isViewMode" style="color: transparent">clear</i>
+                </mat-chip>
+                <input #notifyInput formControlName="notifyListFormCtr" [matAutocomplete]="autoNotify"
+                  [matChipInputFor]="notifyList" (matChipInputTokenEnd)="addNotifier($event)"
+                  #trigger="matAutocompleteTrigger" placeholder="Thông báo cho" name="notifyInput">
+              </mat-chip-list>
+              <mat-autocomplete autoActiveFirstOption #autoNotify="matAutocomplete"
+                (optionSelected)="selectedReasonFn($event)">
+                <mat-option *ngFor="let item of filteredOptionsNotifyEmpAccount | async" [value]="item">
+                  {{item.employeeCode + " - " + item.employeeName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="head w100 bg-white shadow">
+        <div class="panel-heading">NOTE</div>
+        <div class="panel-body" *ngFor="let note of notes">
+          <div class="form-group no-margin-bottom">
+            <i>{{note.title}}<span style="font-weight:bold">{{note.actor}}</span></i>
+          </div>
+          <div class="form-group no-margin-bottom">
+            <i>{{note.subTitle}}</i>
+          </div>
+          <div class="form-group">
+            <span style="font-weight:bold"> {{note.content}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+</section>

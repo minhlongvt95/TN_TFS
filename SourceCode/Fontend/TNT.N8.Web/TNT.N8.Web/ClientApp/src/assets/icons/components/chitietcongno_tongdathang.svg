@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34.086" height="47.442" viewBox="0 0 34.086 47.442">
+    <defs>
+        <style>
+            .prefix__cls-1,.prefix__cls-2{stroke:#002d9c;stroke-miterlimit:10;stroke-width:2px}.prefix__cls-1{fill:rgba(90,200,250,.4)}.prefix__cls-2{fill:none}
+        </style>
+    </defs>
+    <g id="prefix__Group_17202" data-name="Group 17202" transform="translate(-78 -103.258)">
+        <path id="prefix__Path_26572" d="M112.929 140.4c-.868-6.011-9.081-15.534-11.1-18.4h-1.6c-2.064 2.862-10.11 12.385-11.071 18.4-1.136 7.1 4.142 12.845 11.786 12.845s13.009-5.745 11.985-12.845z" class="prefix__cls-1" data-name="Path 26572" transform="translate(-1.982 -3.54)"/>
+        <path id="prefix__Path_26573" d="M113.49 148a8.241 8.241 0 0 1-6.49 6.89" class="prefix__cls-2" data-name="Path 26573" transform="translate(-5.55 -8.694)"/>
+        <path id="prefix__Path_26574" d="M104.823 113.649c.637 0 3.943-6.39 4.673-7.348.253-.332.3-.589.111-.826s-.625-.271-1.1-.133a6.2 6.2 0 0 1-3.221-.393c-2.477-.714-6.049-1.736-7.486.876-.139.253-.043.415.233.722.754.835 3.927 7.1 4.575 7.1z" class="prefix__cls-1" data-name="Path 26574" transform="translate(-3.714)"/>
+        <path id="prefix__Path_26575" fill="#fff" d="M105.3 113.009h-8.679V109H95.9c-1.684 0-3.333 1.442-4.485 2.8a2.576 2.576 0 0 1-2.53 1.212H87v10.423h2.5c1.057 0 3.055 2.405 5.18 2.405h11.441c1.854 0 2.027-6.769 2.143-10.572.036-1.268-1.599-2.259-2.964-2.259z" data-name="Path 26575" transform="translate(-1.586 -.963)"/>
+        <path id="prefix__Path_26576" d="M96.621 113.009h8.679c1.363 0 3 .986 2.958 2.257-.116 3.8-.289 10.572-2.143 10.572h-11.44c-2.126 0-4.124-2.405-5.18-2.405H87v-10.424h1.888a2.576 2.576 0 0 0 2.53-1.212c1.152-1.354 2.8-2.8 4.484-2.8h.719" class="prefix__cls-2" data-name="Path 26576" transform="translate(-1.586 -.963)"/>
+        <path id="prefix__Rectangle_2702" fill="#fff" stroke="#002d9c" stroke-miterlimit="10" stroke-width="2px" d="M0 0H6.414V15.234H0z" data-name="Rectangle 2702" transform="translate(79 109.64)"/>
+        <path id="prefix__Line_139" fill="none" stroke="#2a5082" stroke-miterlimit="10" stroke-width="2px" d="M0 0L0 1.604" data-name="Line 139" transform="translate(82.207 112.046)"/>
+        <g id="prefix__Group_17201" data-name="Group 17201" transform="translate(96.639 129.685)">
+            <path id="prefix__Path_26577" d="M101 146.216a1.6 1.6 0 0 0 1.6 1.6h1.6a1.6 1.6 0 0 0 1.6-1.6v-1.25a1.6 1.6 0 0 0-1.1-1.521l-2.618-.872a1.6 1.6 0 0 1-1.1-1.521v-.452a1.6 1.6 0 0 1 1.6-1.6h1.6a1.6 1.6 0 0 1 1.6 1.6" class="prefix__cls-2" data-name="Path 26577" transform="translate(-101 -136.595)"/>
+            <path id="prefix__Line_140" d="M0 2.405L0 0" class="prefix__cls-2" data-name="Line 140" transform="translate(2.405)"/>
+            <path id="prefix__Line_141" d="M0 0L0 2.405" class="prefix__cls-2" data-name="Line 141" transform="translate(2.405 11.225)"/>
+        </g>
+    </g>
+</svg>

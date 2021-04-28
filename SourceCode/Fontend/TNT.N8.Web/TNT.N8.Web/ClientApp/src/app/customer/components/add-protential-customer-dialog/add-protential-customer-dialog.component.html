@@ -1,0 +1,1040 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+<div class="create-lead-dialog">
+  <div class="row no-margin header" id="parent">
+    <div class="col-md-6" style="display: inline-flex;align-items: center;">
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+          <button [disabled]="waitRouting" (click)="cancel()" type="button" class="btn-remove">
+            <span class="btn-remove-text">Hủy</span>
+          </button>
+          <button [disabled]="waitRouting" *ngIf="actionAdd" #saveAndCreate class="save-and-new" type="button"
+            (click)="createPotentialCustomer('save_new')">
+            <span class="text-save-and-new">Lưu và Thêm mới</span>
+          </button>
+          <button [disabled]="waitRouting" *ngIf="actionAdd" #save (click)="createPotentialCustomer('save')"
+            type="button" class="btn-save">
+            <span class="btn-save-text">Lưu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin content">
+    <div class="col-md-12 no-marginleft">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Thông tin khách hàng tiềm năng" [selected]="true">
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12" style="padding-bottom: 10px;">
+              <div class="row ">
+                <div class="col-md-6">
+                  <div class="col-xs-6 col-sm-4 col-md-6">
+                    <p-radioButton name="CustomerTypePersonalForm" value="1" [(ngModel)]="customerType"
+                      (onClick)="changeCustomerType($event)" label="Doanh nghiệp">
+                    </p-radioButton>
+                  </div>
+                  <div class="col-xs-6 col-sm-4 col-md-6">
+                    <p-radioButton name="CustomerTypePersonalForm" value="2" [(ngModel)]="customerType"
+                      (onClick)="changeCustomerType($event)" label="Cá nhân">
+                    </p-radioButton>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+              </div>
+            </div>
+            <form [formGroup]="potentialCustomerForm" *ngIf="customerType == 1">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tên công ty</span><span class="required">*</span>
+                      </div>
+                      <div #boxPotentialCustomerName class="col-md-12">
+                        <p-autoComplete maxlength="100" formControlName="PotentialCustomerName"
+                          [suggestions]="filteredCustomer" (completeMethod)="filterCustomerName($event)"
+                          field="customerName"
+                          [styleClass]="(potentialCustomerForm.get('PotentialCustomerName').invalid && (potentialCustomerForm.get('PotentialCustomerName').dirty || potentialCustomerForm.get('PotentialCustomerName').touched)) ? 'error-border' : ''">
+                          <ng-template let-customer pTemplate="item">
+                            <div class="customer-item">
+                              <div (click)="goToDetail(customer.customerId)">{{customer.customerName}}</div>
+                            </div>
+                          </ng-template>
+                        </p-autoComplete>
+                        <!-- <input formControlName="PotentialCustomerName"
+                            [ngClass]="(potentialCustomerForm.get('PotentialCustomerName').invalid && (potentialCustomerForm.get('PotentialCustomerName').dirty || potentialCustomerForm.get('PotentialCustomerName').touched)) ? 'error-border' : ''"
+                            type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()"
+                            maxlength="125" /> -->
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialCustomerForm.get('PotentialCustomerName').valid || potentialCustomerForm.get('PotentialCustomerName').untouched"
+                          *ngIf="potentialCustomerForm.get('PotentialCustomerName').hasError('required')"
+                          class="error-message-span">
+                          Nhập tên công ty</span>
+                        <span
+                          [hidden]="potentialCustomerForm.get('PotentialCustomerName').valid || potentialCustomerForm.get('PotentialCustomerName').untouched"
+                          *ngIf="potentialCustomerForm.get('PotentialCustomerName')?.errors?.forbiddenSpaceText"
+                          class="error-message-span">
+                          Tên công ty không được để trắng</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Ngày liên hệ</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-calendar formControlName="ContactDate" [yearNavigator]="true" yearRange="2000:2035"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                          [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Người phụ trách</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Pic"
+                          [styleClass]="(potentialCustomerForm.get('Pic').invalid && (potentialCustomerForm.get('Pic').dirty || potentialCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                          [options]="listPersonalInChange" optionLabel="employeeName" placeholder="Chọn người phụ trách"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}"
+                          [virtualScroll]="true" itemSize="30" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialCustomerForm.get('Pic').valid || potentialCustomerForm.get('Pic').untouched"
+                          *ngIf="potentialCustomerForm.get('Pic').hasError('required')" class="error-message-span">
+                          Chọn người phụ trách</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nguồn tiềm năng</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12" #boxInvestFund>
+                        <p-dropdown formControlName="InvestFund"
+                          [styleClass]="(potentialCustomerForm.get('InvestFund').invalid && (potentialCustomerForm.get('InvestFund').dirty || potentialCustomerForm.get('InvestFund').touched)) ? 'error-border' : ''"
+                          [options]="listInvestFund" optionLabel="categoryName" placeholder="Chọn nguồn tiềm năng"
+                          [showClear]="true" [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialCustomerForm.get('InvestFund').valid || potentialCustomerForm.get('InvestFund').untouched"
+                          *ngIf="potentialCustomerForm.get('InvestFund').hasError('required')"
+                          class="error-message-span">
+                          Chọn nguồn tiềm năng</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tình trạng (Sales update)</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="3" [cols]="30" autoResize="true"
+                          formControlName="SalesUpdate" type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tình trạng sau gặp khách hàng</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                          formControlName="SalesUpdateAfterMeeting" type="text" class="w100"
+                          placeholder=""></textarea>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Số điện thoại</span>
+                      </div>
+                      <div #boxPhone class="col-md-12">
+                        <input formControlName="Phone" maxlength="50"
+                          (change)="checkDuplicateInforCustomer(2, potentialCustomerForm.get('Phone'))"
+                          [ngClass]="(potentialCustomerForm.get('Phone').invalid && (potentialCustomerForm.get('Phone').dirty || potentialCustomerForm.get('Phone').touched)) ? 'error-border' : ''"
+                          type="text" class="w100" pInputText placeholder=""
+                          (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="potentialCustomerForm.get('Phone').valid || potentialCustomerForm.get('Phone').untouched">
+                        <span *ngIf="potentialCustomerForm.get('Phone').hasError('required')"
+                          class="error-message-span">
+                          Nhập số điện thoại</span>
+                        <span *ngIf="potentialCustomerForm.get('Phone').hasError('pattern')" class="error-message-span">
+                          Sai định dạng số điện thoại</span>
+                        <span *ngIf="potentialCustomerForm.get('Phone').hasError('duplicatePhoneLead')"
+                          class="error-message-span">
+                          Số điện thoại đã được đăng ký</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Khu vực</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Area" [options]="listArea" optionLabel="geographicalAreaName"
+                          placeholder="Chọn khu vực" [showClear]="true" [style]="{'width': '100%'}"
+                          (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                    <!-- <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Ngày liên hệ</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-calendar formControlName="ContactDate" [yearNavigator]="true" yearRange="2000:2035"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                          [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                      </div>
+                    </div> -->
+                    <!-- <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Người phụ trách</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Pic"
+                          [styleClass]="(potentialCustomerForm.get('Pic').invalid && (potentialCustomerForm.get('Pic').dirty || potentialCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                          [options]="listPersonalInChange" optionLabel="employeeName" placeholder="Chọn người phụ trách"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}"
+                          [virtualScroll]="true" itemSize="30" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialCustomerForm.get('Pic').valid || potentialCustomerForm.get('Pic').untouched"
+                          *ngIf="potentialCustomerForm.get('Pic').hasError('required')" class="error-message-span">
+                          Chọn người phụ trách</span>
+                      </div>
+                    </div> -->
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Link Facebook</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="SocialLink" maxlength="100" type="text" class="w100" pInputText
+                          placeholder="" (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nhân viên take care</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="EmployeeTakeCare" [options]="listEmployeeTakeCare"
+                          optionLabel="employeeName" placeholder="Chọn nhân viên take care" 
+                          [filter]="true" [showClear]="true" 
+                          [resetFilterOnHide]="true" [virtualScroll]="true"
+                          [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Nhóm khách hàng
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="CustomerGroup" [options]="listGroupCustomer"
+                          optionLabel="categoryName" placeholder="Chọn nhóm khách hàng" [showClear]="true"
+                          [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Đánh giá công ty</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="7" [cols]="30" autoResize="true"
+                          formControlName="EvaluateCompany" type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Ghi chú</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true" formControlName="Note"
+                          type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Email</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Email" maxlength="50" minYear type="text" class="w100" pInputText
+                          (change)="checkDuplicateInforCustomer(1, potentialCustomerForm.get('Email'))" placeholder=""
+                          (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="potentialCustomerForm.get('Email').valid || potentialCustomerForm.get('Email').untouched">
+                        <span *ngIf="potentialCustomerForm.get('Email').hasError('pattern')" class="error-message-span">
+                          Sai định dạng Email</span>
+                        <span *ngIf="potentialCustomerForm.get('Email').hasError('duplicateEmailLead')"
+                          class="error-message-span">
+                          Email đã được đăng ký</span>
+                      </div>
+                    </div>
+                    <!-- <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Link Facebook</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="SocialLink" maxlength="100" type="text" class="w100" pInputText
+                          placeholder="" (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                    </div> -->
+                    <!-- <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nguồn tiềm năng</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12" #boxInvestFund>
+                        <p-dropdown formControlName="InvestFund"
+                          [styleClass]="(potentialCustomerForm.get('InvestFund').invalid && (potentialCustomerForm.get('InvestFund').dirty || potentialCustomerForm.get('InvestFund').touched)) ? 'error-border' : ''"
+                          [options]="listInvestFund" optionLabel="categoryName" placeholder="Chọn nguồn tiềm năng"
+                          [showClear]="true" [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialCustomerForm.get('InvestFund').valid || potentialCustomerForm.get('InvestFund').untouched"
+                          *ngIf="potentialCustomerForm.get('InvestFund').hasError('required')"
+                          class="error-message-span">
+                          Chọn nguồn tiềm năng</span>
+                      </div>
+                    </div> -->
+                    <!-- <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nhân viên take care</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="EmployeeTakeCare" [options]="listEmployeeTakeCare"
+                          optionLabel="employeeName" placeholder="Chọn nhân viên take care" 
+                          [filter]="true" [showClear]="true" 
+                          [resetFilterOnHide]="true" [virtualScroll]="true"
+                          [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div> -->
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Địa chỉ</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Address" type="text" class="w100" pInputText placeholder=""
+                          (keydown.enter)="$event.preventDefault()" maxlength="500" />
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Nhóm khách hàng
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="CustomerGroup" [options]="listGroupCustomer"
+                          optionLabel="categoryName" placeholder="Chọn nhóm khách hàng" [showClear]="true"
+                          [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Đánh giá công ty</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                          formControlName="EvaluateCompany" type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tình trạng (Sales update)</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                          formControlName="SalesUpdate" type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tình trạng sau gặp khách hàng</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                          formControlName="SalesUpdateAfterMeeting" type="text" class="w100"
+                          placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div> -->
+                  <!-- <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Ghi chú</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true" formControlName="Note"
+                          type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+            </form>
+            <form [formGroup]="potentialPersonalCustomerForm" *ngIf="customerType == 2">
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>Họ và tên đệm</span><span class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="FirstName"
+                              [ngClass]="(potentialPersonalCustomerForm.get('FirstName').invalid && (potentialPersonalCustomerForm.get('FirstName').dirty || potentialPersonalCustomerForm.get('FirstName').touched)) ? 'error-border' : ''"
+                              type="text" class="w100" pInputText placeholder=""
+                              (keydown.enter)="$event.preventDefault()" maxlength="25" />
+                            <span
+                              [hidden]="potentialPersonalCustomerForm.get('FirstName').valid || potentialPersonalCustomerForm.get('FirstName').untouched"
+                              *ngIf="potentialPersonalCustomerForm.get('FirstName').hasError('required')"
+                              class="error-message-span">
+                              Nhập Họ và tên đệm</span>
+                            <span
+                              [hidden]="potentialPersonalCustomerForm.get('FirstName').valid || potentialPersonalCustomerForm.get('FirstName').untouched"
+                              *ngIf="potentialPersonalCustomerForm.get('FirstName')?.errors?.forbiddenSpaceText"
+                              class="error-message-span">
+                              Họ và tên đệm không được để trắng</span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>Tên</span><span class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="LastName"
+                              [ngClass]="(potentialPersonalCustomerForm.get('LastName').invalid && (potentialPersonalCustomerForm.get('LastName').dirty || potentialPersonalCustomerForm.get('LastName').touched)) ? 'error-border' : ''"
+                              type="text" class="w100" pInputText placeholder=""
+                              (keydown.enter)="$event.preventDefault()" maxlength="25" />
+                            <span
+                              [hidden]="potentialPersonalCustomerForm.get('LastName').valid || potentialPersonalCustomerForm.get('LastName').untouched"
+                              *ngIf="potentialPersonalCustomerForm.get('LastName').hasError('required')"
+                              class="error-message-span">
+                              Nhập Tên</span>
+                            <span
+                              [hidden]="potentialPersonalCustomerForm.get('LastName').valid || potentialPersonalCustomerForm.get('LastName').untouched"
+                              *ngIf="potentialPersonalCustomerForm.get('LastName')?.errors?.forbiddenSpaceText"
+                              class="error-message-span">
+                              Tên không được để trắng</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Số điện thoại</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Phone" maxlength="50"
+                          (change)="checkDuplicateInforCustomer(2, potentialPersonalCustomerForm.get('Phone'))"
+                          [ngClass]="(potentialPersonalCustomerForm.get('Phone').invalid && (potentialPersonalCustomerForm.get('Phone').dirty || potentialPersonalCustomerForm.get('Phone').touched)) ? 'error-border' : ''"
+                          type="text" class="w100" pInputText placeholder=""
+                          (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="potentialPersonalCustomerForm.get('Phone').valid || potentialPersonalCustomerForm.get('Phone').untouched">
+                        <span *ngIf="potentialPersonalCustomerForm.get('Phone').hasError('pattern')"
+                          class="error-message-span">
+                          Sai định dạng số điện thoại</span>
+                        <span *ngIf="potentialPersonalCustomerForm.get('Phone').hasError('duplicatePhoneLead')"
+                          class="error-message-span">
+                          Số điện thoại đã được đăng ký</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Địa chỉ</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Address" type="text" class="w100" pInputText placeholder=""
+                          (keydown.enter)="$event.preventDefault()" maxlength="500" />
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Người phụ trách</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Pic"
+                          [styleClass]="(potentialPersonalCustomerForm.get('Pic').invalid && (potentialPersonalCustomerForm.get('Pic').dirty || potentialPersonalCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                          [options]="listPersonalInChange" optionLabel="employeeName" placeholder="Chọn người phụ trách"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}"
+                          [virtualScroll]="true" itemSize="30" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialPersonalCustomerForm.get('Pic').valid || potentialPersonalCustomerForm.get('Pic').untouched"
+                          *ngIf="potentialPersonalCustomerForm.get('Pic').hasError('required')"
+                          class="error-message-span">
+                          Chọn người phụ trách</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Email</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Email" maxlength="50"
+                          (change)="checkDuplicateInforCustomer(1, potentialPersonalCustomerForm.get('Email'))"
+                          [ngClass]="(potentialPersonalCustomerForm.get('Email').invalid && (potentialPersonalCustomerForm.get('Email').dirty || potentialPersonalCustomerForm.get('Email').touched)) ? 'error-border' : ''"
+                          type="text" class="w100" pInputText placeholder=""
+                          (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="potentialPersonalCustomerForm.get('Email').valid || potentialPersonalCustomerForm.get('Email').untouched">
+                        <span *ngIf="potentialPersonalCustomerForm.get('Email').hasError('pattern')"
+                          class="error-message-span">
+                          Sai định dạng Email</span>
+                        <span *ngIf="potentialPersonalCustomerForm.get('Email').hasError('duplicateEmailLead')"
+                          class="error-message-span">
+                          Email đã được đăng ký</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Link Facebook</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="SocialLink" maxlength="100" type="text" class="w100" pInputText
+                          placeholder="" (keydown.enter)="$event.preventDefault()" />
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nguồn tiềm năng</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="InvestFund"
+                          [styleClass]="(potentialPersonalCustomerForm.get('InvestFund').invalid && (potentialPersonalCustomerForm.get('InvestFund').dirty || potentialPersonalCustomerForm.get('InvestFund').touched)) ? 'error-border' : ''"
+                          [options]="listInvestFund" optionLabel="categoryName" placeholder="Chọn nguồn tiềm năng"
+                          [showClear]="true" [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="potentialPersonalCustomerForm.get('InvestFund').valid || potentialPersonalCustomerForm.get('InvestFund').untouched"
+                          *ngIf="potentialPersonalCustomerForm.get('InvestFund').hasError('required')"
+                          class="error-message-span">
+                          Chọn nguồn tiềm năng</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Khu vực</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Area" [options]="listArea" optionLabel="geographicalAreaName"
+                          placeholder="Chọn khu vực" [showClear]="true" [style]="{'width': '100%'}"
+                          (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Nhóm khách hàng
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="CustomerGroup" [options]="listGroupCustomer"
+                          optionLabel="categoryName" placeholder="Chọn nhóm khách hàng" [showClear]="true"
+                          [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Ghi chú</span>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true" formControlName="Note"
+                          type="text" class="w100" placeholder=""></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div class="col-md-12 no-marginleft" *ngIf="customerType == 1">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Thông tin liên hệ" [selected]="true">
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <span style="font-weight: bold; font-size: 14px;">Thông tin người liên hệ</span>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right;" *ngIf="isContact">
+                  <button pButton type="button" class="ui-button-raised" 
+                    label="Thêm người liên hệ" (click)="addCustomerContact()">
+                  </button>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right;" *ngIf="!isContact">
+                  <button [disabled]="waitRouting" (click)="cancelContact()" type="button" class="btn-remove">
+                    <span class="btn-remove-text">Hủy</span>
+                  </button>
+                  &nbsp;
+                  <button pButton type="button" label="Cập nhật liên hệ" (click)="updateCustomerContact()"></button>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10" *ngIf="customerType == 1">
+              <form [formGroup]="contactCustomerForm">
+                <div class="row top-buffer ">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12" style="padding-bottom: -10px;">
+                        <div class="row">
+                          <div class="col-md-4">
+                            <div class="row">
+                              <div class="col-md-12 buffer-bottom-label">
+                                Họ và Tên<span class="required">*</span>
+                              </div>
+                              <div class="col-md-12">
+                                <input maxlength="100" formControlName="FirstName" type="text" pInputText
+                                  [ngClass]="(contactCustomerForm.get('FirstName').invalid && (contactCustomerForm.get('FirstName').dirty || contactCustomerForm.get('FirstName').touched)) ? 'error-border' : ''" />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="row">
+                              <div class="col-md-12 buffer-bottom-label">
+                                Số điện thoại<span class="required">*</span>
+                              </div>
+                              <div class="col-md-12">
+                                <input maxlength="32" formControlName="Phone" (keypress)="PhonePattern($event)"
+                                  type="text" pInputText placeholder=""
+                                  [ngClass]="(contactCustomerForm.get('Phone').invalid && (contactCustomerForm.get('Phone').dirty || contactCustomerForm.get('Phone').touched)) ? 'error-border' : ''" />
+                              </div>
+                              <div class="col-md-12"
+                                [hidden]="contactCustomerForm.get('Phone').valid || contactCustomerForm.get('Phone').untouched">
+                                <span *ngIf="contactCustomerForm.get('Phone').hasError('pattern')"
+                                  class="error-message-span">Sai
+                                  định dạng Số điện thoại</span>
+                                <span *ngIf="contactCustomerForm.get('Phone').hasError('duplicateCode')"
+                                  class="error-message-span">Trùng số điện thoại</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-4">
+                            <div class="row">
+                              <div class="col-md-12 buffer-bottom-label">
+                                Giới tính
+                              </div>
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-6">
+                                    <p-radioButton name="gender" 
+                                      value="NAM" formControlName="GenderControl"
+                                      label="Nam">
+                                    </p-radioButton>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p-radioButton name="gender"
+                                      value="NU" formControlName="GenderControl"
+                                      label="Nữ">
+                                    </p-radioButton>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- <div class="col-md-12 buffer-bottom-label">
+                            Người liên hệ<span class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-4">
+                                <p-dropdown class="customer-dropdown" formControlName="Gender" [options]="listGenders"
+                                  optionLabel="name" [autoDisplayFirst]="true" placeholder="">
+                                </p-dropdown>
+                              </div>
+                              <div class="col-md-4">
+                                <input maxlength="100" formControlName="FirstName" type="text" pInputText
+                                  placeholder="Họ và tên đệm"
+                                  [ngClass]="(contactCustomerForm.get('FirstName').invalid && (contactCustomerForm.get('FirstName').dirty || contactCustomerForm.get('FirstName').touched)) ? 'error-border' : ''" />
+                              </div>
+                              <div class="col-md-4">
+                                <input maxlength="32" formControlName="LastName" type="text" pInputText
+                                  placeholder="Tên"
+                                  [ngClass]="(contactCustomerForm.get('LastName').invalid && (contactCustomerForm.get('LastName').dirty || contactCustomerForm.get('LastName').touched)) ? 'error-border' : ''" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-4"
+                                [hidden]="contactCustomerForm.get('FirstName').valid || contactCustomerForm.get('FirstName').untouched || contactCustomerForm.get('LastName').valid || contactCustomerForm.get('LastName').untouched">
+                                <span>&nbsp;</span>
+                              </div>
+                              <div class="col-md-4"
+                                [hidden]="contactCustomerForm.get('FirstName').valid || contactCustomerForm.get('FirstName').untouched">
+                                <span
+                                  *ngIf="contactCustomerForm.get('FirstName').hasError('required') || contactCustomerForm.get('FirstName').hasError('blankString')"
+                                  class="error-message-span">Không được để trống</span>
+                              </div>
+                              <div class="col-md-4"
+                                [hidden]="contactCustomerForm.get('LastName').valid || contactCustomerForm.get('LastName').untouched">
+                                <span
+                                  *ngIf="contactCustomerForm.get('LastName').hasError('required') || contactCustomerForm.get('LastName').hasError('blankString')"
+                                  class="error-message-span">Không được để trống</span>
+                              </div>
+                            </div>
+                          </div> -->
+                        </div>
+
+                        <div class="row mt-10">
+                          <div class="col-md-4">
+                            <div class="row ">
+                              <div class="col-md-12 buffer-bottom-label">
+                                Email
+                              </div>
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <input maxlength="100" formControlName="Email" type="text" pInputText placeholder=""
+                                      [ngClass]="(contactCustomerForm.get('Email').invalid && (contactCustomerForm.get('Email').dirty || contactCustomerForm.get('Email').touched)) ? 'error-border' : ''" />
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="col-md-12"
+                                    [hidden]="contactCustomerForm.get('Email').valid || contactCustomerForm.get('Email').untouched">
+                                    <span *ngIf="contactCustomerForm.get('Email').hasError('pattern')"
+                                      class="error-message-span">Sai
+                                      định dạng Email</span>
+                                    <span *ngIf="contactCustomerForm.get('Email').hasError('duplicateCode')"
+                                      class="error-message-span">Trùng Email</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-8">
+                            <div class="row">
+                              <div class="col-md-12">
+                                Địa chỉ
+                              </div>
+                              <div class="col-md-12">
+                                <input maxlength="100" formControlName="addressControl" type="text" pInputText
+                                  placeholder=""
+                                  [ngClass]="(contactCustomerForm.get('addressControl').invalid && (contactCustomerForm.get('addressControl').dirty || contactCustomerForm.get('addressControl').touched)) ? 'error-border' : ''" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="row mt-10">
+                          <div class="col-md-4">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    Link Facebook
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input maxlength="2000" formControlName="LinkFace" type="text" pInputText
+                                      placeholder="" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 mt-10">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    Chức vụ
+                                  </div>
+                                  <div class="col-md-12">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <input maxlength="32" formControlName="Position" type="text" pInputText
+                                          placeholder="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-12 mt-10">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    Ngày sinh
+                                  </div>
+                                  <div class="col-md-12">
+                                    <p-calendar formControlName="DateOfBirth" [yearNavigator]="true" yearRange="1960:2020"
+                                      dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                      [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-8">
+                            <div class="row">
+                              <div class="col-md-12">
+                                Đánh giá thông tin người liên hệ
+                              </div>
+                              <div class="col-md-12 contactHeight">
+                                <textarea pInputTextarea [rows]="8" [cols]="30" autoResize="true"
+                                  formControlName="EvaluateContactPeople" type="text" class="w100"
+                                  placeholder=""></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <div class="col-md-12">
+                        <div class="row ">
+                          <div class="col-md-12 buffer-bottom-label" style="padding-top: 3px;">
+                            <label class="col-md-4 no-marginleft">Địa chỉ</label>
+                            <div class="col-md-4" style="padding-left: 25px;">
+                              <p-radioButton name="isIsLandLHPersonalForm" (onClick)="isInlandOnChange()"
+                                formControlName="isInlandLHControl" value="1" [(ngModel)]="isInlandLH"
+                                label="Trong nước">
+                              </p-radioButton>
+                            </div>
+                            <div class="col-md-4" style="padding-left: 35px;">
+                              <p-radioButton name="isIsLandLHPersonalForm" (onClick)="isInlandOnChange()"
+                                formControlName="isInlandLHControl" value="2" [(ngModel)]="isInlandLH"
+                                label="Ngoài nước">
+                              </p-radioButton>
+                            </div>
+                          </div>
+                          <div class="col-md-4" *ngIf="isInlandLH == 1">
+                            <p-dropdown class="customer-dropdown" (onChange)="changeProvinceContact($event)"
+                              formControlName="provinceControl" [options]="listProvincePersonalCustomer"
+                              optionLabel="provinceName" [autoDisplayFirst]="false" placeholder="Tỉnh/Thành phố"
+                              [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                            </p-dropdown>
+                          </div>
+                          <div class="col-md-4" *ngIf="isInlandLH == 1">
+                            <p-dropdown class="customer-dropdown" (onChange)="changeDistrictContact($event)"
+                              formControlName="districtControl" [options]="listDistrictPersonalCustomer"
+                              optionLabel="districtName" [autoDisplayFirst]="false" placeholder="Quận/huyện"
+                              [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                            </p-dropdown>
+                          </div>
+                          <div class="col-md-4" *ngIf="isInlandLH == 1">
+                            <p-dropdown class="customer-dropdown" formControlName="wardControl"
+                              [options]="listWardPersonalCustomer" optionLabel="wardName" [autoDisplayFirst]="false"
+                              placeholder="Xã/phường" [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="row ">
+                          <div class="col-md-12">
+                            <input maxlength="100" formControlName="addressControl" type="text" pInputText
+                              placeholder=""
+                              [ngClass]="(contactCustomerForm.get('addressControl').invalid && (contactCustomerForm.get('addressControl').dirty || contactCustomerForm.get('addressControl').touched)) ? 'error-border' : ''" />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-4">
+                        <div class="row ">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Email
+                          </div>
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <input maxlength="100" formControlName="Email" type="text" pInputText placeholder=""
+                                  [ngClass]="(contactCustomerForm.get('Email').invalid && (contactCustomerForm.get('Email').dirty || contactCustomerForm.get('Email').touched)) ? 'error-border' : ''" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12"
+                                [hidden]="contactCustomerForm.get('Email').valid || contactCustomerForm.get('Email').untouched">
+                                <span *ngIf="contactCustomerForm.get('Email').hasError('pattern')"
+                                  class="error-message-span">Sai
+                                  định dạng Email</span>
+                                <span *ngIf="contactCustomerForm.get('Email').hasError('duplicateCode')"
+                                  class="error-message-span">Trùng Email</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-4">
+                        <div class="row ">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Số điện thoại<span class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <input maxlength="32" formControlName="Phone" (keypress)="PhonePattern($event)"
+                                  type="text" pInputText placeholder=""
+                                  [ngClass]="(contactCustomerForm.get('Phone').invalid && (contactCustomerForm.get('Phone').dirty || contactCustomerForm.get('Phone').touched)) ? 'error-border' : ''" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12"
+                                [hidden]="contactCustomerForm.get('Phone').valid || contactCustomerForm.get('Phone').untouched">
+                                <span *ngIf="contactCustomerForm.get('Phone').hasError('pattern')"
+                                  class="error-message-span">Sai
+                                  định dạng Số điện thoại</span>
+                                <span *ngIf="contactCustomerForm.get('Phone').hasError('duplicateCode')"
+                                  class="error-message-span">Trùng số điện thoại</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-4">
+                        <div class="row ">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Chức vụ
+                          </div>
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <input maxlength="32" formControlName="Position" type="text" pInputText
+                                  placeholder="" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-4">
+                        <div class="row ">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Ngày sinh
+                          </div>
+                          <div class="col-md-12">
+                            <p-calendar formControlName="DateOfBirth" [yearNavigator]="true" yearRange="1960:2020"
+                              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                              [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-8">
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Link Facebook
+                          </div>
+                          <div class="col-md-12">
+                            <input maxlength="2000" formControlName="LinkFace" type="text" pInputText
+                              placeholder="" />
+                          </div>
+                        </div>
+                      </div> -->
+                      <!-- <div class="col-md-12">
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            Đánh giá thông tin người liên hệ
+                          </div>
+                          <div class="col-md-12">
+                            <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                              formControlName="EvaluateContactPeople" type="text" class="w100"
+                              placeholder=""></textarea>
+                          </div>
+                        </div>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="margin-top: 20px;">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p-table #table [columns]="selectedColumns" [value]="listContact" [resizableColumns]="true"
+                          columnResizeMode="expand" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10, 20, 30]"
+                          [responsive]="true" [(selection)]="selectedContact">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align: left;">
+                              <p-multiSelect [options]="columns" optionLabel="header" [(ngModel)]="selectedColumns"
+                                [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                                <span>
+                                  {{ col.header }}
+                                </span>
+                              </th>
+                              <th style="text-align: center;">
+                                <span>Chức năng</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                                <span class="ui-column-title">{{ col.header }}</span>
+                                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                              </td>
+                              <td style="text-align: center;">
+                                <button  pButton icon="fa fa-pencil" (click)="editContact(rowData)"
+                                class="ui-button-primary"></button>
+                                &nbsp;
+                                <button pButton icon="pi pi-trash" (click)="onDeleteContact(rowData)"
+                                  class="ui-button-danger"></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+</div>

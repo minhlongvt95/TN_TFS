@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+
+        #tb2 table {
+            border-collapse: collapse;
+        }
+
+        #tb2 td, th {
+            border: 1px solid #000000;
+            text-align: left;
+            padding: 2px;
+        }
+    </style>
+</head>
+<body>
+    <img src="[pathlogo]" width="140" height="53"/>
+    <br />
+    <br />
+    <div style="float:left">
+        Hi,[EmployeeName],Gửi anh/chị thông tin lương tháng [Month] năm [Year]
+        <br />
+        <br />
+        <br />
+        <div style="text-align:center;font-weight:bold;float:left;margin-bottom:8px">
+            PHIẾU LƯƠNG THÁNG [Month].[Year]
+        </div>
+        <div>
+            <table cellpadding="5px" cellspacing="0px">
+                <tbody>
+                    <tr><td>&nbsp;&nbsp;</td><td>Họ và tên:</td><td style="font-weight:bold">[EmployeeName]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Chức vụ:</td><td style="font-weight:bold">[PostionName]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Mã nhân viên:</td><td style="font-weight:bold">[EmployeeCode]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Số ngày công chuẩn:</td><td style="font-weight:bold">[MonthlyWorkingDay]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Số ngày làm việc trong tháng:</td><td style="font-weight:bold">[ActualWorkingDay]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Số ngày nghỉ không lương:</td><td style="font-weight:bold">[UnPaidLeaveDay]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Số ngày nghỉ phép/nghỉ ốm:</td><td style="font-weight:bold">[UnPaidLeaveDay]</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td>Số ngày còn được nghỉ phép:</td><td style="font-weight:bold">0</td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td></td><td></td><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;&nbsp;</td><td></td><td></td><td>&nbsp;</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="tb2">
+            <table cellpadding="5px" cellspacing="0px">
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Khoản mục</th>
+                        <th>Số tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="font-weight:bold">A</td><td style="font-weight:bold">Lương cơ bản của tháng (A=2)</td><td>&nbsp;</td></tr>
+                    <tr><td>1</td><td>Lương cơ bản</td><td>[Basedsalary]</td></tr>
+                    <tr><td>2</td><td>Lương đóng BHXH</td><td>[SocialInsuranceSalary]</td></tr>
+                    <tr><td>3</td><td>Lương công thực tế</td><td>[ActualOfSalary]</td></tr>
+                    <tr><td style="font-weight:bold">B</td><td style="font-weight:bold">Làm ngoài giờ (B=3)</td><td>&nbsp;</td></tr>
+                    <tr><td>4</td><td>Tăng ca làm thêm</td><td>[OvertimeOfSalary]</td></tr>
+                    <tr><td style="font-weight:bold">C</td><td style="font-weight:bold">Phụ cấp(C=4+5+6+8)</td><td>&nbsp;</td></tr>
+                    <tr><td>5</td><td>Xăng xe</td><td>[FuelAllowance]</td></tr>
+                    <tr><td>6</td><td>Ăn trưa</td><td>[LunchAllowance]</td></tr>
+                    <tr><td>7</td><td>Điện thoại</td><td>[PhoneAllowance]</td></tr>
+                    <tr><td>8</td><td>Hỗ trợ BH([SocialInsuranceCompanyPaidPer]) Doanh nghiệp đóng cho người lao động</td><td>[SocialInsuranceCompanyPaid]</td></tr>
+                    <tr><td>9</td><td>Phụ cấp khác (nếu có)</td><td>[OtherAllowance]</td></tr>
+                    <tr><td style="font-weight:bold">D</td><td style="font-weight:bold">Lương mềm (D=8+9)</td><td>&nbsp;</td></tr>
+                    <tr><td>10</td><td>Lương giữ chân</td><td>[EnrollmentSalary]</td></tr>
+                    <tr><td>11</td><td>Lương tuyển sinh mới</td><td>[RetentionSalary]</td></tr>
+                    <tr><td style="font-weight:bold">E</td><td style="font-weight:bold">Tổng thu nhập (E=A+B+C+D)</td><td>[TotalIncome]</td></tr>
+                    <tr><td style="font-weight:bold">F</td><td style="font-weight:bold">Các khoản thêm khác (nếu có)</td><td>[AdditionalAmount]</td></tr>
+                    <tr><td style="font-weight:bold">G</td><td style="font-weight:bold">Các khoản giảm trừ (G=11+12+13)</td><td>[TotalInsuranceEmployeePaid]</td></tr>
+                    <tr><td>12</td><td>Tạm ứng(nếu có)</td><td>[ReductionAmount]</td></tr>
+                    <tr><td>13</td><td>Trích nộp bảo hiểm ([SocialInsuranceEmployeePaidPer]) người lao động đóng </td><td>[SocialInsuranceEmployeePaid]</td></tr>
+                    <tr><td>14</td><td>Phạt</td><td>[DesciplineAmount]</td></tr>
+                    <tr><td style="font-weight:bold">H</td><td style="font-weight:bold">Thực lĩnh (H=E+F-G)</td><td>[ActualPaid]</td></tr>
+                    <!--<tr><td></td><td></td><td>&nbsp;</td></tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+.folder-config {
+  font-family: 'Inter UI';
+}
+
+.folder-config .header {
+  background-color: #ffffff;
+  border-radius: 4px;
+  border: solid 1px #cccccc;
+}
+
+.folder-config .header-box-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.folder-config .header-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  margin-top: 16px;
+  margin-left: 10px;
+}
+
+.folder-config .customer-name {
+  width: 119px;
+  height: 20px;
+  font-family: 'Inter UI';
+  font-size: 22px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.folder-config .customer-type {
+  width: 106px;
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.folder-config .bottom-buffer {
+  margin-bottom: 1.2rem !important;
+}
+
+.folder-config .content {
+  display: block;
+  overflow: auto;
+  min-height: auto;
+  margin: auto;
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-left: 15px;
+  margin-right: 15px;
+  background: bisque;
+  border: 1px solid #cccccc;
+}
+
+.folder-config .content-detail {
+  display: block;
+  width: 100%;
+  margin: auto;
+  overflow: auto;
+}
+
+.folder-config .space-button {
+  margin-right: 5px;
+}
+
+.folder-config .link {
+  cursor: pointer;
+}
+
+.folder-config .add-contact-text {
+  color: #0f62fe;
+}
+
+/* image */
+
+.folder-config .image-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.folder-config .image {
+  opacity: 0.6;
+  width: 80%;
+}
+
+.folder-config .image-nodata {
+  opacity: 0.6;
+  width: 25%;
+}
+
+.folder-config .image-nodata-2 {
+  opacity: 0.6;
+  width: 15%;
+}
+
+.image-desc {
+  margin-top: 5px;
+}
+
+/* end image */
+
+.add-warehouse {
+  height: 20px;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .folder-config .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.folder-config .mt-10 {
+  margin-top: 10px !important;
+}
+
+.folder-config .px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+::ng-deep .w350 .ui-tooltip-text {
+  display: inline-block;
+}
+
+.folder-config .btn-add {
+  background-color: #007ad9;
+}
+
+.folder-config .float-right {
+  float: right;
+}
+
+.folder-config .mr-10 {
+  margin-right: 5px;
+}

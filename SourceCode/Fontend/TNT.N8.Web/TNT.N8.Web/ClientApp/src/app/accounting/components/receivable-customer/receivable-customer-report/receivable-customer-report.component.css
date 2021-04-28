@@ -1,0 +1,537 @@
+.receivable-customer-report {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.receivable-customer-report .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.receivable-customer-report .full-width {
+  width: 100% !important;
+}
+
+.receivable-customer-report .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.receivable-customer-report .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.receivable-customer-report .box-header-group {
+  margin-top: 10px;
+}
+
+.receivable-customer-report .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0f62fe;
+  text-align: center;
+}
+
+.receivable-customer-report .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.receivable-customer-report .box-header-title {
+  width: 229px;
+  height: 24px;
+  font-family: 'Inter UI';
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.receivable-customer-report .noun-product {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.receivable-customer-report .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.receivable-customer-report .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.receivable-customer-report .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.receivable-customer-report .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.receivable-customer-report .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.receivable-customer-report .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.receivable-customer-report .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.receivable-customer-report .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.receivable-customer-report .box-filter {
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding: 10px 0px;
+}
+
+.receivable-customer-report .bank-payments-code-text {
+  width: 100%;
+  height: 32px;
+  font-family: 'Inter UI';
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  padding-left: 5px;
+}
+
+.receivable-customer-report .mt-5 {
+  margin-top: 5px;
+}
+
+.receivable-customer-report .btn-search {
+  width: 72px;
+  height: 32px;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.receivable-customer-report .btn-search:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.receivable-customer-report .btn-search-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/* Config rows Per Page Options */
+
+::ng-deep .receivable-customer-report .ui-inputtext {
+  padding: 0.3em;
+}
+
+/* sumary section */
+
+.receivable-customer-report .number-header-wrapper {
+  position: relative;
+  width: 95% !important;
+  padding-bottom: 32px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: white;
+}
+
+.receivable-customer-report .icon-section {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.receivable-customer-report .icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f4f8;
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  border: solid 1px rgba(221, 225, 230, 0.38);
+}
+
+.receivable-customer-report .icon-section img.tongdathang {
+  width: 32px;
+  height: 45px;
+}
+
+.receivable-customer-report .icon-section img.tongdathanhtoan {
+  width: 40px;
+  height: 45px;
+}
+
+.receivable-customer-report .icon-section img.tongdathanhtoan {
+  width: 40px;
+  height: 35px;
+}
+
+.receivable-customer-report .number-header-wrapper .total-product-label {
+  margin-top: 20px;
+  margin-left: 15px;
+  height: 20px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.receivable-customer-report .number-header-wrapper .total-product-number-wrapper {
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.receivable-customer-report .number-header-wrapper .total-product-number {
+  height: 29px;
+  font-family: 'Inter UI';
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.receivable-customer-report .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.receivable-customer-report .no-data {
+  height: 435px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.receivable-customer-report .box-no-data {
+  position: relative;
+  top: 25%;
+}
+
+.receivable-customer-report .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-report .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+::ng-deep .receivable-customer-report .ui-datepicker {
+  top: 28px !important;
+}
+
+/* ::ng-deep .receivable-customer-report .ui-multiselect .ui-multiselect-panel {
+  display: contents;
+} */
+
+/* Máy để bàn */
+
+@media only screen and (min-width: 1025px) and (max-width: 1423px) {}
+
+/* Ipad Pro */
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .receivable-customer-report .box-header-icon {
+    width: 27px;
+    height: 27px;
+  }
+  .receivable-customer-report .Money-2 {
+    width: 15.4px;
+    height: 11.5px;
+    margin-top: 7px;
+  }
+  .receivable-customer-report .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Ipad */
+
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+  .receivable-customer-report .btn-create {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+  .receivable-customer-report .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8/X */
+
+@media only screen and (max-width: 375px) {
+  .receivable-customer-report .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* 
+.receivale-cus-report span,
+.receivale-cus-report div,
+.receivale-cus-report a,
+.receivale-cus-report .mat-cell,
+.receivale-cus-report .mat-header-cell,
+.receivale-cus-report input,
+.receivale-cus-report button,
+.receivale-cus-report .mat-paginator{
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .receivale-cus-report .left-header {
+  padding-left: 15px;
+}
+  
+.receivale-cus-report .left-header h3 {
+  margin-bottom: 0;
+}
+
+.receivale-cus-report .form-control {
+  border-radius: 0.25rem;
+}
+
+.receivale-cus-report .mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+.receivale-cus-report .mat-header-cell {
+  font-size: 15px;
+  color: black;
+  overflow: visible;
+}
+
+.receivale-cus-report .mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+.receivale-cus-report mat-cell .mat-cell, 
+.receivale-cus-report mat-header-cell .mat-header-cell {
+  overflow: visible;
+}
+
+.receivale-cus-report .mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.receivale-cus-report .total-money {
+  font-size: 15px;
+  padding-top: 4px;
+  padding-bottom: 3px;
+}
+
+.receivale-cus-report .control-label {
+  margin-bottom: 5px;
+}
+
+.receivale-cus-report label {
+  margin-bottom: 0 !important;
+}
+
+.receivale-cus-report .form-control, 
+.receivale-cus-report select.form-control {
+  height: 30px !important;
+}
+
+.receivale-cus-report a.link-name {
+  cursor: pointer;
+}
+
+.receivale-cus-report .mat-header-row {
+  min-height: 45px !important;
+}
+
+.receivale-cus-report .mat-row {
+  min-height: 40px !important;
+}
+
+.receivale-cus-report hr {
+  border-top: solid 1px black;
+}
+
+.receivale-cus-report .mat-row:hover {
+  background-color: #f7f7f8;
+}
+
+.receivale-cus-report .selected-row, 
+.receivale-cus-report .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.receivale-cus-report .btn-search {
+  float: left;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.receivale-cus-report .mat-paginator, 
+.receivale-cus-report .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+.receivale-cus-report i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.receivale-cus-report input.mat-chip-input {
+  border-bottom: 1px dotted;
+}
+
+.receivale-cus-report .fromDate {
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.receivale-cus-report .bold-title {
+  font-weight: bold;
+}
+
+.receivale-cus-report .mat-raised-button {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .mat-table {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+ */

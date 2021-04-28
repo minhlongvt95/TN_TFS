@@ -1,0 +1,147 @@
+<section class="payment-request-create w100">
+  <form [formGroup]="createPRForm" class="my-4 w100">
+    <div class="row">
+      <div class="button-action bg-white shadow">
+        <h4 class="mt-2 mb-0">TẠO YÊU CẦU ĐỀ NGHỊ THANH TOÁN/THANH TOÁN/HOÀN ỨNG</h4>
+        <button mat-raised-button class="btn-bordered" (click)="cancel()">Hủy</button>
+        <button mat-raised-button class="btn-bordered" (click)="save(false)" color="primary" >Lưu</button>
+        <button mat-raised-button class="btn-bordered" (click)="save(true)" color="primary" >Gửi phê duyệt</button>
+        <!-- <button mat-raised-button class="btn-bordered" color="accent">Sửa</button> -->
+        <!-- <button mat-raised-button class="btn-bordered" color="primary">Phê duyệt</button>
+          <button mat-raised-button class="btn-bordered" color="accent">Từ chối</button> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="bg-white shadow form-content">
+        <h4 class="mt-2 mb-0">Thông tin đề xuất</h4>
+        <div class="row">
+          <div class="col-md-10">
+            <label>Mã phiếu: (sẽ được hệ thống tạo sau khi lưu)</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            Ngày tạo: {{prModel.RequestPaymentCreateDate | date:'dd/MM/yyyy'}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input matInput placeholder="Nội dung yêu cầu" maxlength="250" required id="contentControl" formControlName="contentControl"  [(ngModel)]="prModel.RequestPaymentNote">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input required matInput placeholder="Người yêu cầu" [matAutocomplete]="autoOrderer" id="ordererControl" formControlName="ordererControl">
+              <mat-autocomplete autoActiveFirstOption #autoOrderer="matAutocomplete" (optionSelected)="selectOrderer($event)">
+                <mat-option *ngFor="let orderer of filteredEmployee | async" [value]="orderer">
+                  <span>{{orderer.employeeCode}}</span> - <span>{{ orderer.employeeName }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input matInput [(ngModel)]="prModel.RequestEmployeePhone" placeholder="Số điện thoại" id="phoneControl" formControlName="phoneControl">
+            </mat-form-field>
+            <mat-error *ngIf="createPRForm.controls['phoneControl'].hasError('pattern')" style="position: absolute;
+            bottom: 0px;">Sai định dạng số điện thoại</mat-error>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input matInput placeholder="Đơn vị" readonly required id="orgControl" formControlName="orgControl" [(ngModel)]='selectedOrgName'>
+            </mat-form-field>
+            <a href="javascript:(0)" (click)="openOrgPopup()">Chọn đơn vị >></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input required (blur)="checkPickedOption($event)" matInput placeholder="Người phê duyệt" [matAutocomplete]="autoApprover" id="approverControl" formControlName="approverControl">
+              <mat-autocomplete autoActiveFirstOption #autoApprover="matAutocomplete" (optionSelected)="selectApprover($event)">
+                <mat-option *ngFor="let orderer of filteredEmployee2 | async" [value]="orderer.employeeId">
+                  <span>{{orderer.employeeCode}}</span> - <span>{{ orderer.employeeName }}</span>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-error style="position: absolute; bottom: 0px" *ngIf="createPRForm.controls['approverControl'].hasError('incorrectPickerAutocomplete')">Giá trị cần được chọn trong danh sách</mat-error>
+          </div>
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <mat-select [(ngModel)]="prModel.PostionApproverId" placeholder="Chức vụ" id="positionControl" formControlName="positionControl">
+                <mat-option *ngFor="let position of postionList" [value]="position.positionId">
+                  {{ position.positionName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <input matInput [(ngModel)]="prModel.TotalAmount" placeholder="Tổng tiền đề nghị" required currencyMask id="totalMoneyControl" formControlName="totalMoneyControl">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <mat-form-field class="w100">
+              <mat-select [(ngModel)]="prModel.PaymentType" placeholder="Hình thức chi trả" required id="paymentMethodControl" formControlName="paymentMethodControl">
+                <mat-option *ngFor="let option of listPaymenMethod" [value]="option.categoryId">
+                  {{ option.categoryName }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10">
+            <mat-form-field class="w100">
+              <textarea id="descriptionControl" [(ngModel)]="prModel.Description" formControlName="descriptionControl" matInput placeholder="Diễn giải">
+                </textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="demo-tab-content">
+              <!-- <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
+              <ngfUploadStatus [(percent)]="progress"></ngfUploadStatus>
+              <div>
+                <div ngfDrop [(validDrag)]="baseDropValid" (fileOver)="hasBaseDropZoneOver=$event" [(files)]="files" [accept]="accept" [maxSize]="maxSize" [(dragFiles)]="dragFiles" [(lastInvalids)]="lastInvalids" class=" my-drop-zone" [class.invalid-drag]="baseDropValid===false" [class.valid-drag]="baseDropValid" (filesChange)="lastFileAt=getDate()">
+                  <button type="button" role="button" mat-raised-button color="primary" ngfSelect multiple type="file" [(files)]="files" [accept]="accept" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids" (filesChange)="lastFileAt=getDate()">
+                    {{ 'lead.note.choose_from_computer' | translate }}
+                  </button>
+                  <span class="drag-file">{{ 'lead.note.or' | translate }} {{ 'lead.note.drag' | translate }}</span>
+                </div>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div *ngIf="files.length > 0">
+              <div class="row" *ngFor="let item of files;let i=index">
+                    <div class="col-md-5">
+                      <i class="material-icons remove-file" (click)="onRemoveFile(i)" matTooltip="{{ 'lead.tooltip.delete_doc' | translate }}">clear</i>
+                      <div class="item-name">
+                        <span>
+                          {{ item.name }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div>
+                        ({{ item.size/1024/1024 | number:'.2' }} MB)
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,731 @@
+<!-- Loading... -->
+
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="dashboard-home">
+  <div class="top-header">
+    <div class="space_tnm">
+      <span class="TNM">{{applicationName}}</span>
+    </div>
+    <div class="space_em">
+      <span class="EM">Enterprise Management</span>
+    </div>
+    <div #toggleUser id="user-content-button" class="space_config cursor" style="right:0px;width:59.5px">
+      <span><img style="height:36px;width:36px;top:7px;position:relative;left:10px"
+          class="small-user-avatar img-responsive"
+          [src]="(userAvatar!='' && userAvatar!=null && userAvatar!='null')?userAvatar:'../../../../assets/images/no-avatar.png'" /><i
+          class="fas fa-caret-down"></i></span>
+    </div>
+
+    <div #toggleNotifi class="space_config cursor" style="width:59.5px;right:59.5px" matTooltip="Thông báo">
+      <span class="notification-icon">{{notificationNumber}}</span>
+      <span><img src="../../assets/icons/header_top/ios-notifications.svg" class="ios-cog"></span>
+    </div>
+
+    <div #toggleConfig id="sysConfig-button" class="space_config cursor" style="width:59.5px;right:117.5px">
+      <span><img src="../../assets/icons/header_top/ios-cog.svg" class="ios-cog"></span>
+    </div>
+
+    <div #toggleCreateElement id="create-button" class="space_create cursor" style="width:112px;right:182px">
+      <img src="../../assets/icons/header_top/ios-add-circle.svg" class="ios-add-circle">
+      <span class="text">Tạo mới <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+    </div>
+
+    <div *ngIf="isOpenNotifi" id="notification-content">
+      <div id="scroll-content">
+        <div class="row" *ngFor="let item of notificationList">
+          <div [ngClass]="!item.viewed ? 'not-viewed' : ''" class="notification-row"
+            (click)="goToNotiUrl(item, item.notificationId, item.objectId, item.objectType)">
+            {{item.content}}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div style="padding: 10px; margin: 0 15px; background: #fff; text-align: center">
+          <a style="cursor: pointer" (click)="goToNotification()">Xem tất cả</a>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isOpenUser" id="user-content">
+      <div class="row no-margin" style="border-bottom: 1px solid #ccc">
+        <div class="col-md-4">
+          <img class="user-avatar img-responsive"
+            [src]="(userAvatar!='' && userAvatar!=null && userAvatar!='null') ? userAvatar : '../../../../assets/images/no-avatar.png'" />
+        </div>
+        <div class="col-md-8">
+          <a class="user-name" style="cursor: pointer;" (click)="goToViewProfile()"
+            matTooltip="Nhấn để thay đổi thông tin cá nhân">{{userFullName}}</a>
+          <div class="user-email">{{userEmail}}</div>
+          <br />
+          <div style="margin-top: 10px">
+            <button type="button" class="btn-reset-pass" mat-raised-button (click)="openChangePassword()">Đổi mật
+              khẩu</button>
+          </div>
+        </div>
+      </div>
+      <div class="row no-margin log-out">
+        <div class="col-md-12">
+          <button type="button" class="btn-log-out" mat-raised-button (click)="logout()">Đăng xuất</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isOpenConfig" id="sys-config">
+      <div id="scroll-content">
+        <div class="row" *ngFor="let item of lstSubmenuLevel3">
+          <div class="sys-config-row" (click)="goToUrlSysConfig(item.Path)">
+            <img *ngIf="item.nameIcon.includes('.png')||item.nameIcon.includes('.svg')" class="imgIconX"
+              src="../../assets/icons/Menu/menu_crm/{{item.nameIcon}}">
+            <i *ngIf="!item.nameIcon.includes('.png')&&!item.nameIcon.includes('.svg')"
+              style="font-size:16px !important;margin-right:6px" class="material-icons">{{item.nameIcon}}</i>
+            {{item.Name}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div #dropdownMenus *ngIf="isOpenCreateElement" id="create-config">
+      <div id="scroll-content">
+        <p-panelMenu [model]="items" [multiple]="false" [style]="{'width':'200px'}"></p-panelMenu>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper" style="height: auto;">
+    <main-header></main-header>
+    <!-- Menu Left -->
+    <aside class="main-sidebar" style="background-color:#121619">
+      <section class="sidebar">
+        <ul class="sidebar-menu custom-sidebar-home">
+          <li *ngFor="let item of lstBreadCrumLeftMenu; let i = index" [attr.data-index]="i" class="treeview"
+            [hidden]="item.Active">
+            <a href="#" target="_blank" class="cursor menu-item-1" (click)="addRemoveIcon(i)">
+              <img *ngIf="item.nameIcon.includes('.png')" class="img_conf_cus_lead"
+                src="../../assets/icons/Menu/menu_crm/{{item.nameIcon}}">
+              <i *ngIf="!item.nameIcon.includes('.png')"
+                class="fa {{item.nameIcon}}" aria-hidden="true"></i>
+              <span class="menu-item-name-1" pTooltip="{{item.Name}}">
+                {{item.Name.trim()|uppercase}}
+              </span>
+              <span class="pull-right-container">
+                <i class="fa fa-plus-circle module-add{{i}}" aria-hidden="true"></i>
+                <i class="fa fa-minus-circle module-remove{{i}}" aria-hidden="true"></i>
+              </span>
+            </a>
+            <ul *ngIf="item.LstChildren.length>0" class="treeview-menu report treeview-menu-1">
+              <li *ngFor="let resource of item.LstChildren; let j = index" [attr.data-index]="j" class="treeview"
+                [hidden]="resource.Active">
+                <div *ngIf="resource.LstChildren.length>0">
+                  <a href="#" target="_blank" class="cursor menu-item-2" (click)="addRemoveIconParren(j, item.LstChildren.length)">
+                    <img *ngIf="resource.nameIcon.includes('.png')"
+                      class="img_conf_cus_lead" src="../../assets/icons/Menu/menu_crm/{{resource.nameIcon}}">
+
+                    <i *ngIf="!item.nameIcon.includes('.png')" class="fa {{resource.nameIcon}}" aria-hidden="true"></i>
+
+                    <span class="menu-item-name-2" pTooltip="{{resource.Name}}">
+                      {{resource.Name.trim()|uppercase}}
+                    </span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-plus-circle module-add-parent{{j}}" aria-hidden="true"></i>
+                      <i class="fa fa-minus-circle module-remove-parent{{j}}" aria-hidden="true"></i>
+
+                    </span>
+                  </a>
+                  <ul *ngIf="resource.LstChildren.length>0" class="treeview-menu report treeview-menu-2">
+                    <li *ngFor="let resourceItem of resource.LstChildren" (click)="openMenuLevel4(resourceItem,item)"
+                      [hidden]="resourceItem.Active">
+                      <a class="cursor" routerLink="{{resourceItem.Path}}">
+                        <span
+                          [ngStyle]="{'color':resourceItem.Active? '#ffff':'#f2f4f8','font-weight':resourceItem.Active? 'bold':'normal','font-size':'12px'}"
+                          pTooltip="{{resourceItem.Name}}">
+                          {{resourceItem.Name.trim()}}
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div *ngIf="resource.LstChildren.length==0">
+                  <a class="cursor" routerLink="{{resource.Path}}">
+                    <span [ngStyle]="{'color':resource.Active ? '#ffff' : '#f2f4f8',
+                      'font-weight':resource.Active? 'bold' : 'normal',
+                      'font-size':'12px','margin-left':'30px','line-height':'30px'}" pTooltip="{{resource.Name}}">
+                      {{resource.Name.trim()}}
+                    </span>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </section>
+    </aside>
+    <!-- Content -->
+    <div class="content-wrapper" style="height: auto; min-height: calc(100vh - 100px);">
+      <section *ngIf="isManager" class="row content no-padding">
+        <div class="col-md-12" style="margin: 10px 0px;">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="box">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="box-title">Doanh số trong tuần</span>
+                  </div>
+                  <div class="col-md-12" style="text-align: center; padding: 20px 0px;">
+                    <span class="box-content">{{totalSalesOfWeek | number: 0}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">Tuần trước: {{totalSalesOfWeekPress | number: 0}}</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right; color: green;">
+                    <span *ngIf="(salesOfWeek) < 0" style="color: red;">
+                      <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                      {{salesOfWeek | number: 0}}
+                    </span>
+                    <span *ngIf="(salesOfWeek) > 0" style="color: green;">
+                      <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                      {{salesOfWeek | number: 0}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="box">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="box-title">Doanh số trong tháng</span>
+                  </div>
+                  <div class="col-md-12" style="text-align: center; padding: 20px 0px;">
+                    <span class="box-content">{{totalSalesOfMonth | number: 0}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">Tháng trước: {{totalSalesOfMonthPress | number: 0}}</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right; color: green;">
+                    <span *ngIf="(salesOfMonth) < 0" style="color: red;">
+                      <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                      {{salesOfMonth | number: 0}}
+                    </span>
+                    <span *ngIf="(salesOfMonth) > 0" style="color: green;">
+                      <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                      {{salesOfMonth | number: 0}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="box">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span class="box-title">Doanh số trong Qúy</span>
+                  </div>
+                  <div class="col-md-12" style="text-align: center; padding: 20px 0px;">
+                    <span class="box-content">{{totalSalesOfQuarter | number: 0}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">Quý trước: {{totalSalesOfQuarterPress | number: 0}}</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6" style="text-align: right; color: green;">
+                    <span *ngIf="(salesOfQuarter) < 0" style="color: red;">
+                      <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                      {{salesOfQuarter | number: 0}}
+                    </span>
+                    <span *ngIf="(salesOfQuarter) > 0" style="color: green;">
+                      <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                      {{salesOfQuarter | number: 0}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Báo giá mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListQuote()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listQuote.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsQuote" [value]="listQuote" [resizableColumns]="true" columnResizeMode="expand"
+                    [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'quoteCode'" (click)="onViewQuoteDetail(rowData['quoteId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'customerName'"
+                            (click)="onViewObjectDetail(rowData['objectTypeId'], rowData['customerContactId'], rowData['objectType'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'amount'">
+                            {{rowData[col.field] | number}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listQuote.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 margin-box-mobile">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Khách hàng mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListCustomer()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listCustomer.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsCustomer" [value]="listCustomer" [resizableColumns]="true"
+                    columnResizeMode="expand" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'customerName'" (click)="onViewCustomerDetail(rowData['customerId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listCustomer.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-6">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Đơn hàng mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListOrder()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listOrderNew.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsOrder" [value]="listOrderNew" [resizableColumns]="true"
+                    columnResizeMode="expand" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'orderCode'" (click)="onViewOrderDetail(rowData['orderId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'customerName'" (click)="onViewCustomerDetail(rowData['customerId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'amount'">
+                            {{rowData[col.field] | number}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listOrderNew.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 margin-box-mobile">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Sinh nhật khách hàng trong tuần</span>
+                </div>
+                <div *ngIf="(listCusBirthdayOfWeek.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsCusBirthdayOfWeek" [value]="listCusBirthdayOfWeek" [resizableColumns]="true"
+                    columnResizeMode="expand" [paginator]="true" [rows]="5" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'customerName'" (click)="onViewCustomerDetail(rowData['customerId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'dateOfBirth'">
+                            {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listCusBirthdayOfWeek.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Sinh nhật nhân viên trong tuần</span>
+                </div>
+                <div *ngIf="(listEmployeeBirthDayOfWeek.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsEmployeeBirthDayOfWeek" [value]="listEmployeeBirthDayOfWeek"
+                    [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="5"
+                    [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'employeeName'"
+                            (click)="onViewEmployeeDetail(rowData['employeeId'], rowData['contactId'])" class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'dateOfBirth'">
+                            {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listEmployeeBirthDayOfWeek.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+              <div class="row no-margin box-calendar">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Lịch hẹn khách hàng</span>
+                </div>
+                <div class="col-md-12" style="margin-bottom: 20px;">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <p-multiSelect [options]="listEmployee" 
+                            [(ngModel)]="selectedEmployee"
+                            defaultLabel="Chọn nhân viên" 
+                            [virtualScroll]="true"  itemSize="30"
+                            optionLabel="employeeCodeName" [style]="{'width': '100%'}" 
+                            filter="true" [resetFilterOnHide]="true"
+                            selectedItemsLabel="{0} nhân viên được chọn"
+                            (keydown.enter)="$event.preventDefault()">
+                          </p-multiSelect>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="row">
+                        <button class="save" type="button" (click)="searchMeetingForEmployee()">
+                          <span class="text-save">Tìm kiếm</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 no-margin">
+                  <p-fullCalendar #calendar [events]="events" [options]="options">
+                  </p-fullCalendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section *ngIf="!isManager" class="row content no-padding">
+        <div class="col-md-12" style="margin: 10px 0px;">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Báo giá mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListQuote()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listQuote.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsQuote" [value]="listQuote" [resizableColumns]="true" columnResizeMode="expand"
+                    [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'quoteCode'" (click)="onViewQuoteDetail(rowData['quoteId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'customerName'"
+                            (click)="onViewObjectDetail(rowData['objectTypeId'], rowData['customerContactId'], rowData['objectType'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'amount'">
+                            {{rowData[col.field] | number}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listQuote.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 margin-box-mobile">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Khách hàng mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListCustomer()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listCustomer.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsCustomer" [value]="listCustomer" [resizableColumns]="true"
+                    columnResizeMode="expand" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'customerName'" (click)="onViewCustomerDetail(rowData['customerId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listCustomer.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+              <div class="row no-margin box-quote-large">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Đơn hàng mới</span>
+                  <div class="box-quote-handle" style="text-align: right;" (click)="goListOrder()">
+                    <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                    <span>Xem tất cả</span>
+                    <div style="clear: both;"></div>
+                  </div>
+                </div>
+                <div *ngIf="(listOrderNew.length > 0)" class="col-md-12 no-padding">
+                  <p-table [columns]="colsOrder" [value]="listOrderNew" [resizableColumns]="true"
+                    columnResizeMode="expand" [responsive]="true">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                          [ngStyle]="{'text-align': col.textAlign}">
+                          <span class="ui-column-title">{{col.header}}</span>
+                          <span *ngSwitchCase="'orderCode'" (click)="onViewOrderDetail(rowData['orderId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'customerName'" (click)="onViewCustomerDetail(rowData['customerId'])"
+                            class="link">
+                            {{rowData[col.field]}}
+                          </span>
+                          <span *ngSwitchCase="'amount'">
+                            {{rowData[col.field] | number}}
+                          </span>
+                          <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+                <div *ngIf="!(listOrderNew.length > 0)" class="col-md-12 no-padding no-data-quote">
+                  <div class="box-no-data">
+                    <img src="/assets/icons/components/box.svg" class="box-icon">
+                    <div>
+                      <span>Hiện tại không có dữ liệu</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px;">
+            <div class="col-md-12">
+              <div class="row no-margin box-calendar">
+                <div class="col-md-12 box-quote-header">
+                  <span class="box-quote-title">Lịch hẹn khách hàng</span>
+                </div>
+                <div class="col-md-12" style="margin-bottom: 20px;">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <p-multiSelect [options]="listEmployee" 
+                            [(ngModel)]="selectedEmployee"
+                            defaultLabel="Chọn nhân viên" 
+                            [virtualScroll]="true"  itemSize="30"
+                            optionLabel="employeeCodeName" [style]="{'width': '100%'}" 
+                            filter="true" [resetFilterOnHide]="true"
+                            selectedItemsLabel="{0} nhân viên được chọn"
+                            (keydown.enter)="$event.preventDefault()">
+                          </p-multiSelect>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="row">
+                        <button class="save" type="button" (click)="searchMeetingForEmployee()">
+                          <span class="text-save">Tìm kiếm</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 no-margin">
+                  <p-fullCalendar #calendar [events]="events" [options]="options">
+                  </p-fullCalendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- Footer -->
+    <main-footer></main-footer>
+  </div>
+</div>

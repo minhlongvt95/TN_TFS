@@ -1,0 +1,778 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<!-- <p-dialog header="Nhập file excel" [(visible)]="displayDialog" [modal]="true" [responsive]="true" [style]="{width: '550px', minWidth: '200px'}" [minY]="70"
+        [baseZIndex]="10000">
+        <div class="col-md-4 mt-25">
+          <span>File mẫu</span>
+        </div>
+        <div class="col-md-8 mt-25">
+          <button class="import-file" type="button" (click)="downloadTemplateExcel()">
+            <span class="text-import-file">Tải file mẫu</span>
+          </button>
+        </div>
+        <div class="col-md-4 mt-25">
+          <span>Chọn file</span>
+        </div>
+        <div class="col-md-8 mt-25" style="margin-bottom: 25px;">
+          <button class="btn btn-primary btn-file import-file">
+            <span class="text-import">Chọn file</span>
+            <input type="file" id="importFileProduct" (change)="chooseFile($event)" accept=".xlsx, .xls">
+          </button>
+          <span>{{fileName}}</span>
+          <span *ngIf="fileName != ''" (click)="cancelFile()" style="cursor: pointer;margin-left: 10px;">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </span>
+        </div>
+        <p-footer>
+            <button class="btn btn-primary btn-file import-file" type="button" (click)="importExcel()">
+              <span class="text-import">Lưu</span>
+            </button>
+        </p-footer>
+</p-dialog> -->
+
+<div class="contract-create">
+  <div class="row no-margin">
+    <form [formGroup]="contractForm" style="height: 100%;">
+      <div class="col-md-{{colLeft}}">
+        <div class="row contract-create-content" id="parent">
+          <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+            <div class="col-md-12">
+              <span *ngIf="!isInvalidForm">
+                <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+              </span>
+              <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+              </div>
+              <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                <div *ngIf="(objectControl.invalid && (objectControl.dirty || objectControl.touched))"
+                  class="notifi-row" (click)="scroll(boxObject)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">Chưa chọn khách hàng</span>
+                </div>
+                <div *ngIf="(empSalerControl.invalid && (empSalerControl.dirty || empSalerControl.touched))"
+                  class="notifi-row" (click)="scroll(boxEmpSale)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="empSalerControl.hasError('required')" class="notifi-text">Chưa chọn nhân viên bán
+                    hàng</span>
+                </div>
+                <div
+                  *ngIf="(effectiveDateControl.invalid && (effectiveDateControl.dirty || effectiveDateControl.touched))"
+                  class="notifi-row" (click)="scroll(effectiveDate)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="effectiveDateControl.hasError('required')" class="notifi-text">Chưa chọn ngày hiệu
+                    lực</span>
+                </div>
+                <div *ngIf="(typeContractControl.invalid && (typeContractControl.dirty || typeContractControl.touched))"
+                  class="notifi-row" (click)="scroll(boxTypeContract)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span
+                    *ngIf="(typeContractControl.invalid && (typeContractControl.dirty || typeContractControl.touched))"
+                    class="notifi-text">Chưa chọn loại hợp đồng</span>
+                </div>
+                <div *ngIf="(quoteControl.invalid  && (quoteControl.dirty || quoteControl.touched))" class="notifi-row"
+                  (click)="scroll(boxQuote)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="(quoteControl.invalid  && (quoteControl.dirty || quoteControl.touched))"
+                    class="notifi-text">Chưa chọn báo giá</span>
+                </div>
+                <div
+                  *ngIf="(mainContractControl.invalid  && (mainContractControl.dirty || mainContractControl.touched))"
+                  class="notifi-row" (click)="scroll(boxMainContract)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span
+                    *ngIf="(mainContractControl.invalid  && (mainContractControl.dirty || mainContractControl.touched))"
+                    class="notifi-text">Chưa chọn hợp đồng chính</span>
+                </div>
+              </div>
+              <div style="float: right;">
+                <button class="cancel" type="button" (click)="cancel()">
+                  <span class="text-cancel">{{'contract.button.destroy' | translate}}</span>
+                </button>
+                <button #saveAndCreate *ngIf="actionAdd" class="save-and-new" type="button" [disabled]="awaitResult"
+                  (click)="createOrUpdate(true)">
+                  <span class="text-save-and-new">{{'contract.button.saveAndNew' | translate}}</span>
+                </button>
+                <button #save class="save" *ngIf="actionAdd" type="button" [disabled]="awaitResult"
+                  (click)="createOrUpdate(false)">
+                  <span class="text-save">{{'contract.button.save' | translate}}</span>
+                </button>
+                <button *ngIf="!isShow" class="save-and-new" type="button" (click)="showTotalContract()">
+                  <span class="text-save-and-new"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Tổng hợp hợp
+                    đồng</span>
+                </button>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <!-- <div *ngIf="isShowWorkFollowContract" class="row no-margin">
+              <div class="col-md-12">
+                <p-steps [model]="workFollowContract" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+              </div>
+            </div> -->
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{'contract.create.cus_information' | translate}}" [selected]="true">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.cus' | translate}}<span class="require">*</span></label>
+                          </div>
+                          <div #boxObject class="col-md-12">
+                            <p-dropdown [options]="objectList" [virtualScroll]="true" itemSize="30"
+                              formControlName="objectControl" placeholder="Chọn khách hàng"
+                              [styleClass]="(objectControl.invalid && (objectControl.dirty || objectControl.touched)) ? 'error-border' : ''"
+                              [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                              (keydown.enter)="$event.preventDefault()" optionLabel="customerName"
+                              [style]="{'width': '100%'}" (onChange)="onChangeCus($event.value)"
+                              [disabled]="isPersonInCharge"></p-dropdown>
+                          </div>
+                          <div class="col-md-12" [hidden]="objectControl.valid || objectControl.untouched">
+                            <span *ngIf="objectControl.hasError('required')" class="error-message-span">Chưa chọn khách
+                              hàng</span>
+                          </div>
+                        </div>
+                        <div class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.phone' | translate}}<strong>{{phone}}</strong></label>
+                          </div>
+                        </div>
+                        <div class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.email' | translate}}<strong>{{email}}</strong></label>
+                          </div>
+                        </div>
+                        <div class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.address' | translate}}<strong>{{fullAddress}}</strong></label>
+                          </div>
+
+                        </div>
+                        <div class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.tax_code' | translate}}<strong>{{taxCode}}</strong></label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.payment_method' | translate}}</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listPaymentMethod" formControlName="paymentMethodControl"
+                              optionLabel="categoryName" [style]="{'width': '100%'}"
+                              (keydown.enter)="$event.preventDefault()" (onChange)="changeMethodControl($event.value)">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div *ngIf="isShowBankAccount" class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.account_paying' | translate}}</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listBankAccountCus" formControlName="bankAccountControl"
+                              placeholder="Chọn tài khoản thanh toán" (keydown.enter)="$event.preventDefault()"
+                              optionLabel="bankName" (onChange)="changeBankAccount($event)" [style]="{'width': '100%'}">
+                            </p-dropdown>
+                          </div>
+                        </div>
+                        <div *ngIf="isShowBankAccount" class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.bank_name' | translate}}<strong>{{bankName}}</strong></label>
+                          </div>
+                        </div>
+                        <div *ngIf="isShowBankAccount" class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.bank_use' | translate}}<strong>{{bankAccount}}</strong></label>
+                          </div>
+                        </div>
+                        <div *ngIf="isShowBankAccount" class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.bank_account' | translate}}<strong>{{bankNumber}}</strong></label>
+                          </div>
+                        </div>
+                        <div *ngIf="isShowBankAccount" class="row mt-10">
+                          <div class="col-md-12">
+                            <label>{{'contract.create.branch' | translate}}<strong>{{branch}}</strong></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="clear: both;"></div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{'contract.create.contract_information' | translate}}" [selected]="true">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.contract_number' | translate}}<span
+                            class="quote-code-text">{{'contract.create.contract_num_content' |
+                            translate}}</span></label>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.date_create' | translate}}<span><strong>{{nowDate |
+                              date:'dd/MM/yyyy'}}</strong></span></label>
+                      </div>
+                    </div>
+                    
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.emp_saler' | translate}}<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12" #boxEmpSale>
+                        <p-dropdown [options]="listEmpSaleCus" [virtualScroll]="true" itemSize="30"
+                          formControlName="empSalerControl" [filter]="true" [showClear]="true"
+                          (onChange)="getListMainContractByEmp()" [resetFilterOnHide]="true"
+                          (keydown.enter)="$event.preventDefault()"
+                          [styleClass]="(empSalerControl.invalid && (empSalerControl.dirty || empSalerControl.touched)) ? 'error-border' : ''"
+                          placeholder="Chọn nhân viên bán hàng" optionLabel="employeeName" [style]="{'width': '100%'}">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="empSalerControl.valid || empSalerControl.untouched">
+                        <span *ngIf="empSalerControl.hasError('required')" class="error-message-span">Chưa chọn nhân
+                          viên bán hàng</span>
+                      </div>
+                    </div>
+
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.effective_date' | translate}}<span class="require">*</span></label>
+                      </div>
+                      <div #effectiveDate class="col-md-12">
+                        <p-calendar formControlName="effectiveDateControl" [yearNavigator]="true"
+                          yearRange="{{minYear}}:{{currentYear}}"
+                          (onSelect)="changeEffectiveDate()" (onBlur)="changeEffectiveDate()"
+                          (onClearClick)='onClearClick()'
+                          [inputStyleClass]="(effectiveDateControl.invalid && (effectiveDateControl.dirty || effectiveDateControl.touched)) ? 'error-border' : ''"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+                      </div>
+                      <div class="col-md-12" [hidden]="effectiveDateControl.valid || effectiveDateControl.untouched">
+                        <span *ngIf="effectiveDateControl.hasError('required')" class="error-message-span">Chưa chọn
+                          ngày hiệu lực</span>
+                      </div>
+                    </div>
+
+                    <div class="row mt-10">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Thời gian hợp đồng</label>
+                          </div>
+                          <div class="col-md-12" *ngIf="isDay">
+                            <input class="w100 input-text" type="text" pInputText formControlName="contractTimeControl"
+                              (change)="changeContractTime()"
+                              [cleave]="{numeral: true, numeralPositiveOnly: false, numeralDecimalScale: 0}">
+                          </div>
+                          <div class="col-md-12" *ngIf="!isDay">
+                            <input class="w100 input-text" type="text" pInputText formControlName="contractTimeControl"
+                            (change)="changeContractTime()"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Đơn vị</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listContractTimeUnit" formControlName="contractTimeUnitControl" optionLabel="timeUnit"
+                              (onChange)="changeTimeUnit()" placeholder="Chọn đợn vị" [style]="{'width': '100%'}"></p-dropdown>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>Ngày hết hạn</label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-calendar formControlName="expiredDateControl" [disabled]="true" [yearNavigator]="true"
+                          yearRange="{{minYear}}:{{currentYear}}" [minDate]="effectiveDateControl.value"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.type_contract' | translate}}<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12" #boxTypeContract>
+                        <p-dropdown [options]="listTypeContract" formControlName="typeContractControl"
+                          optionLabel="categoryName" placeholder="Chọn loại hợp đồng"
+                          (onChange)="changeTypeContract($event)" [showClear]="true"
+                          [styleClass]="(typeContractControl.invalid && (typeContractControl.dirty || typeContractControl.touched)) ? 'error-border' : ''"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="typeContractControl.valid || typeContractControl.untouched">
+                        <span *ngIf="typeContractControl.hasError('required')" class="error-message-span">Chưa chọn loại
+                          hợp đồng</span>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.quote' | translate}}</label>
+                      </div>
+                      <div #boxQuote class="col-md-12">
+                        <p-dropdown [options]="listQuoteMaster" formControlName="quoteControl" optionLabel="quoteCode"
+                          placeholder="Chọn báo giá" (onChange)="changeQuote($event)" [showClear]="true"
+                          [styleClass]="(quoteControl.invalid && (quoteControl.dirty || quoteControl.touched)) ? 'error-border' : ''"
+                          [style]="{'width': '100%'}" [filter]="true"></p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="quoteControl.valid || quoteControl.untouched">
+                        <span *ngIf="quoteControl.hasError('required')" class="error-message-span">Chưa chọn báo
+                          giá</span>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label (click)="goToSaleBidding()">{{'contract.create.sale_bidding' | translate}}<span
+                            class="add-product-text">{{saleBiddingCode}}</span></label>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label (click)="goToLead()">{{'contract.create.lead' | translate}}<span
+                            class="add-product-text">{{leadCode}}</span></label>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.main_contract' | translate}}<span *ngIf="isRequiredMainContract"
+                            class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12" #boxMainContract>
+                        <p-dropdown [options]="listContract" formControlName="mainContractControl"
+                          optionLabel="contractCode" placeholder="Chọn hợp đồng chính" [showClear]="true"
+                          [filter]="true"
+                          [styleClass]="(mainContractControl.invalid && (mainContractControl.dirty || mainContractControl.touched)) ? 'error-border' : ''"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="mainContractControl.valid || mainContractControl.untouched">
+                        <span *ngIf="mainContractControl.hasError('required')" class="error-message-span">Chưa chọn hợp
+                          đồng chính</span>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>{{'contract.create.value_contracy' | translate}}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" disabled type="text" pInputText
+                          formControlName="valueContractControl"
+                          [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12 mt-10">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Diễn giải</label>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea rows="4" cols="30" pInputTextarea formControlName="descriptionControl"
+                          class="w100"></textarea>
+                      </div>
+                    </div>
+                    <div class="row mt-10">
+                      <div class="col-md-12">
+                        <label>Ghi chú</label>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="noteControl"
+                          class="w100"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="actionImport" class="col-md-12 mt-5">
+                    <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                      accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                      [maxFileSize]="defaultLimitedFileSize" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                      invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                      invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                      invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                      chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file" (onSelect)="handleFile($event, fileUpload)"
+                      (onRemove)="removeFile($event)" (onClear)="clearAllFile()">
+                    </p-fileUpload>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Danh sách sản phẩm dịch vụ" [selected]="true">
+                  <div *ngIf="actionAdd" class="col-md-12">
+                    <span class="col-md-6" (click)="addCustomerOrderDetail()">
+                      <span style="margin-left: -15px;">
+                        <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                      </span>
+                      <span class="add-product-text">
+                        Thêm sản phẩm dịch vụ
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="col-md-12 mt-5">
+                    <p-table class="table-border" [columns]="selectedColumns" [value]="listContractDetailModel" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns"
+                            [ngModelOptions]="{standalone: true}" (keydown.enter)="$event.preventDefault()"
+                            optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="Chọn cột"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 150px;">
+                        </colgroup>
+                      </ng-template> -->
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'Move'">
+                              <button *ngIf="listContractDetailModel?.length != 1" [disabled]="rowData.OrderNumber == 1"
+                                class="btn-move mr-5" pTooltip="Chuyển lên" tooltipPosition="top" pButton
+                                (click)="moveUp(rowData)"><i class="pi pi-arrow-up icons-move"></i></button>
+                              <button *ngIf="listContractDetailModel?.length != 1"
+                                [disabled]="rowData.OrderNumber == listContractDetailModel?.length" class="btn-move"
+                                pTooltip="Chuyển xuống" tooltipPosition="top" pButton (click)="moveDown(rowData)"><i
+                                  class="pi pi-arrow-down icons-move"></i></button>
+                            </span>
+                            <span *ngSwitchCase="'ExplainStr'">
+                              {{ rowData[col.field] == null || rowData[col.field] == '' ? rowData['Description'] :
+                              rowData['ExplainStr']}}
+                            </span>
+                            <span *ngSwitchCase="'ProductNameUnit'">
+                              {{ rowData['OrderDetailType'] == 0 ? rowData['ProductNameUnit'] : rowData['IncurredUnit']
+                              }}
+                            </span>
+                            <span *ngSwitchCase="'Quantity'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'UnitPrice'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'ExchangeRate'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'Vat'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'DiscountValue'">
+                              {{rowData['DiscountType'] == true ? (((rowData[col.field] != null ? (rowData[col.field] |
+                              number) : '0')) + '%') : (rowData[col.field] | number)}}
+                            </span>
+                            <span *ngSwitchCase="'SumAmount'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'Delete'">
+                              <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteItem(rowData)"
+                                class="ui-button-danger"></button>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Thông tin chi phí" [selected]="true">
+                  <div *ngIf="actionAdd" class="col-md-12">
+                    <span class="col-md-6" (click)="addContractCost()">
+                      <span style="margin-left: -15px;">
+                        <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                      </span>
+                      <span class="add-product-text">
+                        Thêm thông tin chi phí
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="col-md-12 mt-5">
+                    <p-table class="table-border" [columns]="selectedColumnsCost" [value]="listContractCost" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowCostSelect($event.data)" [style]="{width:'100%'}" [paginator]="true"
+                      [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="colsCost" [(ngModel)]="selectedColumnsCost"
+                            (keydown.enter)="$event.preventDefault()" [ngModelOptions]="{standalone: true}"
+                            optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="Chọn cột"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 150px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'CostCode'">
+                              {{ rowData[col.field] }}
+                            </span>
+                            <span *ngSwitchCase="'CostName'">
+                              {{ rowData[col.field] }}
+                            </span>
+                            <span *ngSwitchCase="'Quantity'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'UnitPrice'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'SumAmount'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'Delete'">
+                              <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteCostItem(rowData)"
+                                class="ui-button-danger"></button>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Điều khoản và điều kiện" [selected]="true">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <span>Tiêu đề</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input type="text" class="w100" pInputText [(ngModel)]="titleText"
+                              (keydown.enter)="$event.preventDefault()" [ngModelOptions]="{standalone: true}" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <span>Nội dung</span>
+                          </div>
+                          <div class="col-md-12">
+                            <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="contentText"
+                              [ngModelOptions]="{standalone: true}" class="w100"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-5">
+                      <div class="col-md-12" style="text-align: right;">
+                        <button *ngIf="!isUpdateAI" (click)="addAI()" pButton type="button"
+                          label="Thêm nội dung"></button>
+                        <button *ngIf="isUpdateAI" (click)="cancelAI()" pButton type="button" label="Hủy"
+                          class="ui-button-secondary"></button>
+                        <button *ngIf="isUpdateAI" (click)="updateContentAI()" pButton type="button"
+                          label="Cập nhật nội dung" style="margin-left: 5px;"></button>
+                      </div>
+                    </div>
+                    <div *ngIf="listAdditionalInformation.length > 0" class="row mt-10">
+                      <div class="col-md-12">
+                        <p-table class="table-border" [columns]="colsNote" [value]="listAdditionalInformation" [responsive]="true"
+                          [resizableColumns]="true" selectionMode="single" (onRowSelect)="reShowNote($event)">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th style="width: 95px; text-align: center;">#</th>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width,'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                              <th style="width:4em"></th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td style="text-align: center;">
+                                <button *ngIf="listAdditionalInformation?.length != 1"
+                                  [disabled]="rowData.orderNumber == 1" class="btn-move mr-5" pTooltip="Chuyển lên"
+                                  tooltipPosition="top" pButton (click)="moveUpAdditionalInfor(rowData)"><i
+                                    class="pi pi-arrow-up icons-move"></i></button>
+                                <button *ngIf="listAdditionalInformation?.length != 1"
+                                  [disabled]="rowData.orderNumber == listAdditionalInformation?.length" class="btn-move"
+                                  pTooltip="Chuyển xuống" tooltipPosition="top" pButton
+                                  (click)="moveDownAdditionalInfor(rowData)"><i
+                                    class="pi pi-arrow-down icons-move"></i></button>
+                              </td>
+                              <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'text-align': col.textAlign}">
+                                <span>{{rowData[col.field]}}</span>
+                              </td>
+                              <td>
+                                <span *ngIf="actionDelete">
+                                  <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteAI(rowData)"
+                                    class="ui-button-danger"></button>
+                                </span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isShow">
+        <div class="no-margin overview" [ngClass]="{'fixed4': fixed}" [ngStyle]="{'width':withFiexdCol}" id="parentTH">
+          <div class="row no-margin button-group">
+            <div class="col-md-12" (click)="showTotalContract()">
+              <span class="text-title">Tổng hợp hợp đồng</span>
+              <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+            </div>
+          </div>
+          <div class="row no-margin" style="background: #ffffff;">
+            <div class="col-md-12 mt-10">
+              <div class="row box-part-1">
+                <div class="col-md-8 mt-10">
+                  <label class="total-money-label">Tổng số tiền(VND): <strong></strong></label>
+                </div>
+                <div class="col-md-4 mt-10" style="text-align: right;">
+                  <label class="result-monney-number">{{CustomerOrderAmount | number:0}}</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row box-part-2">
+                <div class="col-md-12">
+                  <label class="total-monney-label">Chiết khấu theo hợp đồng</label>
+                </div>
+                <div class="col-md-12 mt-5">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-dropdown [options]="discountTypeList" formControlName="discountTypeControl" optionLabel="name"
+                        [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()"
+                        (onChange)="changeDiscountType($event.value)"></p-dropdown>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                      <input type="text" class="number-input" formControlName="discountValueControl"
+                        (keydown.enter)="$event.preventDefault()"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                        (change)="changeDiscountValue()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12 mt-10">
+                  <div class="row">
+                    <div class="col-md-8 mt-10">
+                      <label class="result-monney-label">Thành tiền chiết khấu(VND):</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="result-monney-number">{{DiscountValue | number:0}}</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8 mt-10">
+                      <label class="result-monney-label">Thành tiền(VND):</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="result-monney-number">{{CustomerOrderAmountAfterDiscount | number:0}}</label>
+                    </div>
+                    <div class="col-md-12" style="text-align: right;">
+                      <label class="result-monney-text">{{CustomerOrderAmountAfterDiscount > 0 ? ('(' +
+                        (CustomerOrderAmountAfterDiscount | numbertostring:defaultNumberType) + './)') : ''}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

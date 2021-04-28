@@ -1,0 +1,147 @@
+<form [formGroup]="CreateProcurementPlanForm" class="form-horizontal" accept-charset="utf-8">
+  <div class="budget-content">
+      <div class="row budget-dialog-title">
+        <span style="padding-left: 10px">
+          TẠO DỰ TOÁN 
+        </span>
+      </div>
+      <div class="row" style="padding-top:15px">
+        <div class="col-md-4">
+          <label >Ngày tạo:</label>
+        </div>
+        <div class="col-md-8">
+          <span>{{createDate}}</span>
+        </div>
+      </div>
+      <!-- Mã dự toán -->
+      <div class="row">
+        <div class="col-md-4">
+          <label class="search-label">Mã dự toán:</label>
+        </div>
+        <div class="col-md-5">
+          <div style="padding-top:15px">
+            <label>{{MDT}}</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="col-md-4">
+              <label>{{ 'product.create.productcategory' | translate }}<span class="required">*</span></label>
+              <a style="cursor: pointer" (click)="openProductCategoryPopup()">Xem danh sách sản phẩm dịch vụ</a>
+            </div>
+        <div class="col-md-7">
+            <input type="text"
+            id="productCategoryControl"
+            name="productCategoryControl"
+            formControlName="productCategoryControl"
+            [(ngModel)]="ProductCategoryName"
+            maxlength="255"
+            readonly style="width: 100%">
+            <div style="text-align: center">
+                <span class=" form-error text-danger small" style="color: red;padding-right: 35px;"
+                *ngIf="CreateProcurementPlanForm.controls['productCategoryControl'].errors?.required &&
+                CreateProcurementPlanForm.controls['productCategoryControl'].touched">Không được để trống </span>
+              </div>
+        </div>
+      </div>
+
+      <!-- Nội dung -->
+      <div class="row">
+        <div class="col-md-4">
+          <label class="search-label">Nội dung:<span class="required">*</span></label>
+        </div>
+        <div class="padding-top-20 col-md-8">
+            <textarea  type="text" 
+                  style=" height: 50px; width: 300px" 
+                  [disabled]="true"
+                  [(ngModel)]="BudgetRequest.ProcurementContent" 
+                  name="ProcurementContent"
+                  formControlName="ProcurementPlanContentControl">
+            </textarea> 
+        </div>
+        <div style="text-align: center">
+          <span class=" form-error text-danger small" style="color: red;padding-right: 35px;"
+          *ngIf="CreateProcurementPlanForm.controls['ProcurementPlanContentControl'].errors?.required &&
+          CreateProcurementPlanForm.controls['ProcurementPlanContentControl'].touched">Không được để trống </span>
+        </div>
+      </div>
+      <!-- Số tiền -->
+      <!-- currencymask - định dạng số tiền -->
+      <div class="row">
+        <div class="col-md-4">
+          <label class="search-label">Số tiền:<span class="required">*</span></label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <input matInput type="text" 
+                    currencyMask 
+                    [(ngModel)]="BudgetRequest.ProcurementAmount"
+                     name="ProcurementAmount"
+                     formControlName="ProcurementPlanAmountControl">
+          </mat-form-field>
+          <span class=" form-error text-danger small" style="color: red"
+                    *ngIf="CreateProcurementPlanForm.controls['ProcurementPlanAmountControl'].errors?.required &&
+                    CreateProcurementPlanForm.controls['ProcurementPlanAmountControl'].touched">Không được để trống </span>
+         
+          
+        </div>
+      </div>
+      <!-- Năm dự toán -->
+      <div class="row">
+        <div class="col-md-4">
+          <label class="search-label">Năm dự toán:<span class="required">*</span></label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-select [(ngModel)]="BudgetRequest.ProcurementYear" 
+              name="ProcurementYear"
+              (selectionChange)="setListMonth($event)"
+              formControlName="ProcurementPlanYearControl">
+              
+              <mat-option *ngFor="let option of listYear"
+              
+               [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="md-errors-spacer" >
+              <span class=" form-error text-danger small" style="color: red"
+                    *ngIf="CreateProcurementPlanForm.controls['ProcurementPlanYearControl'].errors?.required &&
+                    CreateProcurementPlanForm.controls['ProcurementPlanYearControl'].touched">Không được để trống </span>
+          </div>
+        </div>
+      </div>
+      <!-- Tháng dự toán -->
+      <div class="row">
+        <div class="col-md-4">
+          <label class="search-label">Tháng dự toán:<span class="required">*</span></label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field>
+            <mat-select [(ngModel)]="BudgetRequest.ProcurementMonth" 
+            name="ProcurementMonth"
+            (selectionChange)="setListYear($event)"
+              formControlName="ProcurementPlanMonthControl">
+              <mat-option *ngFor="let option of listMonth"
+              
+               [value]="option">{{option}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="md-errors-spacer" >
+              <span class=" form-error text-danger small" style="color: red"
+                    *ngIf="CreateProcurementPlanForm.controls['ProcurementPlanMonthControl'].errors?.required &&
+                    CreateProcurementPlanForm.controls['ProcurementPlanMonthControl'].touched">Không được để trống </span> 
+          </div>      
+          </div>
+      </div> 
+  
+    <div class="row">
+      <div class="col-md-8" style="text-align: right">
+        <button class="btn btn-basic" (click)="createBudget()">Lưu</button>
+      </div>
+      <div class="col-md-4" style="text-align: center">
+        <button class="btn btn-default" (click)="onNoClick()">Hủy</button>
+      </div>
+    </div>
+  </div>
+</form>

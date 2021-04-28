@@ -1,0 +1,48 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<section class="customer-import-dialog">
+  <form [formGroup]="importCustomer">
+    <div class="row bottom-buffer">
+      <div class="col-md-3">
+        <span>Loại khách hàng</span><span class="required">*</span>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12 bottom-buffer">
+            <p-radioButton formControlName="customerType" name="CustomerType" value="DN" label="Doanh nghiệp">
+            </p-radioButton>
+          </div>
+          <div class="col-md-12">
+            <p-radioButton formControlName="customerType" name="CustomerType" value="CN" label="Khách hàng cá nhân">
+            </p-radioButton>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row bottom-buffer">
+      <div class="col-md-3">
+        <span>File dữ liệu</span><span class="required">*</span>
+      </div>
+      <div class="col-md-6">
+        <button class="btn btn-primary btn-file">
+          Chọn file
+          <input type="file" (change)="onFileChange($event)">
+        </button>
+      </div>
+    </div>
+    <div class="row buttons">
+      <div class="col-md-12" style="border-top: 1px solid #c8c8c8;display: flex;justify-content: flex-end;padding-top: 0.571em;">
+        <button type="button" class="btn-remove" (click)="onCancelClick1()">
+          <span class="btn-remove-text">Hủy</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,368 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+<div class="create-lead">
+  <div class="row no-margin">
+    <div class="col-md-12 header" style="padding: 6px;" [ngClass]="{'fixed': fixed}">
+      <div class="row">
+        <div class="col-md-6 no-padding">
+          <div class="row no-margin">
+            <div class="col-md-1 col-sm-1 col-xs-3">
+              <div class="header-box-icon">
+                <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+              </div>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-9">
+              <div>
+                <span class="customer-name">Tạo khách hàng tiềm năng</span>
+              </div>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+              <button (click)="cancel()" type="button" class="btn-remove">
+                <span class="btn-remove-text">Hủy</span>
+              </button>
+              <button *ngIf="actionAdd" #saveAndCreate class="save-and-new" type="button" (click)="CreateLead(true)">
+                <span class="text-save-and-new">Lưu và Thêm mới</span>
+              </button>
+              <button *ngIf="actionAdd" (click)="CreateLead(false)" type="button" class="btn-save">
+                <span class="btn-save-text">Lưu</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="createLeadForm">
+    <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+      <div class="col-md-12 customer-infor">
+        <div class="row">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Thông tin" [selected]="true">
+              <div class="col-md-4">
+                <div class="row buffer-bottom">
+                  <div class="col-md-9 buffer-bottom-label" *ngIf="!isKCL">
+                    <span>Họ và tên</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-9 buffer-bottom-label" *ngIf="isKCL">
+                    <span>Tên doanh nghiệp</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-3 buffer-bottom-label" *ngIf="!isKCL">
+                    <span>Giới tính</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12" *ngIf="isKCL">
+                    <input formControlName="FirstName" maxlength="100"
+                      [ngClass]="(createLeadForm.get('FirstName').invalid && (createLeadForm.get('FirstName').dirty || createLeadForm.get('FirstName').touched)) ? 'error-border' : ''"
+                      type="text" class="w100" pInputText placeholder="Tên doanh nghiệp" />
+                  </div>
+                  <div class="col-md-5" *ngIf="!isKCL">
+                    <input formControlName="FirstName" maxlength="100"
+                      [ngClass]="(createLeadForm.get('FirstName').invalid && (createLeadForm.get('FirstName').dirty || createLeadForm.get('FirstName').touched)) ? 'error-border' : ''"
+                      type="text" class="w100" pInputText placeholder="Họ và tên đệm" />
+                  </div>
+                  <div class="col-md-4 no-padding" *ngIf="!isKCL">
+                    <input formControlName="LastName" maxlength="32"
+                      [ngClass]="(createLeadForm.get('LastName').invalid && (createLeadForm.get('LastName').dirty || createLeadForm.get('LastName').touched)) ? 'error-border' : ''"
+                      type="text" class="w100" pInputText placeholder="Tên" />
+                  </div>
+                  <div class="col-md-3" *ngIf="!isKCL">
+                    <p-dropdown formControlName="Gender"
+                      [styleClass]="(createLeadForm.get('Gender').invalid && (createLeadForm.get('Gender').dirty || createLeadForm.get('Gender').touched)) ? 'error-border' : ''"
+                      [options]="listGender" optionLabel="categoryName" [autoDisplayFirst]="false"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-5">
+                    <span [hidden]="createLeadForm.get('FirstName').valid || createLeadForm.get('FirstName').untouched"
+                      *ngIf="createLeadForm.get('FirstName').hasError('required') || createLeadForm.get('FirstName').hasError('blankString')"
+                      class="error-message-span">
+                      Nhập họ và tên đệm</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span [hidden]="createLeadForm.get('LastName').valid || createLeadForm.get('LastName').untouched"
+                      *ngIf="createLeadForm.get('LastName').hasError('required') || createLeadForm.get('FirstName').hasError('blankString')"
+                      class="error-message-span">Nhập tên</span>
+                  </div>
+                  <div class="col-md-3">
+                    <span [hidden]="createLeadForm.get('Gender').valid || createLeadForm.get('Gender').untouched"
+                      *ngIf="createLeadForm.get('Gender').hasError('required')" class="error-message-span">
+                      Chọn giới tính</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Email</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="Email" maxlength="100"
+                      (change)="checkDuplicateCustomer('email', createLeadForm.get('Email'))"
+                      [ngClass]="(createLeadForm.get('Email').invalid && (createLeadForm.get('Email').dirty || createLeadForm.get('Email').touched)) ? 'error-border' : ''"
+                      type="text" class="w100" pInputText placeholder="" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createLeadForm.get('Email').valid || createLeadForm.get('Email').untouched">
+                    <span *ngIf="createLeadForm.get('Email').hasError('pattern')" class="error-message-span">
+                      Sai định dạng Email</span>
+                    <span *ngIf="createLeadForm.get('Email').hasError('duplicateEmailLead')" class="error-message-span">
+                      Email đã được đăng ký</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Số điện thoại</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="Phone" maxlength="32"
+                      (change)="checkDuplicateCustomer('phone', createLeadForm.get('Phone'))"
+                      [ngClass]="(createLeadForm.get('Phone').invalid && (createLeadForm.get('Phone').dirty || createLeadForm.get('Phone').touched)) ? 'error-border' : ''"
+                      type="text" class="w100" pInputText placeholder="" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createLeadForm.get('Phone').valid || createLeadForm.get('Phone').untouched">
+                    <span *ngIf="createLeadForm.get('Phone').hasError('required')" class="error-message-span">
+                      Nhập số điện thoại</span>
+                    <span *ngIf="createLeadForm.get('Phone').hasError('pattern')" class="error-message-span">
+                      Sai định dạng số điện thoại</span>
+                    <span *ngIf="createLeadForm.get('Phone').hasError('duplicatePhoneLead')" class="error-message-span">
+                      Số điện thoại đã được đăng ký</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Loại khách hàng</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="LeadType"
+                    (onChange)="changeTypeLead(createLeadForm.get('LeadType'))"
+                      [styleClass]="(createLeadForm.get('LeadType').invalid && (createLeadForm.get('LeadType').dirty || createLeadForm.get('LeadType').touched)) ? 'error-border' : ''"
+                      [options]="listLeadType" optionLabel="categoryName" placeholder="Chọn loại khách hàng"
+                      [showClear]="true" [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('LeadType').valid || createLeadForm.get('LeadType').untouched"
+                      *ngIf="createLeadForm.get('LeadType').hasError('required')" class="error-message-span">
+                      Chọn loại khách hàng</span>
+                  </div>
+                </div>
+
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Nhóm khách hàng</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Group"
+                      [styleClass]="(createLeadForm.get('Group').invalid && (createLeadForm.get('Group').dirty || createLeadForm.get('Group').touched)) ? 'error-border' : ''"
+                      [options]="listLeadGroup" optionLabel="categoryName" placeholder="Chọn nhóm khách hàng"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('Group').valid || createLeadForm.get('Group').untouched"
+                      *ngIf="createLeadForm.get('Group').hasError('required')" class="error-message-span">
+                      Chọn nhóm khách hàng</span>
+                  </div>
+                </div>
+
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Người phụ trách</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Pic"
+                      [styleClass]="(createLeadForm.get('Pic').invalid && (createLeadForm.get('Pic').dirty || createLeadForm.get('Pic').touched)) ? 'error-border' : ''"
+                      [options]="listPersonalInChange" optionLabel="employeeName" placeholder="Chọn người phụ trách"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('Pic').valid || createLeadForm.get('Pic').untouched"
+                      *ngIf="createLeadForm.get('Pic').hasError('required')" class="error-message-span">
+                      Chọn người phụ trách</span>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-md-4">
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Tỉnh/Thành phố</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Province" [options]="listProvince" optionLabel="provinceName"
+                      [styleClass]="(createLeadForm.get('Province').invalid && (createLeadForm.get('Province').dirty || createLeadForm.get('Province').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn tỉnh/thành phố" (onChange)="changeProvince($event)" [filter]="true"
+                      [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('Province').valid || createLeadForm.get('Province').untouched"
+                      *ngIf="createLeadForm.get('Province').hasError('required')" class="error-message-span">
+                      Chọn tỉnh/thành phố</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Quận/Huyện</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="District" [options]="listCurrentDistrict" optionLabel="districtName"
+                      [styleClass]="(createLeadForm.get('District').invalid && (createLeadForm.get('District').dirty || createLeadForm.get('District').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn quận/huyện" (onChange)="changeDistrict($event)" [filter]="true"
+                      [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('District').valid || createLeadForm.get('District').untouched"
+                      *ngIf="createLeadForm.get('District').hasError('required')" class="error-message-span">
+                      Chọn quận/huyện</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Phường/Xã</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Ward" [options]="listCurrentWard" optionLabel="wardName"
+                      [styleClass]="(createLeadForm.get('Ward').invalid && (createLeadForm.get('Ward').dirty || createLeadForm.get('Ward').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn phường/xã" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('Ward').valid || createLeadForm.get('Ward').untouched"
+                      *ngIf="createLeadForm.get('Ward').hasError('required')" class="error-message-span">
+                      Chọn phường/xã</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Địa chỉ cụ thể</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <textarea pInputTextarea rows="5" style="width: 100%;"
+                      [ngClass]="(createLeadForm.get('DetailAddress').invalid && (createLeadForm.get('DetailAddress').dirty || createLeadForm.get('DetailAddress').touched)) ? 'error-border' : ''"
+                      formControlName="DetailAddress"></textarea>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createLeadForm.get('DetailAddress').valid || createLeadForm.get('DetailAddress').untouched"
+                      *ngIf="createLeadForm.get('DetailAddress').hasError('required')" class="error-message-span">
+                      Nhập địa chỉ cụ thể</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Nhu cầu sản phẩm, dịch vụ</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Interested" [options]="listInterestedGroup" optionLabel="categoryName"
+                      [styleClass]="(createLeadForm.get('Interested').invalid && (createLeadForm.get('Interested').dirty || createLeadForm.get('Interested').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn nhu cầu sản phẩm, dịch vụ" [filter]="true" [showClear]="true"
+                      [resetFilterOnHide]="true" [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createLeadForm.get('Interested').valid || createLeadForm.get('Interested').untouched"
+                      *ngIf="createLeadForm.get('Interested').hasError('required')" class="error-message-span">
+                      Chọn nhu cầu sản phẩm, dịch vụ</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Chi tiết yêu cầu</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="DetailInterested" type="text" class="w100" pInputText placeholder="" />
+                  </div>
+                </div>
+               
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Phương thức thanh toán</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="PaymentMethod" [options]="listPaymentMethod" optionLabel="categoryName"
+                      [styleClass]="(createLeadForm.get('PaymentMethod').invalid && (createLeadForm.get('PaymentMethod').dirty || createLeadForm.get('PaymentMethod').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn phương thức thanh toán" [showClear]="true" [style]="{'width': '100%'}">
+                    </p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createLeadForm.get('PaymentMethod').valid || createLeadForm.get('PaymentMethod').untouched"
+                      *ngIf="createLeadForm.get('PaymentMethod').hasError('required')" class="error-message-span">
+                      Chọn phương thức thanh toán</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Mức độ tiềm năng</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Potential"
+                      [styleClass]="(createLeadForm.get('Potential').invalid && (createLeadForm.get('Potential').dirty || createLeadForm.get('Potential').touched)) ? 'error-border' : ''"
+                      [options]="listPotential" optionLabel="categoryName" placeholder="Chọn mức độ tiềm năng"
+                      [showClear]="true" [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createLeadForm.get('Potential').valid || createLeadForm.get('Potential').untouched"
+                      *ngIf="createLeadForm.get('Potential').hasError('required')" class="error-message-span">
+                      Chọn mức độ tiềm năng</span>
+                  </div>
+                </div>
+                <div *ngIf="isCreateCompany == false" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Công ty</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Company" [options]="listCompany" optionLabel="companyName"
+                      [styleClass]="(createLeadForm.get('Company').invalid && (createLeadForm.get('Company').dirty || createLeadForm.get('Company').touched)) ? 'error-border' : ''"
+                      placeholder="Chọn công ty" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                </div>
+                <div *ngIf="isCreateCompany == false" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <button (click)="toggleCreateCompany(true)" type="button" class="btn-create-company"
+                      style="margin: 0 !important">
+                      <span class="btn-create-company-text">Tạo công ty</span>
+                    </button>
+                  </div>
+                </div>
+                <div *ngIf="isCreateCompany == true" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Tên công ty</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="CreateNewCompany" type="text" class="w100" pInputText placeholder="" />
+                  </div>
+                </div>
+                <div *ngIf="isCreateCompany == true" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <button (click)="toggleCreateCompany(false)" type="button" class="btn-remove"
+                      style="margin: 0 !important">
+                      <span class="btn-remove-text">Hủy</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+   
+  </form>
+</div>

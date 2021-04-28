@@ -1,0 +1,98 @@
+.org-dialog-content .row {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 20px;
+}
+
+.org-dialog-content .no-margin {
+  margin: 0 !important;
+}
+
+.org-dialog-content .org-dialog-title {
+  background-color: #6D98E7;
+  color: #fff;
+  font-weight: bold;
+  margin: -24px -24px 0 -24px !important;
+  padding: 20px;
+}
+
+.form-control {
+  border-radius: 0.25em;
+}
+
+.required {
+  color: red;
+}
+
+.error-border, .error-border:focus {
+  border-color: #f44336;
+}
+
+  .error-border:focus {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+  }
+
+.org-dialog-content .org-dialog-buttons {
+  text-align: right;
+}
+
+.org-dialog-content .btn-cancel, .org-dialog-content .btn-ok {
+  background-color: #fff;
+}
+
+.org-dialog-content .btn-ok {
+  color: #6D98E7;
+}
+
+  .org-dialog-content .btn-ok:hover,
+  .org-dialog-content .btn-ok:focus,
+  .org-dialog-content .btn-cancel:hover,
+  .org-dialog-content .btn-cancel:focus {
+    color: #fff;
+    background-color: #6D98E7
+  }
+
+::ng-deep .bank-book .mat-form-field-underline {
+  /* display: none !important; */
+  border: none !important;
+}
+
+::ng-deep .bank-book .mat-form-field-wrapper {
+  bottom: 6px;
+}
+
+::ng-deep .bank-book .mat-paginator .mat-form-field-wrapper {
+  bottom: 0px !important;
+}
+
+::ng-deep .bank-book .mat-form-field-infix {
+  border: none !important;
+  height: 30px;
+}
+
+::ng-deep .bank-book .mat-select-value {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+}
+
+::ng-deep .bank-book .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .mat-option-text {
+  font-size: 14px !important;
+}
+.mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-select {
+    font-family: 'Open Sans', sans-serif;
+}
+.mat-option {
+    font-family: 'Open Sans', sans-serif;
+}

@@ -1,0 +1,155 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="meeting-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form [formGroup]="meetingForm">
+      <div class="row">
+        <div class="col-md-12">
+          Tiêu đề
+        </div>
+        <div class="col-md-12">
+          <input type="text" class="w100" pInputText formControlName="titleControl"
+                [ngClass]="(titleControl.invalid && (titleControl.dirty || titleControl.touched)) ? 'error-border': ''"/>
+        </div>
+        <div class="col-md-12" [hidden]="titleControl.valid || titleControl.untouched">
+          <span *ngIf="titleControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="titleControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để trắng</span>
+            <span *ngIf="titleControl?.errors?.maxlength" class="error-message-span">Tối đa 250 ký tự</span>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-12">
+          Địa điểm
+        </div>
+        <div class="col-md-12">
+          <input type="text" class="w100" pInputText formControlName="locationMeetingControl"
+                [ngClass]="(locationMeetingControl.invalid && (locationMeetingControl.dirty || locationMeetingControl.touched)) ? 'error-border': ''"/>
+        </div>
+        <div class="col-md-12" [hidden]="locationMeetingControl.valid || locationMeetingControl.untouched">
+          <span *ngIf="locationMeetingControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="locationMeetingControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để trắng</span>
+            <span *ngIf="locationMeetingControl?.errors?.maxlength" class="error-message-span">Tối đa 350 ký tự</span>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-12">
+          Người tham gia
+        </div>
+        <div class="col-md-12">
+          <p-multiSelect formControlName="participantControl" [options]="listParticipants"
+          optionLabel="employeeName" [virtualScroll]="true" itemSize="30"
+          defaultLabel="Chọn người tham gia" [style]="{'width': '100%'}"
+          [resetFilterOnHide]="true" selectedItemsLabel="{0} người tham gia" [filter]="true">
+        </p-multiSelect>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  Ngày hẹn
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="startDateControl" dateFormat="dd/mm/yy"  [(ngModel)]="fromDate"
+                            [style]="{'width':'100%', 'appendTo': 'body', 'top': '0px !important'}" showButtonBar="true"
+                            [styleClass]="(startDateControl.invalid  && (startDateControl.dirty || startDateControl.touched)) ? 'error-pcalendar': ''"
+                            [minDate]="today"
+                            [inputStyle]="{'width':'100%'}" [baseZIndex]="5000"></p-calendar>
+                </div>
+                <div class="col-md-12" [hidden]="startDateControl.valid || startDateControl.untouched">
+                  <span *ngIf="startDateControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  Giờ hẹn
+                </div>
+                <div class="col-md-12">
+                  <p-calendar [(ngModel)]="fromTime" formControlName="startHoursControl" [timeOnly]="true" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                          [styleClass]="(startHoursControl.invalid  && (startHoursControl.dirty || startHoursControl.touched)) ? 'error-pcalendar': ''"                    
+                          [baseZIndex]="2000"
+                  ></p-calendar>
+                </div>
+                <div class="col-md-12" [hidden]="startHoursControl.valid || startHoursControl.untouched">
+                  <span *ngIf="startHoursControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  Ngày kết thúc
+                </div>
+                <div class="col-md-12">
+                  <p-calendar [(ngModel)]="toDate" formControlName="endDateControl" dateFormat="dd/mm/yy"
+                            [style]="{'width':'100%', 'appendTo': 'body', 'top': '0px !important'}" showButtonBar="true" [minDate]="fromDate"
+                            [inputStyle]="{'width':'100%'}" [baseZIndex]="5000"></p-calendar>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  Giờ kết thúc
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="endHoursControl" [timeOnly]="true" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}" 
+                        [baseZIndex]="2000" [(ngModel)]="toTime"
+                  ></p-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-5">
+        <div class="col-md-12">
+          Nội dung
+        </div>
+        <div class="col-md-12">
+          <textarea rows="5" cols="30" pInputTextarea formControlName="contentControl" class="w100"
+                  [ngClass]="(contentControl.invalid && (contentControl.dirty || contentControl.touched)) ? 'error-border': ''" 
+          ></textarea>
+        </div>
+        <div class="col-md-12" [hidden]="contentControl.valid || contentControl.untouched">
+          <span *ngIf="contentControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="contentControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để trắng</span>
+        </div>
+      </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="addMeeting()" [disabled]="awaitResult"><span class="save-label">Lưu</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

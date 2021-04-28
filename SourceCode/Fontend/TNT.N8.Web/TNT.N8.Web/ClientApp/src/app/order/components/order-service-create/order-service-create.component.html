@@ -1,0 +1,229 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="center"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'order.messages_title.title_confirm' | translate }}" icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'order.buttons.accept' | translate }}" rejectLabel="{{ 'order.buttons.reject' | translate }}">
+</p-confirmDialog>
+
+<div class="order-service-create">
+  <div *ngIf="isShowArea">
+    <div class="row">
+      <div class="col-md-12 col-xs-12" style="text-align: right;">
+        <button type="button" class="btn-refresh" (click)="refreshLocalPoint()">
+          <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+        </button>
+        <button type="button" (click)="choiceLocalPoint()" class="choice-local-point">Đặt bàn</button>
+      </div>
+    </div>
+    <div *ngFor="let item of listLocalAddress">
+      <div class="row">
+        <div class="col-md-12 col-xs-12 no-padding are-group">
+          <span>{{item.localAddressName}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngFor="let point of item.listLocalPoint">
+          <div (click)="selectedLocalPoint(point)" class="col-md-3 col-xs-3">
+            <div class="row">
+              <div class="box-area"
+                [ngClass]="{active: point.statusId == 2, using: point.statusId == 0}"
+              >
+                <div class="col-md-12 col-xs-12 title">
+                  <span>{{point.localPointName}}</span>
+                </div>
+                <div class="col-md-12 col-xs-12 no-padding body">
+                  <span class="center">{{point.statusName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isShowListProduct">
+    <div class="row">
+      <div class="col-md-12 col-xs-12 no-padding">
+        <div class="header-product">
+          <div class="center">
+            <i (click)="goToArea()" class="pi pi-arrow-left icon-left"></i>
+            <span class="title">Chọn món</span>
+            <!-- <i class="pi pi-search icon-search"></i> -->
+            <i (click)="completeOrder()" class="pi pi-check icon-check"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-10">
+      <div style="width: 100%; overflow-x: scroll;">
+        <table [style]="{width:'1000px', 'margin-left': '5px'}">
+          <tr>
+            <td class="category" *ngFor="let item of listProductCategory"
+            [ngClass]="{active: item.active}"
+            (click)="changeProductCategory(item)"
+            >
+              {{item.productCategoryName}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row mt-10">
+      <div class="col-md-12 col-xs-12 no-padding">
+        <div *ngFor="let item of listCurrentProduct"
+          (click)="changeQuantityProduct(item)" class="row product"
+        >
+          <div class="col-md-8 col-xs-8">
+            <div>
+              <span class="title">{{item.productName}}</span>
+            </div>
+            <div>
+              <span class="price">{{item.price1 | number}}</span><span class="unit">/{{item.productUnitName}}</span>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-4 quantity" style="height: 35px;">
+            <span class="center">{{item.currentQuantity | number}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isShowSelectedProduct">
+    <div class="row">
+      <div class="col-md-12 col-xs-12 no-padding">
+        <div class="header-product">
+          <div class="center">
+            <i (click)="goToListProduct()" class="pi pi-arrow-left icon-left"></i>
+            <span>Đơn Hàng</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 1px;">
+      <div class="co-md-12 col-xs-12">
+        <div class="row">
+          <div class="col-md-12 col-xs-6 header-menu active">
+            <span class="center">Thực đơn đã gọi</span>
+          </div>
+          <div class="col-md-12 col-xs-6 header-menu">
+            <span class="center">Món đã xác nhận</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12 no-padding">
+        <div *ngFor="let item of listChoiceProduct" class="row product">
+          <div class="col-md-2 col-xs-2 quantity" style="height: 35px;">
+            <span class="center">
+              <i (click)="removeProduct(item)" class="pi pi-trash" style="font-size: 30px;"></i>
+            </span>
+          </div>
+          <div class="col-md-8 col-xs-8">
+            <div>
+              <span class="title">{{item.productName}}</span>
+            </div>
+            <div>
+              <span class="price">{{item.price1 | number}}</span> x <span class="unit">{{item.currentQuantity + ' ' + item.productUnitName}} </span>
+            </div>
+          </div>
+          <div class="col-md-2 col-xs-2 quantity" style="height: 35px;">
+            <span class="center">
+              <i (click)="editProduct(item)" class="pi pi-pencil" style="font-size: 30px;"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-xs-12 total">
+        <span class="title">Tạm tính</span>
+        <span class="price">{{totalPrice | number}}đ</span>
+      </div>
+      <div class="col-md-12 col-xs-12 no-padding">
+        <div class="row send-action">
+          <div class="center">
+            <div class="col-md-3 col-xs-3">
+              <div>
+                <i class="pi pi-bars" style="font-size: 30px;"></i>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-6" style="text-align: center;">
+              <div style="margin-top: 7px; font-weight: bold;">
+                <button type="button" (click)="complete()" [disabled]="awaitResult">GỬI THỰC ĐƠN</button>
+              </div>
+            </div>
+            <div class="col-md-3 col-xs-3">
+              <div style="text-align: right;">
+                <i (click)="removeAllProduct()" class="pi pi-trash" style="font-size: 30px;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{currentProductName}}" [(visible)]="dialogQuantity" [style]="{width: '60vw'}" [baseZIndex]="10000"
+  [closable]="false" [modal]="true">
+  <div class="row no-margin" style="padding: 10px;">
+    <div class="col-md-3 col-xs-3">
+      <div (click)="minusQuantity()" class="minus-quantity">
+        <span class="center"><i class="pi pi-minus"></i></span>
+      </div>
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <input type="text" class="number-input" [(ngModel)]="currentQuantity"
+        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+        (keydown.enter)="$event.preventDefault()">
+    </div>
+    <div (click)="plusQuantity()" class="col-md-3 col-xs-3">
+      <div class="plus-quantity">
+        <span class="center"><i class="pi pi-plus"></i></span>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div style="text-align: center;">
+      <button type="button" pButton (click)="completeQuantity()" label="Đồng ý"></button>
+      <button type="button" pButton (click)="cancelQuantity()" label="Hủy" class="ui-button-secondary"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="{{currentEditProductName}}" [(visible)]="dialogEditProduct" [style]="{width: '60vw'}" [baseZIndex]="10000"
+  [closable]="false" [modal]="true">
+  <div class="row no-margin" style="padding: 10px;">
+    <div class="col-md-3 col-xs-3">
+      <div (click)="minusQuantityEdit()" class="minus-quantity">
+        <span class="center"><i class="pi pi-minus"></i></span>
+      </div>
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <input type="text" class="number-input" [(ngModel)]="currentQuantityEdit"
+        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+        (keydown.enter)="$event.preventDefault()">
+    </div>
+    <div (click)="plusQuantityEdit()" class="col-md-3 col-xs-3">
+      <div class="plus-quantity">
+        <span class="center"><i class="pi pi-plus"></i></span>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <div style="text-align: center;">
+      <button type="button" pButton (click)="completeQuantityEdit()" label="Đồng ý"></button>
+      <button type="button" pButton (click)="cancelQuantityEdit()" label="Hủy" class="ui-button-secondary"></button>
+    </div>
+  </p-footer>
+</p-dialog>

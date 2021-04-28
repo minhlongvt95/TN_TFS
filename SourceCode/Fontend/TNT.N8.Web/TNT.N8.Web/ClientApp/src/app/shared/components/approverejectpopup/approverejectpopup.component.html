@@ -1,0 +1,38 @@
+<div id="approve-reject-content">
+  <div class="row">
+    <form [formGroup]="approveForm" *ngIf="approveForm">
+      <div class="col-md-12 popup-title">
+        <span>
+          XÁC NHẬN PHÊ DUYỆT
+        </span>
+      </div>
+      <div class="col-md-12 popup-text" *ngIf="data.isApprove">
+        <span style="font-size: 16px;">Bạn có chắc chắn muốn thực hiện?</span>
+        <br />
+        <br />
+        Bạn đang thực hiện phê duyệt <b>Ngừng theo dõi</b>.
+      </div>
+      <div class="col-md-12 popup-text" *ngIf="!data.isApprove">
+        <span style="font-size: 16px;">Bạn có chắc chắn muốn thực hiện?</span>
+        <br />
+        <br />
+        Bạn đang thực hiện từ chối phê duyệt <b>Ngừng theo dõi</b>.
+        <br />
+        <textarea id="reasonControl"
+                  class="form-control"
+                  name="reasonControl"
+                  formControlName="reasonControl"
+                  [ngClass]="reasonControl.hasError('required') && !reasonControl.valid && !reasonControl.untouched ? 'error-border' : ''"
+                  placeholder="Vui lòng nhập lí do từ chối ..."
+                  [(ngModel)]="data.rejectMessage"></textarea>
+        <div class="md-errors-spacer" [hidden]="reasonControl.valid || reasonControl.untouched">
+          <mat-error *ngIf="reasonControl.hasError('required')">Không được bỏ trống</mat-error>
+        </div>
+      </div>
+      <div class="col-md-12 popup-buttons">
+        <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+        <button mat-raised-button class="btn-ok" (click)="onOkClick()">XÁC NHẬN</button>
+      </div>
+    </form>
+  </div>
+</div>

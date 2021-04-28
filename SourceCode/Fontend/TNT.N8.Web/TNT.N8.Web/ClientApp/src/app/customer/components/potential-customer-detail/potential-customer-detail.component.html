@@ -1,0 +1,1799 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'order.messages_title.title_confirm' | translate }}" icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'order.buttons.accept' | translate }}" rejectLabel="{{ 'order.buttons.reject' | translate }}">
+</p-confirmDialog>
+
+<div class="detail-potential">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row detail-potential-content" id="parent">
+        <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+                <div class="notification-section" style="margin-right: 5px;">
+                  <span *ngIf="!isInvalidForm && !isInvalidPersonalForm">
+                    <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                  </span>
+                  <div class="box-waring" *ngIf="isInvalidForm || isInvalidPersonalForm" #toggleButton
+                    (click)="toggleNotifiError()">
+                    <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                  </div>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                    <div *ngIf="(potentialCustomerForm.get('CustomerName').hasError('required'))" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Nhập tên công ty</span>
+                    </div>
+                    <div *ngIf="(potentialCustomerForm.get('CustomerName').hasError('forbiddenSpaceText'))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Tên công ty không được để trắng</span>
+                    </div>
+                    <div *ngIf="(potentialCustomerForm.get('Phone').hasError('required'))" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Nhập số điện thoại</span>
+                    </div>
+                    <div *ngIf="(potentialCustomerForm.get('Phone').hasError('pattern'))" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Sai định dạng số điện thoại</span>
+                    </div>
+                    <div *ngIf="(potentialCustomerForm.get('InvestFund').hasError('required'))" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Nhập nguồn tiềm năng</span>
+                    </div>
+                  </div>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiErrorPersonal">
+                    <div *ngIf="((potentialPersonalCustomerForm.get('FirstName').hasError('required')))"
+                      class="notifi-row" (click)="scroll(boxPotentialCustomerName)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập Họ và tên đệm</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('FirstName')?.errors?.forbiddenSpaceText))"
+                      class="notifi-row" (click)="scroll(boxPotentialCustomerName)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">s
+                      <span class="notifi-text">Họ và tên đệm không được để trắng</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('LastName').hasError('required')))"
+                      class="notifi-row" (click)="scroll(boxPotentialCustomerName)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập Tên</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('LastName')?.errors?.forbiddenSpaceText))"
+                      class="notifi-row" (click)="scroll(boxPotentialCustomerName)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">s
+                      <span class="notifi-text">Tên không được để trắng</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('Phone').hasError('required')))" class="notifi-row"
+                      (click)="scroll(boxPhone)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập số điện thoại</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('Phone').hasError('pattern')))" class="notifi-row"
+                      (click)="scroll(boxPhone)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Sai định dạng số điện thoại</span>
+                    </div>
+                    <div *ngIf="((potentialPersonalCustomerForm.get('Phone').hasError('duplicatePhoneLead')))"
+                      class="notifi-row" (click)="scroll(boxPhone)">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Số điện thoại đã được đăng ký</span>
+                    </div>
+                    <div *ngIf="(potentialPersonalCustomerForm.get('InvestFund').hasError('required'))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Nhập nguồn tiềm năng</span>
+                    </div>
+                  </div>
+                </div>
+                <div style="float: right;">
+                  <button *ngIf="actionDelete && !potentialCustomerModel.isConverted" class="cancel" type="button"
+                    (click)="createLead()">
+                    <span class="text-cancel">Tạo cơ hội</span>
+                  </button>
+                  <button class="cancel" type="button" (click)="cancel()">
+                    <span class="text-cancel">Hủy</span>
+                  </button>
+                  <button *ngIf="actionDelete && !potentialCustomerModel.isConverted" class="cancel" type="button"
+                    (click)="deletePotentialCustomer()">
+                    <span class="text-cancel">Xóa</span>
+                  </button>
+                  <!--<button *ngIf="!potentialCustomerModel.isConverted" #save class="save" type="button"
+                    (click)="openConvertDialog()">
+                    <span class="text-save">Chuyển đổi</span>
+                  </button>-->
+                  <button #save *ngIf="!isConvert" class="save" type="button" (click)="updatePotentialCustomer()">
+                    <span class="text-save">Lưu</span>
+                  </button>
+                </div>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row no-padding">
+          <div class="col-md-12">
+            <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Thông tin khách hàng" [selected]="true">
+                    <div class="row">
+                      <div class="col-md-12 p-0">
+                        <div class="col-md-12 text-right" style="padding-bottom: 10px;">
+                          <button *ngIf="!isConvert" pButton label="Chuyển trạng thái"
+                            (click)="changeStatusSupport()"></button>
+                        </div>
+                        <div class="col-md-12">
+                          <ul class="nav nav-tabs slds-path__nav">
+                            <ng-container *ngFor="let item of listFormatStatusSupport">
+                              <li *ngIf="item.categoryCode == 'TEMP'" data-toggle="tab" class="slds-path__item"
+                                [ngClass]="[item.isActive ? 'active': '',
+                                    item.isComplete ? 'slds-is-complete' : 'slds-is-incomplete',
+                                    item.isCurrent ? 'slds-is-current' : '']" (click)="changeActive(item)">
+                                <p-dropdown [options]="item.children" optionLabel="categoryName"
+                                  [(ngModel)]="selectedTempStatusSupport" [autoDisplayFirst]="false"
+                                  [style]="{'width': '100%'}">
+                                </p-dropdown>
+                              </li>
+                              <li *ngIf="item.categoryCode != 'TEMP'" data-toggle="tab" class="slds-path__item"
+                                [ngClass]="[item.isActive ? 'active': '',
+                                    item.isComplete ? 'slds-is-complete' : 'slds-is-incomplete',
+                                    item.isCurrent ? 'slds-is-current' : '']" (click)="changeActive(item)">
+                                <a class="tabHeader slds-path__link" href="#" pTooltip="{{item.categoryName}}"
+                                  tooltipPosition="bottom" tooltipStyleClass="custom-tooltip">
+                                  <span class="complete slds-path__stage">
+                                    <i class="fa fa-check" aria-hidden="true"></i>
+                                  </span>
+                                  <span class="slds-path__title">{{item.categoryName}}</span>
+                                </a>
+                              </li>
+                            </ng-container>
+                          </ul>
+                        </div>
+
+                      </div>
+
+                      <!-- <div class="col-md-12" style="padding-bottom: 10px;">
+                        <div class="row bottom-buffer">
+                          <div class="col-md-4">
+                            <p-radioButton name="CustomerTypePersonalForm" value="1" [(ngModel)]="customerType"
+                              [disabled]="true" label="Doanh nghiệp">
+                            </p-radioButton>
+                          </div>
+                          <div class="col-md-4">
+                            <p-radioButton name="CustomerTypePersonalForm" value="2" [(ngModel)]="customerType"
+                              [disabled]="true" label="Cá nhân">
+                            </p-radioButton>
+                          </div>
+                          <div class="col-md-4">
+                          </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                      </div> -->
+                    </div>
+                    <form *ngIf="customerType == 1" [formGroup]="potentialCustomerForm">
+                      <div class="row">
+                        <!-- CỘT 1 -->
+                        <div class="col-md-3">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Tên công ty</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="CustomerName"
+                                [ngClass]="(potentialCustomerForm.get('CustomerName').invalid && (potentialCustomerForm.get('CustomerName').dirty || potentialCustomerForm.get('CustomerName').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" maxlength="125" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="potentialCustomerForm.get('CustomerName').valid || potentialCustomerForm.get('CustomerName').untouched">
+                              <span *ngIf="potentialCustomerForm.get('CustomerName').hasError('required')"
+                                class="error-message-span">
+                                Nhập Tên công ty</span>
+                              <span *ngIf="potentialCustomerForm.get('CustomerName').hasError('forbiddenSpaceText')"
+                                class="error-message-span">
+                                Tên công ty không được để trắng</span>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Người phụ trách</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="Pic"
+                                [styleClass]="(potentialCustomerForm.get('Pic').invalid && (potentialCustomerForm.get('Pic').dirty || potentialCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                                [options]="listPersonalInChange" optionLabel="employeeName" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" [virtualScroll]="true"
+                                placeholder="Chọn người phụ trách" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-12">
+                              <span
+                                [hidden]="potentialCustomerForm.get('Pic').valid || potentialCustomerForm.get('Pic').untouched"
+                                *ngIf="potentialCustomerForm.get('Pic').hasError('required')"
+                                class="error-message-span">
+                                Chọn người phụ trách</span>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Trạng thái chăm sóc</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="CareState" [options]="listCareState"
+                                optionLabel="categoryName" placeholder="Chọn trạng thái chăm sóc" [showClear]="true"
+                                [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- CỘT 2 -->
+                        <div class="col-md-3">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Link Facebook</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="SocialLink"
+                                [ngClass]="(potentialCustomerForm.get('SocialLink').invalid && (potentialCustomerForm.get('SocialLink').dirty || potentialCustomerForm.get('SocialLink').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Nhóm khách hàng</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="CusGroup" [options]="listCusGroup" optionLabel="categoryName"
+                                placeholder="Chọn nhóm khách hàng" [showClear]="true" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Mức độ tiềm năng</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="Potential"
+                                [options]="listPotential" optionLabel="categoryName" placeholder="Chọn mức độ tiềm năng"
+                                [showClear]="true" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- CỘT 3 -->
+                        <div class="col-md-3">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Ngày liên hệ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-calendar formControlName="ContactDate" [yearNavigator]="true" yearRange="2000:2035"
+                                dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                                [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Nguồn tiềm năng</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="InvestFund"
+                                [styleClass]="(potentialCustomerForm.get('InvestFund').invalid && (potentialCustomerForm.get('InvestFund').dirty || potentialCustomerForm.get('InvestFund').touched)) ? 'error-border' : ''"
+                                [options]="listInvestFund" optionLabel="categoryName" placeholder="Chọn nguồn tiềm năng"
+                                [showClear]="true" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-12">
+                              <span
+                                [hidden]="potentialCustomerForm.get('InvestFund').valid || potentialCustomerForm.get('InvestFund').untouched"
+                                *ngIf="potentialCustomerForm.get('InvestFund').hasError('required')"
+                                class="error-message-span">
+                                Chọn nguồn tiềm năng</span>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Địa chỉ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="Address"
+                                [ngClass]="(potentialCustomerForm.get('Address').invalid && (potentialCustomerForm.get('Address').dirty || potentialCustomerForm.get('Address').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder="" maxlength="500"
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- CỘT 4 -->
+                        <div class="col-md-3">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Nhân viên take care</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="EmployeeTakeCare" [options]="listEmpTakeCare"
+                                optionLabel="employeeCodeName" placeholder="Chọn nhân viên take care" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" [virtualScroll]="true"
+                                [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Đánh giá công ty</span>
+                            </div>
+                            <div class="col-md-12">
+                              <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                                formControlName="EvaluateCompany" type="text" class="w100" placeholder=""></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                    <form *ngIf="customerType == 2" [formGroup]="potentialPersonalCustomerForm">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-3 buffer-bottom-label">
+                              <span>Xưng hô</span>
+                            </div>
+                            <div class="col-md-5 buffer-bottom-label">
+                              <span>Họ và tên đệm</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-4 buffer-bottom-label">
+                              <span>Tên</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-3">
+                              <p-dropdown formControlName="Gender" [options]="listGender" optionLabel="label"
+                                [autoDisplayFirst]="false" placeholder="" autoWidth="false" [showClear]="true"
+                                [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-5">
+                              <input formControlName="FirstName"
+                                [ngClass]="(potentialPersonalCustomerForm.get('FirstName').invalid && (potentialPersonalCustomerForm.get('FirstName').dirty || potentialPersonalCustomerForm.get('FirstName').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" maxlength="25" />
+                            </div>
+                            <div class="col-md-4">
+                              <input formControlName="LastName"
+                                [ngClass]="(potentialPersonalCustomerForm.get('LastName').invalid && (potentialPersonalCustomerForm.get('LastName').dirty || potentialPersonalCustomerForm.get('LastName').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" maxlength="25" />
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-5"
+                              [hidden]="potentialPersonalCustomerForm.get('FirstName').valid || potentialPersonalCustomerForm.get('FirstName').untouched">
+                              <span *ngIf="potentialPersonalCustomerForm.get('FirstName').hasError('required')"
+                                class="error-message-span">
+                                Nhập Họ và tên đệm</span>
+                              <span
+                                *ngIf="potentialPersonalCustomerForm.get('FirstName').hasError('forbiddenSpaceText')"
+                                class="error-message-span">
+                                Họ và tên đệm không được để trắng</span>
+                            </div>
+                            <div class="col-md-4"
+                              [hidden]="potentialPersonalCustomerForm.get('LastName').valid || potentialPersonalCustomerForm.get('LastName').untouched">
+                              <span *ngIf="potentialPersonalCustomerForm.get('LastName').hasError('required')"
+                                class="error-message-span">
+                                Nhập Tên</span>
+                              <span *ngIf="potentialPersonalCustomerForm.get('LastName').hasError('forbiddenSpaceText')"
+                                class="error-message-span">
+                                Tên không được để trắng</span>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Phòng ban</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="PotentialCustomerPosition"
+                                [ngClass]="(potentialPersonalCustomerForm.get('PotentialCustomerPosition').invalid && (potentialPersonalCustomerForm.get('PotentialCustomerPosition').dirty || potentialPersonalCustomerForm.get('PotentialCustomerPosition').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" maxlength="250" />
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Số điện thoại</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="Phone" maxlength="50"
+                                (change)="checkDuplicateInforCustomer(2, potentialPersonalCustomerForm.get('Phone'))"
+                                [ngClass]="(potentialPersonalCustomerForm.get('Phone').invalid && (potentialPersonalCustomerForm.get('Phone').dirty || potentialPersonalCustomerForm.get('Phone').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="potentialPersonalCustomerForm.get('Phone').valid || potentialPersonalCustomerForm.get('Phone').untouched">
+                              <span *ngIf="potentialPersonalCustomerForm.get('Phone').hasError('required')"
+                                class="error-message-span">
+                                Nhập số điện thoại</span>
+                              <span *ngIf="potentialPersonalCustomerForm.get('Phone').hasError('pattern')"
+                                class="error-message-span">
+                                Sai định dạng số điện thoại</span>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Số điện thoại khác</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="OtherPhone" maxlength="32"
+                                [ngClass]="(potentialPersonalCustomerForm.get('OtherPhone').invalid && (potentialPersonalCustomerForm.get('OtherPhone').dirty || potentialPersonalCustomerForm.get('OtherPhone').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Mã số thuế</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="TaxCode"
+                                [ngClass]="(potentialPersonalCustomerForm.get('TaxCode').invalid && (potentialPersonalCustomerForm.get('TaxCode').dirty || potentialPersonalCustomerForm.get('TaxCode').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                          <!-- <div class="row buffer-bottom">
+                              <div class="col-md-12 buffer-bottom-label">
+                                <span>Email</span>
+                              </div>
+                              <div class="col-md-12">
+                                <input formControlName="WorkEmail"
+                                  [ngClass]="(potentialPersonalCustomerForm.get('WorkEmail').invalid && (potentialPersonalCustomerForm.get('WorkEmail').dirty || potentialPersonalCustomerForm.get('WorkEmail').touched)) ? 'error-border' : ''"
+                                  type="text" class="w100" pInputText placeholder="" maxlength="50"
+                                  (keydown.enter)="$event.preventDefault()" />
+                              </div>
+                              <div class="col-md-12"
+                                [hidden]="potentialPersonalCustomerForm.get('WorkEmail').valid || potentialPersonalCustomerForm.get('WorkEmail').untouched">
+                                <span *ngIf="potentialPersonalCustomerForm.get('WorkEmail').hasError('pattern')"
+                                  class="error-message-span">
+                                  Sai định dạng Email</span>
+                              </div>
+                            </div> -->
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Địa chỉ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="Address"
+                                [ngClass]="(potentialPersonalCustomerForm.get('Address').invalid && (potentialPersonalCustomerForm.get('Address').dirty || potentialPersonalCustomerForm.get('Address').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder="" maxlength="500"
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Nhóm khách hàng</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="CusGroup" [options]="listCusGroup" optionLabel="categoryName"
+                                placeholder="Chọn nhóm khách hàng" [showClear]="true" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Ghi chú</span>
+                            </div>
+                            <div class="col-md-12">
+                              <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                                formControlName="NoteCompany" type="text" class="w100" placeholder=""></textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Email</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="Email"
+                                (change)="checkDuplicateInforCustomer(1, potentialPersonalCustomerForm.get('Email'))"
+                                [ngClass]="(potentialPersonalCustomerForm.get('Email').invalid && (potentialPersonalCustomerForm.get('Email').dirty || potentialPersonalCustomerForm.get('Email').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder="" maxlength="50"
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="potentialPersonalCustomerForm.get('Email').valid || potentialPersonalCustomerForm.get('Email').untouched">
+                              <span *ngIf="potentialPersonalCustomerForm.get('Email').hasError('pattern')"
+                                class="error-message-span">
+                                Sai định dạng Email</span>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Số điện thoại cơ quan</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="WorkPhone" maxlength="50"
+                                [ngClass]="(potentialPersonalCustomerForm.get('WorkPhone').invalid && (potentialPersonalCustomerForm.get('WorkPhone').dirty || potentialPersonalCustomerForm.get('WorkPhone').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Chức danh</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="Role"
+                                [ngClass]="(potentialPersonalCustomerForm.get('Role').invalid && (potentialPersonalCustomerForm.get('Role').dirty || potentialPersonalCustomerForm.get('Role').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Nguồn tiềm năng</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="InvestFund"
+                                [styleClass]="(potentialPersonalCustomerForm.get('InvestFund').invalid && (potentialPersonalCustomerForm.get('InvestFund').dirty || potentialPersonalCustomerForm.get('InvestFund').touched)) ? 'error-border' : ''"
+                                [options]="listInvestFund" optionLabel="categoryName" placeholder="Chọn nguồn tiềm năng"
+                                [showClear]="true" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-12">
+                              <span
+                                [hidden]="potentialPersonalCustomerForm.get('InvestFund').valid || potentialPersonalCustomerForm.get('InvestFund').untouched"
+                                *ngIf="potentialPersonalCustomerForm.get('InvestFund').hasError('required')"
+                                class="error-message-span">
+                                Chọn nguồn tiềm năng</span>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Người phụ trách</span><span class="required">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="Pic"
+                                [styleClass]="(potentialPersonalCustomerForm.get('Pic').invalid && (potentialPersonalCustomerForm.get('Pic').dirty || potentialPersonalCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                                [options]="listPersonalInChange" optionLabel="employeeName" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" [virtualScroll]="true"
+                                placeholder="Chọn người phụ trách" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-12">
+                              <span
+                                [hidden]="potentialPersonalCustomerForm.get('Pic').valid || potentialPersonalCustomerForm.get('Pic').untouched"
+                                *ngIf="potentialPersonalCustomerForm.get('Pic').hasError('required')"
+                                class="error-message-span">
+                                Chọn người phụ trách</span>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-12 buffer-bottom-label">
+                              <span>Link Facebook</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input formControlName="SocialLink"
+                                [ngClass]="(potentialPersonalCustomerForm.get('SocialLink').invalid && (potentialPersonalCustomerForm.get('SocialLink').dirty || potentialPersonalCustomerForm.get('SocialLink').touched)) ? 'error-border' : ''"
+                                type="text" class="w100" pInputText placeholder=""
+                                (keydown.enter)="$event.preventDefault()" />
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom">
+                            <div class="col-md-6 no-padding">
+                              <div class="col-md-12 buffer-bottom-label">
+                                <span>Khu vực</span>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown formControlName="Area" [options]="listArea"
+                                  optionLabel="geographicalAreaName" placeholder="Chọn khu vực" [showClear]="true"
+                                  [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                                </p-dropdown>
+                              </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                              <div class="col-md-12 buffer-bottom-label">
+                                <span>Trạng thái chăm sóc</span>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown formControlName="CareState" [options]="listCareState"
+                                  optionLabel="categoryName" placeholder="Chọn trạng thái chăm sóc" [showClear]="true"
+                                  [style]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                                </p-dropdown>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row buffer-bottom" style="margin-top: 40px;">
+                            <div class="col-md-6">
+                              <p-checkbox formControlName="AllowSendEmail" binary="true" label="Không gửi Email">
+                              </p-checkbox>
+                            </div>
+                            <div class="col-md-6">
+                              <p-checkbox formControlName="AllowCall" binary="true" label="Không gọi điện"></p-checkbox>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                    <!-- Bản đồ -->
+                    <!-- <div *ngIf="overlays.length > 0" class="row">
+                      <div class="col-md-12" style="padding-bottom: 10px;">
+                        <p-gmap #gmap [options]="options" [overlays]="overlays"
+                          [style]="{'width':'100%','height':'320px'}" (onMapReady)="setMap($event)"></p-gmap>
+                      </div>
+                    </div> -->
+
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+
+              <div class="row no-margin" #contact>
+                <div class="col-md-12">
+                  <hr />
+                </div>
+              </div>
+
+              <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+                <div class="col-md-12 customer-infor">
+                  <div class="row">
+                    <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                      collapseIcon="pi pi-fw pi-chevron-circle-down">
+                      <p-accordionTab header="Chi tiết" [selected]="true">
+                        <p-tabView>
+
+                          <p-tabPanel *ngIf="customerType == 1" header="Liên Hệ">
+                            <div class="row">
+                              <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                <button #save class="add-new" type="button" (click)="addContact()">
+                                  <span class="add-new-text">Thêm mới</span>
+                                </button>
+                              </div>
+                              <div class="col-md-12" style="margin-top: 5px;">
+                                <p-table [columns]="colsContact" [value]="listContact" [responsive]="true"
+                                  [paginator]="true" [rows]="5" [resizableColumns]="true" class="table-border">
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th *ngFor="let col of columns" pResizableColumn
+                                        [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                                        {{col.header}}
+                                      </th>
+                                      <th style="width:4em"></th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr>
+                                      <td pEditableColumn *ngFor="let col of columns" class="ui-resizable-column"
+                                        [ngSwitch]="col.field"
+                                        [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                                        <span class="ui-column-title">{{col.header}}</span>
+                                        <span *ngSwitchCase="'evaluateContactPeople'" pTooltip="{{rowData[col.field]}}"
+                                          tooltipPosition="bottom"
+                                          style="overflow: hidden;text-overflow: ellipsis;line-height: 20px;-webkit-line-clamp: 3;display: -webkit-box;-webkit-box-orient: vertical;">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input pInputText type="text" [(ngModel)]="rowData[col.field]">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchCase="'dateOfBirth'">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <p-calendar [(ngModel)]="rowData[col.field]" dateFormat="dd/mm/yy"
+                                                [style]="{'width':'100%'}" showButtonBar="true"
+                                                [inputStyle]="{'width':'100%'}" [baseZIndex]="9999" appendTo="body">
+                                              </p-calendar>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchCase="'linkFace'">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input pInputText type="text" [(ngModel)]="rowData[col.field]">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchDefault pTooltip="{{rowData[col.field]}}"
+                                          tooltipPosition="bottom">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input pInputText type="text" [(ngModel)]="rowData[col.field]">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                      </td>
+                                      <td>
+
+                                        <button *ngIf="actionDelete" pButton icon="pi pi-trash"
+                                          (click)="deleteContact(rowData)" class="ui-button-danger"></button>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel *ngIf="customerType == 1" header="Thông tin chung">
+                            <div class="row">
+                              <form [formGroup]="potentialCustomerForm">
+                                <!-- CỘT I -->
+                              <div class="col-md-3">
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Số điện thoại</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input formControlName="Phone" maxlength="50"
+                                      (change)="checkDuplicateInforCustomer(2, potentialCustomerForm.get('Phone'))"
+                                      [ngClass]="(potentialCustomerForm.get('Phone').invalid && (potentialCustomerForm.get('Phone').dirty || potentialCustomerForm.get('Phone').touched)) ? 'error-border' : ''"
+                                      type="text" class="w100" pInputText placeholder=""
+                                      (keydown.enter)="$event.preventDefault()" />
+                                  </div>
+                                  <div class="col-md-12"
+                                    [hidden]="potentialCustomerForm.get('Phone').valid || potentialCustomerForm.get('Phone').untouched">
+                                    <span *ngIf="potentialCustomerForm.get('Phone').hasError('required')"
+                                      class="error-message-span">
+                                      Nhập số điện thoại</span>
+                                    <span *ngIf="potentialCustomerForm.get('Phone').hasError('pattern')"
+                                      class="error-message-span">
+                                      Sai định dạng số điện thoại</span>
+                                  </div>
+                                </div>
+
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Email</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input formControlName="Email"
+                                      (change)="checkDuplicateInforCustomer(1, potentialCustomerForm.get('Email'))"
+                                      [ngClass]="(potentialCustomerForm.get('Email').invalid && (potentialCustomerForm.get('Email').dirty || potentialCustomerForm.get('Email').touched)) ? 'error-border' : ''"
+                                      type="text" class="w100" pInputText placeholder="" maxlength="50"
+                                      (keydown.enter)="$event.preventDefault()" />
+                                  </div>
+                                  <div class="col-md-12"
+                                    [hidden]="potentialCustomerForm.get('Email').valid || potentialCustomerForm.get('Email').untouched">
+                                    <span *ngIf="potentialCustomerForm.get('Email').hasError('pattern')"
+                                      class="error-message-span">
+                                      Sai định dạng Email</span>
+                                  </div>
+                                </div>
+
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Mã số thuế</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input formControlName="TaxCode"
+                                      [ngClass]="(potentialCustomerForm.get('TaxCode').invalid && (potentialCustomerForm.get('TaxCode').dirty || potentialCustomerForm.get('TaxCode').touched)) ? 'error-border' : ''"
+                                      type="text" class="w100" pInputText placeholder=""
+                                      (keydown.enter)="$event.preventDefault()" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- CỘT II -->
+                              <div class="col-md-3">
+                                <div class="row" style="margin-bottom: 16px;">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Tình trạng(Sales update)</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                                      formControlName="SalesUpdate" type="text" class="w100" placeholder=""></textarea>
+                                  </div>
+                                </div>
+
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Khu vực</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <p-dropdown formControlName="Area" [options]="listArea" optionLabel="geographicalAreaName"
+                                      placeholder="Chọn khu vực" [showClear]="true" [style]="{'width': '100%'}"
+                                      (keydown.enter)="$event.preventDefault()">
+                                    </p-dropdown>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- CỘT III -->
+                              <div class="col-md-3">
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Tình trạng sau gặp khách hàng</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                                      formControlName="SalesUpdateAfterMeeting" type="text" class="w100"
+                                      placeholder=""></textarea>
+                                  </div>
+                                </div>
+
+                                <div class="row buffer-bottom" style="margin-top: 47px;">
+                                  <div class="col-md-6">
+                                    <p-checkbox formControlName="AllowCall" binary="true" label="Không gọi điện"></p-checkbox>
+                                  </div>
+                                  <div class="col-md-6">
+                                    <p-checkbox formControlName="AllowSendEmail" binary="true" label="Không gửi Email">
+                                    </p-checkbox>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- CỘT IV -->
+                              <div class="col-md-3">
+                                <div class="row buffer-bottom">
+                                  <div class="col-md-12 buffer-bottom-label">
+                                    <span>Ghi chú</span>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <textarea pInputTextarea [rows]="5" [cols]="30" autoResize="true"
+                                      formControlName="NoteCompany" type="text" class="w100" placeholder=""></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                              </form>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel header="Tài liệu đính kèm">
+                            <div class="row">
+                              <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                <span (click)="openAddLinkDialog()" class="link" style="margin-right: 5px;">
+                                  <span>
+                                    <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                      class="ios-add-circle-outline">
+                                  </span>
+                                  <span class="add-link-text">
+                                    Thêm liên kết
+                                  </span>
+                                </span>
+                                <span (click)="openAddFileDialog()" class="link">
+                                  <span>
+                                    <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                      class="ios-add-circle-outline">
+                                  </span>
+                                  <span class="add-link-text">
+                                    Thêm tệp
+                                  </span>
+                                </span>
+                              </div>
+                              <div class="col-md-12" style="margin-top: 5px;">
+                                <p-table [columns]="colsDocument" [value]="listDocument" [responsive]="true"
+                                  [paginator]="true" [rows]="5" [resizableColumns]="true" class="table-border">
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th *ngFor="let col of columns" pResizableColumn
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        {{col.header}}
+                                      </th>
+                                      <th style="width:4em"></th>
+                                      <th style="width:4em"></th>
+                                    </tr>
+                                  </ng-template>
+
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr>
+                                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        <span class="ui-column-title">{{col.header}}</span>
+                                        <span *ngSwitchCase="'size'">
+                                          <ng-container *ngIf="convertFileSize(rowData[col.field])">
+                                            {{rowData[col.field] / 1024 | number}} KB
+                                          </ng-container>
+                                          <ng-container *ngIf="!convertFileSize(rowData[col.field])">
+                                          </ng-container>
+                                        </span>
+                                        <span *ngSwitchCase="'createdDate'">
+                                          {{rowData[col.field] | date:'dd/MM/yyyy h:mm a'}}
+                                        </span>
+                                        <span *ngSwitchCase="'name'"
+                                          [ngClass]="{'table-row-link': rowData['typeDocument']== 'LINK' }"
+                                          (click)="openDocument(rowData)">
+                                          {{rowData[col.field]}}
+                                        </span>
+                                        <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                      </td>
+                                      <td>
+                                        <button *ngIf="actionDelete" pButton icon="pi pi-trash"
+                                          (click)="deleteDocument(rowData)" class="ui-button-danger"></button>
+                                      </td>
+                                      <td>
+                                        <button *ngIf="rowData['fileInFolderId'] && rowData['fileInFolderId'] != '00000000-0000-0000-0000-000000000000'" pButton icon="pi pi-download"
+                                          (click)="downloadDocument(rowData)"></button>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel header="Hàng hóa quan tâm">
+                            <div class="row">
+                              <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                <button #save class="add-new" type="button" (click)="addNewProduct()">
+                                  <span class="add-new-text">Thêm mới</span>
+                                </button>
+                              </div>
+                              <div class="col-md-12" style="margin-top: 5px;">
+                                <p-table [columns]="colsProduct" [value]="listPotentialCustomerProduct"
+                                  [responsive]="true" [paginator]="true" [rows]="5" [resizableColumns]="true"
+                                  class="table-border">
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th *ngFor="let col of columns" pResizableColumn
+                                        [ngStyle]="{'width': col.width, 'text-align': col.textAlign}"
+                                        [ngSwitch]="col.field">
+
+                                        <div *ngSwitchCase="'productCode'"
+                                          style="display: flex; justify-content: space-between; align-items: center;">
+                                          <div>
+                                            {{col.header}}
+                                          </div>
+                                          <div>
+                                            <span pTooltip="Tạo nhanh sản phẩm dịch vụ"
+                                              (click)="openQuickCreProductDialog()" style="cursor: pointer;">
+                                              <i class="pi pi-plus" style="color: #0000FF"></i>
+                                            </span>
+                                          </div>
+                                        </div>
+                                        <span *ngSwitchDefault>
+                                          {{col.header}}
+                                        </span>
+                                      </th>
+                                      <th style="width:4em"></th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr>
+                                      <td pEditableColumn *ngFor="let col of columns" class="ui-resizable-column"
+                                        [ngSwitch]="col.field" [ngStyle]="{'text-align': col.textAlign}">
+                                        <span class="ui-column-title">{{col.header}}</span>
+                                        <span *ngSwitchCase="'productCode'">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <p-dropdown [options]="listProductMasterdata"
+                                                [(ngModel)]="rowData.selectedProduct" [filter]="true" [showClear]="true"
+                                                [resetFilterOnHide]="true" [ngModelOptions]="{standalone: true}"
+                                                placeholder="" optionLabel="productCode" appendTo="body"
+                                                baseZIndex="99999" [autoDisplayFirst]="false" [showClear]="true"
+                                                (onChange)="changeProduct($event, rowData)" [style]="{'width':'100%'}">
+                                              </p-dropdown>
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData.selectedProduct ? rowData.selectedProduct.productCode : ''}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchCase="'productFixedPrice'">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input type="text" class="number-input" [(ngModel)]="rowData[col.field]"
+                                                [disabled]="rowData['isInTheSystem']"
+                                                [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchCase="'productUnitPrice'">
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input type="text" class="number-input" [(ngModel)]="rowData[col.field]"
+                                                [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                        <span *ngSwitchDefault>
+                                          <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                              <input pInputText type="text" [(ngModel)]="rowData[col.field]">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                              {{rowData[col.field]}}
+                                            </ng-template>
+                                          </p-cellEditor>
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <button *ngIf="actionDelete" pButton icon="pi pi-trash"
+                                          (click)="deleteProduct(rowData)" class="ui-button-danger"></button>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel header="Hoạt động">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div class="row">
+                                  <div class="col-md-2" style="margin-top: 15px;">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="btn-choose-time">
+                                          <i (click)="preMonth()" class="fa fa-chevron-left icon-choose-left"
+                                            aria-hidden="true"></i>
+                                          <span class="choose-label">Tháng {{month}}, {{year}}</span>
+                                          <i (click)="nextMonth()" class="fa fa-chevron-right icon-choose-right"
+                                            aria-hidden="true"></i>
+                                        </div>
+                                      </div>
+
+                                      <div class="col-md-12" style="margin-top: 20px;">
+                                        <button type="button" class="btn-send-email" (click)="send_quick_email()">
+                                          <img src="/assets/icons/components/Mail-Send-2.svg"
+                                            class="btn-send-email-icon">
+                                          <span class="btn-send-email-text"> Gửi Email</span>
+                                        </button>
+                                      </div>
+
+                                      <div class="col-md-12" style="margin-top: 10px;">
+                                        <button type="button" class="btn-send-sms" (click)="send_quick_sms()">
+                                          <img src="/assets/icons/components/communication-messaging.svg"
+                                            class="btn-send-sms-icon">
+                                          <span class="btn-send-sms-text"> Gửi SMS</span>
+                                        </button>
+                                      </div>
+
+                                      <div class="col-md-12" style="margin-top: 10px;">
+                                        <button type="button" class="btn-send-gift" (click)="send_quick_gift()">
+                                          <img src="/assets/icons/components/gift.svg" class="btn-send-gift-icon">
+                                          <span class="btn-send-gift-text"> Tặng quà</span>
+                                        </button>
+                                      </div>
+                                      <div class="col-md-12" style="margin-top: 10px;">
+                                        <button type="button" class="btn-send-sms" (click)="add_meeting()">
+                                          <img src="/assets/icons/components/ios-timer.svg" class="btn-send-email-icon">
+                                          <span class="btn-send-sms-text"> Đặt lịch</span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="col-md-10" style="margin-top: 15px;">
+                                    <div class="row">
+                                      <div class="col-md-12" style="height: 300px; overflow-y: auto;">
+                                        <table class="w100">
+                                          <thead>
+                                            <tr>
+                                              <th class="cskh-header-timeline">Dòng thời gian</th>
+                                              <th class="cskh-header-week">
+                                                <p>Tuần 1</p>
+                                                <p style="font-size: 12px;">{{startDateWeek1 | date:'dd/MM/yyyy'}} -
+                                                  {{endDateWeek1 | date:'dd/MM/yyyy'}}</p>
+                                              </th>
+                                              <th class="cskh-header-week">
+                                                <p>Tuần 2</p>
+                                                <p style="font-size: 12px;">{{startDateWeek2 | date:'dd/MM/yyyy'}} -
+                                                  {{endDateWeek2 | date:'dd/MM/yyyy'}}</p>
+                                              </th>
+                                              <th class="cskh-header-week">
+                                                <p>Tuần 3</p>
+                                                <p style="font-size: 12px;">{{startDateWeek3 | date:'dd/MM/yyyy'}} -
+                                                  {{endDateWeek3 | date:'dd/MM/yyyy'}}</p>
+                                              </th>
+                                              <th class="cskh-header-week">
+                                                <p>Tuần 4</p>
+                                                <p style="font-size: 12px;">{{startDateWeek4 | date:'dd/MM/yyyy'}} -
+                                                  {{endDateWeek4 | date:'dd/MM/yyyy'}}</p>
+                                              </th>
+                                              <th class="cskh-header-week">
+                                                <p>Tuần 5</p>
+                                                <p style="font-size: 12px;">{{startDateWeek5 | date:'dd/MM/yyyy'}} -
+                                                  {{endDateWeek5 | date:'dd/MM/yyyy'}}</p>
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let item of listCustomerCareInfor">
+                                              <td class="cskh-body-emp">
+                                                <p class="cskh-body-emp-name">{{item.employeeName}}</p>
+                                                <p class="cskh-body-emp-position">{{item.employeePosition}}</p>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week1 of item.week1" class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week1['background']}">
+                                                  <p class="cskh-body-week-title">{{week1.title}}</p>
+                                                  <p class="cskh-body-week-sub-title" (click)="showPreview(week1)">
+                                                    {{week1.subTitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week2 of item.week2" class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week2['background']}">
+                                                  <p class="cskh-body-week-title">{{week2.title}}</p>
+                                                  <p class="cskh-body-week-sub-title" (click)="showPreview(week2)">
+                                                    {{week2.subTitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week3 of item.week3" class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week3['background']}">
+                                                  <p class="cskh-body-week-title">{{week3.title}}</p>
+                                                  <p class="cskh-body-week-sub-title" (click)="showPreview(week3)">
+                                                    {{week3.subTitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week4 of item.week4" class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week4['background']}">
+                                                  <p class="cskh-body-week-title">{{week4.title}}</p>
+                                                  <p class="cskh-body-week-sub-title" (click)="showPreview(week4)">
+                                                    {{week4.subTitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week5 of item.week5" class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week5['background']}">
+                                                  <p class="cskh-body-week-title">{{week5.title}}</p>
+                                                  <p class="cskh-body-week-sub-title" (click)="showPreview(week5)">
+                                                    {{week5.subTitle}}</p>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                            <tr *ngIf="isExist">
+                                              <td class="cskh-body-emp">
+                                                <p class="cskh-body-emp-name">{{customerMeetingInfor.employeeName}}</p>
+                                                <p class="cskh-body-emp-position">
+                                                  {{customerMeetingInfor.employeePosition}}</p>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week1 of customerMeetingInfor.week1"
+                                                  class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week1['background']}">
+                                                  <i class="pi pi-trash" (click)="removeCustomerMeeting(week1)"></i>
+                                                  <p class="cskh-body-week-title">{{week1.title}}</p>
+                                                  <p class="cskh-body-week-sub-title"
+                                                    (click)="showPreviewMeeting(week1)">
+                                                    {{week1.subtitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week2 of customerMeetingInfor.week2"
+                                                  class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week2['background']}">
+                                                  <i class="pi pi-trash" (click)="removeCustomerMeeting(week2)"></i>
+                                                  <p class="cskh-body-week-title">{{week2.title}}</p>
+                                                  <p class="cskh-body-week-sub-title"
+                                                    (click)="showPreviewMeeting(week2)">
+                                                    {{week2.subtitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week3 of customerMeetingInfor.week3"
+                                                  class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week3['background']}">
+                                                  <i class="pi pi-trash" (click)="removeCustomerMeeting(week3)"></i>
+                                                  <p class="cskh-body-week-title">{{week3.title}}</p>
+                                                  <p class="cskh-body-week-sub-title"
+                                                    (click)="showPreviewMeeting(week3)">
+                                                    {{week3.subtitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week4 of customerMeetingInfor.week4"
+                                                  class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week4['background']}">
+                                                  <i class="pi pi-trash" (click)="removeCustomerMeeting(week4)"></i>
+                                                  <p class="cskh-body-week-title">{{week4.title}}</p>
+                                                  <p class="cskh-body-week-sub-title"
+                                                    (click)="showPreviewMeeting(week4)">
+                                                    {{week4.subtitle}}</p>
+                                                </div>
+                                              </td>
+                                              <td class="cskh-body-week">
+                                                <div *ngFor="let week5 of customerMeetingInfor.week5"
+                                                  class="cskh-body-week-block"
+                                                  [ngStyle]="{'background-color': week5['background']}">
+                                                  <i class="pi pi-trash" (click)="removeCustomerMeeting(week5)"></i>
+                                                  <p class="cskh-body-week-title">{{week5.title}}</p>
+                                                  <p class="cskh-body-week-sub-title"
+                                                    (click)="showPreviewMeeting(week5)">
+                                                    {{week5.subtitle}}</p>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel header="Báo giá">
+                            <div class="row">
+                              <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                <button #save class="add-new" type="button" (click)="addQuote()">
+                                  <span class="add-new-text">Thêm mới</span>
+                                </button>
+                              </div>
+                              <div class="col-md-12" style="margin-top: 5px;">
+                                <p-table [columns]="colsQuote" [value]="listQuoteByPotentialCustomer"
+                                  [responsive]="true" [paginator]="true" [rows]="5" [resizableColumns]="true"
+                                  class="table-border">
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th *ngFor="let col of columns" pResizableColumn
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        {{col.header}}
+                                      </th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr>
+                                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        <span class="ui-column-title">{{col.header}}</span>
+                                        <span *ngSwitchCase="'quoteCode'">
+                                          <a target="_blank"
+                                            [routerLink]="['/customer/quote-detail', {quoteId:rowData.quoteId}]">{{rowData[col.field]}}</a>
+                                        </span>
+                                        <span *ngSwitchCase="'quoteDate'">
+                                          {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                        </span>
+                                        <span *ngSwitchCase="'dueQuoteDate'">
+                                          {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                        </span>
+                                        <span *ngSwitchCase="'amount'">
+                                          {{rowData[col.field] | number }}
+                                        </span>
+                                        <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+
+                          <p-tabPanel header="Cơ hội">
+                            <div class="row">
+                              <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                                <button #save class="add-new" type="button" (click)="addLead()">
+                                  <span class="add-new-text">Thêm mới</span>
+                                </button>
+                              </div>
+                              <div class="col-md-12" style="margin-top: 5px;">
+                                <p-table [columns]="colsLead" [value]="ListLeadByPotentialCustomer" [responsive]="true"
+                                  [paginator]="true" [rows]="5" [resizableColumns]="true" class="table-border">
+                                  <ng-template pTemplate="header" let-columns>
+                                    <tr>
+                                      <th *ngFor="let col of columns" pResizableColumn
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        {{col.header}}
+                                      </th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                                    <tr>
+                                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                        [ngStyle]="{'text-align': col.textAlign}">
+                                        <span class="ui-column-title">{{col.header}}</span>
+                                        <span *ngSwitchCase="'expectedSale'">
+                                          {{rowData[col.field] | number }}
+                                        </span>
+                                        <span *ngSwitchCase="'leadCode'">
+                                          <a target="_blank"
+                                            [routerLink]="['/lead/detail', {leadId:rowData.leadId}]">{{rowData[col.field]}}</a>
+                                        </span>
+                                        <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </p-tabPanel>
+                        </p-tabView>
+                      </p-accordionTab>
+                    </p-accordion>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row no-margin">
+                <div class="col-md-12">
+                  <hr />
+                </div>
+              </div>
+
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Ghi chú" [selected]="true">
+                    <div class="col-md-12">
+                      <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"
+                        (onTextChange)="changeNoteContent($event)"></p-editor>
+                    </div>
+                    <div *ngIf="actionAdd" class="col-md-12" style="margin-top: 5px;">
+                      <p-fileUpload #fileNoteUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                        accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                        maxFileSize="10000000" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                        invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                        invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                        invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                        chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file"
+                        (onSelect)="handleNoteFile($event, fileNoteUpload)" (onRemove)="removeNoteFile($event)"
+                        (onClear)="clearAllNoteFile()"></p-fileUpload>
+                    </div>
+                    <div *ngIf="(listUpdateNoteDocument.length > 0)" class="col-md-12" style="margin-top: 5px;">
+                      <p-table [columns]="colsFile" [value]="listUpdateNoteDocument" [responsive]="true"
+                        [resizableColumns]="true" class="table-border">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                              {{col.header}}
+                            </th>
+                            <th style="width:4em"></th>
+                            <th style="width:4em"></th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column"
+                              [ngStyle]="{'text-align': col.textAlign}">
+                              <span class="ui-column-title">{{col.header}}</span>
+                              <span>{{rowData[col.field]}}</span>
+                            </td>
+                            <td>
+                              <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteFile(rowData)"
+                                class="ui-button-danger"></button>
+                            </td>
+                            <td>
+                              <button pButton icon="pi pi-download" (click)="downloadFile(rowData)"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div class="col-md-12" style="text-align: right; margin-top: 5px;">
+                      <button type="button" class="btn-cancel-note" (click)="cancelNote()">
+                        <span class="save-cancel-lable">Hủy</span>
+                      </button>
+                      <button type="button" class="btn-save-note" (click)="saveNote()">
+                        <span class="save-note-lable">{{isEditNote == true ? 'Cập nhật ghi chú' : 'Thêm ghi
+                          chú'}}</span>
+                      </button>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+
+              <div class="row no-margin">
+                <div class="col-md-12">
+                  <hr />
+                </div>
+              </div>
+
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Dòng thời gian" [selected]="true">
+                    <div class="timeline col-md-12 timeline-content">
+                      <ul class="timeline">
+                        <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                          <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                          <div class="timeline-item" id="{{note.noteId}}">
+                            <span class="time onHover">
+                              <i *ngIf="note.type === 'ADD' && ((note.description !== '' && note.description !== null) || note.noteDocList.length > 0) && actionEdit"
+                                (click)="onClickEditNote(note.noteId, note.description)" class="pi pi-pencil style-edit"
+                                pTooltip="{{ 'lead.tooltip.edit_note' | translate }}" tooltipPosition="bottom"></i>
+                              <i *ngIf="actionDelete" pTooltip="Xóa ghi chú" tooltipPosition="bottom"
+                                (click)="onClickDeleteNote(note.noteId)" class="pi pi-trash style-delete"></i>
+                            </span>
+                            <h3 class="timeline-header">
+                              <span>
+                                <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                                  (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                                  pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                                <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                              </span>
+                              <div>
+                                <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                                  class="timeline-user-avatar" />
+                              </div>
+                              <span class="note-user">{{note.responsibleName}}</span>
+                              <p class="time-note">
+                                {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' |
+                                translate }}
+                                {{note.createdDate | date:'dd/MM/yyyy'}}
+                              </p>
+                            </h3>
+                            <div class="timeline-body">
+                              <div class="note-content">
+                                <span class="short-content" style="word-wrap: break-word;"></span>
+                                <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                              </div>
+
+                              <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                                style="padding: 0 12px; margin-bottom: 20px !important">
+                                <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                                  class="col-md-4 short-content-file" style="padding: 5px 0">
+                                  <div class="row no-margin file-item"
+                                    style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                    <div class="col-md-1">
+                                      <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                      <div class="item-name" pTooltip="{{ item.documentName }}"
+                                        tooltipPosition="bottom">
+                                        <span>
+                                          <a class="preview-doc"
+                                            (click)="openItem(item.documentName, item.documentUrl)">
+                                            {{ item.documentName }}
+                                          </a>
+                                        </span>
+                                      </div>
+                                      <div style="font-size: 10px; padding: 0 !important">
+                                        {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div *ngFor="let item of note.noteDocList;let i=index"
+                                  class="col-md-4 full-content-file" style="display: none;padding: 5px 0">
+                                  <div class="row no-margin file-item"
+                                    style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                    <div class="col-md-1">
+                                      <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                      <div class="item-name" pTooltip="{{ item.documentName }}"
+                                        tooltipPosition="bottom">
+                                        <span>
+                                          <a class="preview-doc" (click)="openItem(item.base64Url)">
+                                            {{ item.documentName }}
+                                          </a>
+                                        </span>
+                                      </div>
+                                      <div style="font-size: 10px; padding: 0 !important">
+                                        {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- dialog -->
+  <p-dialog header="Đính kèm tệp" [(visible)]="displayAttachFile" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="attach-file-dialog">
+      <div class="col-md-12">
+        <div *ngIf="actionImport" class="col-md-12 mt-5">
+          <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+            accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt" maxFileSize="10000000"
+            invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+            invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+            invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+            invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}." chooseLabel="Chọn file"
+            cancelLabel="Hủy toàn bộ file" (onSelect)="handleFile($event, fileUpload)" (onRemove)="removeFile($event)"
+            (onClear)="clearAllFile()">
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="closeAddFileDialog()" label="Hủy bỏ"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="addFileToTable()" label="Đính kèm"></button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Đính kèm liên kết" [(visible)]="displayAttachLink" [style]="{width: '25vw'}" [baseZIndex]="10000">
+    <div class="attach-link-dialog">
+      <div class="row">
+        <form [formGroup]="addLinkForm">
+          <div class="row buffer-bottom">
+            <div class="col-md-12 buffer-bottom-label">
+              <span>Tên liên kết</span>
+            </div>
+            <div class="col-md-12">
+              <input formControlName="NameOfLink"
+                [ngClass]="(addLinkForm.get('NameOfLink').invalid && (addLinkForm.get('NameOfLink').dirty || addLinkForm.get('NameOfLink').touched)) ? 'error-border' : ''"
+                type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()" />
+            </div>
+            <div class="col-md-12"
+              [hidden]="addLinkForm.get('NameOfLink').valid || addLinkForm.get('NameOfLink').untouched">
+              <span *ngIf="addLinkForm.get('NameOfLink').hasError('required')" class="error-message-span">Nhập tên liên
+                kết</span>
+            </div>
+          </div>
+          <div class="row buffer-bottom">
+            <div class="col-md-12 buffer-bottom-label">
+              <span>Địa chỉ liên kết</span>
+            </div>
+            <div class="col-md-12">
+              <input formControlName="Link"
+                [ngClass]="(addLinkForm.get('Link').invalid && (addLinkForm.get('Link').dirty || addLinkForm.get('Link').touched)) ? 'error-border' : ''"
+                type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()" />
+            </div>
+            <div class="col-md-12" [hidden]="addLinkForm.get('Link').valid || addLinkForm.get('Link').untouched">
+              <span *ngIf="addLinkForm.get('Link').hasError('required')" class="error-message-span">Nhập địa chỉ liên
+                kết</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="closeAddLinkDialog()" label="Hủy bỏ"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="addLinkToTable()" label="Đính kèm"></button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Phản hồi của khách hàng" [(visible)]="feedback" [modal]="true" [responsive]="true"
+    [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+    [contentStyle]="{'max-height':'85vh'}">
+    <p-header></p-header>
+    <form [formGroup]="feedbackForm">
+      <div class="row no-margin" style="padding-bottom: 10px;">
+        <div class="col-md-2">
+          Tên chương trình
+        </div>
+        <div class="col-md-10">
+          {{dataDialogCustomerFeedBack.name}}
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-bottom: 10px;">
+        <div class="col-md-2">
+          Bắt đầu
+        </div>
+        <div class="col-md-10">
+          Từ ngày {{dataDialogCustomerFeedBack.fromDate | date:'dd/MM/yyyy'}} đến ngày
+          {{dataDialogCustomerFeedBack.toDate | date:'dd/MM/yyyy'}}
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-bottom: 10px;">
+        <div class="col-md-2">
+          Hình thức
+        </div>
+        <div class="col-md-10">
+          {{dataDialogCustomerFeedBack.typeName}}
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-bottom: 10px;">
+        <div class="col-md-2">
+          Mã phản hồi
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <p-dropdown [options]="listFeedBackCode" formControlName="feedbackCodeControl"
+                placeholder="Chọn mã phản hồi" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                [styleClass]="(feedbackCodeControl.invalid && (feedbackCodeControl.dirty || feedbackCodeControl.touched)) ? 'error-border' : ''"
+                optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+            <div class="col-md-12" [hidden]="feedbackCodeControl.valid || feedbackCodeControl.untouched">
+              <span *ngIf="feedbackCodeControl.hasError('required')" style="color: red">Chưa chọn mã phản hồi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row no-margin">
+        <div class="col-md-2">
+          Ghi chú
+        </div>
+        <div class="col-md-10">
+          <div class="row">
+            <div class="col-md-12">
+              <textarea rows="5" cols="30" pInputTextarea formControlName="feedbackContentControl" style="width: 100%;"
+                [ngClass]="(feedbackContentControl.invalid && (feedbackContentControl.dirty || feedbackContentControl.touched)) ? 'error-border': ''"></textarea>
+            </div>
+            <div class="col-md-12" [hidden]="feedbackContentControl.valid || feedbackContentControl.untouched">
+              <span *ngIf="feedbackContentControl.hasError('required')" style="color: red">Không được để trống</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <p-footer>
+      <button type="button" class="btn-cancel-note" (click)="closeFeedBack()" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+        <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+      </button>
+      <button type="button" (click)="saveFeedBack()" [disabled]="awaitSaveFeedBack" style="width: 158px;
+                  height: 32px;
+                  border-radius: 4px;
+                  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+                  background-color: #0f62fe;
+                  border: solid 1px #cccccc;
+                  margin-left: 5px;">
+        <span style="width: 110px;
+                height: 16px;
+                font-family: 'Inter UI';
+                font-size: 13px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.15;
+                letter-spacing: normal;
+                text-align: center;
+                color: #ffffff;">Lưu</span>
+      </button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Email" [(visible)]="previewEmail" [modal]="true" [responsive]="true"
+    [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+    [contentStyle]="{'max-height':'85vh'}">
+    <p-header></p-header>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2" style="font-weight: bold;">
+        Ngày gửi
+      </div>
+      <div class="col-md-10">
+        {{previewCustomerCare.sendDate | date:'dd/MM/yyyy'}} - {{previewCustomerCare.sendDate | date:'HH:mm'}}
+      </div>
+    </div>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2" style="font-weight: bold;">
+        Tiêu đề
+      </div>
+      <div class="col-md-10">
+        {{previewCustomerCare.previewEmailTitle}}
+      </div>
+    </div>
+
+    <div class="row no-margin">
+      <div class="col-md-2" style="font-weight: bold;">
+        Nội dung
+      </div>
+      <div class="col-md-10">
+        <span [innerHTML]="previewCustomerCare.previewEmailContent" style="word-wrap: break-word;"></span>
+      </div>
+    </div>
+
+    <p-footer>
+      <button type="button" class="btn-cancel-note" (click)="closePreview('Email')" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+        <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+      </button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="SMS" [(visible)]="previewSMS" [modal]="true" [responsive]="true"
+    [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+    [contentStyle]="{'max-height':'85vh'}">
+    <p-header></p-header>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2" style="font-weight: bold;">
+        Ngày gửi
+      </div>
+      <div class="col-md-10">
+        {{previewCustomerCare.sendDate | date:'dd/MM/yyyy'}} - {{previewCustomerCare.sendDate | date:'HH:mm'}}
+      </div>
+    </div>
+
+    <div class="row no-margin">
+      <div class="col-md-2" style="font-weight: bold;">
+        Nội dung
+      </div>
+      <div class="col-md-10">
+        <span style="word-wrap: break-word;">{{previewCustomerCare.previewSmsContent}}</span>
+      </div>
+    </div>
+
+    <p-footer>
+      <button type="button" class="btn-cancel-note" (click)="closePreview('SMS')" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+        <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+      </button>
+    </p-footer>
+  </p-dialog>
+</div>

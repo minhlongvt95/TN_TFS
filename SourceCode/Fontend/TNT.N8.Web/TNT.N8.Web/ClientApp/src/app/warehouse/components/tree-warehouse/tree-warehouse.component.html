@@ -1,0 +1,8 @@
+<p-tree [value]="warhouseTreeNode" selectionMode="single" [style]="{'width':'100%'}" (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)">
+</p-tree>
+
+<div style="margin-top: 8px;text-align:right">
+  <button pButton type="button" label="Chọn" (click)="choseWarhouse()" style="margin-right: .25em;"></button>
+  <button pButton type="button" label="Hủy" (click)="closeDialog()" style="background-color: #fff !important;color: #121619 !important"></button>
+</div>
+<p-confirmDialog [style]="{width: '20vw'}" acceptLabel="Đồng ý" rejectLabel="Đóng"></p-confirmDialog>

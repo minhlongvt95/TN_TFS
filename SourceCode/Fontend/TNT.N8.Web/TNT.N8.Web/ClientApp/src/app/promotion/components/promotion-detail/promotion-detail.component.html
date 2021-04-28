@@ -1,0 +1,1374 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="promotion-detail">
+  <form [formGroup]="createForm">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <div class="row promotion-detail-content" id="parent">
+          <div class="col-md-12 no-padding">
+            <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width': withFiexd}">
+              <div class="col-md-12">
+                <div class="center">
+                  <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                  <span class="header-text">Chương trình khuyến mãi</span>
+                </div>
+
+                <div style="float: right;">
+                  <span *ngIf="!isInvalidForm" style="margin-right: 5px;">
+                    <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                  </span>
+                  <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                    <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                  </div>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                    <div
+                      *ngIf="(promotionCodeControl.invalid && (promotionCodeControl.dirty || promotionCodeControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Mã chương trình không được để trống</span>
+                    </div>
+                    <div
+                      *ngIf="(promotionNameControl.invalid && (promotionNameControl.dirty || promotionNameControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Tên chương trình không được để trống</span>
+                    </div>
+                    <div
+                      *ngIf="(effectiveDateControl.invalid && (effectiveDateControl.dirty || effectiveDateControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập Hiệu lực từ ngày?</span>
+                    </div>
+                    <div
+                      *ngIf="(expirationDateControl.invalid && (expirationDateControl.dirty || expirationDateControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập Hiệu lực đến ngày?</span>
+                    </div>
+                  </div>
+
+                  <button class="cancel" type="button" [disabled]="awaitResult" (click)="goBack()">
+                    <span class="text-cancel">Thoát</span>
+                  </button>
+
+                  <button #saveAndCreate class="delete" type="button" [disabled]="awaitResult"
+                    (click)="deletePromotion()">
+                    <span class="text-delete">Xóa</span>
+                  </button>
+
+                  <button #save class="save" [disabled]="awaitResult" type="button" (click)="updatePromotion()">
+                    <span class="text-save">Lưu</span>
+                  </button>
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="row promotion-detail-content">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Thông tin chung" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Mã chương trình</span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="promotionCodeControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(promotionCodeControl.invalid && (promotionCodeControl.dirty || promotionCodeControl.touched)) ? 'error-border' : ''"
+                            placeholder="Mã chương trình">
+                        </div>
+                        <div class="col-md-12" [hidden]="promotionCodeControl.valid || promotionCodeControl.untouched">
+                          <span
+                            *ngIf="promotionCodeControl.hasError('required') || promotionCodeControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Tên chương trình<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="promotionNameControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(promotionNameControl.invalid && (promotionNameControl.dirty || promotionNameControl.touched)) ? 'error-border' : ''"
+                            placeholder="Tên chương trình">
+                        </div>
+                        <div class="col-md-12" [hidden]="promotionNameControl.valid || promotionNameControl.untouched">
+                          <span
+                            *ngIf="promotionNameControl.hasError('required') || promotionNameControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Hiệu lực từ<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-calendar formControlName="effectiveDateControl"
+                            [styleClass]="(effectiveDateControl.invalid  && (effectiveDateControl.dirty || effectiveDateControl.touched)) ? 'error-pcalendar': ''"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                            (keydown.enter)="$event.preventDefault()" [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                            showTime="true">
+                          </p-calendar>
+                        </div>
+                        <div class="col-md-12" [hidden]="effectiveDateControl.valid || effectiveDateControl.untouched">
+                          <span *ngIf="effectiveDateControl.hasError('required')" class="error-message-span">Không được
+                            để trống</span>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Hiệu lực đến<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-calendar formControlName="expirationDateControl"
+                            [styleClass]="(expirationDateControl.invalid  && (expirationDateControl.dirty || expirationDateControl.touched)) ? 'error-pcalendar': ''"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                            (keydown.enter)="$event.preventDefault()" [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                            showTime="true">
+                          </p-calendar>
+                        </div>
+                        <div class="col-md-12"
+                          [hidden]="expirationDateControl.valid || expirationDateControl.untouched">
+                          <span *ngIf="expirationDateControl.hasError('required')" class="error-message-span">Không được
+                            để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Mô tả</span>
+                        </div>
+                        <div class="col-md-12">
+                          <textarea formControlName="descriptionControl" class="w100" [rows]="4" [cols]="30"
+                            pInputTextarea></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row" style="margin-top: 31px;">
+                        <div class="col-md-12">
+                          <p-checkbox formControlName="activeControl" label="Hoạt động" [binary]="true"></p-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Hình thức khuyến mãi" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Khuyến mãi theo</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="conditionsTypeControl" [options]="listConditionsType"
+                                optionLabel="name" placeholder="" (keydown.enter)="$event.preventDefault()"
+                                [autoDisplayFirst]="false" (onChange)="changeConditionsType($event)"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Hình thức</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown formControlName="propertyTypeControl" [options]="listPropertyType"
+                                optionLabel="name" placeholder="" (keydown.enter)="$event.preventDefault()"
+                                [autoDisplayFirst]="false" (onChange)="changePropertyType()"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngIf="conditionsType == 2" class="col-md-3" style="margin-top: 23px;">
+                          <p-checkbox formControlName="notMultiplitionControl" label="Không nhân theo SL mua"
+                            [binary]="true">
+                          </p-checkbox>
+                        </div>
+                        <div *ngIf="conditionsType == 1" class="col-md-3" style="margin-top: 23px;">
+                          <p-checkbox formControlName="customerHasOrderControl" label="Khách hàng đã phát sinh đơn hàng" [binary]="true">
+                          </p-checkbox>
+                        </div>
+
+                        <div *ngIf="conditionsType == 1" class="col-md-12" style="margin-top: 20px;">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <span><strong>Chọn bộ tiêu chí</strong></span>
+                            </div>
+                            <div class="col-md-6" style="text-align: right;">
+                              <button pTooltip="Thêm tiêu chí" tooltipPosition="top" [tooltipDisabled]="false"
+                                type="button" (click)="addFilter()" class="btn-plus">
+                                <i class="pi pi-plus icon-plus"></i>
+                              </button>
+                            </div>
+                            <div class="col-md-12 no-padding mt-10">
+                              <form class="form-group" [formGroup]="filterForm">
+                                <div class="" formArrayName="rowFilters">
+                                  <div class="col-md-12"
+                                    *ngFor="let filter of rowFilterFormGroup.controls; let i = index;">
+                                    <div [formGroupName]="i">
+                                      <div class="row row-filter">
+                                        <div class="col-md-2 ml-15">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['criteriaControl'].touched && getFiltersFormGroup(i).controls['criteriaControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedCriteria(i, $event)" name="criteria"
+                                              formControlName="criteriaControl">
+                                              <mat-option *ngFor="let option of listParentCriteria[i]"
+                                                [value]="option.criteriaId">
+                                                {{option.criteriaName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['criteriaControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['criteriaControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- ĐIỀU KIỆN -->
+                                        <div class="col-md-2" *ngIf="listConditionForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['conditionControl'].touched && getFiltersFormGroup(i).controls['conditionControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedCondition(i, $event)" name="condition"
+                                              formControlName="conditionControl">
+                                              <mat-option *ngFor="let option of listParentCondition[i]"
+                                                [value]="option.conditionId">
+                                                {{option.conditionName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['conditionControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['conditionControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: ĐIỀU KIỆN -->
+
+                                        <!-- GIÁ TRỊ: LOẠI KHÁCH HÀNG -->
+                                        <div class="col-md-2" *ngIf="listValueGroupForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueListGroupControl'].touched && getFiltersFormGroup(i).controls['valueListGroupControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedlistValueListGroup(i, $event)"
+                                              name="valueListGroup" formControlName="valueListGroupControl">
+                                              <mat-option *ngFor="let option of listParentGroup[i]"
+                                                [value]="option.valueGroupId">
+                                                {{option.valueGroupName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueListGroupControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueListGroupControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: LOẠI KHÁCH HÀNG -->
+
+                                        <!-- GIÁ TRỊ: ĐỘ TUỔI -->
+                                        <div class="col-md-2" *ngIf="listValueAgeForm[i] == 1">
+                                          <input type="number" min="0" class="form-control w100" name="valueAge"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueAgeControl'].touched && (getFiltersFormGroup(i).controls['valueAgeControl'].hasError('required') || getFiltersFormGroup(i).controls['valueAgeControl'].hasError('pattern')) ? 'error-border' : ''"
+                                            formControlName="valueAgeControl" (change)="changedValueAge(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueAgeControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeControl'].hasError('pattern')">
+                                              Phải là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueAgeComboForm[i] == 1">
+                                          <input type="number" min="0" class="form-control w100" name="valueAge"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueAgeFirstControl'].touched && (getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('required') || getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('pattern')) ? 'error-border' : ''"
+                                            formControlName="valueAgeFirstControl"
+                                            (change)="changedValueAgeFirst(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueAgeFirstControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('pattern')">
+                                              Phải
+                                              là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueAgeComboForm[i] == 1">
+                                          <input type="number" min="1" class="form-control w100" name="valueAge"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueAgeLastControl'].touched && (getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('required') || getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('equalValue') || getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('pattern')) ? 'error-border' : ''"
+                                            formControlName="valueAgeLastControl"
+                                            (change)="changedValueAgeLast(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueAgeLastControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('pattern')">
+                                              Phải
+                                              là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('equalValue')">
+                                              Giá trị đầu phải nhỏ hơn hoặc bằng giá trị cuối</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: ĐỘ TUỔI -->
+
+                                        <!-- GIÁ TRỊ: GIỚI TÍNH -->
+                                        <div class="col-md-2" *ngIf="listValueSexForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueListSexControl'].touched && getFiltersFormGroup(i).controls['valueListSexControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedlistValueSex(i, $event)"
+                                              name="valueListSex" formControlName="valueListSexControl">
+                                              <mat-option *ngFor="let option of listParentSex[i]"
+                                                [value]="option.valueSexId">
+                                                {{option.valueSexName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueListSexControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueListSexControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: GIỚI TÍNH -->
+
+                                        <!-- GIÁ TRỊ: DOANH THU -->
+                                        <div class="col-md-2" *ngIf="listValueRevenueForm[i] == 1">
+                                          <input currencyMask class="form-control w100" name="valueRevenue"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueRevenueControl'].touched && (getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('required') || getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('pattern')) ? 'error-border' : ''"
+                                            formControlName="valueRevenueControl"
+                                            (blur)="changedValueRevenue(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueRevenueControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('pattern')">
+                                              Phải
+                                              là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2 mt-6" *ngIf="listValueRevenueForm[i] == 1">
+                                          VND
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueRevenueComboForm[i] == 1">
+                                          <input currencyMask class="form-control w100" name="valueRevenueFirst"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].touched && (getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('required') || getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('pattern')) ? 'error-border' : ''"
+                                            formControlName="valueRevenueFirstControl"
+                                            (blur)="changedValueRevenueFirst(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('pattern')">
+                                              Phải là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueRevenueComboForm[i] == 1">
+                                          <input currencyMask class="form-control w100" name="valueRevenueLast"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueRevenueLastControl'].touched && (getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('required') || getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('pattern') || getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('equalValue')) ? 'error-border' : ''"
+                                            formControlName="valueRevenueLastControl"
+                                            (blur)="changedValueRevenueLast(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueRevenueLastControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('pattern')">
+                                              Phải là số nguyên lớn hơn hoặc bằng 0</mat-error>
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('equalValue')">
+                                              Giá trị đầu phải nhỏ hơn hoặc bằng giá trị cuối</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2 mt-6" *ngIf="listValueRevenueComboForm[i] == 1">
+                                          VND
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueDateRevenueComboForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].touched && getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].hasError('required') ? 'error-border' : ''">
+                                            <input matInput [matDatepicker]="pickerRevenueFirstDate"
+                                              formControlName="valueDateRevenueFirstControl"
+                                              (dateChange)="setValueDateRevenueFirst(i, $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="pickerRevenueFirstDate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerRevenueFirstDate></mat-datepicker>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValueDateRevenueComboForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].touched && getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].hasError('required') ? 'error-border' : ''">
+                                            <input matInput [matDatepicker]="pickerRevenueLastDate"
+                                              formControlName="valueDateRevenueLastControl"
+                                              (dateChange)="setValueDateRevenueLast(i, $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="pickerRevenueLastDate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerRevenueLastDate></mat-datepicker>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: DOANH THU -->
+
+                                        <!-- GIÁ TRỊ: SẢN PHẨM -->
+                                        <div class="col-md-6" id="listProducts" *ngIf="listValueProductForm[i] == 1">
+                                          <ng-multiselect-dropdown [placeholder]="'Chọn sản phẩm'"
+                                            [(ngModel)]="selectedItems[i]" [ngModelOptions]="{standalone: true}"
+                                            [settings]="dropdownSettings" [data]="listDropdownList[i]"
+                                            (onSelect)="onItemSelect(i, $event)" (onSelectAll)="onSelectAll(i, $event)"
+                                            (onDeSelect)="onItemDeSelect(i, $event)"
+                                            (onFilterChange)="onFilterChange(i, $event)"
+                                            formControlName="valueListProductControl"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueListProductControl'].touched && getFiltersFormGroup(i).controls['valueListProductControl'].hasError('required') ? 'error-border[_ngcontent-c12]' : ''">
+                                          </ng-multiselect-dropdown>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueListProductControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueListProductControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: SẢN PHẨM -->
+
+                                        <!-- GIÁ TRỊ: SỐ ĐIỂM HIỆN CÓ -->
+                                        <div class="col-md-2" *ngIf="listValuePointForm[i] == 1">
+                                          <input class="form-control w100" name="valuePoint"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valuePointControl'].touched && getFiltersFormGroup(i).controls['valuePointControl'].hasError('required') ? 'error-border' : ''"
+                                            formControlName="valuePointControl" (change)="changedValuePoint(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valuePointControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valuePointControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValuePointComboForm[i] == 1">
+                                          <input class="form-control w100" name="valuePointFirst"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valuePointFirstControl'].touched && getFiltersFormGroup(i).controls['valuePointFirstControl'].hasError('required') ? 'error-border' : ''"
+                                            formControlName="valuePointFirstControl"
+                                            (change)="changedValuePointFirst(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valuePointFirstControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valuePointFirstControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-2" *ngIf="listValuePointComboForm[i] == 1">
+                                          <input class="form-control w100" name="valuePointLast"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valuePointLastControl'].touched && getFiltersFormGroup(i).controls['valuePointLastControl'].hasError('required') ? 'error-border' : ''"
+                                            formControlName="valuePointLastControl"
+                                            (change)="changedValuePointLast(i, $event)">
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valuePointLastControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valuePointLastControl'].hasError('required')">{{
+                                                'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: SỐ ĐIỂM HIỆN CÓ -->
+
+                                        <!-- GIÁ TRỊ: NGÀY SINH NHẬT -->
+                                        <div class="col-md-2" *ngIf="listValueBirthDayForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueListBirthDayControl'].touched && getFiltersFormGroup(i).controls['valueListBirthDayControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedlistValueBirthDay(i, $event)"
+                                              name="valueListBirthDay" formControlName="valueListBirthDayControl">
+                                              <mat-option *ngFor="let option of listParentBirthDay[i]"
+                                                [value]="option.valueBirthDayId">
+                                                {{option.valueBirthDayName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueListBirthDayControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueListBirthDayControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: NGÀY SINH NHẬT -->
+
+                                        <!-- GIÁ TRỊ: NHÓM KHÁCH HÀNG -->
+                                        <div class="col-md-2" *ngIf="listValueCustomerGroupForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].touched && getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].hasError('required') ? 'error-border' : ''">
+                                            <mat-select (selectionChange)="changedlistValueCustomerGroup(i, $event)"
+                                              name="valueListCustomerGroup"
+                                              formControlName="valueListCustomerGroupControl">
+                                              <mat-option *ngFor="let option of listParentCustomerGroup[i]"
+                                                [value]="option.valueCustomerGroupId">
+                                                {{option.valueCustomerGroupName}}
+                                              </mat-option>
+                                            </mat-select>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: NHÓM KHÁCH HÀNG -->
+
+                                        <!-- GIÁ TRỊ: NGÀY TẠO KHÁCH HÀNG -->
+                                        <div class="col-md-2" *ngIf="listValueCreatedDateForm[i] == 1">
+                                          <mat-form-field class="form-control w100"
+                                            [ngClass]="getFiltersFormGroup(i).controls['valueCreatedDateControl'].touched && getFiltersFormGroup(i).controls['valueCreatedDateControl'].hasError('required') ? 'error-border' : ''">
+                                            <input matInput [matDatepicker]="pickerCreatedDate"
+                                              formControlName="valueCreatedDateControl"
+                                              (dateChange)="changedValueCreatedDate(i, $event)" readonly>
+                                            <mat-datepicker-toggle matSuffix [for]="pickerCreatedDate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerCreatedDate></mat-datepicker>
+                                          </mat-form-field>
+                                          <div class="md-errors-spacer"
+                                            [hidden]="getFiltersFormGroup(i).controls['valueCreatedDateControl'].untouched">
+                                            <mat-error
+                                              *ngIf="getFiltersFormGroup(i).controls['valueCreatedDateControl'].hasError('required')">
+                                              {{ 'lead.messages.required_field' | translate }}</mat-error>
+                                          </div>
+                                        </div>
+                                        <!-- END: GIÁ TRỊ: NGÀY TẠO KHÁCH HÀNG -->
+
+                                        <div class="col-md-1">
+                                          <button class="btn btn-danger" type="button" (click)="removeFilter(i)"> Xóa
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <!-- <div class="col-md-12" id="coverSendFilter">
+                                      <button id="sendFilter" color="primary" mat-raised-button (click)="sendFilters()">LỌC KHÁCH
+                                        HÀNG</button>
+                                    </div> -->
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Khuyến mãi" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12" style="text-align: right;">
+                      <button type="button" (click)="addPromotionMapping()" pTooltip="Thêm điều kiện" 
+                        tooltipPosition="top" [tooltipDisabled]="false" class="btn-plus">
+                        <i class="pi pi-plus icon-plus"></i>
+                      </button>
+                    </div>
+                    <div *ngIf="conditionsType == 1" class="col-md-12 mt-10">
+                      <p-table #myTable [columns]="cols1" [value]="listPromotionMapping" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }"
+                            >
+                              <span *ngSwitchCase="'indexOrder'"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'objectName'">
+                                <p-cellEditor *ngIf="propertyType == 1">
+                                  <ng-template pTemplate="input">
+                                      <p-dropdown [options]="listProduct" optionLabel="productCodeName" 
+                                        placeholder="Chọn sản phẩm" (keydown.enter)="$event.preventDefault()"
+                                        [autoDisplayFirst]="false"
+                                        filter="true" resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                                        [(ngModel)]="rowData.selectedHangKhuyenMai" [ngModelOptions]="{standalone: true}"
+                                        [style]="{'width':'100%'}"
+                                        (onChange)="changeHangKhuyenMai(rowData.indexOrder)"
+                                        appendTo="body">
+                                      </p-dropdown>
+                                  </ng-template>
+                                  <ng-template pTemplate="output">
+                                    {{rowData.selectedHangKhuyenMai?.productCodeName}}
+                                  </ng-template>
+                                </p-cellEditor>
+                                <span *ngIf="propertyType == 2">
+                                  Phiếu giảm giá
+                                </span>
+                              </span>
+                              <span *ngSwitchCase="'soLuongTang'">
+                                <input *ngIf="propertyType == 1" type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                                <input *ngIf="propertyType == 2" type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'giaTri'">
+                                <input type="text" class="number-input"
+                                  [(ngModel)]="rowData.giaTri" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeGiaTri(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'loaiGiaTri'">
+                                <button pButton (click)="changeLoaiGiaTri(rowData, false)" label="VNĐ"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': !rowData.loaiGiaTri}">
+                                </button>
+                                <button *ngIf="propertyType == 2" pButton (click)="changeLoaiGiaTri(rowData, true)" label="%"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': rowData.loaiGiaTri}" 
+                                  style="margin-left: 5px;">
+                                </button>
+                              </span>
+                              <span *ngSwitchCase="'actions'">
+                                <button pButton icon="pi pi-trash" (click)="deletePromotionMapping(rowData)"
+                                  class="ui-button-danger"></button>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <div *ngIf="conditionsType == 2 && propertyType == 1" class="col-md-12 mt-10">
+                      <p-table #myTable [columns]="cols3" [value]="listPromotionMapping" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }"
+                            >
+                              <span *ngSwitchCase="'indexOrder'"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'objectName'">
+                                <p-cellEditor>
+                                  <ng-template pTemplate="input">
+                                    <p-dropdown [options]="listProduct" optionLabel="productCodeName" 
+                                      placeholder="Chọn sản phẩm" (keydown.enter)="$event.preventDefault()"
+                                      [autoDisplayFirst]="false"
+                                      filter="true" resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                                      [(ngModel)]="rowData.selectedSanPhamMua" [ngModelOptions]="{standalone: true}"
+                                      [style]="{'width':'100%'}"
+                                      (onChange)="changeSanPhamMua(rowData.indexOrder)"
+                                      appendTo="body">
+                                    </p-dropdown>
+                                  </ng-template>
+                                  <ng-template pTemplate="output">
+                                    {{rowData.selectedSanPhamMua?.productCodeName}}
+                                  </ng-template>
+                                </p-cellEditor>
+                              </span>
+                              <span *ngSwitchCase="'soLuongMua'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongMua" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongMua(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'object'">
+                                <p-multiSelect [options]="listProduct" 
+                                  [(ngModel)]="rowData.selectedSanPhamGiamGia" [ngModelOptions]="{standalone: true}"
+                                  defaultLabel="Chọn sản phẩm" 
+                                  [virtualScroll]="true"  itemSize="30"
+                                  optionLabel="productCodeName" [style]="{'width': '100%'}" 
+                                  filter="true" [resetFilterOnHide]="true"
+                                  selectedItemsLabel="{0} sản phẩm được chọn"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  appendTo="body"
+                                  (onChange)="changeSanPhamGiamGia(rowData)">
+                                </p-multiSelect>
+                                <p-chips [(ngModel)]="rowData.selectedChips" [ngModelOptions]="{standalone: true}"
+                                  (onAdd)="changeSanPhamGiamGia(rowData)"
+                                  (onRemove)="removeChip(rowData, $event)"
+                                  [inputStyle]="{'width': '100%'}">
+                                </p-chips>
+                              </span>
+                              <span *ngSwitchCase="'soLuongTang'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'chiChonMot'">
+                                <p-checkbox [(ngModel)]="rowData.chiChonMot" [ngModelOptions]="{standalone: true}"
+                                  [binary]="true">
+                                </p-checkbox>
+                              </span>
+                              <span *ngSwitchCase="'giaTri'">
+                                <input type="text" class="number-input"
+                                  [(ngModel)]="rowData.giaTri" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeGiaTri(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'loaiGiaTri'">
+                                <button pButton (click)="changeLoaiGiaTri(rowData, false)" label="VNĐ"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': !rowData.loaiGiaTri}">
+                                </button>
+                                <button pButton (click)="changeLoaiGiaTri(rowData, true)" label="%"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': rowData.loaiGiaTri}" 
+                                  style="margin-left: 5px;">
+                                </button>
+                              </span>
+                              <span *ngSwitchCase="'actions'">
+                                <button pButton icon="pi pi-trash" (click)="deletePromotionMapping(rowData)"
+                                  class="ui-button-danger"></button>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <div *ngIf="conditionsType == 2 && propertyType == 2" class="col-md-12 mt-10">
+                      <p-table #myTable [columns]="cols4" [value]="listPromotionMapping" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }"
+                            >
+                              <span *ngSwitchCase="'indexOrder'"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'objectName'">
+                                <p-cellEditor>
+                                  <ng-template pTemplate="input">
+                                    <p-dropdown [options]="listProduct" optionLabel="productCodeName" 
+                                      placeholder="Chọn sản phẩm" (keydown.enter)="$event.preventDefault()"
+                                      [autoDisplayFirst]="false"
+                                      filter="true" resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                                      [(ngModel)]="rowData.selectedSanPhamMua" [ngModelOptions]="{standalone: true}"
+                                      [style]="{'width':'100%'}"
+                                      (onChange)="changeSanPhamMua(rowData.indexOrder)"
+                                      appendTo="body">
+                                    </p-dropdown>
+                                  </ng-template>
+                                  <ng-template pTemplate="output">
+                                    {{rowData.selectedSanPhamMua?.productCodeName}}
+                                  </ng-template>
+                                </p-cellEditor>
+                              </span>
+                              <span *ngSwitchCase="'soLuongMua'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongMua" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongMua(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'object'">
+                                <p-multiSelect [options]="listProduct" 
+                                  [(ngModel)]="rowData.selectedSanPhamTang" [ngModelOptions]="{standalone: true}"
+                                  defaultLabel="Chọn sản phẩm" 
+                                  [virtualScroll]="true"  itemSize="30"
+                                  optionLabel="productCodeName" [style]="{'width': '100%'}" 
+                                  filter="true" [resetFilterOnHide]="true"
+                                  selectedItemsLabel="{0} sản phẩm được chọn"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  appendTo="body"
+                                  (onChange)="changeSanPhamTang(rowData)">
+                                </p-multiSelect>
+                                <p-chips [(ngModel)]="rowData.selectedChips" [ngModelOptions]="{standalone: true}"
+                                  (onAdd)="changeSanPhamTang(rowData)"
+                                  (onRemove)="removeChipSanPhamTang(rowData, $event)"
+                                  [inputStyle]="{'width': '100%'}">
+                                </p-chips>
+                              </span>
+                              <span *ngSwitchCase="'soLuongTang'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'chiChonMot'">
+                                <p-checkbox [(ngModel)]="rowData.chiChonMot" [ngModelOptions]="{standalone: true}"
+                                  [binary]="true">
+                                </p-checkbox>
+                              </span>
+                              <span *ngSwitchCase="'actions'">
+                                <button pButton icon="pi pi-trash" (click)="deletePromotionMapping(rowData)"
+                                  class="ui-button-danger"></button>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <div *ngIf="conditionsType == 2 && propertyType == 3" class="col-md-12 mt-10">
+                      <p-table #myTable [columns]="cols5" [value]="listPromotionMapping" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }"
+                            >
+                              <span *ngSwitchCase="'indexOrder'"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'objectName'">
+                                <p-cellEditor>
+                                  <ng-template pTemplate="input">
+                                    <p-dropdown [options]="listProduct" optionLabel="productCodeName" 
+                                      placeholder="Chọn sản phẩm" (keydown.enter)="$event.preventDefault()"
+                                      [autoDisplayFirst]="false"
+                                      filter="true" resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                                      [(ngModel)]="rowData.selectedSanPhamMua" [ngModelOptions]="{standalone: true}"
+                                      [style]="{'width':'100%'}"
+                                      (onChange)="changeSanPhamMua(rowData.indexOrder)"
+                                      appendTo="body">
+                                    </p-dropdown>
+                                  </ng-template>
+                                  <ng-template pTemplate="output">
+                                    {{rowData.selectedSanPhamMua?.productCodeName}}
+                                  </ng-template>
+                                </p-cellEditor>
+                              </span>
+                              <span *ngSwitchCase="'soLuongMua'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongMua" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongMua(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'object'">
+                                Phiếu giảm giá
+                              </span>
+                              <span *ngSwitchCase="'soLuongTang'">
+                                <input type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'giaTri'">
+                                <input type="text" class="number-input"
+                                  [(ngModel)]="rowData.giaTri" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeGiaTri(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'loaiGiaTri'">
+                                <button pButton (click)="changeLoaiGiaTri(rowData, false)" label="VNĐ"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': !rowData.loaiGiaTri}">
+                                </button>
+                                <button pButton (click)="changeLoaiGiaTri(rowData, true)" label="%"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': rowData.loaiGiaTri}" 
+                                  style="margin-left: 5px;">
+                                </button>
+                              </span>
+                              <span *ngSwitchCase="'actions'">
+                                <button pButton icon="pi pi-trash" (click)="deletePromotionMapping(rowData)"
+                                  class="ui-button-danger"></button>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+
+                    <div *ngIf="conditionsType == 3" class="col-md-12 mt-10">
+                      <p-table #myTable [columns]="cols2" [value]="listPromotionMapping" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }"
+                            >
+                              <span *ngSwitchCase="'indexOrder'"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'soTienTu'">
+                                <input type="text" class="number-input"
+                                  [(ngModel)]="rowData.soTienTu" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoTienTu(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'objectName'">
+                                <p-cellEditor *ngIf="propertyType == 1">
+                                  <ng-template pTemplate="input">
+                                      <p-dropdown [options]="listProduct" optionLabel="productCodeName" 
+                                        placeholder="Chọn sản phẩm" (keydown.enter)="$event.preventDefault()"
+                                        [autoDisplayFirst]="false"
+                                        filter="true" resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                                        [(ngModel)]="rowData.selectedHangKhuyenMai" [ngModelOptions]="{standalone: true}"
+                                        [style]="{'width':'100%'}"
+                                        (onChange)="changeHangKhuyenMai(rowData.indexOrder)"
+                                        appendTo="body">
+                                      </p-dropdown>
+                                  </ng-template>
+                                  <ng-template pTemplate="output">
+                                    {{rowData.selectedHangKhuyenMai?.productCodeName}}
+                                  </ng-template>
+                                </p-cellEditor>
+                                <span *ngIf="propertyType == 2">
+                                  Phiếu giảm giá
+                                </span>
+                              </span>
+                              <span *ngSwitchCase="'soLuongTang'">
+                                <input *ngIf="propertyType == 1" type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                                <input *ngIf="propertyType == 2" type="text" class="number-input" 
+                                  [(ngModel)]="rowData.soLuongTang" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeSoLuongTang(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'giaTri'">
+                                <input type="text" class="number-input"
+                                  [(ngModel)]="rowData.giaTri" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeGiaTri(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'loaiGiaTri'">
+                                <button pButton (click)="changeLoaiGiaTri(rowData, false)" label="VNĐ"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': !rowData.loaiGiaTri}">
+                                </button>
+                                <button *ngIf="propertyType == 2" pButton (click)="changeLoaiGiaTri(rowData, true)" label="%"
+                                  class="btn-default"
+                                  [ngClass]="{'btn-active': rowData.loaiGiaTri}" 
+                                  style="margin-left: 5px;">
+                                </button>
+                              </span>
+                              <span *ngSwitchCase="'actions'">
+                                <button pButton icon="pi pi-trash" (click)="deletePromotionMapping(rowData)"
+                                  class="ui-button-danger"></button>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Tài liệu đính kèm" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12" style="text-align: right;">
+                      <span (click)="openAddLinkDialog()" style="margin-right: 5px; cursor: pointer;">
+                        <span>
+                          <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                        </span>
+                        <span class="link">
+                          Thêm liên kết
+                        </span>
+                      </span>
+                      <span (click)="openAddFileDialog()" style="cursor: pointer;">
+                        <span>
+                          <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                        </span>
+                        <span class="link">
+                          Thêm tệp
+                        </span>
+                      </span>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <p-table [columns]="colsDocument" [value]="listDocument" [responsive]="true" [paginator]="true"
+                        [rows]="5" [resizableColumns]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                              {{col.header}}
+                            </th>
+                            <th style="width:4em"></th>
+                            <th style="width:4em"></th>
+                          </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{'text-align': col.textAlign}">
+                              <span *ngSwitchCase="'size'">
+                                <ng-container *ngIf="convertFileSize(rowData[col.field])">
+                                  {{rowData[col.field] / 1024 | number}} KB
+                                </ng-container>
+                                <ng-container *ngIf="!convertFileSize(rowData[col.field])">
+                                </ng-container>
+                              </span>
+                              <span *ngSwitchCase="'createdDate'">
+                                {{rowData[col.field] | date:'dd/MM/yyyy h:mm a'}}
+                              </span>
+                              <span *ngSwitchCase="'name'" [ngClass]="{'link': !rowData['type']}"
+                                (click)="openLink(rowData)">
+                                {{rowData[col.field]}}
+                              </span>
+                              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                            </td>
+                            <td>
+                              <button pButton icon="pi pi-trash" (click)="deleteDocument(rowData)"
+                                class="ui-button-danger"></button>
+                            </td>
+                            <td>
+                              <button pButton icon="pi pi-download"
+                                (click)="downloadDocument(rowData)"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Danh sách đơn hàng" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Ghi chú" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"
+                        [ngModelOptions]="{standalone: true}">
+                      </p-editor>
+                    </div>
+                    <div class="col-md-12" style="text-align: right; margin-top: 5px;">
+                      <button type="button" class="btn-save-note" (click)="saveNote()">
+                        <span class="save-note-lable">Thêm ghi chú</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Dòng thời gian" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <ul class="timeline">
+                          <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                            <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                            <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                            <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                            <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                            <div class="timeline-item" id="{{note.noteId}}">
+                              <h3 class="timeline-header">
+                                <span>
+                                  <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                                    (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                                    pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                                  <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                                </span>
+                                <div>
+                                  <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                                    class="timeline-user-avatar" />
+                                </div>
+                                <span class="note-user">{{note.responsibleName}}</span>
+  
+                                <p class="time-note">
+                                  {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' |
+                                  translate }}
+                                  {{note.createdDate | date:'dd/MM/yyyy'}}
+                                </p>
+                              </h3>
+                              <div class="timeline-body">
+                                <div class="note-content">
+                                  <span class="short-content" style="word-wrap: break-word;"></span>
+                                  <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                                </div>
+  
+                                <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                                  style="padding: 0 12px; margin-bottom: 20px !important">
+                                  <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                                    class="col-md-4 short-content-file" style="padding: 5px 0">
+                                    <div class="row no-margin file-item"
+                                      style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                      <div class="col-md-1">
+                                        <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                      </div>
+                                      <div class="col-md-11">
+                                        <div class="item-name" pTooltip="{{ item.documentName }}"
+                                          tooltipPosition="bottom">
+                                          <span>
+                                            <a class="preview-doc">
+                                              {{ item.documentName }}
+                                            </a>
+                                          </span>
+                                        </div>
+                                        <div style="font-size: 10px; padding: 0 !important">
+                                          {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div *ngFor="let item of note.noteDocList;let i=index"
+                                    class="col-md-4 full-content-file" style="display: none;padding: 5px 0">
+                                    <div class="row no-margin file-item"
+                                      style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                      <div class="col-md-1">
+                                        <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                      </div>
+                                      <div class="col-md-11">
+                                        <div class="item-name" pTooltip="{{ item.documentName }}"
+                                          tooltipPosition="bottom">
+                                          <span>
+                                            <a class="preview-doc">
+                                              {{ item.documentName }}
+                                            </a>
+                                          </span>
+                                        </div>
+                                        <div style="font-size: 10px; padding: 0 !important">
+                                          {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-dialog header="Đính kèm liên kết" [(visible)]="displayAttachLink" [style]="{width: '25vw'}" [baseZIndex]="10000">
+    <div class="row no-margin">
+      <form [formGroup]="createLinkForm">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Tên liên kết</span>
+          </div>
+          <div class="col-md-12">
+            <input formControlName="linkNameControl"
+              [ngClass]="(linkNameControl.invalid && (linkNameControl.dirty || linkNameControl.touched)) ? 'error-border' : ''"
+              type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()" />
+          </div>
+          <div class="col-md-12"
+            [hidden]="linkNameControl.valid || linkNameControl.untouched">
+            <span *ngIf="linkNameControl.hasError('required')" class="error-message-span">Nhập tên liên
+              kết</span>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Địa chỉ liên kết</span>
+          </div>
+          <div class="col-md-12">
+            <input formControlName="linkValueControl"
+              [ngClass]="(linkValueControl.invalid && (linkValueControl.dirty || linkValueControl.touched)) ? 'error-border' : ''"
+              type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()" />
+          </div>
+          <div class="col-md-12" [hidden]="linkValueControl.valid || linkValueControl.untouched">
+            <span *ngIf="linkValueControl.hasError('required')" class="error-message-span">Nhập địa chỉ liên
+              kết</span>
+          </div>
+        </div>
+      </form>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="closeAddLinkDialog()" label="Hủy bỏ"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="addLinkToTable()" label="Đính kèm"></button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Đính kèm tệp" [(visible)]="displayAttachFile" [style]="{width: '50vw'}" [baseZIndex]="10000">
+    <div class="attach-file-dialog">
+      <div class="col-md-12">
+        <div class="col-md-12 mt-5">
+          <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+            accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt" maxFileSize="defaultLimitedFileSize"
+            invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+            invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+            invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+            invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}." chooseLabel="Chọn file"
+            cancelLabel="Hủy toàn bộ file" (onSelect)="handleFile($event, fileUpload)" (onRemove)="removeFile($event)"
+            (onClear)="clearAllFile()">
+          </p-fileUpload>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-times" (click)="closeAddFileDialog()" label="Hủy bỏ"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="addFileToTable()" label="Đính kèm"></button>
+    </p-footer>
+  </p-dialog>
+</div>

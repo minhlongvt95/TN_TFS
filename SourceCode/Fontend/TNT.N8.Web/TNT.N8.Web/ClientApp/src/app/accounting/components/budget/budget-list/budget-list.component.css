@@ -1,0 +1,108 @@
+.budget-list-content {
+    background-color: #fff;
+   
+    padding: 20px;
+  }
+.main-button-row {
+    text-align: right;
+}
+
+
+.filter-budget, .table-list {
+	float: left;
+	width: 100%;
+	margin: 0 0 15px 0;
+	padding: 15px 10px;
+}
+.no-padding-left{
+    padding-left: 0px;
+}
+.search-label{
+    padding-top: 20px;
+    text-align: left;
+}
+
+.header-label{
+    font-size: 24px ; 
+    font-family: 'Times New Roman', Times, serif;
+}
+.padding-bottom-20{
+    padding-bottom : 20px;
+}
+.table-content{
+    padding-top:160px;
+}
+
+  
+.search-input{
+    text-align: right;
+}
+.btn-search {
+    float: right;
+    min-width: 30px;
+    height: 30px;
+    background-color: #6D98E7;
+    color: #fff;
+    border: 0;
+    cursor: pointer;
+  }
+.control-label {
+    margin-bottom: 5px;
+  }
+.refresh-icon {
+    font-size: 16px;
+    position: relative;
+    left: 15px;
+    bottom: 5px;
+    float: right;
+    cursor: pointer;
+  }
+.fa-sort {
+    color: rgb(97, 97, 97);
+    padding-left: 10px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+
+.noneOption{
+	background-color : lightgray;
+}
+/* .min-width-200{
+    min-width: 200px;
+    padding-left: 10px;
+}
+.max-width-100{
+    max-width: 100px;
+    padding-left: 10px
+} */
+.list-content {
+	/*float: left;*/
+	width: 100%;
+	padding: 0 15px;
+}
+.bg-white {
+	background: #fff;
+}
+.shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.list-content .filter-employee, .list-content  {
+	float: left;
+	width: 100%;
+	margin: 0 0 15px 0;
+	padding: 15px 10px;
+}
+.list-content .button-action {
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+.list-content .button-action h4 {
+	margin-top: .5rem;
+	margin-bottom: 0;
+	display: inline-block;
+}
+.link{
+	cursor: pointer;
+}

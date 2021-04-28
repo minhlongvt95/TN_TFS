@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body {
+            font-size: 14px;
+            padding: 30px;
+        }
+
+        .auto-style1 {
+            width: 70%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tableList {
+            border: none;
+            padding-left: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+        <table style="border: none !important" cellspacing="0" cellpadding="4">
+            <tr >
+                <td style="border-style: none;padding-bottom : 30px "><img src=[pathlogo] width="140" height="53" style="border-style: none; " /> </td>
+                
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Kính gửi :  &nbsp; <span style="font-weight: bold">[vendor]</span> </td>
+                
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Trung tâm anh ngữ quốc tế Ispeaking gửi đặt hàng đơn hàng số  : </td>
+                <td style="border-style: none; font-weight : bold ">[ordercode]</td>
+            </tr>
+        </table>
+        <table style="margin-top:10px;height:50px;border: none !important" cellspacing="0" cellpadding="4">
+            <tr>
+                <td style="border-style: none; font-weight: bold; font-size: 16px">THÔNG TIN CHI TIẾT:</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Người nhận :  </td>
+                <td style="border-style: none; font-weight: bold ">[receiver]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Số điện thoại :  </td>
+                <td style="border-style: none; font-weight: bold ">[phoneNumber]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Địa chỉ nhận hàng :  </td>
+                <td style="border-style: none; font-weight: bold ">[Address]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Ngày giờ nhận :  </td>
+                <td style="border-style: none; font-weight: bold ">[receiveDate]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; ">Ghi chú :   </td>
+                <td style="border-style: none; font-weight: bold ">Gọi điện trước khi đến</td>
+            </tr>
+        </table>
+
+        <table style="width: 100%; margin-top:9px;" cellspacing="0" cellpadding="4">
+            <tr>
+                <th>STT</th>
+                <th>Tên hàng hóa, dịch vụ</th>
+                <th>ĐVT</th>
+                <th>
+                    Số
+                    <br />
+                    lượng
+                </th>
+                <th>Đơn giá</th>
+                <th>Thành tiền (VND)</th>
+            </tr>
+            <tr>
+                <td style="text-align: center">(1)</td>
+                <td style="text-align: center">(2)</td>
+                <td style="text-align: center">(3)</td>
+                <td style="text-align: center">(4)</td>
+                <td style="text-align: center">(5)</td>
+                <td style="text-align: center">(6)=(4)x(5)</td>
+            </tr>
+            [TableContent]
+            
+        </table>
+
+       
+        <table style="margin-top: 1px ; border: none !important" cellspacing="0" cellpadding="0">
+            <td style="border-style: none; ">Tổng tiền (VNĐ) : </td>
+            <td style="border-style: none; ">[Ammount]</td>
+        </table>
+        <h3>Trân trọng</h3>
+        <label style="font-weight: bold">Đây là email tự động vui lòng không trả lời email này</label>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<div class="masterdata-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;" [formGroup]="masterDataForm">
+    <div class="row no-margin">
+      <label>Mã dữ liệu: <span class="required">*</span></label>
+      <div>
+        <input type="text" id="formMasterDataCode" class="form-control" name="formMasterDataCode"
+          formControlName="formMasterDataCode"
+          [ngClass]="!formMasterDataCode.valid && !formMasterDataCode.untouched ? 'error-border' : ''"
+        >
+        <div class="md-errors-spacer" [hidden]="formMasterDataCode.valid || formMasterDataCode.untouched">
+          <p *ngIf="formMasterDataCode.hasError('required')"
+            class="error-message-span">{{ 'lead.messages.required_field' | translate }}
+          </p>
+          <p *ngIf="formMasterDataCode.hasError('pattern')"
+            class="error-message-span">Chỉ được nhập số và ký tự không dấu
+          </p>
+          <p *ngIf="formMasterDataCode.errors?.maxlength"
+            class="error-message-span">Tối đa 10 ký tự
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-margin">
+      <label>Tên dữ liệu: <span class="required">*</span></label>
+      <div>
+        <input type="text" id="formMasterDataName" class="form-control" name="formMasterDataName"
+          formControlName="formMasterDataName"
+          [ngClass]="!formMasterDataName.valid && !formMasterDataName.untouched ? 'error-border' : ''"
+          maxlength="255">
+        <div class="md-errors-spacer" [hidden]="formMasterDataName.valid || formMasterDataName.untouched">
+          <p *ngIf="formMasterDataName.hasError('required')"
+            class="error-message-span">{{ 'lead.messages.required_field' | translate }}
+          </p>
+          <p *ngIf="formMasterDataName.errors?.maxlength"
+            class="error-message-span">Tối đa 600 ký tự
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row no-margin">
+      <label>Kiểu dữ liệu: {{dialogData.selectedCategoryType}}</label>
+    </div>
+    <div class="row masterdata-dialog-buttons no-margin">
+      <button pButton type="button" class="ui-button ui-button-raised" style="margin-right: 2%;"
+        (click)="onCancelClick()" label="HỦY"></button>
+      <button pButton type="button" class="ui-button ui-button-raised" (click)="onSaveClick()" label="LƯU"></button>
+    </div>
+  </form>
+</div>

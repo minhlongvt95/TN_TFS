@@ -1,0 +1,68 @@
+.budget-content .row {
+    font-family: 'Open Sans', sans-serif;
+    padding: 5px 10px;
+  }
+  
+  .budget-content .no-margin {
+    margin: 0 !important;
+  }
+  
+  .budget-content .budget-dialog-title {
+    background-color: #6D98E7;
+    color: #fff;
+    font-weight: bold;
+    margin: -24px -24px 0 -24px !important;
+    padding: 20px;
+  }
+  
+  .form-control {
+    border-radius: 0.25em;
+  }
+  
+  .required {
+    color: red;
+  }
+  
+  .error-border, .error-border:focus {
+    border-color: #f44336;
+  }
+  
+  .error-border:focus {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+  }
+  
+  .budget-content .budget-dialog-buttons {
+    text-align: right;
+  }
+  
+  .budget-content .btn-cancel, .budget-content .btn-ok {
+    background-color: #fff;
+  }
+  
+  .budget-content .btn-ok {
+    color: #6D98E7;
+  }
+  
+  .budget-content .btn-ok:hover,
+  .budget-content .btn-ok:focus,
+  .budget-content .btn-cancel:hover,
+  .budget-content .btn-cancel:focus {
+    color: #fff;
+    background-color: #6D98E7
+  }
+  .btn{
+    width: 100px;
+  }
+.search-label{
+  padding-top: 15px;
+}
+.example-month-picker .mat-calendar-period-button {
+  pointer-events: none;
+}
+
+.example-month-picker .mat-calendar-arrow {
+  display: none;
+}
+.padding-top-20{
+  padding-top: 20px ;
+}

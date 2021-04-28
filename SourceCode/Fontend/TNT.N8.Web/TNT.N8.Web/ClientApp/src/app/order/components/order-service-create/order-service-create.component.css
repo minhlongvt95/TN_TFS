@@ -1,0 +1,257 @@
+.order-service-create .are-group {
+  font-weight: bold;
+  font-size: 15px;
+  color: blue;
+  margin-left: 5px;
+  margin-top: 10px;
+}
+
+.order-service-create .box-area {
+  width: 95px;
+  height: 80px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5%;
+  background-color: #ffffff;
+}
+
+.order-service-create .box-area .title {
+  text-align: center;
+  padding: 5px 0px;
+  border-bottom: solid 1px #cccccc;
+}
+
+.order-service-create .box-area .body {
+  text-align: center;
+  height: 50px;
+}
+
+.order-service-create .box-area .body .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.order-service-create .header-product {
+  width: 100%;
+  height: 35px;
+  padding: 0 5px;
+  text-align: center;
+  background-color: #ce4545;
+  color: #ffffff;
+}
+
+.order-service-create .header-product .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0 5px;
+}
+
+.order-service-create .header-product .icon-left {
+  float: left;
+}
+
+.order-service-create .header-product .title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.order-service-create .header-product .icon-search {
+  margin-left: 15px;
+}
+
+.order-service-create .header-product .icon-check {
+  float: right;
+}
+
+.order-service-create .category {
+  height: 50px;
+  border: 1px solid #ccc;
+  text-align: center;
+  background-color: #ffffff;
+  color: #ce4545;
+}
+
+.order-service-create .active {
+  background-color: #ce4545 !important;
+  color: #ffffff !important;
+}
+
+.order-service-create .using {
+  background-color: #bdbdbd !important;
+  color: #ffffff !important;
+}
+
+.order-service-create .mt-10 {
+  margin-top: 10px;
+}
+
+.order-service-create .product {
+  border: 1px solid #cccccc;
+  margin: 10px 5px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #ffffff;
+}
+
+.order-service-create .product .title {
+  font-weight: bold;
+}
+
+.order-service-create .product .price {
+  font-weight: bold;
+  font-style: italic;
+}
+
+.order-service-create .product .unit {
+  color: #ce4545;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.order-service-create .product .quantity {
+  height: 35px;
+  font-weight: bold;
+}
+
+.order-service-create .product .quantity .center {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.order-service-create .header-menu {
+  text-align: center;
+  height: 35px;
+  background-color: #ffffff;
+  color: #ce4545;
+  border-bottom: 1px solid #cccccc;
+}
+
+.order-service-create .header-menu .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.order-service-create .total {
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  padding: 10px;
+  color: #264280;
+  background-color: #ffffff;
+}
+
+.order-service-create .total .title {
+  float: left;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.order-service-create .total .price {
+  float: right;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.order-service-create .send-action {
+  border-bottom: 1px solid #cccccc;
+  color: #264280;
+  position: relative;
+  height: 40px;
+}
+
+.order-service-create .send-action .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.order-service-create .choice-local-point {
+  border: solid 1px #cccccc;
+  width: 150px;
+  background-color: #ce4545;
+  height: 34px;
+  color: #ffffff;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.order-service-create .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.order-service-create .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.minus-quantity {
+  position: relative;
+  text-align: center;
+  height: 30px;
+  border: solid 1px #cccccc;
+  width: 30px;
+  background-color: #ce4545;
+  color: #ffffff;
+}
+
+.minus-quantity .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.plus-quantity {
+  position: relative;
+  text-align: center;
+  height: 30px;
+  border: solid 1px #cccccc;
+  width: 30px;
+  background-color: #269844;
+  color: #ffffff
+}
+
+.plus-quantity .center {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Iphone 6/7/8/X */
+@media only screen and (max-width: 375px) {
+  .order-service-create .box-area {
+    width: 85px;
+  }
+}
+
+/* Iphone 5/SE */
+@media only screen and (max-width: 320px) {
+  .order-service-create .box-area {
+    width: 70px;
+    font-size: 12px;
+  }
+}

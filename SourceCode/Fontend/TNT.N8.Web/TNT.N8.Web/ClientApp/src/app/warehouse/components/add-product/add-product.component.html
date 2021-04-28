@@ -1,0 +1,223 @@
+
+<div id="popup-content">
+  <div class="row">
+    <div class="form-group col-md-4 top-15">
+      <p-multiSelect [options]="listProductCategory"
+                     [(ngModel)]="selectedProductCategory"
+                     (onPanelHide)="closePanelProductCategory()" defaultLabel="Chọn nhóm sản phẩm dịch vụ"
+                     styleClass="cusPmultiSelect" optionLabel="productCategoryName"></p-multiSelect>
+    </div>
+    <div class="col-md-7 top-15" style="padding-left:0px">
+      <!--<p-multiSelect [options]="listProductNameCode"
+                 [(ngModel)]="selectedProductName"
+                 (onPanelHide)="closePanelProductName()"
+                 defaultLabel="Nhập mã hoặc tên sản phẩm dịch vụ"
+                 optionLabel="productName"></p-multiSelect>-->
+      <p-autoComplete [(ngModel)]="selectedProductName" [suggestions]="listProductNameCode"
+                      (completeMethod)="filterProductNameMultiple($event)"
+                      dropdownIcon="pi-search-plus"
+                      (onUnselect)="onUnselect($event)"
+                      (onSelect)="onSelect($event)"
+                      [minLength]="1" placeholder="Nhập mã hoặc tên sản phẩm dịch vụ" field="productName" [multiple]="true">
+      </p-autoComplete>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">Danh sách sản phẩm</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [columns]="cols" [value]="listVendorOrderProduct" dataKey="productId"
+               [resizableColumns]="true" [scrollable]="true" scrollHeight="335px" [style]="{width:'100%'}">
+        <ng-template pTemplate="colgroup" let-columns>
+          <colgroup>
+            <col *ngFor="let col of columns" style="width:100px">
+          </colgroup>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns"
+                [pSortableColumn]="col.field == 'orderDate' ? 'orderDate' : null"
+                pResizableColumn
+                [ngStyle]="{'width': col.width,'text-align': col.textAlign}"
+                [ngSwitch]="col.field">
+              <span *ngSwitchCase="'box'">
+                <i class="pi pi-trash" style="cursor:pointer" (click)="clearAllData(rowData)"> </i>
+              </span>
+              <span *ngSwitchDefault>
+                {{col.header}}
+              </span>
+            </th>
+            <!--<th style="width:4em">XXX</th>-->
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns"
+                class="ui-resizable-column"
+                pEditableColumn
+                [ngSwitch]="col.field"
+                [ngStyle]="{'width': col.width, 'text-align': col.textAlign, 'color': rowData.error == true ? col.color : '','overflow':'inherit'}">
+
+              <span *ngSwitchCase="'unitName'">
+                {{rowData['unitName'] }}
+              </span>
+
+              <span *ngSwitchCase="'nameMoneyUnit'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="unitmoney"
+                                (onChange)="changeCurrency($event,rowData)"
+                                placeholder="Lựa chọn"
+                                optionLabel="categoryName"
+                                [style]="{'width':'80%'}"></p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData['nameMoneyUnit']}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchCase="'exchangeRate'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input *ngIf="rowData.nameMoneyUnit!='VND'" type="text" class="number-input" [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                           [(ngModel)]="rowData.exchangeRate" [ngModelOptions]="{standalone: true}"
+                           (change)="sumTotal(rowData)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData['exchangeRate'] | number}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchCase="'vat'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" class="number-input" [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                           [(ngModel)]="rowData.vat" [ngModelOptions]="{standalone: true}"
+                           (change)="sumTotal(rowData)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData['vat'] | number}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchCase="'discountValueType'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="DiscountTypeList"
+                                (onChange)="changediscountValueType($event,rowData)"
+                                optionLabel="name"></p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.discountType==true?'Theo %':'Số tiền'}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchCase="'box'">
+                <i class="pi pi-trash" style="cursor:pointer" (click)="cancelRow(rowData)"> </i>
+              </span>
+
+              <span *ngSwitchCase="'discountValue'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" class="number-input" [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                           [(ngModel)]="rowData.discountValue" [ngModelOptions]="{standalone: true}"
+                           (change)="sumTotal(rowData)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData['discountValue'] }}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchCase="'price'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" class="number-input" [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                           [(ngModel)]="rowData.price" [ngModelOptions]="{standalone: true}"
+                           (change)="sumTotal(rowData)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData[col.field]}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchCase="'sumAmount'">
+                {{rowData[col.field] | number:0}}
+              </span>
+              <span *ngSwitchCase="'note'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" (change)="checklengthNote(rowData)"
+                           [(ngModel)]="rowData.note" [ngModelOptions]="{standalone: true}">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.note}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchCase="'quantityRequire'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" class="number-input" [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                           [(ngModel)]="rowData.quantityRequire" [ngModelOptions]="{standalone: true}"
+                           (change)="sumTotal(rowData)">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.quantityRequire}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchCase="'totalSerial'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <button pButton type="button" (click)="showCreateSerial(rowData)" label="Nhập serial" class="ui-button-info"></button>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData[col.field]}}/{{rowData['quantityRequire']}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchCase="'wareHouseId'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <a (click)="showTreeWarehouse(rowData)">Chọn kho</a>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData['wareHouseName']}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+
+              <span *ngSwitchDefault>
+                {{rowData[col.field]}}
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12" style="text-align:right;height:47px">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">Hủy</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">Lưu</button>
+    </div>
+  </div>
+
+</div>
+<p-confirmDialog [style]="{width: '20vw'}" acceptLabel="Đồng ý" rejectLabel="Đóng"></p-confirmDialog>
+
+<!--<div style="margin-left:auto;margin-right:auto">
+  <p-dialog header="Thông báo" [(visible)]="displayDialog" [style]="{width: '30vw',left:'none !important'}" [baseZIndex]="10001">
+    Số serial nhập chỉ được nhỏ hơn hoặc bằng số lượng nhập
+  </p-dialog>
+
+</div>-->

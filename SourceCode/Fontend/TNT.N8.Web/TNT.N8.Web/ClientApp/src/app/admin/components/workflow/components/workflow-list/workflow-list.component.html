@@ -1,0 +1,134 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<div class="employeesalary-list">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="head w100 bg-white shadow">
+				<div class="col-md-6">
+					<span style="font-size: 24px">Danh sách quy trình làm việc</span>
+				</div>
+				<div class="col-md-6 main-button-row">
+					<button class="btn-create-emp" *ngIf="actionAdd" mat-raised-button tabindex="0" (click)="goToCreate()">Tạo mới</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<!--Left content-->
+		<div class="col-md-3">
+			<div class="panel panel-default shadow">
+				<div class="panel-heading">
+					<span class="" style="font-size: 20px;margin-top: 15px">{{ 'employeesalary.list.search' | translate }}</span>
+					<span class="">
+						<button (click)="refreshParameter()" 
+						matTooltip="{{ 'employeesalary.tooltip.refresh' | translate }}"
+						class="btn-search"><i class="material-icons refresh-icon">
+							cached
+						</i>
+					</button>
+					<button style="margin-right: 10px" (click)="searchWorkflow()" 
+					matTooltip="{{ 'employeesalary.tooltip.search' | translate }}" 
+					class="btn-search"><i class="fa fa-search"></i>
+				</button>
+			</span>
+		</div>
+		<div class="panel-body form-horizontal">
+			<div class="form-group">
+				<div class="col-md-12">
+					<mat-form-field class="w100">
+						<input type="text" matInput name="Name" placeholder="Tên quy trình" [(ngModel)]="workflowName"/>
+					</mat-form-field>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-12">
+					<mat-form-field class="w100">
+						<mat-chip-list #serviceLevelList>
+							<mat-chip *ngFor="let item of selectedServiceLevel" [selectable]="selectable" [removable]="removable"
+							(removed)="removeServiceLevel(item)" [value]="item.systemFeatureId">
+							{{item.systemFeatureName}}
+							<i class="material-icons" matChipRemove *ngIf="removable">clear</i>
+						</mat-chip>
+						<input #serviceLevelInput 
+						[formControl]="serviceLevelCtrl" 
+						[matAutocomplete]="autoServiceLevel"
+						[matChipInputFor]="serviceLevelList" 
+						[matChipInputAddOnBlur]="addOnBlur" 
+						(matChipInputTokenEnd)="addServiceLevel($event)"
+						multiple name="ServiceLevel" 
+						placeholder="Tính năng áp dụng">
+					</mat-chip-list>
+					<mat-autocomplete name="autoNameServiceLevel" #autoServiceLevel="matAutocomplete" (optionSelected)="selectedServiceLevelFn($event)">
+						<mat-option *ngFor="let item of filteredServiceLevel | async" [value]="item">
+							{{item.systemFeatureName}}
+						</mat-option>
+					</mat-autocomplete>
+				</mat-form-field>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<!--Right content-->
+<div class="col-md-9">
+	<div class="row">
+		<div class="form-group col-md-12" style="overflow: auto !important;">
+			<div class="example-container mat-elevation-z8"  style="overflow: auto !important;">
+				<mat-table #table [dataSource]="dataSource" id="employee-table">
+					<ng-container matColumnDef="select" >
+						<mat-header-cell *matHeaderCellDef>
+							<mat-checkbox (change)="$event ? masterToggle() : null"
+							[checked]="selection?.hasValue() && isAllSelected()"
+							[indeterminate]="selection?.hasValue() && !isAllSelected()">
+						</mat-checkbox>
+					</mat-header-cell>
+					<mat-cell *matCellDef="let rows">
+						<mat-checkbox (click)="$event.stopPropagation()"
+						(change)="$event ? selection.toggle(rows) : null"
+						[checked]="selection?.isSelected(rows)">
+					</mat-checkbox>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="workflowname">
+				<mat-header-cell *matHeaderCellDef>
+					Tên quy trình
+					<i class="fas fa-sort" (click)="sort('workflowname')"></i>
+				 </mat-header-cell>
+				<mat-cell *matCellDef="let element">
+					<a class="link-name" (click)="onViewDetail(element.workFlowId)">{{element.name}}</a>
+				</mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="systemfeature">
+				<mat-header-cell *matHeaderCellDef> 
+					Tính năng áp dụng
+					<i class="fas fa-sort" (click)="sort('systemfeature')"></i>
+				</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.systemFeatureName}} </mat-cell>
+			</ng-container>
+
+			<ng-container matColumnDef="status">
+				<mat-header-cell *matHeaderCellDef> 
+					Trạng thái
+					<i class="fas fa-sort" (click)="sort('status')"></i>
+				</mat-header-cell>
+				<mat-cell *matCellDef="let element"> {{element.statusName}} </mat-cell>
+			</ng-container>
+
+			<mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+			<mat-row *matRowDef="let row; columns: displayedColumns;"
+			(click)="highlight(row)"
+			[ngClass]="{ 'selected-row': selectedRowIndex == row.workflowId}">
+		</mat-row>
+	</mat-table>
+	<mat-paginator #paginator [pageSize]="10" id="emp-paginator" style="position: sticky; left: 0px;">
+	</mat-paginator>
+</div>
+</div>
+</div>
+</div>
+
+</div>

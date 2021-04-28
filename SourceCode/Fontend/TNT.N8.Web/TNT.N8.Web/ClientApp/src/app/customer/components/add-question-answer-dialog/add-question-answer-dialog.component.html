@@ -1,0 +1,53 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="add-question-answer-dialog">
+  <form [formGroup]="formAdditional">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <span>Câu hỏi<span class="require">{{ 'order.create.require' | translate }}</span></span>
+        </div>
+        <div class="col-md-12">
+          <input type="text" class="w100" pInputText formControlName="questionControl"
+                [ngClass]="(questionControl.invalid && (questionControl.dirty || questionControl.touched)) ? 'error-border': ''"/>
+        </div>
+        <div class="col-md-12" [hidden]="questionControl.valid || questionControl.untouched">
+          <span *ngIf="questionControl.hasError('required')" class="error-message-span">Tiêu đề không được để trống</span>
+          <span *ngIf="questionControl?.errors?.maxlength" class="error-message-span">Tối đa 200 ký tự</span>
+          <span *ngIf="questionControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để trắng</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+          <span>Câu trả lời</span>
+        </div>
+        <div class="col-md-12">
+          <input type="text" class="w100" pInputText formControlName="answerControl"
+                [ngClass]="(answerControl.invalid && (answerControl.dirty || answerControl.touched)) ? 'error-border': ''"/>
+        </div>
+        <div class="col-md-12" [hidden]="answerControl.valid || answerControl.untouched">
+          <span *ngIf="answerControl?.errors?.maxlength" class="error-message-span">Tối đa 300 ký tự</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 15px;">
+        <div class="col-md-12">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendAddtional()" [disabled]="awaitResponse"><span class="save-label">Lưu</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+  

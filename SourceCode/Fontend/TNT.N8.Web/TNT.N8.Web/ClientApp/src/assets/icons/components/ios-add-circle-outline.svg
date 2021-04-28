@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#0f62fe}
+        </style>
+    </defs>
+    <g id="prefix__ios-add-circle-outline" transform="translate(-48 -48)">
+        <path id="prefix__Path_16" d="M154.993 152.024h-2.077v-2.077a.446.446 0 1 0-.892 0v2.077h-2.077a.427.427 0 0 0-.446.446.432.432 0 0 0 .446.446h2.077v2.077a.432.432 0 0 0 .446.446.444.444 0 0 0 .446-.446v-2.077h2.077a.446.446 0 0 0 0-.892z" class="prefix__cls-1" data-name="Path 16" transform="translate(-96.47 -96.47)"/>
+        <path id="prefix__Path_17" d="M56 49.077a6.92 6.92 0 1 1-4.9 2.023 6.877 6.877 0 0 1 4.9-2.023M56 48a8 8 0 1 0 8 8 8 8 0 0 0-8-8z" class="prefix__cls-1" data-name="Path 17"/>
+    </g>
+</svg>

@@ -1,0 +1,29 @@
+export class EmployeeModel {
+  EmployeeId: string;
+  EmployeeCode: string;
+  EmployeeName: string;
+  EmployeeLastname: string;
+  EmployeeFirstname: string;
+  StartedDate: Date;
+  OrganizationId: string;
+  PositionId: string;
+  CreatedById: string;
+  CreatedDate: Date;
+  UpdatedById: string;
+  UpdatedDate: Date;
+  Active: Boolean;
+  Username: string;
+  Identity: string; 
+  OrganizationName: string;
+  AvatarUrl: string;
+  PositionName: string;
+  ContactId: string;
+  IsManager: boolean;
+  PermissionSetId: string;
+  ProbationEndDate: Date;
+  ProbationStartDate: Date;
+  TrainingStartDate: Date;
+  ContractType: string;
+  ContractEndDate: Date;
+  IsTakeCare: boolean;
+}

@@ -1,0 +1,74 @@
+.lead-contac-dialog .w100 {
+    width: 100% !important;
+}
+
+.lead-contac-dialog .buffer-top {
+    margin-top: 1.2rem;
+}
+
+.lead-contac-dialog .buffer-bottom {
+    margin-bottom: 1.2rem;
+}
+
+.lead-contac-dialog .buffer-bottom-label {
+    margin-bottom: 3px;
+}
+
+.lead-contac-dialog .required {
+    color: red;
+}
+
+.lead-contac-dialog .error-message-span {
+    color: red;
+}
+
+.lead-contac-dialog .cancel {
+    width: 72px;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    margin-right: 5px;
+}
+
+.lead-contac-dialog .cancel .cancel-label {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.lead-contac-dialog .save {
+    width: 70px;
+    height: 30px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+}
+
+.lead-contac-dialog .save .save-label {
+    width: 22px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+::ng-deep .lead-contac-dialog .ui-datepicker {
+    right: 0 !important;
+    left: auto !important;
+}

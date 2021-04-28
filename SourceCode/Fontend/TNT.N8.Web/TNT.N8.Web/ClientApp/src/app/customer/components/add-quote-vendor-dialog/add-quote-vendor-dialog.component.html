@@ -1,0 +1,87 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="add-edit-product-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+        <p-table [columns]="selectedColumns" [value]="listData" [paginator]="true" [rows]="10"
+          [rowsPerPageOptions]="[10,50,100]" [(selection)]="selectedQuoteVendor">
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3em;">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns" pResizableColumn
+                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td [ngStyle]="{'width': '150px', 'text-align': 'left'}">
+                {{rowData.productCode}}
+              </td>
+              <td [ngStyle]="{'width': '150px', 'text-align': 'left'}">
+                {{rowData.productName}}
+              </td>
+              <td pEditableColumn [ngStyle]="{'width': '150px', 'text-align': 'right'}">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input type="text" class="number-input" (change)="trimspace()" [(ngModel)]="rowData.quantity"
+                      [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.quantity}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn [ngStyle]="{'width': '150px', 'text-align': 'left'}">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input pInputText type="text" (change)="trimspace()" [(ngModel)]="rowData.description">
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.description}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+              <td pEditableColumn [ngStyle]="{'width': '150px', 'text-align': 'left'}">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="listVendor" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                      placeholder="Chọn nhà cung cấp" [(ngModel)]="rowData.vendor" optionLabel="vendorName"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.vendor == null ? "" : rowData.vendor.vendorName}}
+                  </ng-template>
+                </p-cellEditor>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-10">
+      <div class="group-button-footer">
+        <button type="button" class="cancel" (click)="save(true)"><span class="cancel-label">Tạo và xem báo
+            giá</span></button>
+        <button type="button" class="cancel" (click)="save(false)"><span class="cancel-label">Tạo báo
+            giá</span></button>
+        <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+      </div>
+    </div>
+  </div>
+</div>

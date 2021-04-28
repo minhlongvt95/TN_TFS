@@ -1,0 +1,28 @@
+#image-upload-content .btn-upload {
+  background-color: #6D98E7 !important;
+  color: #fff !important;
+  width: 120px;
+  height: 40px;
+  margin-top: 10px;
+}
+
+#image-upload-content .btn-choose {
+  border: solid 1px black !important;
+  width: 120px;
+  height: 40px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+#image-upload-content .file-name {
+  font-size: 13px;
+}
+
+#image-upload-content #image-error {
+  color: #f44336;
+  font-size: 13px;
+}
+
+#image-upload-content .row{
+  margin: 0 !important;
+}

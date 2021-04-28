@@ -1,0 +1,214 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" key="popup" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận"
+  rejectLabel="Không" [baseZIndex]="999999">
+</p-confirmDialog>
+
+<div class="vendor-price-dialog">
+  <form [formGroup]="vendorPriceDialogForm" style="height: 100%;">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Sản phẩm<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listProduct" formControlName="productControl"
+                    [virtualScroll]="true" itemSize="30"
+                    [styleClass]="(productControl.invalid && (productControl.dirty || productControl.touched)) ? 'error-border' : ''"
+                    [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn sản phẩm"
+                    (onChange)="changeProduct($event)" optionLabel="productCodeName" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="productControl.valid || productControl.untouched">
+                  <span *ngIf="productControl.hasError('required')" class="error-message-span">Chưa chọn nhà cung
+                    cấp</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Tên sản phẩm</label>
+                </div>
+                <div class="col-md-12">
+                  <label><strong>{{productName}}</strong></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Hàng 2 -->
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Nhà cung cấp<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listVendor" formControlName="vendorControl"
+                    [styleClass]="(vendorControl.invalid && (vendorControl.dirty || vendorControl.touched)) ? 'error-border' : ''"
+                    [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn nhà cung cấp"
+                    optionLabel="vendorName" [style]="{'width': '100%'}"></p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="vendorControl.valid || vendorControl.untouched">
+                  <span *ngIf="vendorControl.hasError('required')" class="error-message-span">Chưa chọn nhà cung
+                    cấp</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Mã sản phẩm phía nhà cung cấp</label>
+                </div>
+                <div class="col-md-12">
+                  <input pInputText type="text" formControlName="vendorProductCodeControl" class="w100">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Hàng 3 -->
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Tên sản phẩm phía NCC</label>
+                </div>
+                <div class="col-md-12">
+                  <input pInputText type="text" formControlName="vendorProductNameControl" class="w100">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Số lượng tối thiểu<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="number-input" formControlName="vendorMiniumQuantityControl"
+                    [ngClass]="(vendorMiniumQuantityControl.invalid && (vendorMiniumQuantityControl.dirty || vendorMiniumQuantityControl.touched)) ? 'error-border' : ''"
+                    [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                </div>
+                <div class="col-md-12"
+                  [hidden]="vendorMiniumQuantityControl.valid || vendorMiniumQuantityControl.untouched">
+                  <span *ngIf="vendorMiniumQuantityControl.hasError('required')" class="error-message-span">Số lượng tối
+                    thiểu không được để trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Ngày hiệu lực từ<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="fromDateControl" [yearNavigator]="true"
+                    yearRange="{{minYear}}:{{currentYear}}"
+                    [inputStyleClass]="(fromDateControl.invalid && (fromDateControl.dirty || fromDateControl.touched)) ? 'error-border' : ''"
+                    dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                    [maxDate]="toDateControl.value" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+                </div>
+                <div class="col-md-12" [hidden]="fromDateControl.valid || fromDateControl.untouched">
+                  <span *ngIf="fromDateControl.hasError('required')" class="error-message-span">Chưa chọn ngày hiệu lực
+                    từ</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Ngày hiệu lực đến</label>
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="toDateControl" [yearNavigator]="true" [minDate]="fromDateControl.value"
+                    yearRange="{{minYear}}:{{currentYear}}" dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                    showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Đơn giá<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="number-input" formControlName="unitPriceControl"
+                    [ngClass]="(unitPriceControl.invalid && (unitPriceControl.dirty || unitPriceControl.touched)) ? 'error-border' : ''"
+                    [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                </div>
+                <div class="col-md-12" [hidden]="unitPriceControl.valid || unitPriceControl.untouched">
+                  <span *ngIf="unitPriceControl.hasError('required')" class="error-message-span">Đơn giá không được để
+                    trống</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Đơn vị tiền<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listUnitMoney" formControlName="moneyUnitControl"
+                    placeholder="Chọn đơn vị tiền"
+                    [styleClass]="(moneyUnitControl.invalid && (moneyUnitControl.dirty || moneyUnitControl.touched)) ? 'error-border' : ''"
+                    optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="moneyUnitControl.valid || moneyUnitControl.untouched">
+                  <span *ngIf="moneyUnitControl.hasError('required')" class="error-message-span">Chưa chọn đơn vị
+                    tiền</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Giấy đề nghị báo giá NCC</label>
+                </div>
+                <div class="col-md-12">
+                  <p-multiSelect formControlName="suggestedSupplierQuoteControl" [options]="listSuggestedSupplierQuote"
+                    optionLabel="suggestedSupplierQuote" [virtualScroll]="true" itemSize="30"
+                    defaultLabel="Chọn giấy đề nghị báo giá NCC" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                    selectedItemsLabel="{0} giấy đề nghị" [filter]="true" (keydown.enter)="$event.preventDefault()">
+                  </p-multiSelect>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-md-12 mt-10">
+    <div class="group-button-footer">
+      <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+      <button type="button" class="save" (click)="save()"><span class="save-label">Lưu</span></button>
+    </div>
+  </div>
+</div>

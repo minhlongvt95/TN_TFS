@@ -1,0 +1,69 @@
+<div class="update-time-cus-care">
+  <div class="org-dialog-title">
+    <span>
+      Cập nhật thời gian gửi
+    </span>
+    <i class="material-icons clear" (click)="onCancelClick()">
+      clear
+    </i>
+  </div>
+
+  <div class="row mt-15">
+    <form class="form-group" [formGroup]="formUpdateTimeCustomerCare">
+      <div class="row no-margin">
+        <div class="col-md-6">
+          <mat-radio-group (change)="onChangeRadio($event)">
+            <mat-radio-button 
+              [checked]="isSendNow"
+              value="true">Gửi ngay</mat-radio-button>
+            <mat-radio-button 
+              class="ml-30"
+              [checked]="!isSendNow"
+              value="false">Gửi vào lúc</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      <div class="row no-margin mt-15" *ngIf="!isSendNow">
+        <div class="col-md-3">
+          <mat-form-field class="form-control w100"
+            [ngClass]="sendDateControl.touched && sendDateControl.hasError('required') ? 'error-border' : ''"
+          >
+            <input matInput [matDatepicker]="sendDateInput"
+              [matDatepickerFilter]="myFilter"
+              readonly
+              id="sendDateControl"
+              name="sendDateControl"
+              formControlName="sendDateControl"
+              [(ngModel)]="sendDate"
+            >
+            <mat-datepicker-toggle matSuffix [for]="sendDateInput"></mat-datepicker-toggle>
+            <mat-datepicker #sendDateInput></mat-datepicker>
+          </mat-form-field>
+          <div class="md-errors-spacer" [hidden]="sendDateControl.untouched">
+            <mat-error *ngIf="sendDateControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <input
+            type="time"
+            id="sendHourControl"
+            name="sendHourControl"
+            class="form-control"
+            [ngClass]="sendHourControl.touched && sendHourControl.hasError('required') ? 'error-border' : ''"
+            formControlName="sendHourControl"
+            [(ngModel)]="sendHour"
+          >
+          <div class="md-errors-spacer" [hidden]="sendHourControl.untouched">
+            <mat-error *ngIf="sendHourControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row org-dialog-buttons">
+    <button mat-raised-button color="primary" (click)="updateTime()">Chấp nhận</button>
+    <button mat-raised-button color="basic" (click)="onCancelClick()">Hủy bỏ</button>
+  </div>
+</div>

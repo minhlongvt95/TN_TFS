@@ -1,0 +1,12 @@
+
+@media (max-width: 767px) {
+  /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+  .body-content {
+    padding-top: 50px;
+  }
+}
+
+.material-icons {
+  font-size: 16px !important;
+  color: #555555;
+}

@@ -1,0 +1,391 @@
+.customer-care-create {
+    width: 100%;
+	padding: 0 15px;
+}
+
+.customer-care-create .button-action {
+    padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+
+.customer-care-create .button-action button {
+	float: right;
+	margin-left: .5rem;
+}
+
+.customer-care-create .button-action h4 {
+	margin-top: .5rem;
+	margin-bottom: 0;
+	display: inline-block;
+}
+
+.customer-care-create .bg-white {
+	background: #fff;
+}
+
+.customer-care-create .bg-blue {
+	background: blue;
+}
+
+.customer-care-create .shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.customer-care-create .btn-cancel {
+    background: #e4e4e4;
+    border: 1px solid #666666 !important;
+}
+
+.customer-care-create .btn-create {
+    color: #fff;
+    background: #6d98e7;
+    margin-left: 10px;
+}
+
+.customer-care-create .form-content {
+	width: 100%;
+	padding: 15px 15px;
+}
+
+.customer-care-create .cursor {
+	cursor: pointer;
+}
+
+.customer-care-create .title-button-step-one {
+	margin-right: 15px;
+}
+
+.customer-care-create .title-button-step-two {
+	margin-left: 15px;
+} 
+
+/* .customer-care-create #addFilter { */
+	/* float: right; */
+	/* margin-right: 15px; */
+/* }  */
+.customer-care-create .mt-8 {
+    margin-top: 8px;
+}
+
+.customer-care-create .mt-15 {
+	margin-top: 15px;
+}
+
+.customer-care-create .mt-mb-200 {
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.customer-care-create .mb-125 {
+	margin-bottom: 1.25rem;
+}
+
+.customer-care-create .w100 {
+	width: 100%;
+}
+
+.customer-care-create .form-control {
+    border-radius: 0.25rem;
+}
+
+.customer-care-create .form-control,
+.customer-care-create select.form-control {
+    height: auto;
+    max-height: 34px;
+}
+
+/*format input select*/
+::ng-deep .customer-care-create .mat-form-field-underline {
+    /* display: none !important; */
+    opacity: 0;
+}
+
+::ng-deep .customer-care-create .mat-form-field-wrapper {
+    bottom: 6px;
+}
+
+::ng-deep .customer-care-create .mat-select-trigger {
+    bottom: 1px;
+}
+
+::ng-deep .customer-care-create .mat-option-text {
+    font-size: 14px !important;
+}
+
+::ng-deep .customer-care-create .mat-form-field-infix {
+	padding: 0;
+}
+/*end*/
+
+.customer-care-create .ml-15 {
+	margin-left: 15px;
+}
+
+.customer-care-create .ml-45 {
+	margin-left: 45px;
+}
+
+.customer-care-create .ml-195 {
+    margin-left: 195px;
+}
+
+.customer-care-create .ml-210 {
+    margin-left: 210px;
+}
+
+.customer-care-create .ml-30 {
+    margin-left: 30px;
+}
+
+.customer-care-create .ml-120 {
+    margin-left: 120px;
+}
+
+.customer-care-create .mt-6 {
+	margin-top: 6px;
+}
+
+.customer-care-create .error-border,
+.customer-care-create .error-border:focus {
+    border-color: #f44336;
+}
+
+.customer-care-create #coverSendFilter {
+	text-align: center;
+	margin: 15px 0px;
+}
+
+.customer-care-create .row-filter {
+    background-color: #ededed;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+::ng-deep .customer-care-create .dropdown-btn {
+	width: 600px !important;
+	background: white !important;
+}
+
+.customer-care-create #border-color-dropdown-list {
+	border-color: red !important;
+}
+
+.customer-care-create .error-border[_ngcontent-c12] {
+	border-color: red !important;
+}
+
+.customer-care-create .color-label {
+	background-color: #ededed;
+}
+
+.customer-care-create #resultFilteredCustomer {
+	text-align: center;
+	font-size: 30px;
+	color: red;
+}
+
+/* css customer table */
+
+.customer-care-create .mat-elevation-z8 {
+    box-shadow: none;
+    border: solid 1px #d9d9d9;
+}
+
+.customer-care-create mat-cell.mat-cell,
+.customer-care-create mat-header-cell.mat-header-cell {
+    overflow: visible;
+}
+
+.customer-care-create .mat-header-row {
+    background-color: rgb(228, 228, 228);
+    min-height: 50px;
+}
+
+.customer-care-create .mat-header-cell {
+    font-size: 15px;
+    color: black;
+    overflow: visible;
+}
+
+::ng-deep .customer-care-create #customer-table .mat-checkbox-inner-container-no-side-margin {
+    width: 12px !important;
+    height: 12px !important;
+}
+  
+::ng-deep .customer-care-create #customer-table .mat-checkbox-checked.mat-accent .mat-checkbox-background, 
+::ng-deep .customer-care-create #customer-table .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: rgb(109, 152, 231) !important;
+}
+  
+::ng-deep .customer-care-create #customer-table .mat-ripple-element {
+    background: rgba(109, 152, 231, .4) !important;
+}
+
+.customer-care-create .img-icon {
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.customer-care-create .non-img-icon {
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.customer-care-create .link-name {
+    position: relative;
+    top: 6px;
+}
+
+.customer-care-create .color-link {
+    color: #23527c;
+}
+
+.customer-care-create .no-link-name {
+    top: 6px;
+    position: relative;
+}
+
+.customer-care-create .center {
+    text-align: center;
+}
+
+.customer-care-create .no-data {
+    color: red;
+}
+
+/* end */
+
+.customer-care-create .fw-bold {
+    font-weight: bold;
+}
+
+.customer-care-create .font-italic {
+    font-style: italic;
+}
+
+.customer-care-create .require {
+    color: #F94E4E;
+}
+
+.customer-care-create .textarea-border {
+    border: 1px solid #dedede;
+    border-radius: 0.25rem;
+    padding: 5px 5px;
+}
+
+.customer-care-create .error-border-textarea {
+    border-color: red !important;
+}
+
+.customer-care-create .info-label {
+    font-weight: bold;
+    color: #6D98E7;
+}
+
+.customer-care-create .material-icons {
+    position: absolute;
+    color: #6D98E7;
+}
+
+.customer-care-create .icon-card-info {
+    position: relative;
+    top: 7px;
+    padding-right: 5px;
+}
+
+.customer-care-create .icon-card-info i {
+    top: -4px;
+    position: relative;
+}
+
+.customer-care-create .float-right {
+    float: right;
+}
+
+.customer-care-create .error-customer-type {
+    font-weight: bold;
+    margin-left: 225px;
+}
+
+::ng-deep .customer-care-create .multiselect-dropdown .dropdown-btn .selected-item {
+    margin-top: 2px;
+}
+
+.customer-care-create .mat-raised-button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-create .button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-create .mat-table {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-create .mat-select {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-create .mat-option {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-create .mat-paginator {
+    font-family: 'Open Sans', sans-serif;
+}
+
+::ng-deep .customer-care-create .paginator .mat-form-field-wrapper {
+    bottom: 0px;
+}
+
+.customer-care-create .note {
+    font-size: 12px;
+    padding: 5px 0px 0px 7px;
+    border: solid 1px #ccc;
+    margin-top: 15px;
+    border-radius: 5%;
+}
+
+.customer-care-create .mat-column-action {
+    flex: 0 0 5%;
+}
+
+.customer-care-create .mat-column-customerName {
+    flex: 0 0 25%;
+}
+
+.customer-care-create .mat-column-dateOfBirth {
+    flex: 0 0 10%;
+}
+
+.customer-care-create .mat-column-customerEmail {
+    flex: 0 0 25%;
+}
+
+.customer-care-create .mat-column-customerPhone {
+    flex: 0 0 10%;
+}
+
+.customer-care-create .mat-column-picName {
+    flex: 0 0 25%;
+}
+
+.customer-care-create .clear {
+	float: right;
+	top: 14px;
+	right: 17px;
+	font-size: 15px !important;
+}

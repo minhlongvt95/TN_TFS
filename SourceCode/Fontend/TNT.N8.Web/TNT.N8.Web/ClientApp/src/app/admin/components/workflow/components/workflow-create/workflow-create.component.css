@@ -1,0 +1,79 @@
+.bg-white {
+	background: #fff;
+}
+.shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+	border-color: rgba(45,47,107, 0.5) !important;
+}
+::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle, 
+::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), 
+::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, 
+::ng-deep .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+	background-color: rgba(45,47,107, 0.5) !important;
+}
+::ng-deep .mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element,
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+	background-color: rgb(45,47,107) !important;
+}
+
+.add-content {
+	width: 100%;
+	padding: 0 15px;
+}
+.add-content .button-action {
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+.add-content .button-action button {
+	float: right;
+	margin-left: .5rem;
+}
+.add-content .button-action h4 {
+	margin-top: .5rem;
+	margin-bottom: 0;
+	display: inline-block;
+}
+.add-content .btn-bordered {
+	border: 1px solid #ddd;
+}
+.add-content .form-content {
+	float: left;
+	width: 100%;
+	padding: 10px 15px;
+	margin-bottom: 15px;
+}
+  .add-content .form-content h4 {
+    margin-bottom: 30px;
+  }
+  .w100 {
+    width: 100% !important;
+  }
+.add-step{
+	position: fixed;
+    bottom: 52px;
+    right: 40px;
+}
+.v-radio.mr-2{
+	margin-right: 15px;
+}
+.step-process {
+  padding-left: 0;
+  list-style: none;
+}
+.form-step {
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.mat-select {
+	font-family: 'Open Sans', sans-serif;
+}

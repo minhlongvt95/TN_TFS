@@ -1,0 +1,279 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="folder-config">
+  <div class="row no-margin" id="parent">
+    <div class="col-md-12 header" style="padding: 6px;">
+      <div class="row">
+        <div class="col-md-6 no-padding">
+          <div class="row no-margin">
+            <div class="col-md-1 col-sm-1 col-xs-3">
+              <div class="header-box-icon">
+                <i class="fas fa-cog header-icon" style="font-size: 19px;"></i>
+              </div>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-9" style="display: contents;">
+              <div>
+                <span class="customer-name">Cấu hình thư mục</span>
+              </div>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <button (click)="getDataDefault()" type="button" class="btn btn-info"
+                style="background-color: #0f62fe;display: flex;align-items: center; float: right;">
+                <i class="fas fa-cog header-icon" style="margin-right: 5px;line-height: 0;"></i>
+                <span>Cấu hình thư mục mặc định</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin bottom-buffer header mt-10">
+    <div class="col-md-6">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Danh sách thư mục" [selected]="true">
+          <div class="row" *ngIf="listDetailFolder.length > 0 && (listDetailFolder[0].parentId == null || listDetailFolder[0].isDelete == true)">
+            <div class="col-md-12">
+              <div class="float-right" style="display: inline;">
+                <button class="btn btn-success btn-add mr-10" (click)="showDialogAddFile = true">
+                  <i class="fas fa-plus-circle" style="margin-right: 5px;"></i>
+                  Thêm file
+                </button>
+                <button class="btn btn-success btn-add" (click)="showDialogAddFolder = true">
+                  <i class="fas fa-plus-circle" style="margin-right: 5px;"></i>
+                  Thêm thư mục
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="listFolder.length == 0">
+            <div class="col-md-12 image-wrapper">
+              <img src="/assets/icons/components/box.svg" class="image-nodata" />
+              <div class="image-desc">
+                <span>Hiện tại không có dữ liệu</span>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="listFolder.length == 0"></div>
+          </div>
+          <div class="row" *ngIf="listFolder.length > 0">
+            <div class="col-md-12 px-0 mt-10">
+              <div class="content">
+                <ejs-treeview #tree id="listtree" [fields]="listfields" (nodeSelected)="loadRoutingContent($event)">
+                </ejs-treeview>
+              </div>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Chi tiết thư mục" [selected]="true">
+            <div class="row" *ngIf="listDetailFolder.length == 0">
+              <div class="col-md-12 image-wrapper content-detail">
+                <img src="/assets/icons/components/box.svg" class="image-nodata" />
+                <div class="image-desc">
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="listDetailFolder.length != 0">
+              <div class="col-md-12 content-detail">
+                <p-table [columns]="cols" [value]="listDetailFolder" [scrollable]="true" [resizableColumns]="true"
+                  [style]="{ width: '100%' }">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{
+                          width: col.width,
+                          'text-align': col.textAlign
+                        }">
+                        {{ col.header }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="{
+                          width: col.width,
+                          'text-align': col.textAlign}" [ngSwitch]="col.field">
+                          <span *ngSwitchCase="'url'" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom"
+                          tooltipStyleClass="w350" tooltipZIndex="99999">
+                          {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+                        </span>
+                        <span *ngSwitchCase="'number'">
+                          {{ rowData['listFile'] == null? 0:rowData['listFile'].length }}
+                        </span>
+                        <span *ngSwitchCase="'delete'">
+                          <button *ngIf="rowData.isDelete && actionDelete" (click)="removeFolder(rowData)"
+                            class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+      <div class="row mt-10">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Danh sách file trong thư mục" [selected]="true">
+            <div class="row" *ngIf="listDetailFolder.length == 0 || listDetailFolder[0].listFile == null || listDetailFolder[0].listFile.length == 0">
+              <div class="col-md-12 image-wrapper content-detail">
+                <img src="/assets/icons/components/box.svg" class="image-nodata" />
+                <div class="image-desc">
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="listDetailFolder.length > 0 && listDetailFolder[0].listFile!= null && listDetailFolder[0].listFile.length > 0">
+              <div class="col-md-12 content-detail">
+                <p-table [columns]="colsChild" [value]="listDetailFolder[0].listFile" [scrollable]="true"
+                  [resizableColumns]="true" [style]="{ width: '100%' }">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{
+                          width: col.width,
+                          'text-align': col.textAlign
+                        }">
+                        {{ col.header }}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="{
+                          width: col.width,
+                          'text-align': col.textAlign}" [ngSwitch]="col.field">
+                        <span *ngSwitchCase="'fileName'" class="link text-primary"  (click)= "downloadFile(rowData['fileInFolderId'],rowData['fileName'],rowData['fileExtension'])">
+                          {{ rowData[col.field].substring(0,rowData[col.field].lastIndexOf('_')) }}
+                        </span>
+                        <span *ngSwitchCase="'delete'" style="margin:0 auto;">
+                          <button *ngIf="actionDelete" (click)="removeFile(rowData)"
+                            class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                          </button>
+                        </span>
+                        <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="Cấu hình thư mục" [(visible)]="showDialog" [modal]="true" [responsive]="true"
+    [style]="{width: '70%', minWidth: '500px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <span class="customer-name">Danh sách thư mục mặc định của hệ thống</span>
+      </div>
+      <div class="col-md-12">
+        <p-treeTable [value]="listFolderTreeNode" [columns]="colsDialog" selectionMode="checkbox"
+          [(selection)]="selectedFolderNode">
+          <ng-template pTemplate="caption">
+            <div style="text-align:left">
+              <p-treeTableHeaderCheckbox></p-treeTableHeaderCheckbox>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th *ngFor="let col of columns">
+                {{col.header}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns; let i = index"
+                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
+                <p-treeTableCheckbox [value]="rowNode" *ngIf="i == 0"></p-treeTableCheckbox>
+                <span *ngSwitchCase="'url'" pTooltip="{{rowData[col.field]}}" tooltipPosition="right"
+                  tooltipStyleClass="w350" tooltipZIndex="99999">
+                  {{rowData[col.field].trim().length > 35 ? rowData[col.field].trim().slice(0,35)+'...' : rowData[col.field].trim()}}
+                </span>
+                <span *ngSwitchCase="'number'">
+                  {{rowData['listFile'] == null ? 0:rowData['listFile'].length}}
+                </span>
+                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+              </td>
+            </tr>
+          </ng-template>
+        </p-treeTable>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="settingFolder()" label="Cài đặt"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="showDialog=false" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Thêm file" [(visible)]="showDialogAddFile" [modal]="true" [responsive]="true"
+    [style]="{width: '40%', minWidth: '300px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="row no-margin mt-10">
+      <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+      accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+      maxFileSize="10000000" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+      invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+      invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+      invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+      chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file" (onSelect)="handleFile($event, fileUpload)"
+      (onRemove)="removeFile($event)" (onClear)="clearAllFile()">
+    </p-fileUpload> 
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="addFile()" label="Tạo mới"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="showDialogAddFile=false" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+  <p-dialog header="Thêm thư mục" [(visible)]="showDialogAddFolder" [modal]="true" [responsive]="true"
+    [style]="{width: '40%', minWidth: '300px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="row no-margin mt-10">
+      <div class="col-md-4">
+        <label for="">Tên thư mục</label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" [ngStyle]="{width:'100%'}" (keyup)="changeNameFolder()" pInputText
+          [(ngModel)]="folderName" />
+      </div>
+    </div>
+    <div class="row no-margin mt-10">
+      <div class="col-md-12">
+        <input type="text" [disabled]="true" [ngStyle]="{width:'100%'}" pInputText [(ngModel)]="folderNameResult" />
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="addFolder()" label="Tạo mới"></button>
+      <button type="button" pButton icon="pi pi-close" (click)="showDialogAddFolder=false" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+</div>

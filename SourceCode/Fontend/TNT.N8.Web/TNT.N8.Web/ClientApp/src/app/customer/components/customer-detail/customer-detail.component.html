@@ -1,0 +1,2084 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<!-- <p-dialog header="{{ 'order.messages_title.title_info_reject' | translate }}" [(visible)]="display" [modal]="true" [style]="{width: '400px', minWidth: '200px'}">
+  <div class="col-md-3">
+    <span> {{ 'order.create.description' | translate }} </span>
+  </div>
+  <div class="col-md-9">
+    <textarea rows="4" cols="30" pInputTextarea [(ngModel)]="descriptionReject"
+    class="w100 input-text"></textarea>
+  </div>
+        <p-footer>
+            <button type="button" pButton icon="pi pi-check" (click)="statusCustomer()" label="{{ 'order.create.save' | translate }}"></button>
+        </p-footer>
+</p-dialog> -->
+
+<div class="customer-detail" id="parent">
+  <div class="row no-margin" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+    <div class="col-md-12 header">
+      <div class="row">
+        <div class="col-md-3" style="padding: 10px 10px;">
+          <div class="row no-margin">
+            <div class="col-md-1 col-sm-1 col-xs-3 no-padding">
+              <div class="header-box-icon">
+                <img src="/assets/icons/components/noun_product.svg" class="header-icon">
+              </div>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-9">
+              <div>
+                <span class="customer-name">{{customerNameLabel}}</span>
+              </div>
+              <div>
+                <span class="customer-type">{{customerTypeString}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-9" style="text-align: right;padding: 14px 10px;">
+          <button *ngIf="actionEdit && ((!isApprovalWain && isSendApproval))" type="button" style="margin-right: 5px;"
+            class="btn-remove" (click)="sendApprovalCustomer()">
+            <span class="btn-remove-text">Chuyển định danh</span>
+          </button>
+          <button *ngIf="actionEdit && (isApprovalWain && isApprovalDD)" type="button" style="margin-right: 5px;"
+            class="btn-remove" (click)="approveOrReject(false)">
+            <span class="btn-remove-text">Từ chối</span>
+          </button>
+          <button *ngIf="actionEdit && (isApprovalWain && isApprovalDD)" type="button" style="margin-right: 5px;"
+            class="btn-remove" (click)="approveOrReject(true)">
+            <span class="btn-remove-text">Phê duyệt định danh</span>
+          </button>
+          <!-- <button *ngIf="actionEdit && (isApprovalNew)" type="button" style="margin-right: 5px;" class="btn-remove"
+            (click)="approveOrReject(null)">
+            <span class="btn-remove-text">Chuyển tiềm năng</span>
+          </button> -->
+          <!-- <button *ngIf="isApprovalWain" type="button" class="btn btn-light" [disabled]="true" style="margin-right: 5px;" >
+            <span class="btn-remove-text">Chờ phê duyệt</span>
+          </button> -->
+          <button (click)="del_customer()" *ngIf="countCustomer === 0 && actionDelete" type="button" class="btn-remove">
+            <span class="btn-remove-text">Xóa</span>
+          </button>
+          <p-splitButton label="Thao tác" [model]="listAction" styleClass="ui-button-secondary"
+            [style]="{'margin-left': '5px'}"></p-splitButton>
+          <button *ngIf="actionEdit" type="button" class="btn-save" (click)="saveCustomer()">
+            <span class="btn-save-text">Lưu</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+    <div class="col-md-12 customer-infor">
+      <div class="row">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Thông tin khách hàng" [selected]="true">
+            <form *ngIf="customerBaseForm" [formGroup]="customerBaseForm">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-3" style="text-align: center;">
+                    <img class="cus-avatar"
+                      [src]="contactModel?.AvatarUrl!=''?contactModel?.AvatarUrl:'/assets/images/no-avatar.png'" />
+                  </div>
+                  <div class="col-md-6 box-handle-infor">
+                    <div class="row">
+                      <div class="col-md-5">
+                        <span class="infor-label">Mã khách hàng</span>
+                      </div>
+                      <div class="col-md-7">
+                        <span class="infor-value" *ngIf="countCustomer !== 0">
+                          {{customerModel.CustomerCode}}
+                        </span>
+                        <div class="row" *ngIf="countCustomer === 0">
+                          <div class="col-md-12">
+                            <input type="text" class="w100" pInputText formControlName="cusCodeControl"
+                              (keypress)="customerCodePattern($event)"
+                              [ngClass]="(customerBaseForm.get('cusCodeControl').invalid && (customerBaseForm.get('cusCodeControl').dirty || customerBaseForm.get('cusCodeControl').touched)) ? 'error-border' : ''" />
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="customerBaseForm.get('cusCodeControl').valid || customerBaseForm.get('cusCodeControl').untouched">
+                            <span
+                              *ngIf="customerBaseForm.get('cusCodeControl').hasError('required') || customerBaseForm.get('cusCodeControl').hasError('blankString')"
+                              class="error-message-span">Không được để trống</span>
+                            <span *ngIf="customerBaseForm.get('cusCodeControl').hasError('duplicateCode')"
+                              class="error-message-span">Trùng mã khách hàng</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;">
+                      <div class="col-md-5">
+                        <span class="infor-label">{{customerModel.CustomerType == 1 ? 'Tên công ty' : 'Họ và tên
+                          đệm'}}</span>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <input type="text" class="w100" pInputText formControlName="cusFirstNameControl"
+                              (keyup)="changeCustomerName()"
+                              [ngClass]="(cusFirstNameControl.invalid && (cusFirstNameControl.dirty || cusFirstNameControl.touched)) ? 'error-border': ''" />
+                          </div>
+                          <div class="col-md-12" [hidden]="cusFirstNameControl.valid || cusFirstNameControl.untouched">
+                            <span *ngIf="cusFirstNameControl.hasError('required')" class="error-message-span">Không được
+                              để trống</span>
+                            <span *ngIf="cusFirstNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Nội
+                              dung không được để trắng</span>
+                            <span *ngIf="cusFirstNameControl?.errors?.maxlength" class="error-message-span">Tối đa 100
+                              ký tự</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;" *ngIf="customerModel.CustomerType != 1">
+                      <div class="col-md-5">
+                        <span class="infor-label">Tên</span>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <input type="text" class="w100" pInputText formControlName="cusLastNameControl"
+                              (keyup)="changeCustomerName()"
+                              [ngClass]="(cusLastNameControl.invalid && (cusLastNameControl.dirty || cusLastNameControl.touched)) ? 'error-border': ''" />
+                          </div>
+                          <div class="col-md-12" [hidden]="cusLastNameControl.valid || cusLastNameControl.untouched">
+                            <span *ngIf="cusLastNameControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký
+                              tự</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;">
+                      <div class="col-md-5">
+                        <span class="infor-label">Nhóm khách hàng</span>
+                      </div>
+                      <div class="col-md-7">
+                        <p-dropdown [options]="listCustomerGroup" [showClear]="true" placeholder=""
+                          [autoDisplayFirst]="false" formControlName="cusGroupControl" optionLabel="categoryName"
+                          [style]="{'width': '100%'}">
+                        </p-dropdown>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;">
+                      <div class="col-md-5">
+                        <span class="infor-label">Trạng thái</span>
+                      </div>
+                      <div class="col-md-7">
+                        <p-dropdown [options]="listCustomerStatus" formControlName="cusStatusControl" [disabled]="true"
+                          optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;">
+                      <div class="col-md-5">
+                        <span class="infor-label">Trạng thái chăm sóc</span>
+                      </div>
+                      <div class="col-md-7">
+                        <p-dropdown [options]="listStatusCustomerCare" formControlName="cusStatusCareControl"
+                          placeholder="Chọn trạng thái chăm sóc" optionLabel="categoryName" [style]="{'width': '100%'}"
+                          [showClear]="true"></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div class="row" style="padding-top: 10px;">
+                      <div class="col-md-5">
+                        <span class="infor-label">Người phụ trách</span>
+                      </div>
+                      <div class="col-md-7">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listPersonInCharge" formControlName="cusPersonInChargeControl"
+                              [styleClass]="(cusPersonInChargeControl.invalid && (cusPersonInChargeControl.dirty || cusPersonInChargeControl.touched)) ? 'error-border' : ''"
+                              [virtualScroll]="true" itemSize="30" [filter]="true" [showClear]="true"
+                              [resetFilterOnHide]="true" placeholder="Chọn người phụ trách" optionLabel="employeeName"
+                              [style]="{'width': '100%'}"></p-dropdown>
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="cusPersonInChargeControl.valid || cusPersonInChargeControl.untouched">
+                            <span *ngIf="cusPersonInChargeControl.hasError('required')" class="error-message-span">Chưa
+                              chọn người phụ trách</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="row" style="text-align: center;">
+                      <div class="col-md-12" style="padding-top: 10px;">
+                        <div class="box-level">
+                          <span class="level-text">Chưa đạt hạng</span>
+                        </div>
+                      </div>
+                      <div class="col-md-12" style="padding-top: 10px;">
+                        <span class="point-text">Số điểm tích lũy</span>
+                      </div>
+                      <div class="col-md-12" style="padding-top: 10px;">
+                        <span class="point-number">{{point}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="box-money">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span class="money-label">Doanh thu</span>
+                      </div>
+
+                      <div class="col-md-12 box-money-number">
+                        <span class="money-number">{{customerModel.TotalSaleValue | number}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="box-money">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <span class="money-label">Nợ phải thu</span>
+                      </div>
+
+                      <div class="col-md-12 box-money-number">
+                        <span class="money-number">{{customerModel.TotalReceivable | number}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+    <div class="col-md-12 customer-infor">
+      <div class="row">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Chi tiết" [selected]="true">
+            <p-tabView>
+              <p-tabPanel header="Thông tin chung">
+                <!-- FORM KHÁCH HÀNG DOANH NGHIỆP -->
+                <form *ngIf="(customerModel.CustomerType == 1) && customerInforForm" [formGroup]="customerInforForm">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- Hàng 1 -->
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số điện thoại</span><span class="require">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPhoneControl"
+                                (change)="checkDuplicateInforCustomer(2, cusPhoneControl)"
+                                [ngClass]="(cusPhoneControl.invalid && (cusPhoneControl.dirty || cusPhoneControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12" [hidden]="cusPhoneControl.valid || cusPhoneControl.untouched">
+                              <span *ngIf="cusPhoneControl.hasError('required')" class="error-message-span">Số điện
+                                thoại không được để trống</span>
+                              <span *ngIf="cusPhoneControl.hasError('pattern')" class="error-message-span">Sai định dạng
+                                số điện thoại. </span>
+                              <span *ngIf="cusPhoneControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký
+                                tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Địa chỉ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusAddressControl"
+                                [ngClass]="(cusAddressControl.invalid && (cusAddressControl.dirty || cusAddressControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12" [hidden]="cusAddressControl.valid || cusAddressControl.untouched">
+                              <span *ngIf="cusAddressControl?.errors?.maxlength" class="error-message-span">Tối đa 250
+                                ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Link</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusLinkControl" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 2 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Nhân viên chăm sóc khách hàng</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCareStaff" formControlName="cusCareStaffControl"
+                                [styleClass]="(cusCareStaffControl.invalid && (cusCareStaffControl.dirty || cusCareStaffControl.touched)) ? 'error-border' : ''"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn nhân viên CSKH" optionLabel="employeeName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusCareStaffControl.valid || cusCareStaffControl.untouched">
+                              <span *ngIf="cusCareStaffControl.hasError('required')" class="error-message-span">Chưa
+                                chọn nhân viên CSKH</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Email</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusEmailControl"
+                                (change)="checkDuplicateInforCustomer(1, cusEmailControl)"
+                                [ngClass]="(cusEmailControl.invalid && (cusEmailControl.dirty || cusEmailControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12" [hidden]="cusEmailControl.valid || cusEmailControl.untouched">
+                              <span *ngIf="cusEmailControl.hasError('required')" class="error-message-span">Email không
+                                được để trống</span>
+                              <span *ngIf="cusEmailControl.hasError('pattern')" class="error-message-span">Sai định
+                                dạng. </span>
+                              <span *ngIf="cusEmailControl?.errors?.maxlength" class="error-message-span">Tối đa 100 ký
+                                tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Mã số thuế</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusTaxControl"
+                                [ngClass]="(cusTaxControl.invalid && (cusTaxControl.dirty || cusTaxControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12" [hidden]="cusTaxControl.valid || cusTaxControl.untouched">
+                              <span *ngIf="cusTaxControl.hasError('pattern')" class="error-message-span">Sai định dạng.
+                              </span>
+                              <span *ngIf="cusTaxControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký
+                                tự</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 3 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tỉnh/Thành phố</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listProvince" formControlName="cusProvinceControl" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn Tỉnh/Thành phố"
+                                optionLabel="provinceName" [style]="{'width': '100%'}" (onChange)="changeProvince()">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Quận/Huyện</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentDistrict" formControlName="cusDistrictControl"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn Quận/Huyện" optionLabel="districtName" [style]="{'width': '100%'}"
+                                (onChange)="changeDistrict()"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Phường/Xã</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentWard" formControlName="cusWardControl" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn Phường/Xã"
+                                optionLabel="wardName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Khu Vực</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listArea" formControlName="cusAreaControl" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn khu vực"
+                                optionLabel="areaName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 4 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Ngày cấp</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-calendar formControlName="cusBusinessRegistrationDateControl" [yearNavigator]="true"
+                                yearRange="1960:{{currentYear}}" dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                                showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Loại doanh nghiệp</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listLocalTypeBusiness"
+                                formControlName="cusLocalTypeBusinessControl" [showClear]="true"
+                                placeholder="Chọn loại doanh nghiệp" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Quy mô</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listBusinessSize" formControlName="cusBusinessSizeControl"
+                                placeholder="Chọn quy mô" [showClear]="true" [showClear]="true"
+                                optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Phương thức thanh toán</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listPaymentMethod" formControlName="cusPaymentMethodControl"
+                                placeholder="Chọn phương thức thanh toán" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 5 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Lĩnh vực</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listBusinessType" formControlName="cusBusinessTypeControl"
+                                placeholder="Chọn lĩnh vực" [showClear]="true" [filter]="true"
+                                [resetFilterOnHide]="true"
+                                [styleClass]="(cusBusinessTypeControl.invalid  && (cusBusinessTypeControl.dirty || cusBusinessTypeControl.touched)) ? 'error-border': ''"
+                                optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusBusinessTypeControl.valid || cusBusinessTypeControl.untouched">
+                              <span *ngIf="cusBusinessTypeControl.hasError('required')" class="error-message-span">Không
+                                được để trống</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số ngày được nợ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusMaxDebtDayControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số nợ tối đa</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusMaxDebtValueControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Ngành nghề kinh doanh chính</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listBusinessCareer" formControlName="cusMainBusinessSectorControl"
+                                [filter]="true" [resetFilterOnHide]="true" [showClear]="true"
+                                placeholder="Chọn ngành nghề kinh doanh chính"
+                                [styleClass]="(cusMainBusinessSectorControl.invalid  && (cusMainBusinessSectorControl.dirty || cusMainBusinessSectorControl.touched)) ? 'error-border': ''"
+                                optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusMainBusinessSectorControl.valid || cusMainBusinessSectorControl.untouched">
+                              <span *ngIf="cusMainBusinessSectorControl.hasError('required')"
+                                class="error-message-span">Không được để trống</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 6 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Loại hình doanh nghiệp</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listTypeOfBusiness" formControlName="cusTypeOfBusinessControl"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn loại hình doanh nghiệp" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số lao động tham gia BHXH</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input"
+                                formControlName="cusTotalEmpSocialInsuranceControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tổng nguồn vốn</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusTotalCapitalControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tổng doanh thu năm trước</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusTotalRevenueLastYearControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12" style="padding-top: 10px;">
+                      <p-gmap *ngIf="overlays.length > 0" #gmap [options]="options" [overlays]="overlays"
+                        [style]="{'width':'100%','height':'320px'}" (onMapReady)="setMap($event)"></p-gmap>
+                    </div>
+                  </div>
+
+                </form>
+
+                <!-- FORM KHÁCH HÀNG CÁ NHÂN -->
+                <form *ngIf="(customerModel.CustomerType != 1) && customerPersonalInforForm"
+                  [formGroup]="customerPersonalInforForm">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- Hàng 1 -->
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Giới tính</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listGenders" formControlName="cusPerGenderControl"
+                                placeholder="Chọn giới tính" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Quốc tịch</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCountry" formControlName="cusPerCountryControl"
+                                placeholder="Chọn quốc tịch" [showClear]="true" [filter]="true"
+                                [resetFilterOnHide]="true" optionLabel="countryName" [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Mã số thuế</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerTaxcodeControl"
+                                [ngClass]="(cusPerTaxcodeControl.invalid && (cusPerTaxcodeControl.dirty || cusPerTaxcodeControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerTaxcodeControl.valid || cusPerTaxcodeControl.untouched">
+                              <span *ngIf="cusPerTaxcodeControl.hasError('pattern')" class="error-message-span">Sai định
+                                dạng. </span>
+                              <span *ngIf="cusPerTaxcodeControl?.errors?.maxlength" class="error-message-span">Tối đa 50
+                                ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Ngày sinh</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-calendar formControlName="cusPerBirthdayControl" [yearNavigator]="true"
+                                yearRange="1960:{{currentYear}}" dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                                showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 2 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số định danh cá nhân</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerIdentityControl"
+                                [ngClass]="(cusPerIdentityControl.invalid && (cusPerIdentityControl.dirty || cusPerIdentityControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerIdentityControl.valid || cusPerIdentityControl.untouched">
+                              <span *ngIf="cusPerIdentityControl.hasError('pattern')" class="error-message-span">Sai
+                                định dạng. </span>
+                              <span *ngIf="cusPerIdentityControl?.errors?.maxlength" class="error-message-span">Tối đa
+                                20 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Phương thức thanh toán</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listPaymentMethod" formControlName="cusPerPaymentMethodControl"
+                                placeholder="Chọn phương thức thanh toán" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Nơi sinh</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerBirthplaceControl"
+                                [ngClass]="(cusPerBirthplaceControl.invalid && (cusPerBirthplaceControl.dirty || cusPerBirthplaceControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerBirthplaceControl.valid || cusPerBirthplaceControl.untouched">
+                              <span *ngIf="cusPerBirthplaceControl?.errors?.maxlength" class="error-message-span">Tối đa
+                                100 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tình trạng hôn nhân</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listMaritalStatus" formControlName="cusPerMaritalStatusControl"
+                                placeholder="Chọn tình trạng hôn nhân" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 3 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số ngày được nợ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusPerMaxDebtDayControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số nợ tối đa</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="number-input" formControlName="cusPerMaxDebtValueControl"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Nghề nghiệp</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerJobControl"
+                                [ngClass]="(cusPerJobControl.invalid && (cusPerJobControl.dirty || cusPerJobControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12" [hidden]="cusPerJobControl.valid || cusPerJobControl.untouched">
+                              <span *ngIf="cusPerJobControl?.errors?.maxlength" class="error-message-span">Tối đa 100 ký
+                                tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Cơ quan</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerAgencyControl"
+                                [ngClass]="(cusPerAgencyControl.invalid && (cusPerAgencyControl.dirty || cusPerAgencyControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerAgencyControl.valid || cusPerAgencyControl.untouched">
+                              <span *ngIf="cusPerAgencyControl?.errors?.maxlength" class="error-message-span">Tối đa 100
+                                ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 4 -->
+                      <div class="row" style="margin-top: 5px;">
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Nhân viên chăm sóc khách hàng</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCareStaff" formControlName="cusPerCareStaffControl"
+                                [styleClass]="(cusPerCareStaffControl.invalid && (cusPerCareStaffControl.dirty || cusPerCareStaffControl.touched)) ? 'error-border' : ''"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn nhân viên CSKH" optionLabel="employeeName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerCareStaffControl.valid || cusPerCareStaffControl.untouched">
+                              <span *ngIf="cusPerCareStaffControl.hasError('required')" class="error-message-span">Chưa
+                                chọn nhân viên CSKH</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tên công ty</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerCompanyNameControl"
+                                [ngClass]="(cusPerCompanyNameControl.invalid && (cusPerCompanyNameControl.dirty || cusPerCompanyNameControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerCompanyNameControl.valid || cusPerCompanyNameControl.untouched">
+                              <span *ngIf="cusPerCompanyNameControl?.errors?.maxlength" class="error-message-span">Tối
+                                đa 500 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Địa chỉ công ty</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerCompanyAddressControl"
+                                [ngClass]="(cusPerCompanyAddressControl.invalid && (cusPerCompanyAddressControl.dirty || cusPerCompanyAddressControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerCompanyAddressControl.valid || cusPerCompanyAddressControl.untouched">
+                              <span *ngIf="cusPerCompanyAddressControl?.errors?.maxlength"
+                                class="error-message-span">Tối đa 250 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-3">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Chức vụ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCustomerPosition" formControlName="cusPerPositionControl"
+                                placeholder="Chọn chức vụ" [showClear]="true" optionLabel="categoryName"
+                                [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </p-tabPanel>
+
+              <p-tabPanel header="Thông tin liên hệ">
+                <!-- KHÁCH HÀNG DOANH NGHIỆP -->
+                <div *ngIf="(customerModel.CustomerType == 1)" class="row"
+                  style="margin-left: -14px; margin-right: -14px;">
+                  <div class="col-md-12">
+                    <button pButton type="button" icon="pi pi-plus" label="Thêm liên hệ" (click)="AddCusContact()"
+                      class="ui-button-raised" style="margin-top: 15px;"></button>
+                  </div>
+                  <div *ngIf="(listCusContact.length > 0)" class="col-md-12" style="margin-top: 10px;">
+                    <p-table [columns]="colsCusContact" selectionMode="single"
+                      (onRowSelect)="editCusContact($event.data)" [value]="listCusContact" [resizableColumns]="true"
+                      [responsive]="true" columnResizeMode="expand" [paginator]="true" [rows]="5">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                          <th style="width:4em"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            <span *ngSwitchCase="'dateOfBirth'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                          <td>
+                            <button pButton icon="pi pi-trash" class="ui-button-danger"
+                              (click)="deleteCusContact(rowData)"></button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div *ngIf="!(listCusContact.length > 0)" class="col-md-12 no-data" style="margin-top: 10px;">
+                    <div class="box-no-data">
+                      <img src="/assets/icons/components/box.svg" class="box-icon">
+                      <div>
+                        <span>Hiện tại không có dữ liệu</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- KHÁCH HÀNG CÁ NHÂN -->
+                <form *ngIf="(customerModel.CustomerType != 1) && customerPersonalContactForm"
+                  [formGroup]="customerPersonalContactForm">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- Hàng 1 -->
+                      <div class="row">
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số điện thoại cá nhân</span><span class="require">*</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContPhoneControl"
+                                (change)="checkDuplicateInforCustomer(2, cusPerContPhoneControl)"
+                                [ngClass]="(cusPerContPhoneControl.invalid && (cusPerContPhoneControl.dirty || cusPerContPhoneControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContPhoneControl.valid || cusPerContPhoneControl.untouched">
+                              <span *ngIf="cusPerContPhoneControl.hasError('required')" style="color: red">Không được để
+                                trống</span>
+                              <span *ngIf="cusPerContPhoneControl.hasError('pattern')" class="error-message-span">Sai
+                                định dạng số điện thoại. </span>
+                              <span *ngIf="cusPerContPhoneControl?.errors?.maxlength" class="error-message-span">Tối đa
+                                50 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số điện thoại công việc</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContWorkPhoneControl"
+                                [ngClass]="(cusPerContWorkPhoneControl.invalid && (cusPerContWorkPhoneControl.dirty || cusPerContWorkPhoneControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContWorkPhoneControl.valid || cusPerContWorkPhoneControl.untouched">
+                              <span *ngIf="cusPerContWorkPhoneControl.hasError('pattern')"
+                                class="error-message-span">Sai định dạng số điện thoại. </span>
+                              <span *ngIf="cusPerContWorkPhoneControl?.errors?.maxlength" class="error-message-span">Tối
+                                đa 50 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số điện thoại khác</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContOtherPhoneControl"
+                                [ngClass]="(cusPerContOtherPhoneControl.invalid && (cusPerContOtherPhoneControl.dirty || cusPerContOtherPhoneControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContOtherPhoneControl.valid || cusPerContOtherPhoneControl.untouched">
+                              <span *ngIf="cusPerContOtherPhoneControl.hasError('pattern')"
+                                class="error-message-span">Sai định dạng số điện thoại. </span>
+                              <span *ngIf="cusPerContOtherPhoneControl?.errors?.maxlength"
+                                class="error-message-span">Tối đa 50 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 2 -->
+                      <div class="row">
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Email cá nhân</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContEmailControl"
+                                (change)="checkDuplicateInforCustomer(1, cusPerContEmailControl)"
+                                [ngClass]="(cusPerContEmailControl.invalid && (cusPerContEmailControl.dirty || cusPerContEmailControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContEmailControl.valid || cusPerContEmailControl.untouched">
+                              <span *ngIf="cusPerContEmailControl.hasError('pattern')" class="error-message-span">Sai
+                                định dạng email. </span>
+                              <span *ngIf="cusPerContEmailControl?.errors?.maxlength" class="error-message-span">Tối đa
+                                100 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Email công việc</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContWorkEmailControl"
+                                [ngClass]="(cusPerContWorkEmailControl.invalid && (cusPerContWorkEmailControl.dirty || cusPerContWorkEmailControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContWorkEmailControl.valid || cusPerContWorkEmailControl.untouched">
+                              <span *ngIf="cusPerContWorkEmailControl.hasError('pattern')"
+                                class="error-message-span">Sai định dạng email. </span>
+                              <span *ngIf="cusPerContWorkEmailControl?.errors?.maxlength" class="error-message-span">Tối
+                                đa 100 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Email khác</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContOtherEmailControl"
+                                [ngClass]="(cusPerContOtherEmailControl.invalid && (cusPerContOtherEmailControl.dirty || cusPerContOtherEmailControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContOtherEmailControl.valid || cusPerContOtherEmailControl.untouched">
+                              <span *ngIf="cusPerContOtherEmailControl.hasError('pattern')"
+                                class="error-message-span">Sai định dạng email. </span>
+                              <span *ngIf="cusPerContOtherEmailControl?.errors?.maxlength"
+                                class="error-message-span">Tối đa 100 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 3 -->
+                      <div class="row">
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Khu Vực</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listArea" formControlName="cusPerContAreaControl" [filter]="true"
+                                [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn khu vực"
+                                optionLabel="areaName" [style]="{'width': '100%'}"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Địa chỉ</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContAddressControl"
+                                [ngClass]="(cusPerContAddressControl.invalid && (cusPerContAddressControl.dirty || cusPerContAddressControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContAddressControl.valid || cusPerContAddressControl.untouched">
+                              <span *ngIf="cusPerContAddressControl?.errors?.maxlength" class="error-message-span">Tối
+                                đa 250 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Thông tin khác</span>
+                            </div>
+                            <div class="col-md-12">
+                              <input type="text" class="w100" pInputText formControlName="cusPerContOtherControl"
+                                [ngClass]="(cusPerContOtherControl.invalid && (cusPerContOtherControl.dirty || cusPerContOtherControl.touched)) ? 'error-border': ''" />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="cusPerContOtherControl.valid || cusPerContOtherControl.untouched">
+                              <span *ngIf="cusPerContOtherControl?.errors?.maxlength" class="error-message-span">Tối đa
+                                500 ký tự</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Hàng 4 -->
+                      <div class="row">
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tỉnh/Thành phố</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listProvince" formControlName="cusPerContProvinceControl"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn Tỉnh/Thành phố" optionLabel="provinceName" [style]="{'width': '100%'}"
+                                (onChange)="changeCusPerProvince()"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Quận/Huyện</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentDistrict" formControlName="cusPerContDistrictControl"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn Quận/Huyện" optionLabel="districtName" [style]="{'width': '100%'}"
+                                (onChange)="changeCusPerDistrict()"></p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-4" style="margin-top: 5px;">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Phường/Xã</span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentWard" formControlName="cusPerContWardControl"
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn Phường/Xã" optionLabel="wardName" [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12" style="padding-top: 10px;">
+                      <p-gmap *ngIf="overlays.length > 0" #gmap [options]="options" [overlays]="overlays"
+                        [style]="{'width':'100%','height':'320px'}" (onMapReady)="setMap($event)"></p-gmap>
+                    </div>
+
+                    <!-- <div class="col-md-12" style="text-align: right; margin-top: 15px;">
+                      <button type="button" class="btn-save-note" (click)="saveContact()">
+                        <span class="save-note-lable">Cập nhật liên hệ</span>
+                      </button>
+                    </div> -->
+                  </div>
+                </form>
+              </p-tabPanel>
+
+              <!-- <p-tabPanel header="Lịch hẹn">
+                <div class="row" style="margin-left: -14px; margin-right: -14px;">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-2" style="margin-top: 15px;">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="btn-choose-time">
+                              <i (click)="preMonthMeeting()" class="fa fa-chevron-left icon-choose-left"
+                                aria-hidden="true"></i>
+                              <span class="choose-label">Tháng {{monthMeeting}}, {{yearMeeting}}</span>
+                              <i (click)="nextMonthMeeting()" class="fa fa-chevron-right icon-choose-right"
+                                aria-hidden="true"></i>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 20px;">
+                            <button type="button" class="btn-send-sms" (click)="add_meeting()">
+                              <img src="/assets/icons/components/ios-timer.svg" class="btn-send-email-icon">
+                              <span class="btn-send-sms-text"> Đặt lịch</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-10" style="margin-top: 15px;">
+                        <div class="row">
+                          <div class="col-md-12" style="height: 300px; overflow-y: auto;">
+                            <table class="w100">
+                              <thead>
+                                <tr>
+                                  <th class="cskh-header-timeline">Dòng thời gian</th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 1</p>
+                                    <p style="font-size: 12px;">{{startDateWeek1Meeting | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek1Meeting | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 2</p>
+                                    <p style="font-size: 12px;">{{startDateWeek2Meeting | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek2Meeting | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 3</p>
+                                    <p style="font-size: 12px;">{{startDateWeek3Meeting | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek3Meeting | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 4</p>
+                                    <p style="font-size: 12px;">{{startDateWeek4Meeting | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek4Meeting | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 5</p>
+                                    <p style="font-size: 12px;">{{startDateWeek5Meeting | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek5Meeting | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngIf="customerMeetingInfor.employeeId != ''">
+                                  <td class="cskh-body-emp">
+                                    <p class="cskh-body-emp-name">{{customerMeetingInfor.employeeName}}</p>
+                                    <p class="cskh-body-emp-position">{{customerMeetingInfor.employeePosition}}</p>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week1 of customerMeetingInfor.week1" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week1['background']}">
+                                      <p class="cskh-body-week-title">{{week1.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week1)">
+                                        {{week1.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week2 of customerMeetingInfor.week2" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week2['background']}">
+                                      <p class="cskh-body-week-title">{{week2.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week2)">
+                                        {{week2.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week3 of customerMeetingInfor.week3" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week3['background']}">
+                                      <p class="cskh-body-week-title">{{week3.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week3)">
+                                        {{week3.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week4 of customerMeetingInfor.week4" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week4['background']}">
+                                      <p class="cskh-body-week-title">{{week4.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week4)">
+                                        {{week4.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week5 of customerMeetingInfor.week5" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week5['background']}">
+                                      <p class="cskh-body-week-title">{{week5.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week5)">
+                                        {{week5.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel> -->
+
+              <p-tabPanel header="Lịch sử mua hàng">
+                <div class="row" style="margin-left: -14px; margin-right: -14px;">
+                  <div *ngIf="(listOrderOfCustomer.length > 0)" class="col-md-12" style="margin-top: 10px;">
+                    <p-table [columns]="colsCustomerOrderHistory" [value]="listOrderOfCustomer"
+                      [resizableColumns]="true" [responsive]="true" columnResizeMode="expand" [paginator]="true"
+                      [rows]="5">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                          <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            <span *ngSwitchCase="'orderCode'" class="link"
+                              (click)="goToOrderDetail(rowData['orderId'])">
+                              {{rowData[col.field]}}
+                            </span>
+                            <span *ngSwitchCase="'orderDate'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'amount'">
+                              {{rowData[col.field] | number:0}}
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div *ngIf="!(listOrderOfCustomer.length > 0)" class="col-md-12 no-data" style="margin-top: 10px;">
+                    <div class="box-no-data">
+                      <img src="/assets/icons/components/box.svg" class="box-icon">
+                      <div>
+                        <span>Hiện tại không có dữ liệu</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="Thông tin CSKH">
+                <div class="row" style="margin-left: -14px; margin-right: -14px;">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-2" style="margin-top: 15px;">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="btn-choose-time">
+                              <i (click)="preMonth()" class="fa fa-chevron-left icon-choose-left"
+                                aria-hidden="true"></i>
+                              <span class="choose-label">Tháng {{month}}, {{year}}</span>
+                              <i (click)="nextMonth()" class="fa fa-chevron-right icon-choose-right"
+                                aria-hidden="true"></i>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 20px;">
+                            <button type="button" class="btn-send-email" (click)="send_quick_email()">
+                              <img src="/assets/icons/components/Mail-Send-2.svg" class="btn-send-email-icon">
+                              <span class="btn-send-email-text"> Gửi Email</span>
+                            </button>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 10px;">
+                            <button type="button" class="btn-send-sms" (click)="send_quick_sms()">
+                              <img src="/assets/icons/components/communication-messaging.svg" class="btn-send-sms-icon">
+                              <span class="btn-send-sms-text"> Gửi SMS</span>
+                            </button>
+                          </div>
+
+                          <div class="col-md-12" style="margin-top: 10px;">
+                            <button type="button" class="btn-send-gift" (click)="send_quick_gift()">
+                              <img src="/assets/icons/components/gift.svg" class="btn-send-gift-icon">
+                              <span class="btn-send-gift-text"> Tặng quà</span>
+                            </button>
+                          </div>
+                          <div class="col-md-12" style="margin-top: 10px;">
+                            <button type="button" class="btn-send-sms" (click)="add_meeting()">
+                              <img src="/assets/icons/components/ios-timer.svg" class="btn-send-email-icon">
+                              <span class="btn-send-sms-text"> Đặt lịch</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-10" style="margin-top: 15px;">
+                        <div class="row">
+                          <div class="col-md-12" style="height: 300px; overflow-y: auto;">
+                            <table class="w100">
+                              <thead>
+                                <tr>
+                                  <th class="cskh-header-timeline">Dòng thời gian</th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 1</p>
+                                    <p style="font-size: 12px;">{{startDateWeek1 | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek1 | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 2</p>
+                                    <p style="font-size: 12px;">{{startDateWeek2 | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek2 | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 3</p>
+                                    <p style="font-size: 12px;">{{startDateWeek3 | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek3 | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 4</p>
+                                    <p style="font-size: 12px;">{{startDateWeek4 | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek4 | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                  <th class="cskh-header-week">
+                                    <p>Tuần 5</p>
+                                    <p style="font-size: 12px;">{{startDateWeek5 | date:'dd/MM/yyyy'}} -
+                                      {{endDateWeek5 | date:'dd/MM/yyyy'}}</p>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngFor="let item of listCustomerCareInfor">
+                                  <td class="cskh-body-emp">
+                                    <p class="cskh-body-emp-name">{{item.employeeName}}</p>
+                                    <p class="cskh-body-emp-position">{{item.employeePosition}}</p>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week1 of item.week1" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week1['background']}">
+                                      <p class="cskh-body-week-title">{{week1.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreview(week1)">
+                                        {{week1.subTitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week2 of item.week2" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week2['background']}">
+                                      <p class="cskh-body-week-title">{{week2.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreview(week2)">
+                                        {{week2.subTitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week3 of item.week3" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week3['background']}">
+                                      <p class="cskh-body-week-title">{{week3.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreview(week3)">
+                                        {{week3.subTitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week4 of item.week4" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week4['background']}">
+                                      <p class="cskh-body-week-title">{{week4.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreview(week4)">
+                                        {{week4.subTitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week5 of item.week5" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week5['background']}">
+                                      <p class="cskh-body-week-title">{{week5.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreview(week5)">
+                                        {{week5.subTitle}}</p>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr *ngIf="isExist">
+                                  <td class="cskh-body-emp">
+                                    <p class="cskh-body-emp-name">{{customerMeetingInfor.employeeName}}</p>
+                                    <p class="cskh-body-emp-position">{{customerMeetingInfor.employeePosition}}</p>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week1 of customerMeetingInfor.week1" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week1['background']}">
+                                      <i class="pi pi-trash" (click)="removeCustomerMeeting(week1)"></i>
+                                      <p class="cskh-body-week-title">{{week1.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week1)">
+                                        {{week1.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week2 of customerMeetingInfor.week2" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week2['background']}">
+                                      <i class="pi pi-trash" (click)="removeCustomerMeeting(week2)"></i>
+                                      <p class="cskh-body-week-title">{{week2.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week2)">
+                                        {{week2.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week3 of customerMeetingInfor.week3" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week3['background']}">
+                                      <i class="pi pi-trash" (click)="removeCustomerMeeting(week3)"></i>
+                                      <p class="cskh-body-week-title">{{week3.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week3)">
+                                        {{week3.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week4 of customerMeetingInfor.week4" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week4['background']}">
+                                      <i class="pi pi-trash" (click)="removeCustomerMeeting(week4)"></i>
+                                      <p class="cskh-body-week-title">{{week4.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week4)">
+                                        {{week4.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                  <td class="cskh-body-week">
+                                    <div *ngFor="let week5 of customerMeetingInfor.week5" class="cskh-body-week-block"
+                                      [ngStyle]="{'background-color': week5['background']}">
+                                      <i class="pi pi-trash" (click)="removeCustomerMeeting(week5)"></i>
+                                      <p class="cskh-body-week-title">{{week5.title}}</p>
+                                      <p class="cskh-body-week-sub-title" (click)="showPreviewMeeting(week5)">
+                                        {{week5.subtitle}}</p>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="Thông tin thanh toán">
+                <div class="row" style="margin-left: -14px; margin-right: -14px;">
+                  <div class="col-md-12">
+                    <button pButton type="button" icon="pi pi-plus" label="Thêm tài khoản" (click)="AddBankAccount()"
+                      class="ui-button-raised" style="margin-top: 15px;"></button>
+                  </div>
+
+                  <div *ngIf="(listBankAccount.length > 0)" class="col-md-12" style="margin-top: 10px;">
+                    <p-table [columns]="colsBankAccount" selectionMode="single"
+                      (onRowSelect)="editBankAccount($event.data)" [value]="listBankAccount" [resizableColumns]="true"
+                      [responsive]="true" columnResizeMode="expand" [paginator]="true" [rows]="5">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                          <th style="width:4em"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                          <td>
+                            <button pButton icon="pi pi-trash" class="ui-button-danger"
+                              (click)="deleteBankAccount(rowData)"></button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div *ngIf="!(listBankAccount.length > 0)" class="col-md-12 no-data" style="margin-top: 10px;">
+                    <div class="box-no-data">
+                      <img src="/assets/icons/components/box.svg" class="box-icon">
+                      <div>
+                        <span>Hiện tại không có dữ liệu</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="Thông tin khác">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <button pButton type="button" icon="pi pi-plus" label="Áp dụng danh sách câu hỏi mẫu"
+                          (click)="AddQAList()" class="ui-button-raised" style="margin-top: 15px;"></button>
+                        <button *ngIf="(listSelectedCusAddInf.length > 0)" pButton type="button" icon="pi pi-trash"
+                          label="Xóa" (click)="deleteSelectedQAList()" class="ui-button-raised ui-button-danger"
+                          style="margin-left: 5px;"></button>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="box-search">
+                          <input class="text-search" type="text" placeholder="Tìm kiếm theo câu hỏi hoặc câu trả lời"
+                            (input)="myTableCusAdd.filterGlobal($event.target.value.trim(), 'contains')">
+                          <button *ngIf="actionAdd" class="btn-create" type="button" (click)="createAddition()">
+                            <span class="btn-create-text">Tạo mới</span>
+                          </button>
+                          <div style="clear: both;"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row" style="margin-left: -14px; margin-right: -14px;">
+                      <div class="col-md-12" style="margin-top: 10px;">
+                        <p-table #myTableCusAdd [columns]="colsCustomerAdditionalInformation"
+                          [(selection)]="listSelectedCusAddInf" [value]="listCustomerAdditionalInformation"
+                          [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="5">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th style="width: 3em">
+                                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                              </th>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                              <th style="width:4em"></th>
+                              <th style="width:4em"></th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr>
+                              <td>
+                                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+                              </td>
+                              <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                [ngStyle]="{'text-align': col.textAlign}">
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                              <td>
+                                <button pButton icon="pi pi-pencil" (click)="editAddition(rowData)"></button>
+                              </td>
+                              <td>
+                                <button pButton icon="pi pi-trash" class="ui-button-danger"
+                                  (click)="deleteAddition(rowData)"></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel header="Cơ hội">
+                <div class="row">
+                  <div *ngIf="(listCustomerLead.length > 0)" class="col-md-12" style="margin-top: 10px;">
+                    <p-table [columns]="colsCusLead" [value]="listCustomerLead" [resizableColumns]="true"
+                      [responsive]="true" columnResizeMode="expand" [paginator]="true" [rows]="5">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                          <th style="width:4em"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            <span *ngSwitchCase="'leadCode'">
+                              <a target="_blank"
+                                [routerLink]="['/lead/detail', {leadId:rowData.leadId}]">{{rowData[col.field]}}</a>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                          <td>
+                            <button pButton icon="pi pi-trash" class="ui-button-danger"
+                              (click)="deleteCusContact(rowData)"></button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+
+                  <div *ngIf="!(listCustomerLead.length > 0)" class="col-md-12 no-data" style="margin-top: 10px;">
+                    <div class="box-no-data">
+                      <img src="/assets/icons/components/box.svg" class="box-icon">
+                      <div>
+                        <span>Hiện tại không có dữ liệu</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+            </p-tabView>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+    <div class="col-md-12 customer-infor">
+      <div class="row">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Ghi chú" [selected]="true">
+            <div class="col-md-12">
+              <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"
+                (onTextChange)="changeNoteContent($event)"></p-editor>
+            </div>
+            <div *ngIf="actionImport" class="col-md-12" style="margin-top: 5px;">
+              <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                maxFileSize="10000000" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file" (onSelect)="handleFile($event, fileUpload)"
+                (onRemove)="removeFile($event)" (onClear)="clearAllFile()"></p-fileUpload>
+            </div>
+
+            <div *ngIf="(listUpdateNoteDocument.length > 0)" class="col-md-12" style="margin-top: 5px;">
+              <p-table [columns]="colsFile" [value]="listUpdateNoteDocument" [responsive]="true"
+                [resizableColumns]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                    <th style="width:4em"></th>
+                    <th style="width:4em"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column"
+                      [ngStyle]="{'text-align': col.textAlign}">
+                      <span>{{rowData[col.field]}}</span>
+                    </td>
+                    <td>
+                      <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteFile(rowData)"
+                        class="ui-button-danger"></button>
+                    </td>
+                    <td>
+                      <button pButton icon="pi pi-download" (click)="downloadFile(rowData)"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+
+            <div class="col-md-12" style="text-align: right; margin-top: 5px;">
+              <button type="button" class="btn-cancel-note" (click)="cancelNote()">
+                <span class="save-cancel-lable">Hủy</span>
+              </button>
+              <button type="button" class="btn-save-note" (click)="saveNote()">
+                <span class="save-note-lable">{{isEditNote == true ? 'Cập nhật ghi chú' : 'Thêm ghi chú'}}</span>
+              </button>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 10px; padding-bottom: 10px;">
+    <div class="col-md-12 customer-infor">
+      <div class="row">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header="Dòng thời gian" [selected]="true">
+            <div class="timeline col-md-12 timeline-content">
+              <ul class="timeline">
+                <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                  <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                  <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                  <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                  <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                  <div class="timeline-item" id="{{note.noteId}}">
+                    <span class="time onHover">
+                      <i *ngIf="note.type === 'ADD' && ((note.description !== '' && note.description !== null) || note.noteDocList.length > 0) && actionEdit"
+                        (click)="onClickEditNote(note.noteId, note.description)" class="pi pi-pencil style-edit"
+                        pTooltip="{{ 'lead.tooltip.edit_note' | translate }}" tooltipPosition="bottom"></i>
+                      <i *ngIf="actionDelete" pTooltip="Xóa ghi chú" tooltipPosition="bottom"
+                        (click)="onClickDeleteNote(note.noteId)" class="pi pi-trash style-delete"></i>
+                    </span>
+                    <h3 class="timeline-header">
+                      <span>
+                        <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                          (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                          pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                        <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                      </span>
+                      <div>
+                        <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                          class="timeline-user-avatar" />
+                      </div>
+                      <span class="note-user">{{note.responsibleName}}</span>
+                      <!-- <span>
+                        <i *ngIf="note.noteDocList.length > 0" style="position: absolute;"
+                           class="material-icons file-icon"
+                           matTooltip="{{'Đính kèm ' + note.noteDocList.length + ' tài liệu'}}">
+                          insert_drive_file
+                        </i>
+                      </span> -->
+                      <p class="time-note">
+                        {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' | translate }}
+                        {{note.createdDate | date:'dd/MM/yyyy'}}
+                      </p>
+                    </h3>
+                    <div class="timeline-body">
+                      <div class="note-content">
+                        <span class="short-content" style="word-wrap: break-word;"></span>
+                        <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                      </div>
+
+                      <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                        style="padding: 0 12px; margin-bottom: 20px !important">
+                        <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                          class="col-md-4 short-content-file" style="padding: 5px 0">
+                          <div class="row no-margin file-item"
+                            style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                            <div class="col-md-1">
+                              <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                            </div>
+                            <div class="col-md-11">
+                              <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                <span>
+                                  <a class="preview-doc" (click)="openItem(item.documentName, item.documentUrl)">
+                                    {{ item.documentName }}
+                                  </a>
+                                </span>
+                              </div>
+                              <div style="font-size: 10px; padding: 0 !important">
+                                {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div *ngFor="let item of note.noteDocList;let i=index" class="col-md-4 full-content-file"
+                          style="display: none;padding: 5px 0">
+                          <div class="row no-margin file-item"
+                            style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                            <div class="col-md-1">
+                              <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                            </div>
+                            <div class="col-md-11">
+                              <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                <span>
+                                  <a class="preview-doc" (click)="openItem(item.base64Url)">
+                                    {{ item.documentName }}
+                                  </a>
+                                </span>
+                              </div>
+                              <div style="font-size: 10px; padding: 0 !important">
+                                {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Email" [(visible)]="previewEmail" [modal]="true" [responsive]="true"
+  [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+  [contentStyle]="{'max-height':'85vh'}">
+  <p-header></p-header>
+
+  <div class="row no-margin" style="padding-bottom: 10px;">
+    <div class="col-md-2" style="font-weight: bold;">
+      Ngày gửi
+    </div>
+    <div class="col-md-10">
+      {{previewCustomerCare.sendDate | date:'dd/MM/yyyy'}} - {{previewCustomerCare.sendDate | date:'HH:mm'}}
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-bottom: 10px;">
+    <div class="col-md-2" style="font-weight: bold;">
+      Tiêu đề
+    </div>
+    <div class="col-md-10">
+      {{previewCustomerCare.previewEmailTitle}}
+    </div>
+  </div>
+
+  <div class="row no-margin">
+    <div class="col-md-2" style="font-weight: bold;">
+      Nội dung
+    </div>
+    <div class="col-md-10">
+      <span [innerHTML]="previewCustomerCare.previewEmailContent" style="word-wrap: break-word;"></span>
+    </div>
+  </div>
+
+  <p-footer>
+    <button type="button" class="btn-cancel-note" (click)="closePreview('Email')" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+      <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+    </button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="SMS" [(visible)]="previewSMS" [modal]="true" [responsive]="true"
+  [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+  [contentStyle]="{'max-height':'85vh'}">
+  <p-header></p-header>
+
+  <div class="row no-margin" style="padding-bottom: 10px;">
+    <div class="col-md-2" style="font-weight: bold;">
+      Ngày gửi
+    </div>
+    <div class="col-md-10">
+      {{previewCustomerCare.sendDate | date:'dd/MM/yyyy'}} - {{previewCustomerCare.sendDate | date:'HH:mm'}}
+    </div>
+  </div>
+
+  <div class="row no-margin">
+    <div class="col-md-2" style="font-weight: bold;">
+      Nội dung
+    </div>
+    <div class="col-md-10">
+      <span style="word-wrap: break-word;">{{previewCustomerCare.previewSmsContent}}</span>
+    </div>
+  </div>
+
+  <p-footer>
+    <button type="button" class="btn-cancel-note" (click)="closePreview('SMS')" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+      <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+    </button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="Phản hồi của khách hàng" [(visible)]="feedback" [modal]="true" [responsive]="true"
+  [style]="{width: '900px', minWidth: '200px'}" [closable]="false" [maximizable]="true" [baseZIndex]="10000"
+  [contentStyle]="{'max-height':'85vh'}">
+  <p-header></p-header>
+  <form [formGroup]="feedbackForm">
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        Tên chương trình
+      </div>
+      <div class="col-md-10">
+        {{dataDialogCustomerFeedBack.name}}
+      </div>
+    </div>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        Bắt đầu
+      </div>
+      <div class="col-md-10">
+        Từ ngày {{dataDialogCustomerFeedBack.fromDate | date:'dd/MM/yyyy'}} đến ngày
+        {{dataDialogCustomerFeedBack.toDate | date:'dd/MM/yyyy'}}
+      </div>
+    </div>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        Hình thức
+      </div>
+      <div class="col-md-10">
+        {{dataDialogCustomerFeedBack.typeName}}
+      </div>
+    </div>
+
+    <div class="row no-margin" style="padding-bottom: 10px;">
+      <div class="col-md-2">
+        Mã phản hồi
+      </div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-12">
+            <p-dropdown [options]="listFeedBackCode" formControlName="feedbackCodeControl"
+              placeholder="Chọn mã phản hồi" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+              [styleClass]="(feedbackCodeControl.invalid && (feedbackCodeControl.dirty || feedbackCodeControl.touched)) ? 'error-border' : ''"
+              optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+          <div class="col-md-12" [hidden]="feedbackCodeControl.valid || feedbackCodeControl.untouched">
+            <span *ngIf="feedbackCodeControl.hasError('required')" style="color: red">Chưa chọn mã phản hồi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-margin">
+      <div class="col-md-2">
+        Ghi chú
+      </div>
+      <div class="col-md-10">
+        <div class="row">
+          <div class="col-md-12">
+            <textarea rows="5" cols="30" pInputTextarea formControlName="feedbackContentControl" style="width: 100%;"
+              [ngClass]="(feedbackContentControl.invalid && (feedbackContentControl.dirty || feedbackContentControl.touched)) ? 'error-border': ''"></textarea>
+          </div>
+          <div class="col-md-12" [hidden]="feedbackContentControl.valid || feedbackContentControl.untouched">
+            <span *ngIf="feedbackContentControl.hasError('required')" style="color: red">Không được để trống</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-footer>
+    <button type="button" class="btn-cancel-note" (click)="closeFeedBack()" style="width: 72px;
+                  height: 32px;
+                  border-radius: 4px;
+                  border: solid 1px #c1c7cd;
+                  background-color: #ffffff;">
+      <span style="width: 24px;
+                  height: 16px;
+                  font-family: 'Inter UI';
+                  font-size: 13px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: 1.15;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: #121619;">Hủy</span>
+    </button>
+    <button type="button" (click)="saveFeedBack()" [disabled]="awaitSaveFeedBack" style="width: 158px;
+                  height: 32px;
+                  border-radius: 4px;
+                  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+                  background-color: #0f62fe;
+                  border: solid 1px #cccccc;
+                  margin-left: 5px;">
+      <span style="width: 110px;
+                height: 16px;
+                font-family: 'Inter UI';
+                font-size: 13px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.15;
+                letter-spacing: normal;
+                text-align: center;
+                color: #ffffff;">Lưu</span>
+    </button>
+  </p-footer>
+</p-dialog>

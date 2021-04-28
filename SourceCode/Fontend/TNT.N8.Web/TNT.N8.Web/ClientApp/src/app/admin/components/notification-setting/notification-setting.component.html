@@ -1,0 +1,353 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="notificaiton-setting">
+  <div class="row no-margin">
+    <form [formGroup]="settingForm" style="height: 100%;">
+      <div class="col-md-8">
+        <div class="row notificaiton-setting-content" id="parent">
+          <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <span *ngIf="!isInvalidForm">
+                    <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                  </span>
+                  <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                    <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                  </div>
+                  <span class="title-page">Tạo mới thông báo</span>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                    <div
+                      *ngIf="(notifiSettingNameControl.invalid && (notifiSettingNameControl.dirty || notifiSettingNameControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập tên thông báo</span>
+                    </div>
+                    <div
+                      *ngIf="(screenControl.invalid && (screenControl.dirty || screenControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa chọn màn hình</span>
+                    </div>
+                    <div
+                      *ngIf="(notifiActionControl.invalid && (notifiActionControl.dirty || notifiActionControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa chọn sự kiện</span>
+                    </div>
+                    <div
+                      *ngIf="(emailTitleControl.invalid && (emailTitleControl.dirty || emailTitleControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập tiêu đề cho email nội bộ</span>
+                    </div>
+                    <div
+                      *ngIf="(emailContentControl.invalid && (emailContentControl.dirty || emailContentControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa nhập nội dung cho email nội bộ</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div style="float: right;">
+                    <button class="cancel" type="button" (click)="cancel()">
+                      <span class="text-cancel">Quay lại</span>
+                    </button>
+                    <button #saveAndCreate *ngIf="actionAdd" class="save-and-new" type="button" [disabled]="awaitResult"
+                      (click)="createOrUpdate(true)">
+                      <span class="text-save-and-new">Lưu và Thêm mới</span>
+                    </button>
+                    <button #save class="save" *ngIf="actionAdd" type="button" [disabled]="awaitResult"
+                      (click)="createOrUpdate(false)">
+                      <span class="text-save">Lưu</span>
+                    </button>
+                  </div>
+                  <div style="clear: both;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <div class="col-md-12" style="text-align: right;">
+              <p-checkbox formControlName="activeControl" [binary]="true" label="Kích hoạt"></p-checkbox>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-2 mt-5">
+                  <span>Tên thông báo<span class="require">*</span></span>
+                </div>
+                <div class="col-md-9">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input class="w100 input-text" type="text" pInputText formControlName="notifiSettingNameControl"
+                        (keydown.enter)="$event.preventDefault()" placeholder="Nhập tên thông báo"
+                        [ngClass]="(notifiSettingNameControl.invalid && (notifiSettingNameControl.dirty || notifiSettingNameControl.touched)) ? 'error-border': ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="notifiSettingNameControl.valid || notifiSettingNameControl.untouched">
+                      <span
+                        *ngIf="notifiSettingNameControl.hasError('required') || notifiSettingNameControl?.errors?.forbiddenSpaceText"
+                        class="error-message-span">Không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-2 mt-5">
+                  <span>Màn hình<span class="require">*</span></span>
+                </div>
+                <div class="col-md-9">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listScreen" formControlName="screenControl"
+                        (keydown.enter)="$event.preventDefault()"
+                        [styleClass]="(screenControl.invalid && (screenControl.dirty || screenControl.touched)) ? 'error-border' : ''"
+                        [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn màn hình"
+                        optionLabel="screenName" [style]="{'width': '100%'}"
+                        (onChange)="changeScreen()"></p-dropdown>
+                    </div>
+                    <div class="col-md-12" [hidden]="screenControl.valid || screenControl.untouched">
+                      <span *ngIf="screenControl.hasError('required')" class="error-message-span">Không được để
+                        trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-2 mt-5">
+                  <span>Sự kiện<span class="require">*</span></span>
+                </div>
+                <div class="col-md-9">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listNotifiAction" formControlName="notifiActionControl"
+                        (keydown.enter)="$event.preventDefault()"
+                        [styleClass]="(notifiActionControl.invalid && (notifiActionControl.dirty || notifiActionControl.touched)) ? 'error-border' : ''"
+                        [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn sự kiện"
+                        optionLabel="notifiActionName" [style]="{'width': '100%'}"></p-dropdown>
+                    </div>
+                    <div class="col-md-12" [hidden]="notifiActionControl.valid || notifiActionControl.untouched">
+                      <span *ngIf="notifiActionControl.hasError('required')" class="error-message-span">Không được để
+                        trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-2 mt-5">
+                  <span>Thông báo cho</span>
+                </div>
+                <div class="col-md-10">
+                  <div class="row">
+                    <div class="col-md-12 mt-10">
+                      <p-checkbox formControlName="isApprovedControl" [binary]="true" label="Người phê duyệt"></p-checkbox>
+                    </div>
+                    <div class="col-md-12 mt-10">
+                      <p-checkbox formControlName="isParticipantControl" [binary]="true" label="Người tham gia"></p-checkbox>
+                    </div>
+                    <div class="col-md-12 mt-10">
+                      <p-checkbox formControlName="isCreatedControl" [binary]="true" label="Người tạo"></p-checkbox>
+                    </div>
+                    <div class="col-md-12 mt-10">
+                      <p-checkbox formControlName="isPersonInchargeControl" [binary]="true" label="Người phụ trách"></p-checkbox>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-3 mt-5">
+                  <span>Thông báo đặc biệt cho</span>
+                </div>
+                <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-multiSelect [options]="listEmployee" formControlName="selectedNotifiSpecialControl"
+                        [virtualScroll]="true" itemSize="30" 
+                        defaultLabel="Chọn người" optionLabel="employeeCodeName"
+                        [filter]="true" [resetFilterOnHide]="true"
+                        [style]="{'width': '100%'}" selectedItemsLabel="{0} người">
+                      </p-multiSelect>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <p-checkbox formControlName="sendInternalControl" [binary]="true" label="Gửi nội bộ"
+                    (onChange)="changeSendInternal()"></p-checkbox>
+                </div>
+              </div>
+              
+            </div>
+
+            <div *ngIf="sendInternalControl.value" class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="border-header">
+                    <span><strong>Cấu hình gửi thông báo nội bộ</strong></span>
+                  </div>
+                  <div class="border-content">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <span>Gửi trước</span>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown [options]="listInforScreenInternal" formControlName="objectBackHourInternalControl"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn trường thông tin"
+                                  optionLabel="inforScreenName" [style]="{'width': '100%'}"
+                                  (onChange)="changeObjectBackHourInternal()"></p-dropdown>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="objectBackHourInternalControl.value" class="col-md-2">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <span>Giờ</span>
+                              </div>
+                              <div class="col-md-12">
+                                <input type="text" class="number-input" formControlName="backHourInternalControl"
+                                  placeholder="Nhập số giờ thông báo trước"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                              </div>
+                              <div class="col-md-12" [hidden]="backHourInternalControl.valid || backHourInternalControl.untouched">
+                                <span *ngIf="backHourInternalControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-12">
+                        <hr>
+                      </div>
+
+                      <div class="col-md-12 mt-10">
+                        <p-checkbox formControlName="isEmailControl" [binary]="true" label="Email"
+                        (onChange)="changeIsEmail()"></p-checkbox>
+                      </div>
+
+                      <div *ngIf="isEmailControl.value" class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12 mt-10">
+                            <span>Tiêu đề email</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input class="w100 input-text" type="text" pInputText formControlName="emailTitleControl"
+                              (focus)="forcusTitleEmail($event)" (blur)="forcusTitleEmail()"
+                              (keydown.enter)="$event.preventDefault()" placeholder="Nhập tiêu đề email"
+                              [ngClass]="(emailTitleControl.invalid && (emailTitleControl.dirty || emailTitleControl.touched)) ? 'error-border': ''"
+                            />
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="emailTitleControl.valid || emailTitleControl.untouched">
+                            <span
+                              *ngIf="emailTitleControl.hasError('required') || emailTitleControl?.errors?.forbiddenSpaceText"
+                              class="error-message-span">Không được để trống</span>
+                          </div>
+    
+                          <div class="col-md-12 mt-10">
+                            <span>Nội dung email</span>
+                          </div>
+                          <div class="col-md-12">
+                            <ejs-richtexteditor [insertImageSettings]='insertImageSettings' #templateRTE
+                              (focus)="forcusContentEmail($event)" (blur)="forcusContentEmail()"
+                              [toolbarSettings]='tools' formControlName="emailContentControl"
+                              [ngClass]="(emailContentControl.invalid && (emailContentControl.dirty || emailContentControl.touched)) ? 'error-border' : ''">
+                              <ng-template >
+                              </ng-template>
+                            </ejs-richtexteditor>
+                          </div>
+                          <div class="col-md-12" [hidden]="emailContentControl.valid || emailContentControl.untouched">
+                            <span *ngIf="emailContentControl.hasError('required')" class="error-message-span">Không được để
+                              trống</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="no-margin overview" [ngClass]="{'fixed4': fixed}" [ngStyle]="{'width':withFiexdCol}" id="parentTH">
+          <div class="row no-margin button-group">
+            <div class="col-md-12">
+              <span class="text-title">Danh sách Token</span>
+              <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+            </div>
+          </div>
+          <div class="row no-margin" style="background: #ffffff;">
+            <div *ngIf="(listNotifiSettingToken.length > 0)" class="col-md-12 mt-10">
+              <p-table #myTable [columns]="cols" [value]="listNotifiSettingToken"
+                [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" 
+              >
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign, display: col.display }">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign, display: col.display }"
+                    >
+                      <span *ngSwitchCase="'tokenCode'" class="link" (click)="addToken(rowData['tokenCode'])">
+                        {{ rowData[col.field] }}
+                      </span>
+                      <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listNotifiSettingToken.length > 0)" class="col-md-12 no-padding no-data mt-10">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

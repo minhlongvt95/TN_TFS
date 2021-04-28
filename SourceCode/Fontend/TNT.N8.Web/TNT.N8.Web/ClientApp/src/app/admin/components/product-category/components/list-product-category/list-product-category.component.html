@@ -1,0 +1,89 @@
+<div class="mainpage row">
+  <div class="col-md-12">
+    <div class="row title">
+      <form>
+        <p class="col-md-8">{{ 'productcategory.title' | translate }}</p>
+        <div class="row_button col-md-4">
+          <button mat-raised-button class="btn btn-create" *ngIf="actionAdd" (click)="onClickButtonCreate('create','','',null)">{{ 'productcategory.tooltip.create' | translate }}</button>
+        </div>
+      </form>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-12 form-group">
+    <form>
+    <table class="full_width" id="productCategoryTable">
+      <thead>
+        <tr>
+          <th class="width-10" id="headerCell_icontrigger">
+            <i class="material-icons icon_triger" role="button" (click)="masterToggle($event)" (click)="changeicon($event)">add</i>
+          </th>
+          <th class="width-30" id="headerCell_name"> {{ 'productcategory.productcategory_name' | translate }} </th>
+          <th class="width-15" id="headerCell_code"> {{ 'productcategory.productcategory_code' | translate }} </th>
+          <th class="width-35" id="headerCell_description"> {{ 'productcategory.productcategory_description' | translate }} </th>
+          <th class="width-10" id="headerCell_event"></th>
+        </tr>
+      </thead>
+    </table>
+    <form *ngFor="let element of productCategoryList" class="body_table ">
+      <table class="full_width parent">
+          <tr>
+            <td class="width-10"><i class="material-icons icon_triger"
+              role="button"
+              data-toggle="collapse"
+              [attr.data-target]="'.'+element.productCategoryId"
+              [attr.data-controls]="element.productCategoryId"
+              aria-expanded="false"
+              (click)="changeicon($event)"
+           >add</i></td>
+            <td class="width-30"> {{element.productCategoryName}} </td>
+            <td class="width-15"> {{element.productCategoryCode}} </td>
+            <td class="width-35"> {{element.description}} </td>
+            <td class="width-10">
+              <i class="material-icons btn-edit" *ngIf="actionEdit" matTooltip="{{ 'productcategory.tooltip.edit' | translate }}" (click)="onClickButtonCreate('edit',element.productCategoryId,element.productCategoryName,element.productCategoryLevel)">edit</i>
+              <i class="material-icons btn-add" *ngIf="actionAdd" matTooltip="{{ 'productcategory.tooltip.add' | translate }}" (click)="onClickButtonCreate('create',element.productCategoryId,element.productCategoryName,element.productCategoryLevel)">add</i>
+              <i class="material-icons btn-delete" *ngIf="element.countProductCategory === 0 && actionDelete" matTooltip="{{ 'productcategory.tooltip.delete' | translate }}" (click)="del_productCategory(element.productCategoryId)">delete</i>
+            </td>
+          </tr>
+      </table>
+      <form *ngFor="let elementChild of element.productCategoryChildList" [ngClass]="element.productCategoryId" class="body_table collapse child_row">
+        <table class="full_width">
+          <tr>
+            <td class="width-10"><i class="material-icons icon_triger"
+              role="button"
+              data-toggle="collapse"
+              [attr.data-target]="'.'+elementChild.productCategoryId"
+              [attr.data-controls]="elementChild.productCategoryId"
+              aria-expanded="false"
+              (click)="changeicon($event)"
+              style="left: 20px; position: relative;"
+           >add</i></td>
+            <td class="width-30">{{elementChild.productCategoryName}}</td>
+            <td class="width-15"> {{elementChild.productCategoryCode}} </td>
+            <td class="width-35"> {{elementChild.description}} </td>
+            <td class="width-10">
+              <i class="material-icons btn-edit" *ngIf="actionEdit" matTooltip="{{ 'productcategory.tooltip.edit' | translate }}" (click)="onClickButtonCreate('edit',elementChild.productCategoryId,elementChild.productCategoryName,elementChild.productCategoryLevel)">edit</i>
+              <i class="material-icons btn-add" *ngIf="actionAdd" matTooltip="{{ 'productcategory.tooltip.add' | translate }}" (click)="onClickButtonCreate('create',elementChild.productCategoryId,elementChild.productCategoryName,elementChild.productCategoryLevel)">add</i>
+              <i class="material-icons btn-delete" *ngIf="element.countProductCategory === 0 && actionDelete" matTooltip="{{ 'productcategory.tooltip.delete' | translate }}" (click)="del_productCategory(elementChild.productCategoryId)">delete</i>
+            </td>
+          </tr>
+        </table>
+        <form *ngFor="let elementGrandChild of elementChild.productCategoryChildList" [ngClass]="elementChild.productCategoryId" class="body_table collapse grand child_row">
+          <table class="full_width">
+            <tr>
+              <td class="width-10"></td>
+              <td class="width-30"> {{elementGrandChild.productCategoryName}} </td>
+              <td class="width-15"> {{elementGrandChild.productCategoryCode}} </td>
+              <td class="width-35"> {{elementGrandChild.description}} </td>
+              <td class="width-10">
+                <i class="material-icons btn-edit" *ngIf="actionEdit" matTooltip="{{ 'productcategory.tooltip.edit' | translate }}" (click)="onClickButtonCreate('edit',elementGrandChild.productCategoryId,elementGrandChild.productCategoryName,elementGrandChild.productCategoryLevel)">edit</i>
+                <i class="material-icons btn-delete" *ngIf="actionDelete" matTooltip="{{ 'productcategory.tooltip.delete' | translate }}" (click)="del_productCategory(elementGrandChild.productCategoryId)">delete</i>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </form>
+    </form>     
+    </form>
+  </div>
+</div>

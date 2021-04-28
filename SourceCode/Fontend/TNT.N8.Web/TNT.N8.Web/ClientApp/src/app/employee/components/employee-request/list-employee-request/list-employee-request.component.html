@@ -1,0 +1,506 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="employee-request-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="\assets\icons\components\noun_product.svg" class="noun-product">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách đề xuất xin nghỉ</div>
+                  <div class="box-header-subtitle">
+                    {{listAllEmployeeRequest.length}} đầu mục - Sắp xếp theo ngày gần nhất - Cập nhật
+                    {{nowDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12" style="text-align: right;">
+            <button type="button" class="btn-create" *ngIf="actionAdd && empPerAddRequest" (click)="goToCreate()"><span
+                class="btn-create-text">Tạo đề xuất</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" [(ngModel)]="filterGlobal" placeholder="Tìm kiếm trong danh sách"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập họ và tên đệm"
+              [(ngModel)]="employeeRequestCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã NV được đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập tên nhân viên"
+              [(ngModel)]="offerEmployeeCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên NV được đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập tên tài khoản"
+              [(ngModel)]="offerEmployeeName">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Chọn đơn vị</span>
+            <a href="javascript:(0)" (click)="openOrgPopup()"> <u>(Xem sơ đồ tổ chức)</u></a>
+          </div>
+          <div class="col-md-12">
+            <input type="text" value="{{this.offerOrganizationName}}" placeholder="Chọn đơn vị"
+              class="employee-code-text" disabled>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="startDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="endDate ? endDate : maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="endDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="startDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [(ngModel)]="selectedGroupStatus" [options]="listStatus" defaultLabel="Chọn trạng thái"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true" itemSize="30"
+              [virtualScroll]="true" selectedItemsLabel="{0} đơn vị được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Loại đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [(ngModel)]="selectedGroupTypeRequest" [options]="listTypeRequest"
+              defaultLabel="Chọn loại đề xuất" optionLabel="categoryName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" itemSize="30" [virtualScroll]="true" selectedItemsLabel="{0} đơn vị được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchEmployeeRequest()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="listAllEmployeeRequest.length > 0" class="col-md-{{leftColNumber}}">
+      <p-table #myTable [columns]="selectedColumns" [value]="listAllEmployeeRequest"
+        (sortFunction)="sortColumnInList($event)" [customSort]="true" [resizableColumns]="true"
+        [(selection)]="selection" columnResizeMode="expand" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="colsList" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3.5em; text-align: center;">
+              #
+            </th>
+            <!-- <th style="width: 3em;">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th> -->
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>   
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td style="text-align: center;">
+              {{rowData.index}}
+            </td>
+            <!-- <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td> -->
+            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+              <span *ngSwitchCase="'employeeRequestCode'" (click)="goToRequest(rowData)" class="link" style="display: inline-block;
+              padding: 3px 3px;">{{rowData[col.field]}}</span>
+              <span *ngSwitchCase="'offerEmployeeName'" (click)="onViewDetail(rowData)" class="link" style="display: inline-block;
+            padding: 3px 3px;">{{rowData[col.field]}}</span>
+              <span *ngSwitchCase="'startDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+              <span *ngSwitchCase="'enDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+              <span *ngSwitchCase="'createDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+              <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroupStatusColor']}"
+              style="display: inline-block;
+            padding: 3px 3px;
+            color: white;
+            width: 130px;">{{ rowData[col.field] }}</span>
+              <span *ngSwitchDefault>{{ rowData[col.field]}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="!(listAllEmployeeRequest.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập họ và tên đệm"
+              [(ngModel)]="employeeRequestCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã NV được đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập tên nhân viên"
+              [(ngModel)]="offerEmployeeCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên NV được đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="employee-code-text" placeholder="Nhập tên tài khoản"
+              [(ngModel)]="offerEmployeeName">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Chọn đơn vị</span>
+            <a href="javascript:(0)" (click)="openOrgPopup()"> <u>(Xem sơ đồ tổ chức)</u></a>
+          </div>
+          <div class="col-md-12">
+            <input type="text" value="{{this.offerOrganizationName}}" placeholder="Chọn đơn vị"
+              class="employee-code-text" disabled>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="startDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="endDate ? endDate : maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="endDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="startDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [(ngModel)]="selectedGroupStatus" [options]="listStatus" defaultLabel="Chọn trạng thái"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true" itemSize="30"
+              [virtualScroll]="true" selectedItemsLabel="{0} đơn vị được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Loại đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [(ngModel)]="selectedGroupTypeRequest" [options]="listTypeRequest"
+              defaultLabel="Chọn loại đề xuất" optionLabel="categoryName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" itemSize="30" [virtualScroll]="true" selectedItemsLabel="{0} đơn vị được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchEmployeeRequest()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <section class="list-content">
+  <div class="row">
+    <div class="hidden-md hidden-lg">
+      <h4>Danh sách các đề xuất xin nghỉ</h4>
+    </div>
+    <div class="button-action bg-white shadow">
+      <h4 class="hidden-xs hidden-sm">Danh sách các đề xuất xin nghỉ</h4>
+
+      <span class="pull-right" *ngIf='actionAdd && empPerAddRequest'>
+        <a href="/employee/request/create" mat-raised-button color="primary">Tạo đề xuất</a>
+      </span>
+    </div>
+    <form action="" class="filter-employee form-horizontal bg-white shadow" accept-charset="utf-8">
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input type="text" placeholder="Mã đề xuất" name="employeeCode" matInput
+                 [(ngModel)]="employeeRequestCode" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input type="text" placeholder="Mã nhân viên được đề xuất" name="employeeCode" matInput
+                 [(ngModel)]="offerEmployeeCode" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input type="text" placeholder="Tên nhân viên được đề xuất" name="employeeName" matInput
+                 [(ngModel)]="offerEmployeeName">
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input type="text" placeholder="Đơn vị" name="organization" matInput readonly [(ngModel)]="empOrganizationNameDisplay">
+        </mat-form-field>
+        <p style="position: absolute;bottom: -15px;cursor: pointer;color: #6D98E7;" (click)="openOrgDialog()">Chọn đơn vị&gt;&gt;</p>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input matInput [matDatepicker]="pickerFromDate"
+                 name="startDate"
+                 placeholder="Từ ngày"
+                 [matDatepickerFilter]="filterStartedDate"
+                 [(ngModel)]="startDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFromDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field class="w100">
+          <input matInput [matDatepicker]="pickerToDate"
+                 name="endDate"
+                 placeholder="Đến ngày"
+                 [matDatepickerFilter]="filterEndDate"
+                 [(ngModel)]="endDate">
+          <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerToDate></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="w100">
+          <mat-select (selectionChange)="selectedFn($event,'Status')" multiple [formControl]="listStatusControl" placeholder="Trạng thái">
+            <mat-option *ngFor="let stt of listStatus" [value]="stt.categoryId">{{stt.categoryName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field class="w100">
+          <mat-select (selectionChange)="selectedFn($event,'TypeRequest')" multiple [formControl]="listTypeRequestControl" placeholder="Loại đề xuất">
+            <mat-option *ngFor="let stt of listTypeRequest" [value]="stt.categoryId">{{stt.categoryName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-2">
+        <button matTooltip="{{ 'employee.tooltip.search' | translate }}" class="search-button" (click)="searchEmployeeRequest()">
+          <i class="fa fa-search"></i>
+        </button>
+        <button matTooltip="{{ 'lead.tooltip.refresh' | translate }}" class="search-button" (click)="refreshParameter()">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+      </div>
+
+
+    </form>
+  </div>
+  <div class="row shadow" style="overflow-x: scroll">
+    <div class="table-list bg-white">
+      <mat-table #table [dataSource]="dataSourceListEmpRequest">
+        <ng-container matColumnDef="requestCode">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'employee.request.request_code' | translate }}
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a class="link" *ngIf="element.statusName != 'Đã phê duyệt'" (click)="goToRequest(element.employeeRequestId)">{{ element.employeeRequestCode }}</a> 
+            <a class="link" *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD" (click)="goToRequest(element.employeeRequestId)">{{ element.employeeRequestCode }}</a> 
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="offerEmployeeName">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'employee.request.emp_offername' | translate }}
+            <i class="fas fa-sort" (click)="sort('offerEmployeeName')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.offerEmployeeName }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.offerEmployeeName }}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="organization">
+          <mat-header-cell *matHeaderCellDef> {{ 'employee.request.emp_unit' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.organization }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.organization }}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="branch">
+          <mat-header-cell *matHeaderCellDef> {{ 'employee.request.branch' | translate }} </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{element.parentName}}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{element.parentName}}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef>{{ 'employee.request.emp_startdate' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.startDate | date:'dd-MM-yyyy' }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.startDate | date:'dd-MM-yyyy' }}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef>{{ 'employee.request.emp_enddate' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.enDate | date:'dd-MM-yyyy' }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.enDate | date:'dd-MM-yyyy' }}</div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'employee.request.emp_status' | translate }}
+            <i class="fas fa-sort" (click)="sort('status')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.statusName }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.statusName }}</div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="approverName">
+          <mat-header-cell *matHeaderCellDef>{{ 'employee.request.emp_approver' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element ">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.approverName }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.approverName }}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createDate">
+          <mat-header-cell *matHeaderCellDef>
+            {{ 'employee.request.emp_createdate' | translate }}
+            <i class="fas fa-sort" (click)="sort('createDate')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.createDate | date:'dd-MM-yyyy' }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.createDate | date:'dd-MM-yyyy' }}</div>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="typeRequest">
+          <mat-header-cell *matHeaderCellDef>{{ 'employee.request.emp_typerequest' | translate }}</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div *ngIf="element.statusName != 'Đã phê duyệt'">{{ element.typeRequestName }}</div>
+            <div *ngIf="element.statusName == 'Đã phê duyệt'" style="color: #BDBDBD">{{ element.typeRequestName }}</div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+      </mat-table>
+      <div class="left-panigator">
+        <mat-paginator style="position: sticky; left: 0px;" [pageSizeOptions]="[5,10,25,100]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</section> -->

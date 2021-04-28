@@ -1,0 +1,53 @@
+.warning-dialog {
+  background-color: rgb(253, 239, 148);
+  padding: 0 !important;
+  color: rgb(101, 96, 59);
+}
+
+.warning-dialog table {
+  width: 100%;
+}
+
+.warning-dialog table tr td {
+  padding: 15px;
+}
+
+.warning-dialog table tr td:nth-child(2) {
+  padding: 0;
+}
+
+.icon {
+  padding-right: 15px;
+}
+
+.close-icon {
+  padding-left: 60px;
+}
+
+i{
+  cursor: pointer;
+}
+
+.warning-dialog div {
+  background-color: rgb(152, 143, 89);
+  height: 3px;
+  -webkit-animation: pgb-warning 5s linear backwards;
+}
+
+.warning-dialog:hover div {
+  -webkit-animation-play-state: paused;
+}
+
+.warning-dialog .pgb-warning {
+  width: 0;
+}
+
+@keyframes pgb-warning {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}

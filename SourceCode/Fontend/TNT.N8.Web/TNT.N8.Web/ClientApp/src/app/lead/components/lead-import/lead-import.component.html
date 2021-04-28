@@ -1,0 +1,32 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<section class="lead-import-dialog">
+  <div class="row bottom-buffer">
+    <div class="col-md-3">
+      <span>File dữ liệu</span><span class="required">*</span>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-primary btn-file">
+        Chọn file
+        <input type="file" (change)="onFileChange($event)" [accept]="accept">
+      </button>
+    </div>
+  </div>
+  <div class="row buttons">
+    <div class="col-md-12"
+      style="border-top: 1px solid #c8c8c8;display: flex;justify-content: flex-end;padding-top: 0.571em;">
+      <button type="button" class="btn-remove">
+        <span class="btn-remove-text" (click)="onCancel()">Hủy</span>
+      </button>
+    </div>
+  </div>
+</section>

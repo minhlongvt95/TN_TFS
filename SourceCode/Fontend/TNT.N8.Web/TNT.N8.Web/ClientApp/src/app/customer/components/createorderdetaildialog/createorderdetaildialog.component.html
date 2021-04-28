@@ -1,0 +1,427 @@
+<!-- <div class="customer-create-order-dialog">
+  <div class="org-dialog-title">
+    <span>
+      {{'order.create.create_product' | translate}}
+    </span>
+  </div>
+  <div class="row">
+    <div class="col-md-12 ">
+      <form class="form-group col-md-12 top-15 bottom-15 grey" [formGroup]="informationProductForm"
+        *ngIf="informationProductForm">
+        <mat-radio-group role="tablist" class="col-md-12">
+          <mat-radio-button *ngIf="(customerOrderDetailEditModel.OrderDetailType == 0) && data.isEdit == 'edit'"
+            [checked]="customerOrderDetailEditModel.OrderDetailType == 0" value="supplied_product"
+            style="margin-right: 15px;">Sản phẩm, dịch vụ cung cấp</mat-radio-button>
+          <mat-radio-button *ngIf="(customerOrderDetailEditModel.OrderDetailType != 0) && data.isEdit == 'edit'"
+            [checked]="customerOrderDetailEditModel.OrderDetailType != 0" value="incured_product">Phí phát sinh
+          </mat-radio-button>
+          <mat-radio-button *ngIf="data.isEdit == null" value="supplied_product" style="margin-right: 15px;" checked
+            (change)="changeTablist($event,'product')">Sản phẩm, dịch vụ cung cấp</mat-radio-button>
+          <mat-radio-button *ngIf="data.isEdit == null" value="incured_product"
+            (change)="changeTablist($event,'product')">Phí phát sinh</mat-radio-button>
+        </mat-radio-group>
+        <form [formGroup]="checkProductForm" *ngIf="checkProductForm">
+          <div *ngIf="productValue === 'supplied_product'">
+            <div class="col-md-6 no-padding-left pr-30">
+              <div class="row order-row">
+                <div class="col-md-12 control-label">
+                  <label>{{ 'product.create.vendor' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                </div>
+                <div class="form-group col-md-12">
+                  <mat-form-field class="form-control full-width autoComplete"
+                    [ngClass]="vendorIdControl.hasError('required') && !vendorIdControl.valid && !vendorIdControl.untouched ? 'error-border' : ''">
+                    <input type="text" aria-label="Customer" [formControl]="vendorIdControl" id="vendorIdControl"
+                      matInput [matAutocomplete]="autoVendor">
+                    <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearDataVendor()">clear</i>
+                    <mat-autocomplete #autoVendor="matAutocomplete" (optionSelected)="selectedVendorFn($event)">
+                      <mat-option *ngFor="let option of filteredVendorOptions | async" [value]="option.vendorId"
+                        matTooltip="{{option.vendorCode}}-{{option.vendorName}}">
+                        {{option.vendorCode}}-{{option.vendorName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="vendorIdControl.valid || vendorIdControl.untouched">
+                    <mat-error *ngIf="vendorIdControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-row">
+                <div class="col-md-9">
+                  <label class="control-label">Chọn SP/DV:<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <mat-form-field class="form-control full-width autoComplete"
+                    [ngClass]="productIdControl.hasError('required') && !productIdControl.valid && !productIdControl.untouched ? 'error-border' : ''">
+                    <input type="text" aria-label="Employee" matInput name="productIdControl" id="productIdControl"
+                      [formControl]="productIdControl" [matAutocomplete]="autoProduct">
+                    <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearDataProduct()">clear</i>
+                    <mat-autocomplete #autoProduct="matAutocomplete" (optionSelected)="selectedProductFn($event)">
+                      <mat-option *ngFor="let product of filteredProductOptions  | async" [value]="product.productId"
+                        matTooltip="{{product.productName}}">
+                        {{product.productName}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="productIdControl.valid || productIdControl.untouched">
+                    <mat-error *ngIf="productIdControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-3 no-padding-left">
+                  <label class="control-label">{{ 'product.create.unit' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+
+                  <mat-form-field class="form-control full-width">
+                    <mat-select (selectionChange)="changeUnit($event)" name="unitControl" formControlName="unitControl"
+                      [(ngModel)]="customerOrderDetailEditModel.UnitId">
+                      <mat-option *ngFor="let option of listunit" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="unitControl.valid || unitControl.untouched">
+                    <mat-error *ngIf="unitControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-row">
+                <div class="col-md-6">
+                  <label class="control-label">{{ 'product.create.amount' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <input class="form-control" name="qualityControl" mask="separator.{{defaultNumberType}}"
+                    thousandSeparator="," (keypress)="onKeyPress($event)" [formControl]="qualityControl"
+                    [(ngModel)]="customerOrderDetailEditModel.Quantity"
+                    [ngClass]="(qualityControl.hasError('min')||qualityControl.hasError('required')) && !qualityControl.valid && !qualityControl.untouched ? 'error-border' : ''"
+                    (blur)="productCaculateAmount()">
+                  <div class="md-errors-spacer" [hidden]="qualityControl.valid || qualityControl.untouched">
+                    <mat-error *ngIf="qualityControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="qualityControl.hasError('min')">Số lượng lớn hơn 0</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-6 no-padding-left">
+                  <label class="control-label">{{ 'product.create.price' | translate }}</label>
+                  <input class="form-control" name="priceControl" mask="separator.{{defaultNumberType}}"
+                    thousandSeparator="," (keypress)="onKeyPress($event)" [formControl]="priceControl"
+                    [(ngModel)]="customerOrderDetailEditModel.UnitPrice"
+                    [ngClass]="(priceControl.hasError('min')||priceControl.hasError('required')) && !priceControl.valid && !priceControl.untouched ? 'error-border' : ''"
+                    (blur)="productCaculateAmount()">
+                  <div class="md-errors-spacer" [hidden]="priceControl.valid || priceControl.untouched">
+                    <mat-error *ngIf="priceControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="priceControl.hasError('min')">{{ 'order.messages_error.errormin' | translate }}
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-row">
+                <div class="col-md-6">
+                  <label class="control-label">{{ 'product.create.unitmoney' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <mat-form-field class="form-control full-width"
+                    [ngClass]="moneyUnitControl.hasError('required') && !moneyUnitControl.valid && !moneyUnitControl.untouched ? 'error-border' : ''">
+                    <mat-select (selectionChange)="selectedUnitmoneyFn($event)"
+                      [(ngModel)]="customerOrderDetailEditModel.CurrencyUnit" required
+                      formControlName="moneyUnitControl" name="moneyUnitControl">
+                      <mat-option *ngFor="let option of unitmoney" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="moneyUnitControl.valid || moneyUnitControl.untouched">
+                    <mat-error *ngIf="moneyUnitControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-6 no-padding-left">
+                  <label *ngIf="!IsVND" class="control-label">{{ 'product.create.exchange' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <input *ngIf="!IsVND" class="form-control" (change)="productCaculateExchangerate()"
+                    name="exchangeRateControl" required [(ngModel)]="customerOrderDetailEditModel.ExchangeRate"
+                    [ngClass]="(exchangeRateControl.hasError('min')||exchangeRateControl.hasError('required')) && !exchangeRateControl.valid && !exchangeRateControl.untouched ? 'error-border' : ''"
+                    formControlName="exchangeRateControl" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                    (keypress)="onKeyPress($event)">
+                  <div *ngIf="!IsVND" class="md-errors-spacer"
+                    [hidden]="exchangeRateControl.valid || exchangeRateControl.untouched">
+                    <mat-error *ngIf="exchangeRateControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="exchangeRateControl.hasError('min')">Tỷ giá lớn hơn 0</mat-error>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row order-row">
+                <div class="col-md-12">
+                  <p>
+                    Thành tiền({{this.ProductMoneyUnit}}):{{this.ProductAmount|number:0}}
+                  </p>
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12 control-label">
+                  <label>{{ 'product.create.tax' | translate }}</label>
+                </div>
+                <div class="form-group col-md-12">
+                  <input class="form-control" name="vatControl" [formControl]="vatControl"
+                    [ngClass]="vatControl.hasError('min') && !vatControl.valid && !vatControl.untouched ? 'error-border' : ''"
+                    [(ngModel)]="customerOrderDetailEditModel.Vat" (change)="productCaculateVAT()"
+                    mask="separator.{{defaultNumberType}}" thousandSeparator="," (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer" [hidden]="vatControl.valid || vatControl.untouched">
+                    <mat-error *ngIf="vatControl.hasError('min')">{{ 'order.messages_error.errormin' | translate }}
+                    </mat-error>
+                  </div>
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12">
+                  <p>{{ 'product.create.taxprice' | translate }}({{this.ProductMoneyUnit}}):{{this.ProductVAT|number:0}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 pl-30 no-padding-right">
+              <div class="row order-row form-group">
+                <div class="col-md-12">
+                  <label class="control-label">Chọn thuộc tính sản phẩm:</label>
+                  <mat-table #table [dataSource]="dataSourceProductAttributeCategory" id="attribute-table">
+                    <ng-container matColumnDef="nameattribute">
+                      <mat-header-cell *matHeaderCellDef style="min-width: 150px;"> Tên thuộc tính </mat-header-cell>
+                      <mat-cell *matCellDef="let element">{{element.ProductAttributeCategoryName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="value">
+                      <mat-header-cell *matHeaderCellDef>Giá trị</mat-header-cell>
+                      <mat-cell *matCellDef="let element" id="{{element.ProductAttributeCategoryId}}">
+                        <mat-select [(value)]="element.DefaultValue"
+                          (selectionChange)="selectedProductAttributeCategoryValueFn($event,element.ProductAttributeCategoryId)">
+                          <mat-option *ngFor="let attributevalue of element.ProductAttributeCategoryValue"
+                            [value]="attributevalue.ProductAttributeCategoryValueId">
+                            {{attributevalue.ProductAttributeCategoryValue1}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedAttributeColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedAttributeColumns;"></mat-row>
+                  </mat-table>
+                </div>
+              </div>
+              <div class="row order-row form-group">
+                <div class="col-md-6 no-padding-right">
+                  <label class="control-label">Chiết khấu theo SP/DV:</label>
+                  <mat-form-field class="form-control full-width">
+                    <mat-select (selectionChange)="selectedDiscountTypeList($event)"
+                      [(ngModel)]="customerOrderDetailEditModel.DiscountType" formControlName="discountTypeControl"
+                      name="discountTypeControl">
+                      <mat-option *ngFor="let option of DiscountTypeList" [value]="option.value">
+                        {{option.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <label class="control-label" style="min-height: 12px;"></label>
+                  <input *ngIf="!UseCurrencyMask" class="form-control" name="discountValueControl"
+                    [ngClass]="discountValueControl.hasError('min') && !discountValueControl.valid && !discountValueControl.untouched ? 'error-border' : ''"
+                    [(ngModel)]="customerOrderDetailEditModel.DiscountValue" formControlName="discountValueControl"
+                    (blur)="productCaculateDiscount()" mask="separator.{{defaultNumberType}}" housandSeparator=","
+                    (keypress)="onKeyPress($event)">
+                  <input class="form-control" *ngIf="UseCurrencyMask" name="discountValueControl"
+                    [ngClass]="discountValueControl.hasError('min') && !discountValueControl.valid && !discountValueControl.untouched ? 'error-border' : ''"
+                    [(ngModel)]="customerOrderDetailEditModel.DiscountValue" formControlName="discountValueControl"
+                    (blur)="productCaculateDiscount()" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                    (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer" [hidden]="discountValueControl.valid || discountValueControl.untouched">
+                    <mat-error *ngIf="discountValueControl.hasError('min')">
+                      {{ 'order.messages_error.errormin' | translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12">
+                  Thành tiền chiết khấu (VND):<span>{{ProductDiscount|number:0}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <form [formGroup]="checkIncuredForm" *ngIf="checkIncuredForm">
+          <div *ngIf="productValue === 'incured_product'">
+            <div class="col-md-6 no-padding-left pr-30">
+              <div class="row order-row">
+                <div class="col-md-12 control-label">
+                  <label>Diễn giải:<span class="require">{{ 'order.create.require' | translate }}</span></label>
+                </div>
+                <div class="form-group col-md-12">
+                  <mat-form-field class="form-control full-width autoComplete"
+                    [ngClass]="descriptionProductControl.hasError('required') && !descriptionProductControl.valid && !descriptionProductControl.untouched ? 'error-border' : ''">
+                    <input type="text" aria-label="Customer" name="descriptionProductControl" matInput
+                      [formControl]="descriptionProductControl" [(ngModel)]="customerOrderDetailEditModel.Description">
+                  </mat-form-field>
+                  <div class="md-errors-spacer"
+                    [hidden]="descriptionProductControl.valid || descriptionProductControl.untouched">
+                    <mat-error *ngIf="descriptionProductControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+              <div class="row order-row form-group">
+                <div class="col-md-6">
+                  <label class="control-label">{{ 'product.create.amount' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <input class="form-control" name="qualityIncuredControl" [formControl]="qualityIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.Quantity"
+                    [ngClass]="(qualityIncuredControl.hasError('min')||qualityIncuredControl.hasError('required')) && !qualityIncuredControl.valid && !qualityIncuredControl.untouched ? 'error-border' : ''"
+                    (blur)="IncuredAmountCaculateAmount()" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                    (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer"
+                    [hidden]="qualityIncuredControl.valid || qualityIncuredControl.untouched">
+                    <mat-error *ngIf="qualityIncuredControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="qualityIncuredControl.hasError('min')">Số lượng lớn hơn 0</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-6 no-padding-left">
+                  <label class="control-label">{{ 'product.create.price' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <input class="form-control" name="priceIncuredControl" [formControl]="priceIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.UnitPrice"
+                    [ngClass]="(priceIncuredControl.hasError('min')||priceIncuredControl.hasError('required')) && !priceIncuredControl.valid && !priceIncuredControl.untouched ? 'error-border' : ''"
+                    (blur)="IncuredAmountCaculateAmount()" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                    (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer" [hidden]="priceIncuredControl.valid || priceIncuredControl.untouched">
+                    <mat-error *ngIf="priceIncuredControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="priceIncuredControl.hasError('min')">
+                      {{ 'order.messages_error.errormin' | translate }}</mat-error>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12">
+                  <p>Thành tiền ({{this.ProductMoneyUnit}}): {{this.IncuredAmount|number:0}}</p>
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12 control-label">
+                  <label>{{ 'product.create.tax' | translate }}</label>
+                </div>
+                <div class="form-group col-md-12">
+                  <input class="form-control" name="vatIncuredControl" [formControl]="vatIncuredControl"
+                    [ngClass]="priceIncuredControl.hasError('min') && !priceIncuredControl.valid && !priceIncuredControl.untouched ? 'error-border' : ''"
+                    [(ngModel)]="customerOrderDetailEditModel.Vat" (change)="IncuredAmountCaculateVAT()"
+                    mask="separator.{{defaultNumberType}}" thousandSeparator="," (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer" [hidden]="vatIncuredControl.valid || vatIncuredControl.untouched">
+                    <mat-error *ngIf="vatIncuredControl.hasError('min')">
+                      {{ 'order.messages_error.errormin' | translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12">
+                  <p>Thành tiền thuế GTGT ({{this.ProductMoneyUnit}}):{{this.IncuredVAT|number:0}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 no-padding-right pl-30">
+              <div class="row order-row">
+                <div class="col-md-12 control-label">
+                  <label>{{ 'product.create.unit' | translate }}</label>
+                </div>
+                <div class="form-group col-md-6 no-padding-right">
+                  <input type="text" class="form-control" name="unitIncuredControl" [formControl]="unitIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.IncurredUnit">
+                </div>
+              </div>
+              <div class="row order-row form-group" style="margin-bottom: 39px;">
+                <div class="col-md-6 no-padding-right">
+                  <label class="control-label">{{ 'product.create.unitmoney' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <mat-form-field class="form-control full-width"
+                    [ngClass]="moneyIncuredUnitControl.hasError('required') && !moneyIncuredUnitControl.valid && !moneyIncuredUnitControl.untouched ? 'error-border' : ''">
+                    <mat-select (selectionChange)="selectedUnitmoneyFn($event)"
+                      [(ngModel)]="customerOrderDetailEditModel.CurrencyUnit" formControlName="moneyIncuredUnitControl"
+                      name="moneyIncuredUnitControl">
+                      <mat-option *ngFor="let option of unitmoney" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="md-errors-spacer"
+                    [hidden]="moneyIncuredUnitControl.valid || moneyIncuredUnitControl.untouched">
+                    <mat-error *ngIf="moneyIncuredUnitControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label *ngIf="!IsVND" class="control-label">{{ 'product.create.exchange' | translate }}<span
+                      class="require">{{ 'order.create.require' | translate }}</span></label>
+                  <input *ngIf="!IsVND" class="form-control" name="exchangeRateIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.ExchangeRate" required
+                    formControlName="exchangeRateIncuredControl"
+                    [ngClass]="(exchangeRateIncuredControl.hasError('min')||exchangeRateIncuredControl.hasError('required')) && !exchangeRateIncuredControl.valid && !exchangeRateIncuredControl.untouched ? 'error-border' : ''"
+                    (change)="IncuredCaculateExchangerate()" mask="separator.{{defaultNumberType}}"
+                    thousandSeparator="," (keypress)="onKeyPress($event)">
+                  <div *ngIf="!IsVND" class="md-errors-spacer"
+                    [hidden]="exchangeRateIncuredControl.valid || exchangeRateIncuredControl.untouched">
+                    <mat-error *ngIf="exchangeRateIncuredControl.hasError('required')">
+                      {{ 'lead.messages.required_field' | translate }}</mat-error>
+                    <mat-error *ngIf="exchangeRateIncuredControl.hasError('min')">Tỷ giá lớn hơn 0</mat-error>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row order-row form-group">
+                <div class="col-md-6 no-padding-right">
+                  <label class="control-label">Chiết khấu theo SP/DV:</label>
+                  <mat-form-field class="form-control full-width">
+                    <mat-select (selectionChange)="selectedIncuredDiscountTypeList($event)"
+                      [(ngModel)]="customerOrderDetailEditModel.DiscountType"
+                      formControlName="discountTypeIncuredControl" name="discountTypeIncuredControl">
+                      <mat-option *ngFor="let option of DiscountTypeList" [value]="option.value">
+                        {{option.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <label class="control-label" style="min-height: 12px;"></label>
+                  <input class="form-control" *ngIf="!incuredUseCurrencyMask" name="discountValueIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.DiscountValue"
+                    [ngClass]="discountValueIncuredControl.hasError('min') && !exchangeRateIncuredControl.valid && !exchangeRateIncuredControl.untouched ? 'error-border' : ''"
+                    formControlName="discountValueIncuredControl" (blur)="IncuredAmountCaculateDiscount()"
+                    mask="separator.{{defaultNumberType}}" thousandSeparator="," (keypress)="onKeyPress($event)">
+                  <input *ngIf="incuredUseCurrencyMask" class="form-control" name="discountValueIncuredControl"
+                    [(ngModel)]="customerOrderDetailEditModel.DiscountValue"
+                    [ngClass]="discountValueIncuredControl.hasError('min') && !exchangeRateIncuredControl.valid && !exchangeRateIncuredControl.untouched ? 'error-border' : ''"
+                    formControlName="discountValueIncuredControl" (blur)="IncuredAmountCaculateDiscount()"
+                    mask="separator.{{defaultNumberType}}" thousandSeparator="," (keypress)="onKeyPress($event)">
+                  <div class="md-errors-spacer"
+                    [hidden]="discountValueIncuredControl.valid || discountValueIncuredControl.untouched">
+                    <mat-error *ngIf="discountValueIncuredControl.hasError('min')">
+                      {{ 'order.messages_error.errormin' | translate }}</mat-error>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row order-row">
+                <div class="col-md-12">
+                  Thành tiền chiết khấu (VND):<span>{{this.IncuredDiscount|number:0}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </form>
+    </div>
+  </div>
+  <div class="row org-dialog-buttons">
+    <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+    <button mat-raised-button class="btn-cancel" style="color: #6d98e7" (click)="pushCustomerOrderDetail()">LƯU</button>
+  </div>
+</div> -->

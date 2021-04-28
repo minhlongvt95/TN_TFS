@@ -1,0 +1,1 @@
+﻿svcutil.exe http://sis.ispeaking.edu.vn/SAPI.asmx?wsdl

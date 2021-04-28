@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        table {
+            width: 700px;
+            margin-bottom: 1em;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-weight: bold;
+            background-color: #ddd;
+        }
+        
+        th,
+        td {
+            padding: 0px;
+            border: 1px solid #000;
+            text-align: center;
+        }
+        .auto-style1 {
+        }
+
+        .auto-style2 {
+        }
+
+        .auto-style3 {
+        }
+    </style>
+</head>
+<body>
+    <div style="float:left">
+        <img src="[pathlogo]" width="140" height="53" />
+        <br />
+        <br />
+        Hi,[Employeename],Gửi anh/chị thông tin lương tháng [Month] năm [Year]
+        <br />
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="auto-style3" colspan="5" style="font-weight:bold; border-top-style: none; border-right-style: none; border-left-style: none;">EARNINGS STATEMENT</td>
+            </tr>
+            <tr>
+                <td style="border-bottom:solid 1px #ccc; border-right-style: solid; border-bottom-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-right-color: #ccc; border-bottom-color: #ccc;" class="auto-style2"></td>
+                <td style="text-align:left;font-weight:bold;border-bottom:solid 1px #ccc; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-right-color: #ccc; border-bottom-color: #ccc; border-left-color: #ccc;" class="auto-style2">Name :</td>
+                <td style="text-align:left;font-weight:bold;border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #ccc; border-left-style: solid; border-left-width: 1px; border-left-color: #ccc;" class="auto-style2">[Employeename]</td>
+                <td class="auto-style2" style="font-weight:bold">Code</td>
+                <td class="auto-style2" style="font-weight:bold">[EmployeeCode]</td>
+            </tr>
+            <tr>
+                <td style="border-bottom:solid 1px #ccc; border-right-style: solid; border-bottom-style: solid; border-right-width: 1px; border-bottom-width: 1px; border-right-color: #ccc; border-bottom-color: #ccc; border-top-style: solid; border-top-width: 1px; border-top-color: #ccc;" class="auto-style1"></td>
+                <td style="border: 1px solid #ccc; text-align:left" class="auto-style1">Position :</td>
+                <td style="text-align:left; border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #ccc; border-top-style: solid; border-left-style: solid; border-top-width: 1px; border-left-width: 1px; border-top-color: #ccc; border-left-color: #ccc;" class="auto-style1">[PostionName]</td>
+                <td class="auto-style1">1H</td>
+                <td class="auto-style1" style="text-align:right">[Basedsalary]</td>
+            </tr>
+            <tr>
+                <td class="auto-style1" style="border-right-style: solid; border-right-width: 1px; border-right-color: #ccc; border-top-style: solid; border-top-width: 1px; border-top-color: #ccc;"></td>
+                <td style="text-align:left; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-width: 1px; border-right-width: 1px; border-left-width: 1px; border-top-color: #ccc; border-right-color: #ccc; border-left-color: #ccc;" class="auto-style1">Date:</td>
+                <td style="text-align:left; border-top-style: solid; border-left-style: solid; border-top-width: 1px; border-left-width: 1px; border-top-color: #ccc; border-left-color: #ccc;" class="auto-style1">[Month]/[Year]</td>
+                <td class="auto-style1"></td>
+                <td class="auto-style1"></td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">No</td>
+                <td colspan="2" style="font-weight:bold">Content</td>
+                <td>&nbsp;</td>
+                <td style="font-weight:bold">Amount (VND)</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">A</td>
+                <td colspan="2" style="text-align:left;font-weight:bold">Number of lessons </td>
+                <td style="font-weight:bold">[ActualWorkingDay]</td>
+                <td></td>
+            </tr>
+            [rowcenter]
+            <tr>
+                <td style="font-weight:bold">B</td>
+                <td colspan="2" style="text-align:left;font-weight:bold">Earnings (SUM:C)</td>
+                <td>&nbsp;</td>
+                <td style="text-align:right;font-weight:bold">[TotalIncome]</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">C</td>
+                <td colspan="2" style="text-align:left;font-weight:bold">Deduction</td>
+                <td>&nbsp;</td>
+                <td style="text-align:right">[ReductionAmount]</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold">D</td>
+                <td colspan="2" style="text-align:left;font-weight:bold">Bonus</td>
+                <td>&nbsp;</td>
+                <td style="text-align:right">[AdditionalAmount]</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold" colspan="4">Total</td>
+                <td style="text-align:right">[ActualPaid]</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

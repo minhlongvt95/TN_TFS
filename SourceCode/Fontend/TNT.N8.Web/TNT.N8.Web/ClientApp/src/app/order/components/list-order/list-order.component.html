@@ -1,0 +1,393 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner  [style]="{width: '50px', height: '50px'}" 
+                      strokeWidth="8" 
+                      fill="#EEEEEE" 
+                      animationDuration=".5s"></p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="order-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách đơn hàng</div>
+                  <div class="box-header-subtitle">
+                    {{listOrder.length}} bản ghi - {{ ('Từ ngày: ' + (fromDate ? (fromDate | date:'dd/MM/yyyy') : '') + ' Đến ngày: ' + (toDate ? (toDate | date:'dd/MM/yyyy') : '')) }}  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreateOrder()"><span class="btn-create-text">Tạo mới</span></button>
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="exportExcel()"><span class="btn-create-text">Xuất excel</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách" [(ngModel)]="isGlobalFilter"
+              (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập mã đơn hàng" [(ngModel)]="orderCode">
+          </div>
+        </div>
+        
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên khách hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập tên khách hàng" [(ngModel)]="customerName">
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số điện thoại</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập số điện thoại" [(ngModel)]="phone">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate"
+                        [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                        dateFormat="dd/mm/yy" [style]="{'width':'100%'}" 
+                        [maxDate]="toDate != null ? toDate : maxStartDate" 
+                        placeholder="dd/mm/yy"
+                        showButtonBar="true"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate"
+                        [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                        dateFormat="dd/mm/yy" [style]="{'width':'100%'}" 
+                        [minDate]="fromDate"
+                        [maxDate]="maxEndDate"
+                        placeholder="dd/mm/yy"
+                        showButtonBar="true"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect  [options]="listOrderStatus" [(ngModel)]="listSelectedOrderStatus" defaultLabel="Chọn trạng thái" 
+                            optionLabel="description" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                            selectedItemsLabel="{0} trạng thái được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Hóa đơn VAT</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listVat" [(ngModel)]="selectedVat"
+                      [filter]="true" [resetFilterOnHide]="true"
+                      optionLabel="name" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listProduct" [(ngModel)]="selectedProduct"
+                      [filter]="true" [resetFilterOnHide]="true"
+                      optionLabel="productCodeName" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số báo giá</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listQuote" [(ngModel)]="selectedQuote"
+                      [filter]="true" [resetFilterOnHide]="true"
+                      optionLabel="quoteCodeName" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listContract" [(ngModel)]="selectedContract"
+                      [filter]="true" [resetFilterOnHide]="true"
+                      optionLabel="contractCode" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchOrder()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="listOrder.length > 0" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="selectedColumns" [value]="listOrder" [resizableColumns]="true" 
+                (sortFunction)="customSort($event)" [customSort]="true"
+                columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" 
+                [responsive]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align:left">
+            <p-multiSelect  [options]="colsListOrder" 
+                            [(ngModel)]="selectedColumns" 
+                            [ngModelOptions]="{standalone: true}"
+                            optionLabel="header"
+                            selectedItemsLabel="{0} cột được chọn"  
+                            [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn 
+                [pSortableColumn]="col.field"
+                [ngStyle]="{'text-align': col.textAlign, 'display': col.display}"
+            >
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center; width: 100px !important;">
+              <span>Thao tác</span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column"
+                [ngSwitch]="col.field" [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'orderCode'" (click)="goToOrderDetail(rowData['orderId'])" class="link">
+                {{rowData[col.field]}}
+              </span>
+              <span *ngSwitchCase="'customerName'" (click)="goToCustomerDetail(rowData['customerId'])" class="link">
+                {{rowData[col.field]}}
+              </span>
+              <span *ngSwitchCase="'orderDate'">
+                {{rowData[col.field]}}
+              </span>
+              <span *ngSwitchCase="'amount'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'orderStatusName'" [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}"
+              style="display: inline-block;
+                  padding: 3px 3px;
+                  color: white;
+                  width: 130px;">
+              {{rowData[col.field]}}
+            </span>
+              <span *ngSwitchCase="'listOrderDetail'" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 25 ? rowData[col.field].trim().slice(0,25)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+            <td style="text-align: center;" >
+              <span class="ui-column-title" *ngIf="rowData.canDelete == true">Thao tác</span>
+              <button *ngIf="rowData.canDelete == true" pButton icon="pi pi-trash" (click)="deleteOrder(rowData)"
+                class="ui-button-danger"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="!(listOrder.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập mã đơn hàng" [(ngModel)]="orderCode">
+          </div>
+        </div>
+        
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên khách hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập tên khách hàng" [(ngModel)]="customerName">
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số điện thoại</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="order-code-text" placeholder="Nhập số điện thoại" [(ngModel)]="phone">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate"
+                        [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                        dateFormat="dd/mm/yy" [style]="{'width':'100%'}" 
+                        [maxDate]="toDate != null ? toDate : maxStartDate" 
+                        placeholder="dd/mm/yy"
+                        showButtonBar="true"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate"
+                        [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                        dateFormat="dd/mm/yy" [style]="{'width':'100%'}" 
+                        [minDate]="fromDate"
+                        [maxDate]="maxEndDate"
+                        placeholder="dd/mm/yy"
+                        showButtonBar="true"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect  [options]="listOrderStatus" [(ngModel)]="listSelectedOrderStatus" defaultLabel="Chọn trạng thái" 
+                            optionLabel="description" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                            selectedItemsLabel="{0} trạng thái được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Hóa đơn VAT</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listVat" [(ngModel)]="selectedVat"
+                      [filter]="true" [resetFilterOnHide]="true"
+                      optionLabel="name" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên hàng</span>
+          </div>
+          <div class="col-md-12">            
+            <p-dropdown [options]="listProduct" [virtualScroll]="true" itemSize="30"
+            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+            (keydown.enter)="$event.preventDefault()" [(ngModel)]="selectedProduct"
+            placeholder="{{ 'order.create.select_product' | translate }}" optionLabel="productCodeName" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số báo giá</span>
+          </div>
+          <div class="col-md-12">            
+            <p-dropdown [options]="listQuote" [virtualScroll]="true" itemSize="30"
+            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+            (keydown.enter)="$event.preventDefault()" [(ngModel)]="selectedQuote"
+            placeholder="{{ 'order.create.select_quote' | translate }}" optionLabel="quoteCodeName" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listContract" [virtualScroll]="true" itemSize="30"
+            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+            (keydown.enter)="$event.preventDefault()" [(ngModel)]="selectedContract"
+            placeholder="{{ 'order.create.select_contract' | translate }}" optionLabel="contractCode" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5" style="text-align: right;">
+            <button type="button" class="btn-search" (click)="searchOrder()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

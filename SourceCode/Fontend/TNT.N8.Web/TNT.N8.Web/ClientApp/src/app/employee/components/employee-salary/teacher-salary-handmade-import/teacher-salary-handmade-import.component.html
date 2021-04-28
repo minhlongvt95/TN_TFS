@@ -1,0 +1,40 @@
+<div class="org-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;">
+    <div class="row org-dialog-title">
+      <span>
+        {{ 'employeetimesheet.title' | translate }}
+      </span>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <span class="required">*</span>Tháng
+      </div>
+      <div class="col-md-6">
+        <mat-form-field class="w100">
+          <input name="startDate" matInput id="startDate" type="month" [(ngModel)]="IO" readonly />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <span class="required">*</span>{{ 'employeetimesheet.file' | translate }}
+      </div>
+      <div class="col-md-6">
+        <div>
+          <!-- <ngfFormData [files]="files" postName="file"></ngfFormData>
+          <ngfUploadStatus></ngfUploadStatus>
+          <div class="inline-block" style="width: 99%; ">
+            <input type="file" id="file" name="file" ngfSelect [(files)]="files" ngf-multiple="false" [accept]="accept" [maxSize]="maxSize">
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row org-dialog-buttons">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">LƯU</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,38 @@
+<!-- <div id="image-upload-content">
+  <div class="row" style="font-family: 'Open Sans', sans-serif !important;">
+    <div class="col-md-12">
+      <span style="font-size: 24px">Tải lên hình ảnh</span>
+    </div>
+  </div>
+
+  <hr />
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-md-12">
+      <div style="margin-bottom: 15px">
+        <span>Vui lòng chọn từ máy tính các file ảnh có định dạng .png, .jpg và dung lượng không quá 5Mb.</span>
+      </div>
+      <button mat-raised-button class="btn-choose" (click)="chooseImage()">Chọn file</button>
+      <label class="file-name">{{fileName}}</label>
+      <label id="image-error"></label>
+      <input id="custom-input" type="file" (change)="fileChangeListener($event)" style="display: none" accept=".jpg,.jpeg,.png">
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 15px">
+    <div class="col-md-6">
+      <img-cropper #cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+    </div>
+    <div class="col-md-6">
+      <span>Xem trước: </span>
+      <div>
+        <span class="result" *ngIf="data.image">
+          <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight">
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <button mat-raised-button class="btn-upload" (click)="saveImage()" *ngIf="data.image">Tải lên</button>
+    </div>
+  </div>
+</div> -->

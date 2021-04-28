@@ -1,0 +1,678 @@
+.vendor-order-create .btn-move {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.vendor-order-create .mr-5 {
+  margin-right: 5px;
+}
+
+.vendor-order-create .icons-move {
+  font-size: 10px !important;
+}
+
+.vendor-order-create {
+  font-family: 'Inter UI';
+}
+
+.vendor-order-create .vendor-order-create-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.vendor-order-create .buffer-bottom {
+  margin-bottom: 1rem;
+}
+
+.vendor-order-create .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.vendor-order-create .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #eee;
+  border: 1px solid #cccccc;
+}
+
+.vendor-order-create .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-create .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.vendor-order-create .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-create .notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.vendor-order-create .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.vendor-order-create .mt-15 {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.vendor-order-create .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.vendor-order-create .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.vendor-order-create .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.vendor-order-create .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.vendor-order-create .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.vendor-order-create .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+.vendor-order-create .button-group .cancel {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.vendor-order-create .button-group .cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-create .button-group .save-and-new {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.vendor-order-create .button-group .save-and-new .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-create .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.vendor-order-create .button-group .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.vendor-order-create .allocation {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.vendor-order-create .allocation .text-allocation {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .vendor-order-create .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.vendor-order-create .text-order-code {
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.vendor-order-create .sub-text-order-code {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-create .mt-5 {
+  margin-top: 5px;
+}
+
+.vendor-order-create .mt-10 {
+  margin-top: 10px;
+}
+
+.vendor-order-create .mt-20 {
+  margin-top: 20px;
+}
+
+::ng-deep .vendor-order-create .ui-datepicker {
+  top: 31px !important;
+}
+
+.vendor-order-create .require {
+  color: #F94E4E;
+}
+
+.vendor-order-create .error-message-span {
+  color: red !important;
+}
+
+.vendor-order-create .w100 {
+  width: 100%;
+}
+
+.vendor-order-create .option-customer {
+  height: 64px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #f2f4f8;
+}
+
+.vendor-order-create .border-customer-infor {
+  border-right: 1px dashed #ccc;
+  border-bottom: 1px dashed #ccc;
+  border-left: 1px dashed #ccc;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.vendor-order-create .input-text {
+  min-height: 2.55em !important;
+}
+
+.vendor-order-create .ios-add-circle-outline {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.vendor-order-create .add-product-text {
+  width: 146px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+/* Phần tổng hợp bên phải */
+
+.vendor-order-create .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.vendor-order-create .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.vendor-order-create .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-create .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.vendor-order-create .box-part-1 {
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 0px;
+}
+
+.vendor-order-create .overview .total-monney-label {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.vendor-order-create .overview .total-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #121619;
+}
+
+.vendor-order-create .result-monney-label {
+  height: 14px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.vendor-order-create .result-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.vendor-order-create .result-monney-text {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.vendor-order-create .backgr-color {
+  background-color: #f3f4f8;
+  border: 1px dotted #ded5d5;
+}
+
+/* End */
+
+.vendor-order-create .cancel-popup {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.vendor-order-create .cancel-popup .text-cancel-popup {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.vendor-order-create .save-popup {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.vendor-order-create .save-popup .text-save-popup {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/* Iphone 6/7/8 */
+
+@media only screen and (max-width: 375px) {
+  .vendor-order-create .payment-account {
+    margin-top: 15px;
+  }
+  .vendor-order-create .save {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .vendor-order-create .order-synthesis {
+    margin-top: 20px;
+  }
+  .vendor-order-create .distribution {
+    margin-top: 10px;
+    margin-left: 9px;
+  }
+  .vendor-order-create .distribution-type span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .vendor-order-create .distribution-type .quantitys {
+    margin-left: -10px;
+  }
+
+  .vendor-order-create .save-and-new {
+    margin-right: 5px;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+  .vendor-order-create .payment-account {
+    margin-top: 15px;
+  }
+  .vendor-order-create .save {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .vendor-order-create .order-synthesis {
+    margin-top: 20px;
+  }
+  .vendor-order-create .distribution {
+    margin-top: 10px;
+    margin-left: 9px;
+  }
+  .vendor-order-create .distribution-type span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .vendor-order-create .distribution-type .quantitys {
+    margin-left: -10px;
+  }
+
+  .vendor-order-create .save-and-new {
+    margin-right: 5px;
+  }
+}
+
+/* Ipad */
+
+@media only screen and (min-width: 414px) and (max-width: 768px) {
+  .vendor-order-create .payment-account {
+    margin-top: 15px;
+  }
+  .vendor-order-create .save {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  .vendor-order-create .order-synthesis {
+    margin-top: 20px;
+  }
+  .vendor-order-create .distribution-type span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .vendor-order-create .distribution {
+    margin-top: 10px;
+    margin-left: 9px;
+  }
+  .vendor-order-create .distribution-type .quantitys {
+    margin-left: -10px;
+  }
+
+  .vendor-order-create .save-and-new {
+    margin-right: 5px;
+  }
+}
+
+/* Ipad Pro */
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .vendor-order-create .payment-account {
+    margin-top: 15px;
+  }
+  .vendor-order-create .save {
+    margin-left: 0px;
+    margin-top: 10px;
+  }
+  /* .vendor-order-create .order-synthesis{
+    margin-top: 20px;
+  } */
+  .vendor-order-create .distribution-type span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  .vendor-order-create .distribution {
+    margin-top: 10px;
+    margin-left: 9px;
+  }
+  .vendor-order-create .distribution-type .quantitys {
+    margin-left: -10px;
+  }
+  .vendor-order-create .order-synthesis .overview .button-group .text-title {
+    font-size: 11px;
+  }
+
+  .vendor-order-create .save-and-new {
+    margin-right: 5px;
+  }
+}
+
+/* Máy để bàn */
+
+@media only screen and (min-width: 1025px) and (max-width: 1423px) {}

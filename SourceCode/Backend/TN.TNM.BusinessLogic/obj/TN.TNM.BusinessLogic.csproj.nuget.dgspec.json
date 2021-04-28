@@ -1,0 +1,298 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\SourceCode\\Backend\\TN.TNM.BusinessLogic\\TN.TNM.BusinessLogic.csproj": {}
+  },
+  "projects": {
+    "C:\\SourceCode\\Backend\\TN.TNM.BusinessLogic\\TN.TNM.BusinessLogic.csproj": {
+      "version": "2.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\SourceCode\\Backend\\TN.TNM.BusinessLogic\\TN.TNM.BusinessLogic.csproj",
+        "projectName": "TN.TNM.BusinessLogic",
+        "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.BusinessLogic\\TN.TNM.BusinessLogic.csproj",
+        "packagesPath": "C:\\Users\\TriNghia-PC22\\.nuget\\packages\\",
+        "outputPath": "C:\\SourceCode\\Backend\\TN.TNM.BusinessLogic\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\TriNghia-PC22\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "targetAlias": "netcoreapp2.1",
+            "projectReferences": {
+              "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj": {
+                "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj"
+              },
+              "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj": {
+                "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "targetAlias": "netcoreapp2.1",
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.1.1, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[5.2.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[5.2.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj": {
+      "version": "2.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj",
+        "projectName": "TN.TNM.Common",
+        "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj",
+        "packagesPath": "C:\\Users\\TriNghia-PC22\\.nuget\\packages\\",
+        "outputPath": "C:\\SourceCode\\Backend\\TN.TNM.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\TriNghia-PC22\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "DinkToPdf": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Select.HtmlToPdf.NetCore": {
+              "target": "Package",
+              "version": "[18.4.0, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.ServiceModel.Http": {
+              "target": "Package",
+              "version": "[4.5.3, )"
+            },
+            "System.ServiceModel.Web": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.4.5, )"
+            },
+            "log4net": {
+              "target": "Package",
+              "version": "[2.0.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj",
+        "projectName": "TN.TNM.DataAccess",
+        "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj",
+        "packagesPath": "C:\\Users\\TriNghia-PC22\\.nuget\\packages\\",
+        "outputPath": "C:\\SourceCode\\Backend\\TN.TNM.DataAccess\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\TriNghia-PC22\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.1": {
+            "targetAlias": "netcoreapp2.1",
+            "projectReferences": {
+              "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj": {
+                "projectPath": "C:\\SourceCode\\Backend\\TN.TNM.Common\\TN.TNM.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.1": {
+          "targetAlias": "netcoreapp2.1",
+          "dependencies": {
+            "CompareNETObjects": {
+              "target": "Package",
+              "version": "[4.67.0, )"
+            },
+            "DinkToPdf": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
+            "EPPlus.Core": {
+              "target": "Package",
+              "version": "[1.5.4, )"
+            },
+            "Microsoft.AspNetCore": {
+              "target": "Package",
+              "version": "[2.1.2, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Core": {
+              "target": "Package",
+              "version": "[1.0.15, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.1, )"
+            },
+            "Syncfusion.HtmlToPdfConverter.QtWebKit.Net.Core": {
+              "target": "Package",
+              "version": "[16.4.0.42, )"
+            },
+            "System.Drawing.Common": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.Linq": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Linq.Expressions": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "iTextSharp.LGPLv2.Core": {
+              "target": "Package",
+              "version": "[1.4.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

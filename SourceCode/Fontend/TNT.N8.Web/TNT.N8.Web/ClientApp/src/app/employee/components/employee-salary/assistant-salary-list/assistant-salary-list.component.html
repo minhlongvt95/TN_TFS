@@ -1,0 +1,239 @@
+<div class="assistantsalary-list">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="head w100 bg-white shadow">
+        <div class="col-md-6">
+          <span style="font-size: 24px">{{ 'employeesalary.list.titleAssistant' | translate }} - Tháng {{ month }}/{{ year }}</span>
+        </div>
+        <div class="col-md-6 main-button-row">
+          <button class="btn-bordered"
+                  *ngIf="!isApproved && !isInApprovalProgress && !noItem && (isApprover || isPosition)"
+                  mat-raised-button
+                  tabindex="0"
+                  (click)="sendApprove()"
+                  color="primary">
+            {{ 'employeesalary.list.buttons.sendapproval' | translate }}
+          </button>
+          <button class="btn-bordered" *ngIf="isInApprovalProgress && (isApprover || isPosition)" (click)='goToNextStep("reject")' mat-raised-button color="accent" tabindex="1">{{ 'employeesalary.list.buttons.refusedtoapprove' | translate }}</button>
+          <button class="btn-bordered" *ngIf="isInApprovalProgress && (isApprover || isPosition)" (click)='goToNextStep("approve")' mat-raised-button color="primary" tabindex="2">{{ 'employeesalary.list.buttons.approval' | translate }}</button>
+          <button class="btn-bordered" *ngIf="isApproved && !noItem" (click)='sendEmailAssistantPayslip()' mat-raised-button color="primary" tabindex="4">Gửi Payslip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="head w100 bg-white shadow">
+        <div class="col-md-6">
+          <label style="color: #ff4081">Trạng thái: {{ statusName }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--Right content-->
+    <div class="col-md-3">
+      <div class="panel panel-default shadow">
+        <div class="panel-heading">
+          <span class="" style="font-size: 20px;margin-top: 15px">{{ 'employeesalary.list.search' | translate }}</span>
+          <span class="">
+            <button matTooltip="{{ 'employeesalary.tooltip.search' | translate }}" (click)="search()" class="btn-search"><i class="fa fa-search"></i></button>
+          </span>
+          <span class="">
+            <button style="margin-right: 10px"
+                    matTooltip="{{ 'employeesalary.tooltip.refresh' | translate }}"
+                    (click)="refreshParameter()"
+                    class="btn-search">
+              <i class="material-icons refresh-icon">
+                cached
+              </i>
+            </button>
+          </span>
+        </div>
+        <div class="panel-body form-horizontal">
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" matInput name="employeeName" [(ngModel)]="employeeName" placeholder="{{ 'employeesalary.list.placeholder.first' | translate }}" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" matInput name="employeeCode" [(ngModel)]="employeeCode" placeholder="{{ 'employeesalary.list.code' | translate }}" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input name="startDate" matInput id="startDate" type="month" placeholder="Tháng(mm/YYYY)" [(ngModel)]="IO" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" matInput name="employeeUnit" [(ngModel)]="employeeUnit" placeholder="{{ 'employeesalary.list.unit' | translate }}" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <mat-select [(ngModel)]="employeePostionId" placeholder="Chức vụ">
+                  <mat-option *ngFor="let item of arrayPostion" [value]="item.positionId">{{item.positionName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <!--<label class="control-label">{{ 'employeesalary.list.salarydate' | translate }}</label>
+              <input type="text" class="form-control" name="salarydate">-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Left content-->
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-6">
+          <i matTooltip="{{ 'lead.tooltip.switch' | translate }}" class="material-icons switch-view">dashboard</i>
+        </div>
+        <div class="col-md-6">
+          <table class="table-buttons">
+            <tr>
+              <td>
+                <i class="fa fa-square"></i>&nbsp;
+                <a (click)="exportAssistant()">{{ 'employeesalary.list.buttons.exportassistant' | translate }}</a>
+              </td>
+              <td>
+                <i class="fa fa-arrow-down"></i>&nbsp;
+                <a (click)="export()">{{ 'employeesalary.list.buttons.export' | translate }}</a>
+              </td>
+              <td *ngIf="!isInApprovalProgress && !isApproved">
+                <i class="fa fa-arrow-down"></i>&nbsp;
+                <a (click)="importSalaryHandmade()">Import File nhập tay</a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 13px">
+        <div class="form-group col-md-12">
+          <div class="example-container mat-elevation-z8" style="overflow: auto !important;">
+            <mat-table #table [dataSource]="dataSource" id="employee-table" style="width:150%;">
+              <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null" color="primary"
+                                [checked]="selection?.hasValue() && isAllSelected()"
+                                [indeterminate]="selection?.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let rows">
+                  <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                                (change)="$event ?rowCheckboxClick($event,rows): null"
+                                [checked]="selection?.isSelected(rows)">
+                  </mat-checkbox>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeename">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeename' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.employeeName}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeecode">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeecode' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="link-name" (click)="onViewDetail(element.employeeId, element.contactId)">{{element.employeeCode}}</span>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeepostionid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeepostionid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.postionName}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeeunit">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeeunit' | translate }}  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.employeeUnit}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="basedsalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.basedsalary' | translate }}  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.basedSalary| number:0}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actualWorkingDay">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.actualWorkingDay' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.actualWorkingDay}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="reductionAmount">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.reductionAmount' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.reductionAmount| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="additionalAmount">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.additionalAmount' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.additionalAmount| number:0}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="actualPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.actualPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.actualPaid| number:0}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="description">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.description' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"
+                       (click)="highlight(row)"
+                       [ngClass]="{ 'selected-row': selectedRowIndex == row.employeeMonthySalaryId}">
+              </mat-row>
+            </mat-table>
+            <mat-paginator #paginator [pageSize]="10" id="emp-paginator" style="position: sticky; left: 0px;">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="head w100 bg-white shadow">
+        <!--<div class="panel panel-default">-->
+        <div class="panel-heading">NOTE</div>
+        <div class="panel-body" *ngFor="let note of notes">
+          <div class="form-group no-margin-bottom">
+            <i>{{note.title}}<span style="font-weight:bold">{{note.actor}}</span></i>
+          </div>
+          <div class="form-group no-margin-bottom">
+            <i>{{note.subTitle}}</i>
+          </div>
+          <div class="form-group">
+            <span style="font-weight:bold"> {{note.content}}</span>
+          </div>
+        </div>
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+
+</div>

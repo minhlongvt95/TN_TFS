@@ -1,0 +1,15 @@
+.quick-create-vendor .w100 {
+  width: 100%;
+}
+
+.quick-create-vendor .input-text {
+  min-height: 2.55em !important;
+}
+
+.quick-create-vendor .mt-10 {
+  margin-top: 10px;
+}
+
+.quick-create-vendor .mr-5 {
+  margin-right: 5px;
+}

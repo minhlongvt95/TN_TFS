@@ -1,0 +1,393 @@
+/* Set font
+.sales-report span,
+.sales-report div,
+.sales-report a,
+.sales-report .mat-cell,
+.sales-report .mat-header-cell,
+.sales-report input,
+.sales-report button,
+.sales-report .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.sales-report .mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.sales-report .mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.sales-report .left-header {
+  padding-left: 15px;
+}
+
+.sales-report .form-control {
+  border-radius: 0.25rem;
+}
+
+.sales-report .mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+.sales-report .mat-header-cell {
+  font-size: 15px;
+  color: black;
+  overflow: visible;
+}
+
+.sales-report .mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+.sales-report mat-cell.mat-cell,
+.sales-report mat-header-cell.mat-header-cell {
+  overflow: visible;
+}
+
+.sales-report .mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.sales-report .mat-dialog-container {
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.sales-report .control-label {
+  margin-bottom: 5px;
+}
+
+.sales-report label {
+  margin-bottom: 0 !important;
+}
+
+.sales-report .form-control,
+.sales-report select.form-control {
+  height: 30px !important;
+}
+
+.sales-report .mat-header-row {
+  min-height: 45px !important;
+}
+
+.sales-report .mat-row {
+  min-height: 40px !important;
+}
+
+.sales-report hr {
+  border-top: solid 1px black;
+}
+
+.sales-report .mat-row:hover {
+  background-color: #f7f7f8;
+}
+
+.sales-report .selected-row,
+.sales-report .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.sales-report .btn-search {
+  float: left;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.sales-report .mat-paginator,
+.sales-report .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+.sales-report i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.sales-report .bold-title {
+  font-weight: bold;
+} */
+
+
+.sales-report {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.sales-report .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.sales-report .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.sales-report .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.sales-report .box-header-group {
+  margin-top: 10px;
+}
+
+.sales-report .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0f62fe;
+  text-align: center;
+}
+
+.sales-report .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.sales-report .box-header-title {
+  height: 24px;
+  font-family: 'Inter UI';
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.sales-report .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.sales-report .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.sales-report .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.sales-report .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.sales-report .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.sales-report .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.sales-report .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.sales-report .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.sales-report .box-filter {
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding: 10px 0px;
+}
+
+.sales-report .quote-code-text {
+  width: 100%;
+  height: 32px;
+  font-family: 'Inter UI';
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  padding-left: 5px;
+}
+
+.sales-report .quote-code-text:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.sales-report .mt-5 {
+  margin-top: 5px;
+}
+
+.sales-report .btn-search {
+  width: 72px;
+  height: 32px;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.sales-report .btn-search:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.sales-report .btn-search-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/* Config rows Per Page Options */
+::ng-deep .sales-report .ui-inputtext {
+  padding: 0.3em;
+}
+
+.sales-report .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.sales-report .no-data {
+  height: 330px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.sales-report .box-no-data {
+  position: relative;
+  top: 25%;
+}
+
+.sales-report .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+::ng-deep .sales-report .ui-datepicker {
+  top: 28px !important;
+}
+
+/* Máy để bàn */
+@media only screen and (min-width: 1025px) and (max-width: 1423px)  {
+
+}
+
+/* Ipad Pro */
+@media only screen and (min-width: 769px) and (max-width: 1024px)  {
+  .sales-report .box-header-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .sales-report .Money-2 {
+    width: 15.4px;
+    height: 11.5px;
+    margin-top: 7px;
+  }
+
+  .sales-report .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Ipad */
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+  .sales-report .btn-create {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+  .sales-report .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8/X */
+@media only screen and (max-width: 375px) {
+  .sales-report .iput-text {
+    margin-top: 5px;
+  }
+}

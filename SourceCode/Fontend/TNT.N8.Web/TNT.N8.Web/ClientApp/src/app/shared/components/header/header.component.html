@@ -1,0 +1,381 @@
+<header class="main-header" #contentBreadCrub>
+  <!-- Logo -->
+  <a (click)="openModule()" class="logo" style="cursor: pointer;"
+    [style.border-right]="module_display_value=='none' ? '1px solid #dde1e6' : 'none'">
+    <span class="logo-mini">
+      <span class="icons-menu" [style.background-color]="module_display_value=='none' ? '#ffffff' : null">
+        <img [src]="module_display_value=='none' ? '../../assets/icons/header_top/menu_1.png' : '../../assets/icons/header_top/menu_2.png'" style="width:30px">
+      </span>
+    </span>
+    <span class="logo-lg"><b>
+        <span style="font-size: 14px;">
+          {{ titleModuled.toLocaleUpperCase() }}
+        </span>
+      </b></span>
+  </a>
+  <div id="module-content" class="module-content" [style.display]="module_display_value">
+    <div class="row w-100">
+      <ng-container *ngFor="let item of listMenuModule">
+        <div *ngIf="checkModule(item.code) && item.code != 'sys'" 
+          class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160">
+          <div style="font-weight:400" class="moduleitem" (click)="showSubMenu(item.code)">
+            <div>
+              <img src="{{item.nameIcon}}" class="ql-khachhang">
+            </div>
+            <p class="text">{{item.name}}</p>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleCrm)">
+        <div style="font-weight:400" class="moduleitem" (click)="showSubMenu('customer')">
+          <div>
+            <img src="../../assets/icons/module/quanlykhachhang.svg" class="ql-khachhang">
+          </div>
+          <p class="text">Quản trị quan hệ khách hàng (CRM)</p>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleSal)">
+        <div class="moduleitem" (click)="showSubMenu('sales')">
+          <div>
+            <img src="../../assets/icons/module/quanlybanhang.svg" class="ql-banhang">
+          </div>
+          <p class="text">Quản lý bán hàng</p>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleWar)">
+        <div class="moduleitem" (click)="showSubMenu('warehouse')">
+          <div>
+            <img src="../../assets/icons/module/quanlykho.svg" class="ql-kho">
+          </div>
+          <p class="text">Quản lý kho</p>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleBuy)">
+        <div class="moduleitem" (click)="showSubMenu('shopping')">
+          <div>
+            <img src="../../assets/icons/module/quanlymuahang.svg" class="ql-muahang">
+          </div>
+          <p class="text">Quản lý mua hàng</p>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleAcc)">
+        <div class="moduleitem" (click)="showSubMenu('accounting')">
+          <div>
+            <img src="../../assets/icons/module/quanlytaichinh.svg" class="ql-taichinh">
+          </div>
+          <p class="text">Quản lý tài chính</p>
+        </div>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-3 border-right-cccccc min-width-160" *ngIf="checkModule(moduleHrm)">
+        <div class="moduleitem" (click)="showSubMenu('employee')">
+          <div>
+            <img src="../../assets/icons/module/quanlynhansu.svg" class="ql-nhansu">
+          </div>
+          <p class="text">Quản lý nhân sự</p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <!-- Menu level 2 Quản trị quan hệ khách hàng -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isCustomer ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div class="Inter_UI_Medium"
+        style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại
+      </div>
+      <img src="../../assets/icons/module/quanlykhachhang.svg">
+      <div class="text">
+        Quản trị quan hệ khách hàng (CRM)
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('crm_khtn','Quản lý khách hàng tiềm năng','customer',false)">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span> Quản lý khách hàng tiềm năng</span>
+        </li>
+        <li (click)="openMenuLevel3('crm_ch','Quản lý cơ hội','customer',false)">
+          <i class="fa fa-binoculars" aria-hidden="true"></i>
+          <span> Quản lý cơ hội</span>
+        </li>
+        <li (click)="openMenuLevel3('crm_hst','Quản lý hồ sơ thầu','customer',false)">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+          <span> Quản lý hồ sơ thầu
+          </span>
+        </li>
+        <li (click)="openMenuLevel3('crm_bg','Cơ hội và báo giá','customer',false)">
+          <i class="fa fa-quote-right" aria-hidden="true"></i>
+          <span> Báo giá</span>
+        </li>
+        <li (click)="openMenuLevel3('crm_kh','Quản lý khách hàng','customer',false)">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span> Quản lý khách hàng</span>
+        </li>
+        <li (click)="openMenuLevel3('crm_cskh','Chăm sóc khách hàng','customer',false)"
+          style="margin-bottom:0px !important">
+          <i class="fa fa-gift" aria-hidden="true"></i>
+          <span> Chăm sóc khách hàng</span>
+        </li>
+        <li (click)="openMenuLevel3('crm_lh','Quản lý liên hệ','customer',false)"
+          style="margin-bottom:0px !important">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+          <span> Quản lý liên hệ</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý bán hàng -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isSales ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+
+      <img src="../../assets/icons/module/quanlybanhang.svg">
+      <div class="text">
+        Quản lý bán hàng
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('sal_dm','Quản lý danh mục','sale',false)">
+          <i class="fa fa-book" aria-hidden="true"></i><span> Quản lý danh mục</span></li>
+        <li (click)="openMenuLevel3('sal_spdv','Quản lý sản phẩm dịch vụ','sale',false)">
+          <i class="fa fa-binoculars" aria-hidden="true"></i><span> Quản lý sản phẩm dịch vụ</span></li>
+        <li (click)="openMenuLevel3('sal_hdb','Hợp đồng bán','sale',false)">
+          <i class="fa fa-file-o" aria-hidden="true"></i><span> Hợp đồng bán</span></li>
+        <li (click)="openMenuLevel3('sal_dh','Quản lý đơn hàng','sale',false)">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i><span> Quản lý đơn hàng</span></li>
+        <li (click)="openMenuLevel3('sal_hd','Hóa đơn','sale',false)">
+          <i class="fa fa-file-o" aria-hidden="true"></i><span> Hóa đơn</span></li>
+        <li (click)="openMenuLevel3('sal_bc','Báo cáo','sale',false)" style="margin-bottom:0px !important">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i><span> Báo cáo</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý hệ thống -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isAdmin2 ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon" style="height:341px !important">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+      <img src="../../assets/icons/module/quanlyhethong.svg" style="margin-top: 87.6px!important">
+      <div class="text">
+        Quản lý hệ thống
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('sys_chttc','Cấu hình thông tin chung','sys',true)">
+          <i class="fa fa-cogs" aria-hidden="true"></i>
+          <span style="display:block;float:left">Cấu hình thông tin chung</span> 
+        </li>
+        <li (click)="openMenuLevel3('sys_chtm','Cấu hình thư mục','sys',true)">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          <span style="display:block;float:left">Cấu hình thư mục</span> 
+        </li>
+        <li (click)="openMenuLevel3('sys_tb','Quản lý thông báo','sys',true)">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý thông báo</span> 
+        </li>
+        <li (click)="openMenuLevel3('sys_tsht','Tham số hệ thống','sys',true)">
+          <i class="fa fa-wrench" aria-hidden="true"></i>
+          <span style="display:block;float:left">Tham số hệ thống</span>
+        </li>
+        <li (click)="openMenuLevel3('sys_sdtc','Quản lý sơ đồ tổ chức','sys',true)">
+          <i class="fa fa-sitemap" saria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý sơ đồ tổ chức</span>
+        </li>
+        <li (click)="openMenuLevel3('sys_dldm','Quản lý dữ liệu danh mục','sys',true)">
+          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý dữ liệu danh mục</span>
+        </li>
+        <li (click)="openMenuLevel3('sys_nq','Quản lý nhóm quyền','sys',true)">
+          <i class="fa fa-users" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quảnlý nhóm quyền</span>
+        </li>
+        <li (click)="openMenuLevel3('sys_phkh','Phân hạng khách hàng','sys',true)">
+          <i class="fa fa-server" aria-hidden="true"></i>
+          <span style="display:block;float:left">Phân hạng khách hàng</span>
+        </li>
+        <li (click)="openMenuLevel3('sys_qtlv','Quản lý quy trình làm việc','sys',true)"
+          style="margin-bottom:0px !important">
+          <i class="fa fa-map-signs" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý quy trình làm việc</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý mua hàng -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isShopping ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+      <img src="../../assets/icons/module/quanlymuahang.svg">
+      <div class="text">
+        Quản lý mua hàng
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('buy_bgncc','Bảng giá nhà cung cấp','shop',false)">
+          <i class="fa fa-book" aria-hidden="true"></i><span style="display:block;float:left">Bảng giá nhà cung cấp</span> </li>
+        <li (click)="openMenuLevel3('buy_ncc','Quản lý nhà cung cấp','shop',false)">
+          <i class="fa fa-binoculars" aria-hidden="true"></i><span style="display:block;float:left">Quản lý nhà
+            cung cấp</span> </li>
+        <li (click)="openMenuLevel3('buy_dxmh','Quản lý đề xuất mua hàng','shop',false)">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i> <span style="display:block;float:left">Quản
+            lý đề xuất mua hàng</span></li>
+        <li (click)="openMenuLevel3('buy_dhm','Quản lý mua hàng','shop',false)">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span style="display:block;float:left">Quản lý
+            đơn hàng mua</span></li>
+        <li (click)="openMenuLevel3('buy_dnbg','Giấy đề nghị báo giá NCC','shop',false)">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span style="display:block;float:left">Giấy đề nghị báo giá NCC</span></li>
+        <li (click)="openMenuLevel3('buy_bc','Báo cáo','shop',false)"
+          style="margin-bottom:0px !important">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span style="display:block;float:left">Báo cáo</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý tài chính -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isAccounting ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+
+      <img src="../../assets/icons/module/quanlytaichinh.svg">
+      <div class="text">
+        Quản lý tài chính
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('acc_dmp','Danh mục phí','accounting',false)">
+          <i class="fa fa-book" aria-hidden="true"></i>
+          <span style="display:block;float:left">Danh mục phí</span>
+        </li>
+        <li (click)="openMenuLevel3('acc_tm','Tiền mặt','accounting',false)">
+          <i class="fa fa-binoculars" aria-hidden="true"></i> <span style="display:block;float:left">Tiền
+            mặt</span>
+        </li>
+        <li (click)="openMenuLevel3('acc_nh','Ngân hàng','accounting',false)">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i> <span style="display:block;float:left">Ngân
+            hàng</span></li>
+        <li (click)="openMenuLevel3('acc_cn','Công nợ','accounting',false)">
+          <i class="fa fa-quote-right" aria-hidden="true"></i> <span style="display:block;float:left">Công
+            nợ</span></li>
+        <li (click)="openMenuLevel3('acc_kqkd','Báo cáo kết quả kinh doanh','accounting',true)"
+          style="margin-bottom:0px !important">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span style="display:block;float:left">Báo cáo
+            kết quả kinh doanh</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý Nhan su -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isHrm ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+
+      <img src="../../assets/icons/module/quanlynhansu.svg">
+      <div class="text">
+        Quản lý nhân sự
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('hrm_nv','Quản lý nhân viên','hrm',false)">
+          <i class="fa fa-user" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý nhân viên</span> </li>
+        <li (click)="openMenuLevel3('hrm_tl','Quản lý tiền lương','hrm',false)" style="margin-bottom:0px !important">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span style="display:block;float:left">Quản
+            lý tiền lương</span></li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+  <!-- Menu level 2 Quản lý kho -->
+  <div id="menu-level2-customer" class="menu-level2" [style.display]="isWarehouse ? 'inline-flex' : 'none'">
+    <div class="menu-level2-icon">
+      <div style="padding: 16px 0px 0px 15px;text-align: left;color: #0f62fe;font-size:13px;cursor:pointer"
+        (click)="comeBackMenuLevel1()">
+        &larr; Quay lại</div>
+      <img src="../../assets/icons/module/quanlykho.svg">
+      <div class="text">
+        Quản lý kho
+      </div>
+    </div>
+    <div class="menu-level2-item">
+      <ul>
+        <li (click)="openMenuLevel3('war_kho','Quản lý kho','wh',false)">
+          <i class="fa fa-binoculars" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý kho</span>
+        </li>
+        <li (click)="openMenuLevel3('war_nk','Quản lý kho','wh',false)">
+          <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý nhập
+            kho</span> </li>
+        <li (click)="openMenuLevel3('war_xk','Quản lý kho','wh',false)">
+          <i class="fa fa-quote-right" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý xuất
+            kho</span> </li>
+        <li (click)="openMenuLevel3('war_htk','Quản lý kho','wh',false)">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          <span style="display:block;float:left">Quản lý hàng tồn
+            kho</span> </li>
+      </ul>
+    </div>
+  </div>
+  <!-- end -->
+
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="menubar">
+          <ng-container *ngFor="let item of listMenuBar; let i = index">
+            <div *ngIf="item.isShow" class="menubar-item">
+              <span [ngClass]="{'moduleName' : i == 0, 'active': item.active}"
+                (click)="goToPath(item)">
+                {{ item.name }}
+              </span>
+              <span *ngIf="i !== 0" class="glyphicon glyphicon-triangle-bottom small prevent-dbclick"
+                style="cursor:pointer;" aria-hidden="true"
+                (click)="toggleMenuBarContent(item)">
+              </span>
+              <div *ngIf="item.isShowChildren"
+                class="menubar-content">
+                <ng-container *ngFor="let itemChildren of item.children">
+                  <a *ngIf="itemChildren.isShow" [ngClass]="{'active': itemChildren.active}"
+                    (click)="goToMenuPage(itemChildren)"
+                  >
+                    <i style="font-size:14px !important;margin-right:14px;" 
+                      class="{{itemChildren.nameIcon}}"></i>
+                    <span>{{itemChildren.name}}</span>
+                  </a>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>

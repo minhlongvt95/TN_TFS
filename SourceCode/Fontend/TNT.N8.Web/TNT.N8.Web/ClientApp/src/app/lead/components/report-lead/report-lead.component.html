@@ -1,0 +1,497 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+    <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+    </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+
+<div class="report-lead-list">
+    <div class="row no-margin">
+        <div class="box-header">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box-header-group">
+                            <div class="row">
+                                <div class="col-md-1 col-xs-2">
+                                    <div class="box-header-icon">
+                                        <img src="/assets/icons/components/lead_search.svg" class="Money-2">
+                                    </div>
+                                </div>
+                                <div class="col-md-11 col-xs-10">
+                                    <div class="box-header-title">Báo cáo cơ hội</div>
+                                    <div class="box-header-subtitle" *ngIf="typeReport.Code == 'AGE'">
+                                        {{listReportLeadAge.length}} bản ghi - sắp xếp theo tên cơ hội
+                                    </div>
+                                    <div class="box-header-subtitle" *ngIf="typeReport.Code == 'PIC'">
+                                        {{listReportLeadPic.length}} bản ghi - sắp xếp theo tên nhân viên
+                                    </div>
+                                    <div class="box-header-subtitle" *ngIf="typeReport.Code == 'SOURCE'">
+                                        {{listReportLeadSource.length}} bản ghi - sắp xếp theo nguồn tiềm năng
+                                    </div>
+                                    <div class="box-header-subtitle" *ngIf="typeReport.Code == 'ADDRESS'">
+                                        {{listReportLeadProvincial.length}} bản ghi - sắp xếp theo địa điểm
+                                    </div>
+                                    <div class="box-header-subtitle" *ngIf="typeReport.Code == 'STATUS'">
+                                        {{listReportLeadStatus.length}} bản ghi - sắp xếp theo tháng năm
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12 no-padding">
+                        <div class="box-header-group-btn">
+                            <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+                            </button>
+                            <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách"
+                                [(ngModel)]="isGlobalFilter"
+                                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+                            <div style="clear: both;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row no-margin btn-group-header" style="background-color: #fff;">
+        <div class="col-md-12" style="display: flex;
+        justify-content: flex-end;
+        padding: 10px;
+        border-top: 1px solid #ccc;">
+        </div>
+    </div>
+    <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Bộ lọc" [selected]="true">
+            <div class="row no-margin" style="background-color:white;">
+                <div class="col-md-12 no-padding">
+                    <div class="row no-margin">
+                        <div class="col-md-5">
+                            <p-dropdown [options]="listTypeReport" [(ngModel)]="typeReport" placeholder="Chọn báo cáo"
+                                [filter]="true" [resetFilterOnHide]="true" optionLabel="Name"
+                                [style]="{'width': '100%'}" (onChange)="onChangeTypeReport($event.value)"></p-dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding" *ngIf="typeReport.Code == 'PIC'">
+                    <div class="row no-margin">
+                        <div class="col-md-4 mt-10">
+                            <p-multiSelect [options]="listEmployee" [(ngModel)]="lstEmployeNgModel"
+                                defaultLabel="Chọn người phụ trách" optionLabel="employeeName"
+                                [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                                selectedItemsLabel="{0} người phụ trách được chọn"></p-multiSelect>
+                        </div>
+                        <div class="col-md-1 mt-10">
+                            <button type="button" class="btn-search" (click)="searchReport('PIC')">
+                                <span class="btn-search-text">Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding" *ngIf="typeReport.Code == 'SOURCE'">
+                    <div class="row no-margin">
+                        <div class="col-md-4 mt-10">
+                            <p-multiSelect [options]="listSource" [(ngModel)]="lstSourceNgModel"
+                                defaultLabel="Chọn nguồn tiềm năng" optionLabel="categoryName"
+                                [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                                selectedItemsLabel="{0} nguồn tiềm năng"></p-multiSelect>
+                        </div>
+                        <div class="col-md-1 mt-10">
+                            <button type="button" class="btn-search" (click)="searchReport('SOURCE')">
+                                <span class="btn-search-text">Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding" *ngIf="typeReport.Code == 'ADDRESS'">
+                    <div class="row no-margin">
+                        <div class="col-md-4 mt-10">
+                            <p-multiSelect [options]="listArea" [(ngModel)]="lstAreaNgModel"
+                                defaultLabel="Chọn khu vực" optionLabel="geographicalAreaName"
+                                [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                                selectedItemsLabel="{0} khu vực"></p-multiSelect>
+                        </div>
+                        <div class="col-md-1 mt-10">
+                            <button type="button" class="btn-search" (click)="searchReport('ADDRESS')">
+                                <span class="btn-search-text">Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 no-padding" *ngIf="typeReport.Code == 'STATUS'">
+                    <div class="row no-margin">
+                        <div class="col-md-2 mt-10">
+                            <p-dropdown [options]="listType" [(ngModel)]="selectedTypeStatus" placeholder="Chọn báo cáo"
+                                [filter]="true" [resetFilterOnHide]="true" optionLabel="Name"
+                                [style]="{'width': '100%'}" (onChange)="onChangeTypeStatus($event.value)"></p-dropdown>
+                        </div>
+                        <div class="col-md-2 mt-10" *ngIf="selectedTypeStatus.Code == 'IN'">
+                            <p-dropdown [options]="listYear" [(ngModel)]="yearNgModel" placeholder="Chọn năm"
+                                [filter]="true" [resetFilterOnHide]="true" optionLabel="Name"
+                                [style]="{'width': '100%'}" (onChange)="onChangeTypeStatus($event.value)"></p-dropdown>
+                        </div>
+                        <div class="col-md-2 mt-10" *ngIf="selectedTypeStatus.Code == 'EQUAL'">
+                            <p-calendar [(ngModel)]="fromDate" view="month" dateFormat="mm/yy" [yearNavigator]="true"
+                                yearRange="1990:2030" [style]="{'width': '100%'}"></p-calendar>
+                        </div>
+                        <div class="col-md-2 mt-10" *ngIf="selectedTypeStatus.Code == 'EQUAL'">
+                            <p-calendar [(ngModel)]="toDate" view="month" dateFormat="mm/yy" [yearNavigator]="true"
+                                yearRange="1990:2030" [style]="{'width': '100%'}"></p-calendar>
+                        </div>
+                        <div class="col-md-1 mt-10">
+                            <button type="button" class="btn-search" (click)="searchReport('STATUS')">
+                                <span class="btn-search-text">Tìm kiếm</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <hr />
+    <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Thông tin báo cáo" [selected]="true">
+            <div *ngIf="typeReport.Code == 'AGE'" class="row no-margin" style="background-color: #f2f4f8;">
+                <div *ngIf="listReportLeadAge.length > 0" class="col-md-12 no-padding">
+                    <p-table #myTable [columns]="selectedColListReportLeadFollowAge" [value]="listReportLeadAge"
+                        [resizableColumns]="true" (sortFunction)="customSort($event)" [customSort]="true"
+                        [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                                <p-multiSelect [options]="colsListReportLeadFollowAge"
+                                    [(ngModel)]="selectedColListReportLeadFollowAge"
+                                    [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                    selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                                    defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th style="width: 3.5em; text-align: center;">
+                                    #
+                                </th>
+                                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.width}">
+                                    <span>
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{i + 1}}
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' : col.width}">
+                                    <span class="ui-column-title">{{col.header}}</span>
+                                    <span *ngSwitchCase="'fullName'" (click)="goToDetail(rowData)" class="link">
+                                        {{rowData[col.field]}}
+                                    </span>
+
+                                    <span *ngSwitchCase="'dayCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+
+                                    <span *ngSwitchCase="'statusName'"
+                                        [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}" style="display: inline-block;
+                                  padding: 3px 3px;
+                                  width: 130px;">
+                                        {{rowData[col.field]}}
+                                    </span>
+                                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="!(listReportLeadAge.length > 0)" class="col-md-12 no-padding no-data">
+                    <div class="box-no-data">
+                        <img src="/assets/icons/components/box.svg" class="box-icon">
+                        <div>
+                            <span>Hiện tại không có dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="typeReport.Code == 'PIC'" class="row no-margin" style="background-color: #f2f4f8;">
+                <div *ngIf="listReportLeadPic.length > 0" class="col-md-12 no-padding">
+                    <p-table #myTable [columns]="selectedColListReportLeadFollowPic" [value]="listReportLeadPic"
+                        [resizableColumns]="true" (sortFunction)="customSort($event)" [customSort]="true"
+                        [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                                <p-multiSelect [options]="colsListReportLeadFollowPic"
+                                    [(ngModel)]="selectedColListReportLeadFollowPic"
+                                    [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                    selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                                    defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th style="width: 3.5em; text-align: center;">
+                                    #
+                                </th>
+                                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.width}">
+                                    <span>
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{i + 1}}
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' : col.width}">
+                                    <span class="ui-column-title">{{col.header}}</span>
+                                    <span *ngSwitchCase="'fullName'" (click)="goToDetail(rowData)" class="link">
+                                        {{rowData[col.field]}}
+                                    </span>
+                                    <span *ngSwitchCase="'winCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'loseCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'undefinedCount'" style="display: inline-block;
+                                  padding: 3px 3px;
+                                  width: 130px;">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="!(listReportLeadPic.length > 0)" class="col-md-12 no-padding no-data">
+                    <div class="box-no-data">
+                        <img src="/assets/icons/components/box.svg" class="box-icon">
+                        <div>
+                            <span>Hiện tại không có dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="typeReport.Code == 'SOURCE'" class="row no-margin" style="background-color: #f2f4f8;">
+                <div *ngIf="listReportLeadSource.length > 0" class="col-md-12 no-padding">
+                    <p-table #myTable [columns]="selectedColListReportLeadFollowSource" [value]="listReportLeadSource"
+                        [resizableColumns]="true" (sortFunction)="customSort($event)" [customSort]="true"
+                        [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                                <p-multiSelect [options]="colsListReportLeadFollowSource"
+                                    [(ngModel)]="selectedColListReportLeadFollowSource"
+                                    [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                    selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                                    defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th style="width: 3.5em; text-align: center;">
+                                    #
+                                </th>
+                                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.width}">
+                                    <span>
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{i + 1}}
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' : col.width}">
+                                    <span class="ui-column-title">{{col.header}}</span>
+                                    <span *ngSwitchCase="'fullName'" (click)="goToDetail(rowData)" class="link">
+                                        {{rowData[col.field]}}
+                                    </span>
+                                    <span *ngSwitchCase="'winCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'loseCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'sumAmount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'undefinedCount'" style="display: inline-block;
+                                            padding: 3px 3px;
+                                            width: 130px;">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="!(listReportLeadSource.length > 0)" class="col-md-12 no-padding no-data">
+                    <div class="box-no-data">
+                        <img src="/assets/icons/components/box.svg" class="box-icon">
+                        <div>
+                            <span>Hiện tại không có dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="typeReport.Code == 'ADDRESS'" class="row no-margin" style="background-color: #f2f4f8;">
+                <div *ngIf="listReportLeadProvincial.length > 0" class="col-md-12 no-padding">
+                    <p-table #myTable [columns]="selectedColListReportLeadFollowProvincial"
+                        [value]="listReportLeadProvincial" [resizableColumns]="true" (sortFunction)="customSort($event)"
+                        [customSort]="true" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true" class="table-border">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                                <p-multiSelect [options]="colsListReportLeadFollowProvincial"
+                                    [(ngModel)]="selectedColListReportLeadFollowProvincial"
+                                    [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                    selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                                    defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th style="width: 3.5em; text-align: center;">
+                                    #
+                                </th>
+                                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.width}">
+                                    <span>
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{i + 1}}
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' : col.width}">
+                                    <span class="ui-column-title">{{col.header}}</span>
+                                    <span *ngSwitchCase="'fullName'" (click)="goToDetail(rowData)" class="link">
+                                        {{rowData[col.field]}}
+                                    </span>
+                                    <span *ngSwitchCase="'winCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'loseCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'undefinedCount'" style="display: inline-block;
+                                            padding: 3px 3px;
+                                            width: 130px;">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="!(listReportLeadProvincial.length > 0)" class="col-md-12 no-padding no-data">
+                    <div class="box-no-data">
+                        <img src="/assets/icons/components/box.svg" class="box-icon">
+                        <div>
+                            <span>Hiện tại không có dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="typeReport.Code == 'STATUS'" class="row no-margin" style="background-color: #f2f4f8;">
+                <div *ngIf="listReportLeadStatus.length > 0" class="col-md-12 no-padding">
+                    <p-table #myTable [columns]="selectedColListReportLeadFollowMonth" [value]="listReportLeadStatus"
+                        [resizableColumns]="true" (sortFunction)="customSort($event)" [customSort]="true"
+                        [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                                <p-multiSelect [options]="colsListReportLeadFollowMonth"
+                                    [(ngModel)]="selectedColListReportLeadFollowMonth"
+                                    [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                    selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                                    defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th style="width: 3.5em; text-align: center;">
+                                    #
+                                </th>
+                                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.width}">
+                                    <span>
+                                        {{col.header}}
+                                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                                    </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td style="text-align: center;">
+                                    {{i + 1}}
+                                </td>
+                                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                    [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' : col.width}">
+                                    <span class="ui-column-title">{{col.header}}</span>
+                                    <span *ngSwitchCase="'fullName'" (click)="goToDetail(rowData)" class="link">
+                                        {{rowData[col.field]}}
+                                    </span>
+                                    <span *ngSwitchCase="'winCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'loseCount'">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchCase="'monthTime'">
+                                      {{rowData[col.field] | date: 'MM/yyyy'}}
+                                  </span>
+                                    <span *ngSwitchCase="'undefinedCount'" style="display: inline-block;
+                                  padding: 3px 3px;
+                                  width: 130px;">
+                                        {{rowData[col.field] | number}}
+                                    </span>
+                                    <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+                <div *ngIf="!(listReportLeadStatus.length > 0)" class="col-md-12 no-padding no-data">
+                    <div class="box-no-data">
+                        <img src="/assets/icons/components/box.svg" class="box-icon">
+                        <div>
+                            <span>Hiện tại không có dữ liệu</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+</div>

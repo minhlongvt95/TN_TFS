@@ -1,0 +1,65 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="template-quick-sms">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form class="form-group" [formGroup]="formQuickSMS">
+      <div class="row">
+        <div class="col-md-2">Số điện thoại người nhận</div>
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-12">
+              <input type="text" class="w100" pInputText formControlName="phoneControl"
+                    [ngClass]="(phoneControl.invalid && (phoneControl.dirty || phoneControl.touched)) ? 'error-border': ''"/>
+            </div>
+            <div class="col-md-12" [hidden]="phoneControl.valid || phoneControl.untouched">
+              <span *ngIf="phoneControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-2">Nội dung</div>
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-12">
+              <textarea rows="5" cols="30" pInputTextarea formControlName="contentControl" class="w100"
+                        [ngClass]="(contentControl.invalid && (contentControl.dirty || contentControl.touched)) ? 'error-border': ''" 
+              ></textarea>
+            </div>
+            <div class="col-md-12" [hidden]="contentControl.valid || contentControl.untouched">
+              <span *ngIf="contentControl.hasError('required')" class="error-message-span">Nội dung không được để trống</span>
+              <span *ngIf="contentControl?.errors?.forbiddenSpaceText" class="error-message-span">Nội dung không được để trắng</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <!-- <span class="color-link" (click)="selectEmailTemplate()">Chọn email mẫu</span> -->
+          <div class="note">
+            <p>Chú thích:</p>
+            <p class="color-link" (click)="replate_token(name)">- {{name}}: Tên khách hàng</p>
+            <p class="color-link" (click)="replate_token(hotline)">- {{hotline}}: Số hotline</p>
+          </div>
+        </div>
+      </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendSMS()" [disabled]="awaitResult"><span class="save-label">Gửi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  

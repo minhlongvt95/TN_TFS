@@ -1,0 +1,867 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="ct-phieu-nhap-kho">
+  <form [formGroup]="createForm">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <div class="row pnk-content" id="parent">
+          <div class="col-md-12 no-padding">
+            <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+              <div class="col-md-12">
+                <div class="center">
+                  <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                  <span class="header-text">Chi tiết phiếu nhập kho</span>
+                </div>
+
+                <div style="float: right;">
+                  <button class="go-back" type="button" (click)="goBack()">
+                    <span class="text-go-back">Thoát</span>
+                  </button>
+
+                  <button *ngIf="statusCode == 'HUY'" class="draft" type="button" 
+                    [disabled]="awaitResult" (click)="datVeNhap()">
+                    <span class="text-draft">Đặt về nháp</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'SAS' || statusCode == 'CHO') && isDisabled" class="not-reservation" type="button" 
+                    [disabled]="awaitResult"
+                    (click)="khongGiuPhan()">
+                    <span class="text-not-reservation">Không giữ phần</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'NHK' || statusCode == 'SAS' || statusCode == 'CHO' || statusCode == 'NHA') && isDisabled" 
+                    class="clone" type="button" [disabled]="awaitResult"
+                    (click)="nhanBanPhieuNhapKho()">
+                    <span class="text-clone">Nhân bản</span>
+                  </button>
+
+                  <button *ngIf="statusCode == 'NHA' && isDisabled" class="delete-pnk" [disabled]="awaitResult" type="button" 
+                    (click)="xoaPhieuNhapKho()">
+                    <span class="text-delete-pnk">Xóa</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'NHA') && isDisabled" class="check-action" [disabled]="awaitResult" type="button"
+                    (click)="danhDauCanLamPhieuNhapKho()">
+                    <span class="text-check-action">Đánh dấu cần làm</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'NHA' || statusCode == 'CHO' || statusCode == 'SAS') && isDisabled" 
+                    class="check-action" [disabled]="awaitResult" type="button"
+                    (click)="kiemTraKhaDung()">
+                    <span class="text-check-action">KT khả dụng</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'SAS') && isDisabled" class="save" [disabled]="awaitResult" type="button"
+                    (click)="nhapKhoPhieuNhapKho()">
+                    <span class="text-save">Nhập kho</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'CHO' || statusCode == 'SAS' || statusCode == 'NHK') && isDisabled" 
+                    class="cancel" [disabled]="awaitResult" type="button"
+                    (click)="huyPhieuNhapKho()">
+                    <span class="text-cancel">Hủy</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'NHA' || statusCode == 'CHO' || statusCode == 'SAS') && isDisabled" #save 
+                    class="save" [disabled]="awaitResult" type="button" 
+                    (click)="switchDisabled()">
+                    <span class="text-save">Sửa</span>
+                  </button>
+
+                  <button *ngIf="(statusCode == 'NHA' || statusCode == 'CHO' || statusCode == 'SAS') && !isDisabled" #save 
+                    class="save" [disabled]="awaitResult" type="button" 
+                    (click)="suaPhieuNhapKho()">
+                    <span class="text-save">Lưu</span>
+                  </button>
+                </div>
+                <div style="clear: both;"></div>
+              </div>
+              <div class="col-md-12">
+                <div>
+                  <span *ngIf="!isInvalidForm" style="margin-right: 5px;">
+                    <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                  </span>
+                  <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                    <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                  </div>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                    <div *ngIf="(doiTacControl.invalid && (doiTacControl.dirty || doiTacControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa chọn đối tác</span>
+                    </div>
+                    <div *ngIf="(khoControl.invalid && (khoControl.dirty || khoControl.touched))" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa chọn Kho</span>
+                    </div>
+                    <div *ngIf="(donHangMuaControl.invalid && (donHangMuaControl.dirty || donHangMuaControl.touched))"
+                      class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span class="notifi-text">Chưa chọn Đơn hàng mua</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row pnk-content">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Thông tin phiếu nhập kho" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12" style="margin-bottom: 33px;">
+                          <span>Loại phiếu nhập: {{loaiPhieuNhapControl?.value?.name}}</span>
+                        </div>
+                        <!-- <div class="col-md-12">
+                          <p-dropdown [options]="listLoaiPhieuNhap" optionLabel="name"
+                            formControlName="loaiPhieuNhapControl" (keydown.enter)="$event.preventDefault()"
+                            [autoDisplayFirst]="false" (onChange)="changeLoaiPhieuNhap()" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div> -->
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType == 2" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Đối tác</span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-dropdown [options]="listCustomer" optionLabel="customerCodeName"
+                            formControlName="doiTacControl" placeholder="Chọn Đối tác" filter="true"
+                            resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                            [styleClass]="(doiTacControl.invalid && (doiTacControl.dirty || doiTacControl.touched)) ? 'error-border' : ''"
+                            (keydown.enter)="$event.preventDefault()" [autoDisplayFirst]="false"
+                            (onChange)="changeDoiTac()" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-12" [hidden]="doiTacControl.valid || doiTacControl.untouched">
+                          <span *ngIf="doiTacControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType != 2" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Đối tác<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-dropdown [options]="listVendor" optionLabel="vendorCodeName"
+                            formControlName="doiTacControl" placeholder="Chọn Đối tác" filter="true"
+                            resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                            [styleClass]="(doiTacControl.invalid && (doiTacControl.dirty || doiTacControl.touched)) ? 'error-border' : ''"
+                            (keydown.enter)="$event.preventDefault()" [autoDisplayFirst]="false"
+                            (onChange)="changeDoiTac()" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-12" [hidden]="doiTacControl.valid || doiTacControl.untouched">
+                          <span *ngIf="doiTacControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Nhập kho tại<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-dropdown [options]="listWarehouse" optionLabel="warehouseCodeName"
+                            formControlName="khoControl" placeholder="Chọn Kho" filter="true" resetFilterOnHide="true"
+                            [styleClass]="(khoControl.invalid && (khoControl.dirty || khoControl.touched)) ? 'error-border' : ''"
+                            (keydown.enter)="$event.preventDefault()" [autoDisplayFirst]="false"
+                            (onChange)="changeNhapKhoTai()" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-12" [hidden]="khoControl.valid || khoControl.untouched">
+                          <span *ngIf="khoControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType == 1" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Lấy dữ liệu từ đơn hàng mua<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-multiSelect [options]="listVendorOrder" (keydown.enter)="$event.preventDefault()"
+                            formControlName="donHangMuaControl"
+                            [styleClass]="(donHangMuaControl.invalid && (donHangMuaControl.dirty || donHangMuaControl.touched)) ? 'error-border' : ''"
+                            [virtualScroll]="true" itemSize="30" [filter]="true" [resetFilterOnHide]="true"
+                            defaultLabel="Chọn đơn hàng mua" optionLabel="vendorDescripton" [style]="{'width': '100%'}"
+                            selectedItemsLabel="{0} đơn hàng mua được chọn" (onChange)="changeDonHangMua()">
+                          </p-multiSelect>
+                        </div>
+                        <div class="col-md-12" [hidden]="donHangMuaControl.valid || donHangMuaControl.untouched">
+                          <span *ngIf="donHangMuaControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType == 2" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Lấy dữ liệu từ </span>
+                          <button class="show-dialog-pxk" type="button" (click)="showDialogPhieuXuatKho('tra_lai')">
+                            <span class="text-show-dialog-pxk"><i class="pi pi-search"></i> Phiếu xuất kho</span>
+                          </button>
+                        </div>
+                        <div class="col-md-12 mt-10">
+                          <p-chips formControlName="phieuXuatKhoChipsControl" separator="," (onAdd)="addChips()"
+                            [inputStyle]="{'width': '100%'}"></p-chips>
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType == 3" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Lấy dữ liệu từ bảng kiểm kê<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-multiSelect [options]="listLoaiPhieuNhap" (keydown.enter)="$event.preventDefault()"
+                            formControlName="phieuKiemKeControl"
+                            [styleClass]="(phieuKiemKeControl.invalid && (phieuKiemKeControl.dirty || phieuKiemKeControl.touched)) ? 'error-border' : ''"
+                            [virtualScroll]="true" itemSize="30" [filter]="true" [resetFilterOnHide]="true"
+                            defaultLabel="Chọn đơn hàng mua" optionLabel="name" [style]="{'width': '100%'}"
+                            selectedItemsLabel="{0} đơn hàng mua được chọn" (onChange)="changePhieuKiemKe()">
+                          </p-multiSelect>
+                        </div>
+                        <div class="col-md-12" [hidden]="phieuKiemKeControl.valid || phieuKiemKeControl.untouched">
+                          <span *ngIf="phieuKiemKeControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType == 4" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Lấy dữ liệu từ </span>
+                          <button class="show-dialog-pxk" type="button" (click)="showDialogPhieuXuatKho('dieu_chuyen')">
+                            <span class="text-show-dialog-pxk"><i class="pi pi-search"></i> Phiếu xuất kho</span>
+                          </button>
+                        </div>
+                        <div class="col-md-12 mt-10">
+                          <p-chips formControlName="phieuXuatKhoChipsControl" separator="," (onAdd)="addChips()"
+                            [inputStyle]="{'width': '100%'}"></p-chips>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Ngày dự kiến nhập<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-calendar formControlName="expectedDateControl"
+                            [styleClass]="(expectedDateControl.invalid  && (expectedDateControl.dirty || expectedDateControl.touched)) ? 'error-pcalendar': ''"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                            (keydown.enter)="$event.preventDefault()" [inputStyle]="{'width':'100%'}"
+                            [baseZIndex]="999">
+                          </p-calendar>
+                        </div>
+                        <div class="col-md-12" [hidden]="expectedDateControl.valid || expectedDateControl.untouched">
+                          <span *ngIf="expectedDateControl.hasError('required')" class="error-message-span">Không được
+                            để trống</span>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Ngày nhập kho<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <p-calendar formControlName="inventoryReceivingVoucherDateControl" dateFormat="dd/mm/yy"
+                            [style]="{'width':'100%'}" showButtonBar="true" (keydown.enter)="$event.preventDefault()"
+                            [inputStyle]="{'width':'100%'}" [baseZIndex]="999">
+                          </p-calendar>
+                        </div>
+                      </div>
+
+                      <div class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Họ và tên người giao</span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="shiperNameControl" class="w100 input-text" type="text" pInputText
+                            placeholder="Nhập họ và tên người giao">
+                        </div>
+                      </div>
+
+                      <div *ngIf="loaiPhieuNhapType != 5" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Diễn giải</span>
+                        </div>
+                        <div class="col-md-12">
+                          <textarea formControlName="descriptionControl" class="w100" [rows]="5" [cols]="30"
+                            pInputTextarea></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div *ngIf="loaiPhieuNhapType == 5" class="row mt-10">
+                        <div class="col-md-12">
+                          <span>Diễn giải</span>
+                        </div>
+                        <div class="col-md-12">
+                          <textarea formControlName="descriptionControl" class="w100" [rows]="5" [cols]="30"
+                            pInputTextarea></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Chi tiết" [selected]="true">
+                <div class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <p-dropdown *ngIf="loaiPhieuNhapType == 5 && khoControl.value" 
+                            formControlName="productControl"
+                            [options]="listProduct" optionLabel="productCodeName"
+                            placeholder="Thêm sản phẩm" filter="true" [disabled]="isDisabled"
+                            resetFilterOnHide="true" [virtualScroll]="true" itemSize="30"
+                            (keydown.enter)="$event.preventDefault()" [autoDisplayFirst]="false"
+                            (onChange)="changeProduct($event)" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-6">
+                          <input class="w100 input-text" type="text" pInputText
+                            placeholder="Nhập mã hoặc tên sản phẩm muốn tìm" [(ngModel)]="filterGlobal"
+                            [ngModelOptions]="{standalone: true}"
+                            (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div *ngIf="loaiPhieuNhapType == 1" class="col-md-12">
+                      <p-table #myTable [columns]="colsDonHangMua" [value]="listItemDetail" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field" pEditableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+                              <span *ngSwitchCase="'orderCode'" (click)="onViewDetail(rowData)" class="link"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom">
+                                {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                              </span>
+                              <span *ngSwitchCase="'warehouseCodeName'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom"
+                                style="display: inline-block; padding: 2px 2px; cursor: pointer;"
+                                [ngClass]="{'link': !rowData.error}">
+                                <span *ngIf="rowData[col.field] != '' && rowData[col.field] != null"
+                                  (click)="thayDoiKho(rowData)">
+                                  {{ rowData.error == true ? 'Chưa chọn vị trí hợp lệ' : (rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim()) }}
+                                </span>
+                              </span>
+                              <span *ngSwitchCase="'quantityRequest'">
+                                {{ rowData[col.field] | number }}
+                              </span>
+                              <span *ngSwitchCase="'quantityReservation'">
+                                {{ rowData[col.field] | number }}
+                              </span>
+                              <span *ngSwitchCase="'quantityActual'">
+                                <input [disabled]="isDisabled" type="text" class="number-input" [(ngModel)]="rowData.quantityActual"
+                                  [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()"
+                                  (change)="changeQuantityActual(rowData)">
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div *ngIf="loaiPhieuNhapType == 2" class="col-md-12">
+                      <p-table #myTable [columns]="colsPhieuXuatKho" [value]="listItemDetail" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+                              <span *ngSwitchCase="'orderCode'" (click)="onViewDetail(rowData)" class="link"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom">
+                                {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                              </span>
+                              <span *ngSwitchCase="'warehouseCodeName'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom" class="link" style="display: inline-block; padding: 2px 2px;">
+                                <span *ngIf="rowData[col.field] != '' && rowData[col.field] != null"
+                                  (click)="thayDoiKho(rowData)">
+                                  {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                                </span>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div *ngIf="loaiPhieuNhapType == 3" class="col-md-12">
+                      <p-table #myTable [columns]="colsKiemKe" [value]="listItemDetail" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+                              <span *ngSwitchCase="'orderCode'" (click)="onViewDetail(rowData)" class="link"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom">
+                                {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                              </span>
+                              <span *ngSwitchCase="'warehouseCodeName'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom" class="link" style="display: inline-block; padding: 2px 2px;">
+                                <span *ngIf="rowData[col.field] != '' && rowData[col.field] != null"
+                                  (click)="thayDoiKho(rowData)">
+                                  {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                                </span>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div *ngIf="loaiPhieuNhapType == 4" class="col-md-12">
+                      <p-table #myTable [columns]="colsDieuChuyen" [value]="listItemDetail" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+                              <span *ngSwitchCase="'orderCode'" (click)="onViewDetail(rowData)" class="link"
+                                style="display: inline-block; padding: 2px 2px;">
+                                {{ rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom">
+                                {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                              </span>
+                              <span *ngSwitchCase="'warehouseCodeName'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom" class="link" style="display: inline-block; padding: 2px 2px;">
+                                <span *ngIf="rowData[col.field] != '' && rowData[col.field] != null"
+                                  (click)="thayDoiKho(rowData)">
+                                  {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                  rowData[col.field].trim() }}
+                                </span>
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div *ngIf="loaiPhieuNhapType == 5" class="col-md-12">
+                      <p-table #myTable [columns]="colsNhapKhac" [value]="listItemDetail" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+                        [responsive]="true">
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+                              {{col.header}}
+                              <!-- <p-sortIcon [field]="col.field"></p-sortIcon> -->
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+                              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom">
+                                {{ rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                rowData[col.field].trim() }}
+                              </span>
+                              <span *ngSwitchCase="'warehouseCodeName'" pTooltip="{{rowData[col.field]}}"
+                                tooltipPosition="bottom" style="display: inline-block; padding: 2px 2px; cursor: pointer;"
+                                [ngClass]="{'link': !rowData.error}">
+                                <span *ngIf="rowData[col.field] != '' && rowData[col.field] != null"
+                                  (click)="thayDoiKho(rowData)">
+                                  {{ rowData.error == true ? 'Chưa chọn vị trí hợp lệ' : (rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' :
+                                rowData[col.field].trim()) }}
+                                </span>
+                              </span>
+                              <span *ngSwitchCase="'quantityRequest'">
+                                <input type="text" class="number-input" 
+                                  [disabled]="isDisabled"
+                                  [(ngModel)]="rowData.quantityRequest" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()" (change)="changeQuantityRequest(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'quantityReservation'">
+                                {{ rowData[col.field] | number }}
+                              </span>
+                              <span *ngSwitchCase="'quantityActual'">
+                                <input type="text" class="number-input" 
+                                  [disabled]="isDisabled"
+                                  [(ngModel)]="rowData.quantityActual" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()" (change)="changeQuantityActual(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'priceProduct'">
+                                <input type="text" class="number-input" 
+                                  [disabled]="isDisabled"
+                                  [(ngModel)]="rowData.priceProduct" [ngModelOptions]="{standalone: true}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                                  (keydown.enter)="$event.preventDefault()" (change)="changePriceProduct(rowData)">
+                              </span>
+                              <span *ngSwitchCase="'amount'">
+                                {{ rowData[col.field] | number }}
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Ghi chú" [selected]="true">
+                <div class="col-md-12">
+                  <p-editor formControlName="noteControl" [readonly]="isDisabled"
+                    [style]="{'height':'180px', 'width': '100%'}">
+                  </p-editor>
+                </div>
+                <div class="col-md-12" style="margin-top: 5px;">
+                  <p-fileUpload #fileUpload name="demo[]" multiple="multiple"
+                    [disabled]="isDisabled"
+                    customUpload="true"
+                    accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                    maxFileSize="defaultLimitedFileSize" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                    invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                    invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                    invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                    chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file" 
+                    uploadLabel="Lưu"
+                    (onSelect)="handleFile($event, fileUpload)"
+                    (onRemove)="removeFile($event)"
+                    (onClear)="clearAllFile()"
+                    (uploadHandler)="myUploader($event)"></p-fileUpload>
+                </div>
+
+                <div *ngIf="(listFileUpload.length > 0)" class="col-md-12" style="margin-top: 5px;">
+                  <p-table [columns]="colsFile" [value]="listFileUpload" [responsive]="true"
+                    [resizableColumns]="true" [paginator]="true" [rows]="10">
+                    <ng-template pTemplate="header" let-columns>
+                      <tr>
+                        <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                          {{col.header}}
+                        </th>
+                        <th style="width:4em"></th>
+                        <th style="width:4em"></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                      <tr>
+                        <td *ngFor="let col of columns" class="ui-resizable-column"
+                          [ngStyle]="{'text-align': col.textAlign}" [ngSwitch]="col.field">
+                          <span *ngSwitchCase="'fileName'">
+                            {{ rowData[col.field].substring(0, rowData[col.field].lastIndexOf('_')) }}
+                          </span>
+                          <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                        </td>
+                        <td>
+                          <button pButton icon="pi pi-trash" (click)="deleteFile(rowData)"
+                            class="ui-button-danger"></button>
+                        </td>
+                        <td>
+                          <button pButton icon="pi pi-download" (click)="downloadFile(rowData['fileInFolderId'],rowData['fileName'],rowData['fileExtension'])"></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+
+        <div class="row area-2">
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Dòng thời gian" [selected]="true">
+                <div class="row bottom-buffer">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <ul class="timeline">
+                        <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                          <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                          <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                          <div class="timeline-item" id="{{note.noteId}}">
+                            <h3 class="timeline-header">
+                              <span>
+                                <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                                  (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                                  pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                                <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                              </span>
+                              <div>
+                                <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                                  class="timeline-user-avatar" />
+                              </div>
+                              <span class="note-user">{{note.responsibleName}}</span>
+
+                              <p class="time-note">
+                                {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' |
+                                translate }}
+                                {{note.createdDate | date:'dd/MM/yyyy'}}
+                              </p>
+                            </h3>
+                            <div class="timeline-body">
+                              <div class="note-content">
+                                <span class="short-content" style="word-wrap: break-word;"></span>
+                                <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                              </div>
+
+                              <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                                style="padding: 0 12px; margin-bottom: 20px !important">
+                                <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                                  class="col-md-4 short-content-file" style="padding: 5px 0">
+                                  <div class="row no-margin file-item"
+                                    style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                    <div class="col-md-1">
+                                      <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                      <div class="item-name" pTooltip="{{ item.documentName }}"
+                                        tooltipPosition="bottom">
+                                        <span>
+                                          <a class="preview-doc">
+                                            {{ item.documentName }}
+                                          </a>
+                                        </span>
+                                      </div>
+                                      <div style="font-size: 10px; padding: 0 !important">
+                                        {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div *ngFor="let item of note.noteDocList;let i=index"
+                                  class="col-md-4 full-content-file" style="display: none;padding: 5px 0">
+                                  <div class="row no-margin file-item"
+                                    style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                    <div class="col-md-1">
+                                      <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                    </div>
+                                    <div class="col-md-11">
+                                      <div class="item-name" pTooltip="{{ item.documentName }}"
+                                        tooltipPosition="bottom">
+                                        <span>
+                                          <a class="preview-doc">
+                                            {{ item.documentName }}
+                                          </a>
+                                        </span>
+                                      </div>
+                                      <div style="font-size: 10px; padding: 0 !important">
+                                        {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isShow">
+        <div class="no-margin overview" [ngClass]="{'fixedRight': fixed}" [ngStyle]="{'width':withFiexdCol}"
+          id="parentTH">
+          <div class="row no-margin button-group">
+            <div class="col-md-12">
+              <span class="text-title">Tổng kết phiếu nhập kho</span>
+              <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+            </div>
+          </div>
+          <div class="row no-margin" style="background: #ffffff;">
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-6">
+                  <span style="font-weight: bold;">Mã phiếu: </span>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <span>{{inventoryReceivingVoucherCode}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-6">
+                  <span style="font-weight: bold;">Trạng thái: </span>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <span>{{statusName}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-5">
+                  <span style="font-weight: bold;">Người lập phiếu: </span>
+                </div>
+                <div class="col-md-7" style="text-align: right;">
+                  <span>{{employeeCodeName}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-6">
+                  <span style="font-weight: bold;">Ngày lập phiếu: </span>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <span>{{createdDate | date: 'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-6">
+                  <span style="font-weight: bold;">Tổng SL thực nhập: </span>
+                </div>
+                <div class="col-md-6" style="text-align: right;">
+                  <span>{{ totalQuantityActual | number }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-10 mb-10">
+              <div class="row">
+                <div class="col-md-7">
+                  <span style="font-weight: bold;">Số chứng từ gốc kèm theo: </span>
+                </div>
+                <div class="col-md-5" style="text-align: right;">
+                  <input type="text" class="number-input" formControlName="licenseNumberControl"
+                    [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                    (keydown.enter)="$event.preventDefault()" (change)="changeLicenseNumber()">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-dialog header="Chọn Kho" [(visible)]="choiceKho" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" [closable]="false">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <p-tree [value]="listDetailWarehouse" scrollHeight="200px" [style]="{width: '100%'}" selectionMode="single"
+          [(selection)]="selectedWarehouseChilren" (onNodeSelect)="choiceKhoCon($event)">
+        </p-tree>
+      </div>
+    </div>
+    <p-footer>
+      <button *ngIf="selectedWarehouseChilren && !isDisabled" type="button" pButton (click)="selectedKhoCon()" label="Chọn"></button>
+      <button type="button" pButton (click)="cancelSelectedKhoCon()" label="Hủy" class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+
+  <p-dialog header="Cảnh báo" [(visible)]="openCanhBao" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" [closable]="true">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <span>Số lượng tồn kho của mã sản phẩm {{messageCanhBao}} sau khi nhập vượt quá số lượng tồn kho tối đa</span>
+      </div>
+    </div>
+  </p-dialog>
+</div>

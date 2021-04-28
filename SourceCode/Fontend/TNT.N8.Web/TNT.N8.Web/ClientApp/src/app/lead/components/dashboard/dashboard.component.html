@@ -1,0 +1,295 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+
+<div class="lead-dashboard">
+  <div class="row no-margin">
+    <div class="col-xs-8 col-sm-8 col-md-8">
+      <span class="title">Dashboard cơ hội</span>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4">
+      <div style="text-align: right;">
+        <button (click)="quickCreateLead()" class="btn-create" type="button"><span class="btn-create-text">Tạo cơ
+            hội</span></button>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin">
+    <!-- Thống kê theo nguồn tiềm năng -->
+    <div class="col-md-6" style="margin-top: 10px;">
+      <div class="row box-chart no-margin">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8">
+              <span class="text-chart">Tỷ lệ cơ hội theo nguồn tiềm năng</span>
+            </div>
+            <div class="col-md-4">
+              <div class="choose-month">
+                <p-dropdown [options]="listMonth" [(ngModel)]="selectedMonth" optionLabel="label"
+                  [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event.value)"></p-dropdown>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+            <div style="clear: both;"></div>
+            <div *ngIf="!(totalInvestFundByMonth > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="totalInvestFundByMonth > 0">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="box-body">
+                    <div [chart]="convertRatingChart"></div>
+                  </div>
+                </div>
+                <div class="col-md-6 icon-chart">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div *ngFor="let item of currentListInvestFundReport" class="row buffer-text-row">
+                        <div class="col-md-8 col-xs-8" style="padding-right: 0;">
+                          <span class="color-icon" [ngStyle]="{'background-color': item['color']}"></span>
+                          <span class="color-text">{{item.categoryName}}</span>
+                        </div>
+                        <div class="col-md-2 col-xs-2 rating-text" style="padding-left: 0;">{{item.percentValue}}%</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tỷ lệ cơ hội theo mức độ tiềm năng -->
+    <div class="col-md-6" style="margin-top: 10px;">
+      <div class="row box-chart no-margin">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <span class="text-chart">Tỷ lệ cơ hội theo mức độ tiềm năng</span>
+            </div>
+            <div class="col-md-6">
+              <div class="choose-month">
+                <p-dropdown [options]="listMonth" [(ngModel)]="selectedMonth" optionLabel="label"
+                  [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event.value)"></p-dropdown>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+            <div style="clear: both;"></div>
+            <div *ngIf="!(totalPotentialByMonth > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="totalPotentialByMonth > 0" class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div [chart]="potentialChart"></div>
+                </div>
+                <div class="col-md-6 icon-chart">
+                  <div *ngFor="let item of currentListlPotentialReport" class="row buffer-text-row">
+                    <div class="col-md-8 col-xs-8" style="padding-right: 0;">
+                      <span class="color-icon" [ngStyle]="{'background-color': item['color']}"></span>
+                      <span class="color-text">{{item.categoryName}}</span>
+                    </div>
+                    <div class="col-md-2 col-xs-2 rating-text" style="padding-left: 0;">{{item.percentValue}}%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 20px">
+    <div class="col-md-12">
+      <div class="row box-chart-row no-margin">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <span class="text-chart">Tỷ lệ cơ hội theo nhu cầu</span>
+            </div>
+            <div class="col-md-6">
+              <div class="choose-month">
+                <p-dropdown [options]="listMonth" [(ngModel)]="selectedMonth" optionLabel="label"
+                  [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event.value)"></p-dropdown>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+            <div style="clear: both;"></div>
+            <div *ngIf="!(totalInterestedByMonth > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12" *ngIf="totalInterestedByMonth > 0">
+              <div class="row">
+                <div class="col-md-3">
+                  <div [chart]="interestedChart"></div>
+                </div>
+                <div class="col-md-9 icon-chart" style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
+                  <div *ngFor="let item of currentInterestedReport" style="display: flex;">
+                    <div class="col-md-9" style="padding-right: 0;">
+                      <span class="color-icon" [ngStyle]="{'background-color': item['color']}"></span>
+                      <span class="color-text">{{item.categoryName}}</span>
+                    </div>
+                    <div class="col-md-2 col-xs-2 rating-text" style="padding-left: 0;">{{item.percentValue}}%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin">
+    <div class="col-md-6" style="padding-top: 20px;">
+      <div class="row no-margin box-quote-large">
+        <div class="row no-margin p-15">
+          <div class="col-md-8">
+            <span class="box-quote-title">Danh sách cơ hội chờ xác nhận</span>
+          </div>
+          <div class="col-md-4">
+            <div class="box-quote-handle" (click)="goTolist('DRAFT')" style="float: right;">
+              <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+              <span>Xem tất cả</span>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="(topNewestLead.length > 0)" class="col-md-12 no-padding">
+          <p-table [columns]="selectedColumns" [value]="topNewestLead" [resizableColumns]="true"
+            [(selection)]="selectedNewestLead" columnResizeMode="expand">
+            <ng-template pTemplate="caption"> 
+              <div style="text-align:left">
+                <p-multiSelect [options]="colsNewestLead" [(ngModel)]="selectedColumns" [ngModelOptions]="{standalone: true}"
+                  optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '120px'}"
+                  defaultLabel="Chọn cột"></p-multiSelect>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                  [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                  <span *ngSwitchCase="'leadName'" (click)="goToDetail(rowData)" class="link">
+                    {{rowData[col.field]}}
+                  </span>
+                  <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <!-- <div *ngIf="(topNewestLead.length > 0 && selectedNewestLead)" class="col-md-12 no-margin"
+            style="text-align: right; padding: 3px 0px">
+            <button *ngIf="actionAdd" class="btn-create-order" (click)="createLeadQuote(selectedNewestLead)"
+              type="button">
+              <span class="btn-create-order-text">Tạo báo giá</span>
+            </button>
+          </div> -->
+        </div>
+        <div *ngIf="!(topNewestLead.length > 0)" class="col-md-12 no-padding no-data-quote">
+          <div class="box-no-data">
+            <img src="/assets/icons/components/box.svg" class="box-icon">
+            <div>
+              <span>Hiện tại không có dữ liệu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6" style="padding-top: 20px;">
+      <div class="row no-margin box-quote-large">
+        <div class="row no-margin p-15">
+          <div class="col-md-8">
+            <span class="box-quote-title">Danh sách cơ hội vừa xác nhận</span>
+          </div>
+          <div class="col-md-4">
+            <div class="box-quote-handle" style="float: right;" (click)="goTolist('APPR')">
+              <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+              <span>Xem tất cả</span>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="(topApprovalLead.length > 0)" class="col-md-12 no-padding">
+          <p-table [columns]="selectedColumnsQuoting" [value]="topApprovalLead" [resizableColumns]="true"
+            [(selection)]="selectedWaitingLead" columnResizeMode="expand" >
+            <ng-template pTemplate="caption">
+              <div style="text-align:left">
+                <p-multiSelect [options]="colsWatingQuoting" [(ngModel)]="selectedColumnsQuoting" [ngModelOptions]="{standalone: true}"
+                  optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                  defaultLabel="Chọn cột"></p-multiSelect>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                  {{col.header}}
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                  [ngStyle]="{'text-align': col.textAlign, 'width': col.width }">
+                  <span *ngSwitchCase="'leadName'" (click)="goToDetail(rowData)" class="link">
+                    {{rowData[col.field]}}
+                  </span>
+                  <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <!-- <div *ngIf="(topApprovalLead.length > 0 && selectedWaitingLead)" class="col-md-12 no-margin"
+            style="text-align: right; padding: 3px 0px">
+            <button *ngIf="actionAdd" class="btn-create-order" (click)="createLeadQuote(selectedWaitingLead)"
+              type="button">
+              <span class="btn-create-order-text">Tạo báo giá</span>
+            </button>
+          </div> -->
+        </div>
+        <div *ngIf="!(topApprovalLead.length > 0)" class="col-md-12 no-padding no-data-quote">
+          <div class="box-no-data">
+            <img src="/assets/icons/components/box.svg" class="box-icon">
+            <div>
+              <span>Hiện tại không có dữ liệu</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

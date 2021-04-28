@@ -1,0 +1,326 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="contract-dashboard">
+  <div class="row no-margin" style="padding-bottom : 10px;">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="title">Dashboard hợp đồng</span>
+        </div>
+        <div class="col-md-12">
+          <span>{{currentTimeString}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box-search">
+        <input class="text-search" type="text" placeholder="Nhập tên hợp đồng" [(ngModel)]="contractCode">
+        <i class="pi pi-search customize-icons-search" (click)="getMasterData()"></i>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ hồ sơ thầu -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-6 mb-mb-15 ">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row mb-8">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Giá trị hợp đồng theo trạng thái</span>
+            </div>
+            <div class="col-md-4 mt-8">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToContractList()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="isShow" class="col-md-12 no-padding" style="margin-top: 10px;">
+              <canvas #canvas_status id="canvas_status">{{ chart_status }}</canvas>
+            </div>
+            <div *ngIf="!isShow" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6  ">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row mb-8">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Giá trị hợp đồng theo Ngày hợp đồng</span>
+            </div>
+            <div class="col-md-4">
+              <div class="choose-month">
+                <p-dropdown [options]="listMonth" [(ngModel)]="selectedMonth" optionLabel="label"
+                  [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event.value)"></p-dropdown>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="isShow" class="col-md-12 no-padding" style="margin-top: 10px;">
+              <canvas #canvas_month id="canvas_month">{{ chart_month }}</canvas>
+            </div>
+            <div *ngIf="!isShow" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danh hợp đồng đang thực hiện -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row mb-8">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Top 5 hợp đồng đang thực hiện</span>
+            </div>
+            <div class="col-md-4 mt-8">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToContractList()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="listContractWorkimg.length > 0" class="col-md-12 no-padding">
+              <p-table #myTable [columns]="selectedColumnsWorking" [value]="listContractWorkimg"
+                [resizableColumns]="true" (sortFunction)="sortColumnInList($event)" [customSort]="true"
+                [paginator]="true" [rows]="10" columnResizeMode="expand" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumnsWorking"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width':col.width}">
+                      <span>
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' :col.width}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'contractCode'" (click)="goToDetail(rowData['contractId'])"
+                            class="link">{{rowData[col.field]}}</span>
+                      <span *ngSwitchCase="'effectiveDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'createdDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueContract'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'nameStatus'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                            style="display: inline-block;
+                        padding: 3px 3px;
+                        color: white;
+                        width: 130px;
+                        text-align: center;">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listContractWorkimg.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 5 hợp đồng mới nhất-->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row mb-8">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Top 5 hợp đồng mới nhất</span>
+            </div>
+            <div class="col-md-4 mt-8">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToContractList()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="listContractNewStatus.length > 0" class="col-md-12 no-padding">
+              <p-table #myTable [columns]="selectedColumns" [value]="listContractNewStatus" [resizableColumns]="true"
+                (sortFunction)="sortColumnInList($event)" [customSort]="true" [paginator]="true" [rows]="10"
+                columnResizeMode="expand" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" [ngModelOptions]="{standalone: true}"
+                      optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                      defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width':col.width}">
+                      <span>
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' :col.width}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'contractCode'" (click)="goToDetail(rowData['contractId'])"
+                            class="link">{{rowData[col.field]}}</span>
+                      <span *ngSwitchCase="'effectiveDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'createdDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueContract'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'nameStatus'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                            style="display: inline-block;
+                        padding: 3px 3px;
+                        color: white;
+                        width: 130px;
+                        text-align: center;">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listContractNewStatus.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 5 hợp đồng sắp hết hạn-->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row mb-8">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Danh sách hợp đồng sắp hết hạn</span>
+            </div>
+            <div class="col-md-4 mt-8">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToContractList()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="listContractExpiredDate.length > 0" class="col-md-12 no-padding">
+              <p-table #myTable [columns]="selectedColumnsExpiredDate" [value]="listContractExpiredDate" [resizableColumns]="true"
+                (sortFunction)="sortColumnInList($event)" [customSort]="true" [paginator]="true" [rows]="5"
+                columnResizeMode="expand" [paginator]="true" [rowsPerPageOptions]="[5,15,30]" [responsive]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumnsExpiredDate" [ngModelOptions]="{standalone: true}"
+                      optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                      defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width':col.width}">
+                      <span>
+                        {{col.header}}
+                      </span>
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' :col.width}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'contractCode'" (click)="goToDetail(rowData['contractId'])"
+                            class="link">{{rowData[col.field]}}</span>
+                      <span *ngSwitchCase="'effectiveDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'expiredDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'createdDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueContract'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'dayLeft'">{{rowData.dayLeft + ' Ngày'}}</span>
+                      <span *ngSwitchCase="'contractTime'">{{rowData.contractTime + ' ' + rowData.contractTimeUnit}}</span>
+                      <span *ngSwitchCase="'nameStatus'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                            style="display: inline-block;
+                        padding: 3px 3px;
+                        color: white;
+                        width: 130px;
+                        text-align: center;">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listContractExpiredDate.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

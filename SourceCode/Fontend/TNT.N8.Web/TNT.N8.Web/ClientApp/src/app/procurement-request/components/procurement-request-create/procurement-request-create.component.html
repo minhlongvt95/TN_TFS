@@ -1,0 +1,326 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'procurement-request.messages_title.title_confirm' | translate }}"
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'procurement-request.messages_title.title_confirm_OK' | translate }}"
+  rejectLabel="{{ 'procurement-request.messages_title.title_confirm_NO' | translate }}">
+</p-confirmDialog>
+
+<div class="procurement-request-create">
+  <div class="row no-margin">
+    <div class="col-md-9 no-padding">
+      <div class="row no-margin">
+        <div class="col-md-12 header" style="padding: 6px;" [ngClass]="{'fixed': fixed}">
+          <div class="row">
+            <div class="col-md-6 no-padding">
+              <div class="row no-margin">
+                <div class="col-md-1 col-sm-1 col-xs-3">
+                  <div class="header-box-icon">
+                    <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                  </div>
+                </div>
+                <div class="col-md-11 col-sm-10 col-xs-9">
+                  <div>
+                    <span class="customer-name">{{ 'procurement-request.create.title-create' | translate }}</span>
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+                  <button (click)="cancel()" type="button" class="btn-remove">
+                    <span class="btn-remove-text">{{ 'procurement-request.create.exit' | translate }}</span>
+                  </button>
+                  <button (click)="save()" *ngIf="actionAdd" type="button" class="btn-save">
+                    <span class="btn-save-text">{{ 'procurement-request.create.save' | translate }}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+        <div class="col-md-12 customer-infor">
+          <div class="row">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="{{ 'procurement-request.create.title-infor-procurement' | translate }}"
+                [selected]="true">
+                <form [formGroup]="createPRForm">
+                  <div class="col-md-12 no-padding">
+                    
+                    <div class="row">
+                      <div class="col-md-4">
+                        
+                        <div class="row buffer-bottom down-block">
+                          <div class="col-md-12 code-orders">
+                            <span class="code-date">{{ 'procurement-request.create.procurement-request-code' | translate }}</span><span
+                              class="pr-code-note"> [{{ 'procurement-request.create.code-create-text' | translate }}]</span>
+                          </div>
+                          <div class="col-md-12">
+                            <span class="code-date">{{ 'procurement-request.create.create-date' | translate }}</span><span class="create-date-label">
+                              {{createdDate | date: 'dd/MM/yyyy'}}</span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <div class="col-md-4">
+
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.content-request' | translate }}</span><span
+                              class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="PRContent" type="text" class="w100"
+                              [ngClass]="(createPRForm.get('PRContent').invalid && (createPRForm.get('PRContent').dirty || createPRForm.get('PRContent').touched)) ? 'error-border' : ''"
+                              pInputText placeholder="" />
+                          </div>
+                          <div class="col-md-12">
+                            <span
+                              [hidden]="createPRForm.get('PRContent').valid || createPRForm.get('PRContent').untouched"
+                              *ngIf="createPRForm.get('PRContent').hasError('required') || createPRForm.get('PRContent').hasError('blankString')"
+                              class="error-message-span">
+                              {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                          </div>
+                        </div>
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.person_request' | translate }}</span><span
+                              class="required">*</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="RequestEmp" type="text" class="w100" pInputText placeholder="" />
+                          </div>
+                        </div>
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.phone' | translate }}</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="Phone"
+                              [ngClass]="(createPRForm.get('Phone').invalid && (createPRForm.get('Phone').dirty || createPRForm.get('Phone').touched)) ? 'error-border' : ''"
+                              type="text" class="w100" pInputText placeholder="" />
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="createPRForm.get('Phone').valid || createPRForm.get('Phone').untouched">
+                            <span *ngIf="createPRForm.get('Phone').hasError('pattern')" class="error-message-span">{{
+                              'procurement-request.messages_error.error_format_phone' | translate }}</span>
+                          </div>
+                        </div>
+
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.unit' | translate }}</span>
+                          </div>
+                          <div class="col-md-12" pTooltip="{{organizationName}}">
+                            <input formControlName="Organization" (click)="openOrganizationDialog()" readonly
+                              [ngClass]="(createPRForm.get('Organization').invalid && (createPRForm.get('Organization').dirty || createPRForm.get('Organization').touched)) ? 'error-border' : ''"
+                              type="text" class="w100" pInputText placeholder="" />
+                          </div>
+                          <div class="col-md-12">
+                            <span
+                              [hidden]="createPRForm.get('Organization').valid || createPRForm.get('Organization').untouched"
+                              *ngIf="createPRForm.get('Organization').hasError('required') || createPRForm.get('Organization').hasError('blankString')"
+                              class="error-message-span">
+                              {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.position' | translate }}</span>
+                          </div>
+                          <div class="col-md-12">
+                            <input formControlName="Postion" type="text" class="w100" pInputText placeholder="" />
+                          </div>
+                        </div>
+
+                        <div class="row buffer-bottom">
+                          <div class="col-md-12 buffer-bottom-label">
+                            <span>{{ 'procurement-request.create.description' | translate }}</span>
+                          </div>
+                          <div class="col-md-12">
+                            <textarea formControlName="Desc" pInputTextarea rows="4"
+                              style="width: 100%; min-height: 102px;"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div *ngIf="actionImport">
+                                  <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                                    accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                                    maxFileSize="10000000"
+                                    invalidFileSizeMessageSummary="{0}: {{ 'procurement-request.create.file_max' | translate }},"
+                                    invalidFileSizeMessageDetail="{{ 'procurement-request.create.file_max_value' | translate }} {0}."
+                                    invalidFileTypeMessageSummary="{0}: {{ 'procurement-request.create.file_no_format' | translate }}, "
+                                    invalidFileTypeMessageDetail="{{ 'procurement-request.create.file_choose_format' | translate }} {0}."
+                                    chooseLabel="{{ 'procurement-request.create.file_choose' | translate }}"
+                                    cancelLabel="{{ 'procurement-request.create.file_cancel' | translate }}"
+                                    (onSelect)="handleFile($event, fileUpload)" (onRemove)="removeFile($event)"
+                                    (onClear)="clearAllFile()">
+                                  </p-fileUpload>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+        <div class="col-md-12 customer-infor">
+          <div class="row">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="{{ 'procurement-request.create.info_list_product' | translate }}"
+                [selected]="true">
+                <div class="row bottom-buffer">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <p-table #table [columns]="selectedCulumns" [value]="listProcurementRequestItem"
+                          [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+                          [rowsPerPageOptions]="[10, 20, 30]" [responsive]="true"
+                          [(selection)]="selectedProcurementRequestItem" class="table-border">
+                          <ng-template pTemplate="caption">
+                            <div class="row">
+                              <div class="col-md-6" style="display: flex;">
+                                <p-multiSelect [options]="columns" optionLabel="header" [(ngModel)]="selectedCulumns"
+                                  [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                                  [style]="{ minWidth: '200px' }"
+                                  defaultLabel="{{ 'procurement-request.create.column_choose' | translate }}">
+                                </p-multiSelect>
+                                <span (click)="gotoBudgetList()" style="padding-top:5px; margin-left: 20px;" class="look-up-the-code">
+                                  <span>
+                                    <img src="/assets/icons/components/search-icon.svg" class="ios-add-circle-outline search">
+                                  </span>
+                                  <span class="add-product-text">
+                                    {{ 'procurement-request.create.search_code_MDT' | translate }}
+                                  </span>
+                                </span>
+                              </div>
+                              <div class="col-md-6"
+                                style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                                <span *ngIf="actionAdd" (click)="addPRItem()">
+                                  <span>
+                                    <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                      class="ios-add-circle-outline">
+                                  </span>
+                                  <span class="add-product-text">
+                                    {{ 'procurement-request.create.create_product' | translate }}
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th style="text-align: center; width: 90px;">#</th>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                <span>
+                                  {{ col.header }}
+                                </span>
+                              </th>
+                              <th style="text-align: center; width: 100px;">
+                                <span>{{ 'procurement-request.create.action' | translate }}</span>
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr>
+                              <td style="text-align: center;">
+                                <button *ngIf="listProcurementRequestItem?.length != 1" [disabled]="rowData.orderNumber == 1" class="btn-move mr-5"
+                                  pTooltip="Chuyển lên" tooltipPosition="top" pButton (click)="moveUp(rowData)"><i
+                                    class="pi pi-arrow-up icons-move"></i></button>
+                                <button *ngIf="listProcurementRequestItem?.length != 1"
+                                  [disabled]="rowData.orderNumber == listProcurementRequestItem?.length" class="btn-move" pTooltip="Chuyển xuống"
+                                  tooltipPosition="top" pButton (click)="moveDown(rowData)"><i class="pi pi-arrow-down icons-move"></i></button>
+                              </td>
+                              <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                <span class="ui-column-title">{{ col.header }}</span>
+                                <span *ngSwitchCase="'quantity'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'unitPrice'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'exchangeRate'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'amount'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                              </td>
+                              <td style="text-align: center; width: 100px;">
+                                <button (click)="editPRItem(rowData)" pButton icon="pi pi-pencil"></button>
+                                <button (click)="deletePRItem(rowData)" pButton icon="pi pi-trash"
+                                  class="ui-button-danger"></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </div>
+      <div class="row no-margin" style="padding-top: 20px;padding-bottom: 20px;"></div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="col-md-12 customer-infor">
+        <div class="row">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Tổng hợp đơn hàng" [selected]="true">
+              <div class="row sumary-row">
+                <div class="col-md-12" style="margin-bottom: 10px;">
+                  <span>{{ 'procurement-request.create.total_amount_text' | translate }} </span>
+                </div>
+                <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+                  <span style="font-weight: bold;">{{amountNumber | number}}</span>
+                </div>
+                <div *ngIf="amountNumber > 0" class="col-md-12"
+                  style="display: flex; justify-content: flex-end; margin-top: 15px;">
+                  <span>({{amountText}}./)</span>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

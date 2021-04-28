@@ -1,0 +1,86 @@
+<div class="popupcate-dialog-content">
+    <form style="font-family: 'Open Sans', sans-serif;" [formGroup]="productCategoryForm" *ngIf="productCategoryForm">
+    <div class="row org-dialog-title">
+      <span>
+        {{ 'productcategory.info' | translate }}
+      </span>
+    </div>
+    <div class="row">
+  
+      <div class="tree-content">
+        <div class="tree-view">
+          <div class="tree-item lvl-1" *ngFor="let prodCategory of productCategoryList">
+            <table id="{{prodCategory.productCategoryId}}" title="{{prodCategory.productCategoryName}}">
+              <tr>
+                <td style="padding-top: 5px;">
+                  <i class="material-icons tree-icon"
+                     data-toggle="collapse"
+                     [attr.data-target]="'.' + prodCategory.productCategoryId"
+                     [attr.aria-controls]="prodCategory.productCategoryId"
+                     aria-expanded="false"
+                     *ngIf="hasChild(prodCategory)"
+                     (click)="changeIcon($event)"
+                     >
+                    arrow_drop_down
+                  </i>
+                </td>
+                <td>
+                  <span >{{prodCategory.productCategoryName}}</span>
+                </td>
+              </tr>
+            </table>
+  
+            <div class="tree-item lvl-2 collapse in" [ngClass]="prodCategory.productCategoryId" *ngFor="let prodCategoryChild of prodCategory.productCategoryChildList">
+              <table id="{{prodCategoryChild.productCategoryId}}" title="{{prodCategory.productCategoryName}}>{{prodCategoryChild.productCategoryName}}">
+                <tr>
+                  <td style="padding-top: 5px;">
+                    <i class="material-icons tree-icon"
+                       data-toggle="collapse"
+                       [attr.data-target]="'.' + prodCategoryChild.productCategoryId"
+                       [attr.aria-controls]="prodCategoryChild.productCategoryId"
+                       aria-expanded="false"
+                       *ngIf="hasChild(prodCategoryChild)"
+                       (click)="changeIcon($event)">
+                      arrow_drop_down
+                    </i>
+                  </td>
+                  <td>
+                    <span>{{prodCategoryChild.productCategoryName}}</span>
+                  </td>
+                </tr>
+              </table>
+  
+              <div class="tree-item lvl-3 collapse in" [ngClass]="prodCategoryChild.productCategoryId" *ngFor="let prodCategoryGrantChild of prodCategoryChild.productCategoryChildList">
+                <table id="{{prodCategoryGrantChild.productCategoryId}}" title="{{prodCategory.productCategoryName}}>{{prodCategoryChild.productCategoryName}}>{{prodCategoryGrantChild.productCategoryName}}">
+                  <tr>
+                    <td style="padding-top: 5px;">
+                      <i class="material-icons tree-icon"
+                         data-toggle="collapse"
+                         [attr.data-target]="'.' + prodCategoryGrantChild.productCategoryId"
+                         [attr.aria-controls]="prodCategoryGrantChild.productCategoryId"
+                         aria-expanded="false"
+                         *ngIf="hasChild(prodCategoryGrantChild)"
+                         (click)="changeIcon($event)">
+                        arrow_drop_down
+                      </i>
+                    </td>
+                    <td>
+                      <span>{{prodCategoryGrantChild.productCategoryName}}</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+    <div class="row org-dialog-buttons">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">CHỌN</button>
+    </div>
+    </form>
+  </div>
+  

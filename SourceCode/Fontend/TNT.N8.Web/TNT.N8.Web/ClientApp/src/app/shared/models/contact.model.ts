@@ -1,0 +1,161 @@
+import { Time } from "@angular/common";
+
+//request model
+export class ContactModel {
+  Index: number;
+  ContactId: string;
+  ObjectId: string;
+  ObjectType: string;
+  FirstName: string;
+  LastName: string;
+  Gender: string;
+  GenderDisplay: string;
+  DateOfBirth: Date;
+  Phone: string;
+  WorkPhone: string;
+  OtherPhone: string;
+  Email: string;
+  WorkEmail: string;
+  OtherEmail: string;
+  IdentityID: string;
+  AvatarUrl: string;
+  Address: string;
+  CountryId: string;
+  AreaId: string;
+  ProvinceId: string;
+  DistrictId: string;
+  WardId: string;
+  MaritalStatusId: string;
+  PostCode: string;
+  WebsiteUrl: string;
+  SocialUrl: string;
+  CreatedById: string;
+  CreatedDate: Date;
+  UpdatedById: string;
+  UpdatedDate: Date;
+  Active: Boolean;
+  Note: string;
+  Role: string;
+  TaxCode: string;
+  Job: string;
+  Agency: string;
+  Birthplace: string;
+  IdentityIDDateOfIssue: Date;
+  IdentityIDPlaceOfIssue: string;
+  IdentityIDDateOfParticipation: Date;
+  WorkPermitNumber: string;
+  VisaNumber: string;
+  VisaDateOfIssue: Date;
+  VisaExpirationDate: Date;
+  SocialInsuranceNumber: string;
+  SocialInsuranceDateOfIssue: Date;
+  SocialInsuranceDateOfParticipation: Date;
+  HealthInsuranceNumber: string;
+  HealthInsuranceDateOfIssue: Date;
+  HealthInsuranceDateOfParticipation: Date;
+  WorkHourOfStart: Time;
+  WorkHourOfEnd: Time;
+  TypePaid: string;
+  Other: string;
+  CompanyName: string;
+  CompanyAddress: string;
+  CustomerPosition: string;
+  BankName: string;
+  BankCode: string;
+  MoneyLimit: number;
+  TermsPayment: string;
+  DefaultAccount: string;
+  OptionPosition: string;
+  RelationShip: string;
+  Latitude: number;
+  Longitude: number;
+  GeographicalAreaId: string;
+  PotentialCustomerPosition: string;
+  LinkFace: string;
+  EvaluateContactPeople: string;
+
+  IsInlandLH: number;
+  constructor() {
+    this.Index = 0;
+    this.ContactId = '00000000-0000-0000-0000-000000000000';
+    this.Address = "";
+    this.IsInlandLH = 1;
+  }
+}
+
+
+//response modle
+export class contactModel {
+  contactId: string;
+  objectId: string;
+  objectType: string;
+  fullName:string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  genderDisplay: string;
+  dateOfBirth: Date;
+  phone: string;
+  workPhone: string;
+  otherPhone: string;
+  email: string;
+  workEmail: string;
+  otherEmail: string;
+  identityID: string;
+  avatarUrl: string;
+  address: string;
+  countryId: string;
+  areaId: string;
+  provinceId: string;
+  districtId: string;
+  wardId: string;
+  maritalStatusId: string;
+  postCode: string;
+  websiteUrl: string;
+  socialUrl: string;
+  createdById: string;
+  createdDate: Date;
+  updatedById: string;
+  updatedDate: Date;
+  active: Boolean;
+  note: string;
+  role: string;
+  taxCode: string;
+  job: string;
+  agency: string;
+  birthplace: string;
+  identityIDDateOfIssue: Date;
+  identityIDPlaceOfIssue: string;
+  identityIDDateOfParticipation: Date;
+  workPermitNumber: string;
+  visaNumber: string;
+  visaDateOfIssue: Date;
+  visaExpirationDate: Date;
+  socialInsuranceNumber: string;
+  socialInsuranceDateOfIssue: Date;
+  socialInsuranceDateOfParticipation: Date;
+  healthInsuranceNumber: string;
+  healthInsuranceDateOfIssue: Date;
+  healthInsuranceDateOfParticipation: Date;
+  workHourOfStart: Time;
+  workHourOfEnd: Time;
+  typePaid: string;
+  other: string;
+  companyName: string;
+  companyAddress: string;
+  customerPosition: string;
+  bankName: string;
+  bankCode: string;
+  moneyLimit: number;
+  termsPayment: string;
+  defaultAccount: string;
+  optionPosition: string;
+  geographicalAreaId: string;
+  potentialCustomerPosition: string;
+  relationShip: string;
+  statusCustomer: string;
+
+  constructor() {
+    this.address = "";
+  }
+}

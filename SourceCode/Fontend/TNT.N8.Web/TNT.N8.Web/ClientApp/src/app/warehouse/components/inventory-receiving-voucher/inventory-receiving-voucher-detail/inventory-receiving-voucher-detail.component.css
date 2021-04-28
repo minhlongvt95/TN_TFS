@@ -1,0 +1,630 @@
+.ct-phieu-nhap-kho .pnk-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.ct-phieu-nhap-kho .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.ct-phieu-nhap-kho .center {
+  margin-left: 10px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ct-phieu-nhap-kho .header-icon {
+  font-size: 22px;
+  color: #007AFF;
+}
+
+.ct-phieu-nhap-kho .header-text {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.ct-phieu-nhap-kho .w100 {
+  width: 100% !important;
+}
+
+.ct-phieu-nhap-kho .input-text {
+  min-height: 2.55em !important;
+}
+
+.ct-phieu-nhap-kho .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #f2f4f8;
+  border: 1px solid #cccccc;
+}
+
+.ct-phieu-nhap-kho .fixedRight {
+  position: fixed;
+  top: 75px;
+  z-index: 998;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+}
+
+.ct-phieu-nhap-kho .ios-warning {
+  position: relative;
+  top: 0;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.ct-phieu-nhap-kho .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.ct-phieu-nhap-kho .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.ct-phieu-nhap-kho .notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 999;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+.ct-phieu-nhap-kho .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+  z-index: 999;
+}
+
+.ct-phieu-nhap-kho .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+  z-index: 999;
+}
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.ct-phieu-nhap-kho .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+  z-index: 999;
+}
+
+.ct-phieu-nhap-kho .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+  z-index: 999;
+}
+
+.ct-phieu-nhap-kho .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+  z-index: 999;
+}
+
+.ct-phieu-nhap-kho .button-group .check-action {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #0f62fe;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .check-action .text-check-action {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.ct-phieu-nhap-kho .button-group .delete-pnk {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #C0C0C0;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .delete-pnk .text-delete-pnk {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.ct-phieu-nhap-kho .button-group .go-back {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .go-back .text-go-back {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.ct-phieu-nhap-kho .button-group .not-reservation {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #FFFFCC;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .not-reservation .text-not-reservation {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.ct-phieu-nhap-kho .button-group .clone {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #FFFFCC;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .clone .text-clone {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.ct-phieu-nhap-kho .button-group .draft {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #0F62FE;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .draft .text-draft {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.ct-phieu-nhap-kho .button-group .cancel {
+  min-width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #C0C0C0;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.ct-phieu-nhap-kho .button-group .save-and-new {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .save-and-new .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.ct-phieu-nhap-kho .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+  position: relative;
+}
+
+.ct-phieu-nhap-kho .button-group .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.ct-phieu-nhap-kho .mt-10 {
+  margin-top: 10px;
+}
+
+.ct-phieu-nhap-kho .mb-10 {
+  margin-bottom: 10px;
+}
+
+.ct-phieu-nhap-kho .area-2 {
+  margin: 10px 0px;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.ct-phieu-nhap-kho .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.ct-phieu-nhap-kho .show-dialog-pxk {
+  width: 135px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.ct-phieu-nhap-kho .show-dialog-pxk .text-show-dialog-pxk {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-chips {
+  width: 100%;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-chips > ul.ui-inputtext {
+  width: 100%;
+}
+
+::ng-deep .ct-phieu-nhap-kho .ui-chips > ul.ui-inputtext .ui-chips-token {
+  margin-top: 5px;
+}
+
+/* Phần tổng hợp bên phải */
+
+.ct-phieu-nhap-kho .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.ct-phieu-nhap-kho .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.ct-phieu-nhap-kho .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.ct-phieu-nhap-kho .overview .button-group .ios-print {
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+/* End */
+
+/* CSS time line */
+
+.ct-phieu-nhap-kho .timeline>li {
+	margin-right: 0 !important;
+}
+
+.ct-phieu-nhap-kho .style-delete {
+	color: #FE747A;
+	cursor: pointer;
+	font-size: 1.55em;
+}
+
+.ct-phieu-nhap-kho .style-edit {
+	cursor: pointer;
+	font-size: 1.55em;
+}
+
+.ct-phieu-nhap-kho .note-user {
+	font-family: 'Inter UI';
+	font-weight: bold;
+}
+
+.ct-phieu-nhap-kho .timeline>li>.timeline-item {
+	box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.ct-phieu-nhap-kho .timeline-content {
+	margin-top: 20px;
+}
+
+.ct-phieu-nhap-kho .bg-blueX {
+	background-color: #4E6BA5 !important;
+}
+
+.ct-phieu-nhap-kho .color-w {
+	color: #fff !important;
+}
+
+.ct-phieu-nhap-kho .timeline-item .onHover {
+	display: none;
+}
+
+.ct-phieu-nhap-kho .timeline-item:hover .onHover {
+	display: block;
+}
+
+.ct-phieu-nhap-kho .material-icons {
+	cursor: pointer;
+}
+
+.ct-phieu-nhap-kho .timeline-user-avatar {
+	border-radius: 50%;
+	margin-right: 5px;
+	float: left;
+}
+
+.ct-phieu-nhap-kho .note-title {
+	font-size: 11px !important;
+	color: #222 !important;
+	font-weight: normal !important;
+}
+
+.ct-phieu-nhap-kho .time-note {
+	font-size: 10px !important;
+	color: #5d5a5a !important;
+	font-weight: normal !important;
+}
+
+.ct-phieu-nhap-kho .timeline-body {
+	padding: 10px 15px;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n+1) {
+	padding-right: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n+2) {
+	padding-right: 5px !important;
+	padding-left: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n) {
+	padding-left: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n+1) {
+	padding-right: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n+2) {
+	padding-right: 5px !important;
+	padding-left: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-upload-zone .col-md-4:nth-child(3n) {
+	padding-left: 5px !important;
+}
+
+.ct-phieu-nhap-kho .file-item div:nth-child(1), 
+.ct-phieu-nhap-kho .file-item div:nth-child(3) {
+	padding-left: 0 !important;
+}
+
+.ct-phieu-nhap-kho .file-item div:nth-child(2) {
+	padding: 0 5px !important;
+}
+
+.ct-phieu-nhap-kho .item-name {
+	text-overflow: ellipsis !important;
+	white-space: nowrap !important;
+	overflow: hidden !important;
+}
+
+.ct-phieu-nhap-kho .preview-doc {
+	cursor: pointer;
+}
+
+/* End */

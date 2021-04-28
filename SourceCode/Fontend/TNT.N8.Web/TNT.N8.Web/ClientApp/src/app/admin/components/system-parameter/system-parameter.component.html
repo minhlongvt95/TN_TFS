@@ -1,0 +1,319 @@
+<p-toast position="bottom-right"></p-toast>
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<div class="system-parameter">
+  <div class="row no-margin bg-white shadow">
+    <div class="col-md-12 pd-10">
+      <span class="title">Tham số hệ thống</span>
+    </div>
+  </div>
+  <div class="row no-margin mt-10">
+    <div class="col-md-12 no-padding">
+      <p-tabView>
+        <p-tabPanel header="Tham số hệ thống" [headerStyle]="{width: '145px', 'text-align': 'center'}">
+          <div class="row">
+            <div class="col-md-12">
+              <p-table [columns]="colHeader" [value]="listGroupSystem" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'loaiThamSo'">
+                        {{rowData.systemDescription}}
+                      </span>
+                      <span *ngSwitchCase="'giaTri'">
+                        <span *ngIf="rowData.systemValue != null">
+                          <p-inputSwitch [(ngModel)]="rowData.systemValue" [disabled]="!rowData.isEdit" 
+                            (onChange)="changeParameter(rowData)">
+                          </p-inputSwitch>
+                        </span>
+                        <span *ngIf="rowData.systemValue == null">
+                          <input pInputText class="item" style="width: 100%;" [disabled]="!rowData.isEdit"
+                            type="text" [(ngModel)]="rowData.systemValueString" />
+                        </span>
+                      </span>
+                      <span *ngSwitchCase="'moTa'">
+                        <textarea [rows]="2" style="width: 100%;" 
+                          [(ngModel)]="rowData.description" pInputTextarea autoResize="autoResize"
+                          [disabled]="!rowData.isEdit"></textarea>
+                      </span>
+                      <span *ngSwitchCase="'chucNang'">
+                        <div>
+                          <div *ngIf="rowData.isEdit">
+                            <button pButton icon="pi pi-save" class="ui-button" style="margin-right: 3%;"
+                              (click)="changeParameter(rowData)"></button>
+                            <button pButton icon="pi pi-times" class="ui-button" (click)="cancelEdit(rowData)"></button>
+                          </div>
+                          <div *ngIf="!rowData.isEdit && actionEdit">
+                            <button pButton icon="pi pi-pencil" class="ui-button"
+                              (click)="onEdit(rowData)"></button>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Email" [headerStyle]="{width: '145px', 'text-align': 'center'}">
+          <div class="row">
+            <div class="col-md-12">
+              <p-table [columns]="colHeader" [value]="listGroupEmail" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'loaiThamSo'">
+                        {{rowData.systemDescription}}
+                      </span>
+                      <span *ngSwitchCase="'giaTri'">
+                        <span *ngIf="rowData.systemValue != null">
+                          <p-inputSwitch [(ngModel)]="rowData.systemValue" [disabled]="!rowData.isEdit" 
+                            (onChange)="changeParameter(rowData)">
+                          </p-inputSwitch>
+                        </span>
+                        <span *ngIf="rowData.systemValue == null">
+                          <input pInputText class="item" style="width: 100%;" [disabled]="!rowData.isEdit"
+                            type="text" [(ngModel)]="rowData.systemValueString" />
+                        </span>
+                      </span>
+                      <span *ngSwitchCase="'moTa'">
+                        <textarea [rows]="2" style="width: 100%;" 
+                          [(ngModel)]="rowData.description" pInputTextarea autoResize="autoResize"
+                          [disabled]="!rowData.isEdit"></textarea>
+                      </span>
+                      <span *ngSwitchCase="'chucNang'">
+                        <div>
+                          <div *ngIf="rowData.isEdit">
+                            <button pButton icon="pi pi-save" class="ui-button" style="margin-right: 3%;"
+                              (click)="changeParameter(rowData)"></button>
+                            <button pButton icon="pi pi-times" class="ui-button" (click)="cancelEdit(rowData)"></button>
+                          </div>
+                          <div *ngIf="!rowData.isEdit && actionEdit">
+                            <button pButton icon="pi pi-pencil" class="ui-button"
+                              (click)="onEdit(rowData)"></button>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Tiền tệ" [headerStyle]="{width: '145px', 'text-align': 'center'}">
+          <div class="row">
+            <div class="col-md-12">
+              <p-table [columns]="colHeader" [value]="listGroupCurrency" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'loaiThamSo'">
+                        {{rowData.systemDescription}}
+                      </span>
+                      <span *ngSwitchCase="'giaTri'">
+                        <span *ngIf="rowData.systemValue != null">
+                          <p-inputSwitch [(ngModel)]="rowData.systemValue" [disabled]="!rowData.isEdit" 
+                            (onChange)="changeParameter(rowData)">
+                          </p-inputSwitch>
+                        </span>
+                        <span *ngIf="rowData.systemValue == null">
+                          <input pInputText class="item" style="width: 100%;" [disabled]="!rowData.isEdit"
+                            type="text" [(ngModel)]="rowData.systemValueString" />
+                        </span>
+                      </span>
+                      <span *ngSwitchCase="'moTa'">
+                        <textarea [rows]="2" style="width: 100%;" 
+                          [(ngModel)]="rowData.description" pInputTextarea autoResize="autoResize"
+                          [disabled]="!rowData.isEdit"></textarea>
+                      </span>
+                      <span *ngSwitchCase="'chucNang'">
+                        <div>
+                          <div *ngIf="rowData.isEdit">
+                            <button pButton icon="pi pi-save" class="ui-button" style="margin-right: 3%;"
+                              (click)="changeParameter(rowData)"></button>
+                            <button pButton icon="pi pi-times" class="ui-button" (click)="cancelEdit(rowData)"></button>
+                          </div>
+                          <div *ngIf="!rowData.isEdit && actionEdit">
+                            <button pButton icon="pi pi-pencil" class="ui-button"
+                              (click)="onEdit(rowData)"></button>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Thông báo Email" [headerStyle]="{width: '145px', 'text-align': 'center'}">
+          <div class="row">
+            <div class="col-md-12">
+              <p-table [columns]="colHeader" [value]="listGroupTemplateEmail" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'loaiThamSo'">
+                        {{rowData.systemDescription}}
+                      </span>
+                      <span *ngSwitchCase="'giaTri'">
+                        <span *ngIf="rowData.systemValue != null">
+                          <p-inputSwitch [(ngModel)]="rowData.systemValue" [disabled]="!rowData.isEdit" 
+                            (onChange)="changeParameter(rowData)">
+                          </p-inputSwitch>
+                        </span>
+                        <span *ngIf="rowData.systemValue == null">
+                          <input pInputText class="item" style="width: 100%;" [disabled]="!rowData.isEdit"
+                            type="text" [(ngModel)]="rowData.systemValueString" />
+                        </span>
+                      </span>
+                      <span *ngSwitchCase="'moTa'">
+                        <textarea [rows]="2" style="width: 100%;" 
+                          [(ngModel)]="rowData.description" pInputTextarea autoResize="autoResize"
+                          [disabled]="!rowData.isEdit"></textarea>
+                      </span>
+                      <span *ngSwitchCase="'chucNang'">
+                        <div>
+                          <div *ngIf="rowData.isEdit">
+                            <button pButton icon="pi pi-save" class="ui-button" style="margin-right: 3%;"
+                              (click)="changeParameter(rowData)"></button>
+                            <button pButton icon="pi pi-times" class="ui-button" (click)="cancelEdit(rowData)"></button>
+                          </div>
+                          <div *ngIf="!rowData.isEdit && actionEdit">
+                            <button pButton icon="pi pi-pencil" class="ui-button"
+                              (click)="onEdit(rowData)"></button>
+                          </div>
+                        </div>
+                      </span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Logo" [headerStyle]="{width: '145px', 'text-align': 'center'}">
+          <div class="row">
+            <div class="col-md-12" style="padding-top: 10px;padding-bottom: 10px;">
+              <div class="col-md-12">
+                <p-table [columns]="colHeader" [value]="listGroupLogo" [responsive]="true">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" pResizableColumn
+                        [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                        {{col.header}}
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                        [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                        <span class="ui-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'loaiThamSo'">
+                          {{rowData.systemDescription}}
+                        </span>
+                        <span *ngSwitchCase="'giaTri'">
+                          <span *ngIf="rowData.systemValue != null">
+                            <p-inputSwitch [(ngModel)]="rowData.systemValue" [disabled]="!rowData.isEdit" 
+                              (onChange)="changeParameter(rowData)">
+                            </p-inputSwitch>
+                          </span>
+                          <span *ngIf="rowData.systemValue == null">
+                            <input pInputText class="item" style="width: 100%;" [disabled]="!rowData.isEdit"
+                              type="text" [(ngModel)]="rowData.systemValueString" />
+                          </span>
+                        </span>
+                        <span *ngSwitchCase="'moTa'">
+                          <textarea [rows]="2" style="width: 100%;" 
+                            [(ngModel)]="rowData.description" pInputTextarea autoResize="autoResize"
+                            [disabled]="!rowData.isEdit"></textarea>
+                        </span>
+                        <span *ngSwitchCase="'chucNang'">
+                          <div>
+                            <div *ngIf="rowData.isEdit">
+                              <button pButton icon="pi pi-save" class="ui-button" style="margin-right: 3%;"
+                                (click)="changeParameter(rowData)"></button>
+                              <button pButton icon="pi pi-times" class="ui-button" (click)="cancelEdit(rowData)"></button>
+                            </div>
+                            <div *ngIf="!rowData.isEdit && actionEdit">
+                              <button pButton icon="pi pi-pencil" class="ui-button"
+                                (click)="onEdit(rowData)"></button>
+                            </div>
+                          </div>
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+              <div class="col-md-12" style="margin-top: 20px;">
+                <img src="{{base64Logo}}">
+                <img #currentLogo src="{{currentBase64Logo}}" style="display: none;">
+              </div>
+              <div class="col-md-12" style="margin-top: 20px;">
+                <p-fileUpload name="demo[]" (onSelect)="handleFile($event)" customUpload="true"
+                  [showCancelButton]="false"
+                  (uploadHandler)="myUploader($event)"
+                  (onRemove)="onRemove($event)" 
+                  chooseLabel="Chọn file" 
+                  cancelLabel="Hủy file" uploadLabel="Lưu"
+                  accept="image/*" maxFileSize="10000000">
+                </p-fileUpload>
+              </div>
+              <div class="col-md-12" style="margin-top: 10px;">
+                <span class="error-message-span">{{validLogo}}</span>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.promotion-apply-popup .w100 {
+  width: 100%;
+}
+
+.promotion-apply-popup .input-text {
+  min-height: 2.55em !important;
+}
+
+.promotion-apply-popup .mt-10 {
+  margin-top: 10px;
+}
+
+.promotion-apply-popup .mr-5 {
+  margin-right: 5px;
+}

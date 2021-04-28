@@ -1,0 +1,232 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="vendor-product-price-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10 supplier-price-list">
+                  <div class="box-header-title">{{'vendor-price-product.list.title' | translate}}</div>
+                  <div class="box-header-subtitle">
+                    {{listVendorProductPrice.length}} {{'vendor-price-product.list.update_time' | translate}}
+                    {{today | date : 'dd/MM/yyyy'}} - {{'vendor-price-product.list.order_follow' | translate}}
+                  </div>
+                  <span *ngIf="!isInvalidForm">
+                    <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                  </span>
+                  <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                    <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                  </div>
+                  <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                    <div *ngFor="let mes of messErrFile" class="notifi-row">
+                      <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                      <span *ngIf="!isValidation" class="notifi-text">{{mes}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="addVendorProductDetail()"><span
+                class="btn-create-text">{{'vendor-price-product.list.create' | translate}}</span></button>
+            <button type="button" class="import-exel" style="margin-right: 5px;" (click)="showDialogImport()">
+              <span class="import-exel-text">Nhập từ Excel</span></button>
+            <button type="button" class="export-exel" (click)="exportExcel()"><span class="export-exel-text">Xuất Excel</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">{{'vendor-price-product.list.filter' | translate}}</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách" id="text-search-order"
+                [(ngModel)]="isGlobalFilter" (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>{{'vendor-price-product.list.vendor_name' | translate}}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text"
+              placeholder="{{'vendor-price-product.list.enter_vendor_name' | translate}}" [(ngModel)]="vendorName">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>{{'vendor-price-product.list.product_name' | translate}}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text"
+              placeholder="{{'vendor-price-product.list.enter_product_name' | translate}}" [(ngModel)]="productName">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchVendorProductPrice()">
+              <span class="btn-search-text">{{'vendor-price-product.list.search' | translate}}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="listVendorProductPrice.length > 0" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="selectedColumns" [value]="listVendorProductPrice" [resizableColumns]="true"
+        (sortFunction)="sortColumnInList($event)" [customSort]="true" [paginator]="true" [rows]="10"
+        columnResizeMode="expand" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align:left">
+            <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" [ngModelOptions]="{standalone: true}"
+              optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+              defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width':'50px'}">
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center; width: 100px;">
+              <span>Thao tác</span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+              [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width' :col.width}">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'vendorName'" (click)="goToDetailVendor(rowData)"
+                class="link">{{rowData[col.field]}}</span>
+              <span *ngSwitchCase="'productName'" (click)="goToDetailProduct(rowData)"
+                class="link">{{rowData[col.field]}}</span>
+              <span *ngSwitchCase="'miniumQuantity'">{{rowData[col.field] | number}}</span>
+              <span *ngSwitchCase="'price'">{{rowData[col.field] | number}}</span>
+              <span *ngSwitchCase="'fromDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+              <span *ngSwitchCase="'toDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+              <span *ngSwitchDefault style="display: inline-block; padding: 3px 3px">{{rowData[col.field]}}</span>
+            </td>
+            <td style="text-align: center; width: 100px;">
+              <p-splitButton label="Thao tác" icon="" (onDropdownClick)="onChangeAction(rowData)" [model]="actions"
+                appendTo="body" styleClass="ui-button-secondary"></p-splitButton>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="!(listVendorProductPrice.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>{{'vendor-price-product.list.vendor_name' | translate}}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text"
+              placeholder="{{'vendor-price-product.list.enter_vendor_name' | translate}}" [(ngModel)]="vendorName">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>{{'vendor-price-product.list.product_name' | translate}}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text"
+              placeholder="{{'vendor-price-product.list.enter_product_name' | translate}}" [(ngModel)]="productName">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchVendorProductPrice()">
+              <span class="btn-search-text">{{'vendor-price-product.list.search' | translate}}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Nhập file excel" [(visible)]="displayDialog" [modal]="true" [responsive]="true"
+  [style]="{width: '550px', minWidth: '200px'}" [minY]="70" [baseZIndex]="10000" 
+  [closable]="true" (onHide)="closeDialogImport()">
+  <div class="col-md-4 mt-25">
+    <span>File mẫu</span>
+  </div>
+  <div class="col-md-8 mt-25">
+    <button class="import-file" type="button" (click)="downloadTemplateExcel()">
+      <span class="text-import-file">Tải file mẫu</span>
+    </button>
+  </div>
+  <div class="col-md-4 mt-25">
+    <span>Chọn file</span>
+  </div>
+  <div class="col-md-8 mt-25" style="margin-bottom: 25px;">
+        <!-- <button class="import-file" type="button">
+            <span class="text-import-file">Browser
+              <input type="file" (change)="chooseFile($event)">
+            </span>
+          </button> -->
+    <button class="btn btn-primary btn-file import-file">
+      <span class="text-import">Chọn file</span>
+      <input type="file" id="importFileProduct" (change)="chooseFile($event)" accept=".xlsx, .xls">
+    </button>
+    <span>{{fileName}}</span>
+    <span *ngIf="fileName != ''" (click)="cancelFile()" style="cursor: pointer;margin-left: 10px;">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </span>
+  </div>
+  <p-footer>
+    <button class="btn btn-primary btn-file import-file" type="button" #save (click)="importExcel()">
+      <span class="text-import">Lưu</span>
+    </button>
+  </p-footer>
+</p-dialog>

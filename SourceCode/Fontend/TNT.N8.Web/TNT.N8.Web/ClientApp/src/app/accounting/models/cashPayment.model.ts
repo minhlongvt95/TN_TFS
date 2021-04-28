@@ -1,0 +1,34 @@
+export class CashPaymentModel {
+  PayableInvoiceId: string;
+  PayableInvoiceCode: string;
+  PayableInvoiceDetail: string;
+  PayableInvoicePrice: number;
+  PayableInvoicePriceCurrency: string;
+  PayableInvoiceReason: string;
+  PayableInvoiceNote: string;
+  RegisterType: string;
+  OrganizationId: string;
+  StatusId: string;
+  RecipientName: string;
+  RecipientAddress: string;
+  UnitPrice: number;
+  CurrencyUnit: string;
+  ExchangeRate: number;
+  Amount: number;
+  AmountText: string;
+  Active: boolean;
+  CreatedById: string;
+  CreatedDate: Date;
+  PaidDate: Date;
+  UpdatedById: string;
+  UpdatedDate: Date;
+  ObjectId: string;
+  PayableInvoiceReasonText: string;
+  AvatarUrl: string;
+  CreatedByName: string;
+  VouchersDate : string;
+  ObjectName : string;
+  OrganizationName : string;
+  StatusName : string;
+  CurrencyUnitName: string;
+}

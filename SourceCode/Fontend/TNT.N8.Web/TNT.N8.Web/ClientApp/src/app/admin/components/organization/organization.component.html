@@ -1,0 +1,467 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="organization-content">
+  <div class="row no-margin">
+    <div class="col-md-12 no-padding">
+      <div class="row no-margin">
+        <div class="col-md-12 header" style="padding: 6px;">
+          <div class="row">
+            <div class="col-md-6 no-padding">
+              <div class="row no-margin">
+                <div class="col-md-1 col-sm-1 col-xs-3">
+                  <div class="header-box-icon">
+                    <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                  </div>
+                </div>
+                <div class="col-md-11 col-sm-10 col-xs-9">
+                  <div>
+                    <span class="title-page">{{ 'organization.title' | translate }}</span>
+                  </div>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12" style="margin-top: 5px; text-align: right;">
+                  <button class="save" type="button" (click)="openPoupCreateOrg()">
+                    <span class="text-save">Thêm mới</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+        <div class="col-md-12 block" style="overflow-x: auto; padding: 10px 0px;">
+          <p-organizationChart [value]="data" selectionMode="single" [(selection)]="selectedNode"
+            (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)"></p-organizationChart>
+        </div>
+      </div>
+
+      <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+        <div class="col-md-12 block">
+          <div class="row">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="Thông tin đơn vị" [selected]="true">
+                <div class="row">
+                  <div class="col-md-12" style="text-align: right;">
+                    <i *ngIf="!isEnableForm" class="pi pi-pencil icon-pencil" (click)="updateOrg()"></i>
+                    <i *ngIf="isEnableForm" class="pi pi-save icon-save" (click)="saveOrg()"></i>
+                    <i *ngIf="isEnableForm" class="pi pi-times icon-times" (click)="cancelUpdateOrg()"></i>
+                  </div>
+                </div>
+                <form [formGroup]="organizationForm">
+                  <div class="row">
+                    <div class="col-md-12 mt-10">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Trực thuộc: <strong>{{ organizationParentName }}</strong></span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Mã vị trí: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                formControlName="organizationOtherCodeControl" pInputText />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tên đơn vị: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                [ngClass]="(organizationNameControl.invalid && (organizationNameControl.dirty || organizationNameControl.touched)) ? 'error-border' : ''"
+                                formControlName="organizationNameControl" pInputText />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="organizationNameControl.valid || organizationNameControl.untouched">
+                              <span
+                                *ngIf="organizationNameControl.hasError('required') || organizationNameControl?.errors?.forbiddenSpaceText"
+                                class="error-message-span">Không được để trống</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Mã đơn vị: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                [ngClass]="(organizationCodeControl.invalid && (organizationCodeControl.dirty || organizationCodeControl.touched)) ? 'error-border' : ''"
+                                (change)="changeCode(1)" formControlName="organizationCodeControl" pInputText />
+                            </div>
+                            <div class="col-md-12"
+                              [hidden]="organizationCodeControl.valid || organizationCodeControl.untouched">
+                              <span
+                                *ngIf="organizationCodeControl.hasError('required') || organizationCodeControl?.errors?.forbiddenSpaceText"
+                                class="error-message-span">Không được để trống</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Số điện thoại: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                formControlName="organizationPhoneControl" pInputText />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Địa chỉ: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                formControlName="organizationAddressControl" pInputText />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Khu vực: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listGeographicalArea" optionLabel="geographicalAreaName"
+                                [filter]="true" [autoDisplayFirst]="false" formControlName="geographicalAreaControl"
+                                [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn khu vực"
+                                [showClear]="true" (onChange)="changeCode(1)" [virtualScroll]="true" itemSize="30"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Tỉnh: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listProvince" optionLabel="provinceName" [filter]="true"
+                                [autoDisplayFirst]="false" formControlName="provinceControl" [showClear]="true"
+                                [resetFilterOnHide]="true" placeholder="Chọn tỉnh" [showClear]="true"
+                                (onChange)="changeProvince(1)" [virtualScroll]="true" itemSize="30"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Huyện: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentDistrict" optionLabel="districtName" [filter]="true"
+                                [autoDisplayFirst]="false" formControlName="districtControl" [showClear]="true"
+                                [resetFilterOnHide]="true" placeholder="Chọn huyện" [showClear]="true"
+                                (onChange)="changeDistrict(1)" [virtualScroll]="true" itemSize="30"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Xã: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listCurrentWard" optionLabel="wardName" [filter]="true"
+                                [autoDisplayFirst]="false" formControlName="wardControl" [showClear]="true"
+                                [resetFilterOnHide]="true" placeholder="Chọn xã" [showClear]="true"
+                                (onChange)="changeCode(1)" [virtualScroll]="true" itemSize="30"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12">
+                      <div class="row">
+                        <div class="col-md-6 mt-10">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <span>Vệ tinh: </span>
+                            </div>
+                            <div class="col-md-12">
+                              <p-dropdown [options]="listSatellite" optionLabel="satelliteName" [filter]="true"
+                                [autoDisplayFirst]="false" formControlName="satelliteControl" [showClear]="true"
+                                [resetFilterOnHide]="true" placeholder="Chọn vệ tinh" [showClear]="true"
+                                (onChange)="changeCode(1)" [virtualScroll]="true" itemSize="30"
+                                [style]="{'width': '100%'}">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <p-checkbox formControlName="financialIndependenceControl" [binary]="true"
+                            label="Đơn vị độc lập tài chính"></p-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </p-accordionTab>
+            </p-accordion>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="Thêm mới Phòng ban" [(visible)]="displayModal" [modal]="true" [style]="{width: '70vw'}"
+    [baseZIndex]="10000" [draggable]="false" [resizable]="false" [closable]="false">
+    <form [formGroup]="orgCreateForm">
+      <div class="row no-margin">
+        <div class="col-md-12 mt-10">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Trực thuộc: <strong>{{ selectedNode?.label }}</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Mã vị trí: </span>
+                </div>
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                    formControlName="orgOtherCodeControl" pInputText />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Tên đơn vị: </span>
+                </div>
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                    [ngClass]="(orgNameControl.invalid && (orgNameControl.dirty || orgNameControl.touched)) ? 'error-border' : ''"
+                    formControlName="orgNameControl" pInputText />
+                </div>
+                <div class="col-md-12" [hidden]="orgNameControl.valid || orgNameControl.untouched">
+                  <span *ngIf="orgNameControl.hasError('required') || orgNameControl?.errors?.forbiddenSpaceText"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Mã đơn vị: </span>
+                </div>
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                    [ngClass]="(orgCodeControl.invalid && (orgCodeControl.dirty || orgCodeControl.touched)) ? 'error-border' : ''"
+                    (change)="changeCode(2)" formControlName="orgCodeControl" pInputText />
+                </div>
+                <div class="col-md-12" [hidden]="orgCodeControl.valid || orgCodeControl.untouched">
+                  <span *ngIf="orgCodeControl.hasError('required') || orgCodeControl?.errors?.forbiddenSpaceText"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Số điện thoại: </span>
+                </div>
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                    formControlName="orgPhoneControl" pInputText />
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Địa chỉ: </span>
+                </div>
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                    formControlName="orgAddressControl" pInputText />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Khu vực: </span>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listGeographicalArea" optionLabel="geographicalAreaName" [filter]="true"
+                    [autoDisplayFirst]="false" formControlName="orgGeographicalAreaControl" [showClear]="true"
+                    [resetFilterOnHide]="true" placeholder="Chọn khu vực" [showClear]="true" (onChange)="changeCode(2)"
+                    [virtualScroll]="true" itemSize="30" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Tỉnh: </span>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listCreProvince" optionLabel="provinceName" [filter]="true"
+                    [autoDisplayFirst]="false" formControlName="orgProvinceControl" [showClear]="true"
+                    [resetFilterOnHide]="true" placeholder="Chọn tỉnh" [showClear]="true" (onChange)="changeProvince(2)"
+                    [virtualScroll]="true" itemSize="30" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Huyện: </span>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listCreCurrentDistrict" optionLabel="districtName" [filter]="true"
+                    [autoDisplayFirst]="false" formControlName="orgDistrictControl" [showClear]="true"
+                    [resetFilterOnHide]="true" placeholder="Chọn huyện" [showClear]="true" (onChange)="changeDistrict(2)"
+                    [virtualScroll]="true" itemSize="30" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Xã: </span>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listCreCurrentWard" optionLabel="wardName" [filter]="true" [autoDisplayFirst]="false"
+                    formControlName="orgWardControl" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn xã"
+                    [showClear]="true" (onChange)="changeCode(2)" [virtualScroll]="true" itemSize="30"
+                    [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <span>Vệ tinh: </span>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listSatellite" optionLabel="satelliteName" [filter]="true"
+                    [autoDisplayFirst]="false" formControlName="orgSatelliteControl" [showClear]="true"
+                    [resetFilterOnHide]="true" placeholder="Chọn vệ tinh" [showClear]="true" (onChange)="changeCode(2)"
+                    [virtualScroll]="true" itemSize="30" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-10">
+          <div class="row">
+            <div class="col-md-12">
+              <p-checkbox formControlName="orgFinancialIndependenceControl" [binary]="true"
+                label="Đơn vị độc lập tài chính"></p-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <p-footer>
+      <button type="button" [disabled]="awaitResponse" pButton icon="pi pi-check" (click)="createOrg()" label="Lưu"></button>
+      <button type="button" pButton icon="pi pi-times" (click)="closePopup()" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+</div>

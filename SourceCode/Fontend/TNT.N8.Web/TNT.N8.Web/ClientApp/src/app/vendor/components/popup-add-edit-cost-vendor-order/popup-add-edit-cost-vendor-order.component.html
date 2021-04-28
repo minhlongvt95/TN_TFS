@@ -1,0 +1,96 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="popup-add-edit-cost-vendor-order">
+  <div class="row no-margin">
+    <form [formGroup]="costForm" style="height: 100%;">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <!-- Hàng 1 -->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Chọn chi phí<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listCost" [virtualScroll]="true" itemSize="30" 
+                                  formControlName="costControl" 
+                                  [styleClass]="(costControl.invalid && (costControl.dirty || costControl.touched)) ? 'error-border' : ''"
+                                  [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                  placeholder="Chọn chi phí" 
+                                  optionLabel="costCodeName" [style]="{'width': '100%'}"
+                                  (onChange)="changeCost($event.value)"></p-dropdown>
+                    </div>
+                    <div class="col-md-12" [hidden]="costControl.valid || costControl.untouched">
+                      <span *ngIf="costControl.hasError('required')" class="error-message-span">Chưa chọn chi phí</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 2 -->
+            <div class="col-md-12" style="margin-top: 5px;">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tên chi phí</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input readonly type="text" class="w100" pInputText formControlName="costNameControl"
+                        [ngClass]="(costNameControl.invalid && (costNameControl.dirty || costNameControl.touched)) ? 'error-border': ''"/>
+                    </div>
+                    <div class="col-md-12" [hidden]="costNameControl.valid || costNameControl.untouched">
+                      <span *ngIf="costNameControl.hasError('required') || costNameControl?.errors?.forbiddenSpaceText"
+                          class="error-message-span">Không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 3 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="unitPriceControl"
+                              [ngClass]="(unitPriceControl.invalid && (unitPriceControl.dirty || unitPriceControl.touched)) ? 'error-border': ''"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                    </div>
+                    <div class="col-md-12" [hidden]="unitPriceControl.valid || unitPriceControl.untouched">
+                      <span *ngIf="unitPriceControl.hasError('required')"
+                          class="error-message-span">Không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <div class="col-md-12 mt-10">
+      <div class="group-button-footer">
+        <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+        <button type="button" class="save" (click)="save()"><span class="save-label">Lưu</span></button>
+      </div>
+    </div>
+  </div>
+</div>

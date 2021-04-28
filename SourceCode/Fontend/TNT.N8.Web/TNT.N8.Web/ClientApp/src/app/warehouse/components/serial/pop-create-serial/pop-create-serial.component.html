@@ -1,0 +1,82 @@
+<div id="popup-content">
+  <p-confirmDialog [style]="{width: '20vw'}" acceptLabel="Đồng ý" rejectLabel="Đóng"></p-confirmDialog>
+  <div class="row">
+    <div class="col-md-7 top-15">Sản phẩm: <b>{{dataObject.productName}}</b></div>
+    <div class="col-md-5 top-15" style="text-align:right">Vị trí:  <b>{{dataObject.wareHouseName}}</b></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">SL serial/Số lượng nhập kho: <b>{{dataObject.totalSerial}}/{{dataObject.quantity}}</b></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align:right">
+      <a (click)="download()" style="margin-right:20px;cursor:pointer"><u>Tải mẫu excel</u></a>
+      <button class="btn btn-primary btn-file">
+        Nhập từ file excel
+        <input type="file" (change)="onFileChange($event)">
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">Danh sách serial</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [value]="dataObject.listSerial"
+               [rows]="rows" [paginator]="true" [responsive]="true"
+               [scrollable]="true" scrollHeight="280px"
+               [rowsPerPageOptions]="[10,20,30]" (onPage)="pageChange($event)">
+        <ng-template pTemplate="caption">
+          <div style="text-align:right">
+            <a (click)="addRowSerial()" style="font-size: 22px;cursor:pointer">
+              <i class="fa fa-plus-circle" matTooltip="Thêm serial">
+              </i>
+            </a>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width:50%">Serial</th>
+            <th style="width:40%">Ngày nhập</th>
+            <th style="width:10%;text-align:center">
+              <i class="pi pi-trash" style="cursor:pointer" (click)="clearAllData(rowData)"> </i>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td [ngStyle]="{'width':'50%', 'color': rowData.error == true ? '#f44336': ''}" pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.SerialCode" (change)="changeText(rowData)">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.SerialCode}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td [ngStyle]="{'width':'40%','color': rowData.error == true ? '#f44336': ''}">{{rowData.CreatedDate | date: 'dd/MM/yyyy'}}</td>
+            <td [ngStyle]="{'width':'10%','color': rowData.error == true ? '#f44336': '','text-align':'center'}"><i class="pi pi-trash" style="cursor:pointer" (click)="cancelRow(rowData)"> </i></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align:right;height:47px">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">Hủy</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">Lưu</button>
+    </div>
+  </div>
+
+  <!--</form>-->
+</div>
+<div style="margin-left:auto;margin-right:auto">
+  <p-dialog header="Thông báo" [(visible)]="displayDialog" [style]="{width: '30vw',left:'none !important'}" [baseZIndex]="10001">
+    Số serial nhập chỉ được nhỏ hơn hoặc bằng số lượng nhập
+    <!--<p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="displayBasic=false" label="Đóng"></button>
+      <button type="button" pButton icon="pi pi-times" (click)="displayBasic=false" label="No" class="ui-button-secondary"></button>
+    </p-footer>-->
+  </p-dialog>
+
+</div>

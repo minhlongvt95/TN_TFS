@@ -1,0 +1,117 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="add-vendor-contact">
+  <form [formGroup]="createVendorContactForm">
+    <div class="row top-buffer bottom-buffer">
+      <div class="col-md-6">
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Họ tên<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <input
+              [ngClass]="(createVendorContactForm.get('FullName').invalid && (createVendorContactForm.get('FullName').dirty || createVendorContactForm.get('FullName').touched)) ? 'error-border' : ''"
+              formControlName="FullName" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorContactForm.get('FullName').valid || createVendorContactForm.get('FullName').untouched">
+            <span
+              *ngIf="createVendorContactForm.get('FullName').hasError('required') || createVendorContactForm.get('FullName').hasError('blankString')"
+              class="error-message-span">Không được
+              để trống</span>
+          </div>
+        </div>
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Chức vụ<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <input
+              [ngClass]="(createVendorContactForm.get('Role').invalid && (createVendorContactForm.get('Role').dirty || createVendorContactForm.get('Role').touched)) ? 'error-border' : ''"
+              formControlName="Role" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorContactForm.get('Role').valid || createVendorContactForm.get('Role').untouched">
+            <span
+              *ngIf="createVendorContactForm.get('Role').hasError('required') || createVendorContactForm.get('Role').hasError('blankString') "
+              class="error-message-span">Không được
+              để trống</span>
+          </div>
+        </div>
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Email
+          </div>
+          <div class="col-md-12">
+            <input
+              [ngClass]="(createVendorContactForm.get('Email').invalid && (createVendorContactForm.get('Email').dirty || createVendorContactForm.get('Email').touched)) ? 'error-border' : ''"
+              formControlName="Email" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorContactForm.get('Email').valid || createVendorContactForm.get('Email').untouched">
+            <span *ngIf="createVendorContactForm.get('Email').hasError('pattern')" class="error-message-span">
+              Sai định dạng Email</span>
+            <span *ngIf="createVendorContactForm.get('Email').hasError('duplicateEmailLead')"
+              class="error-message-span">
+              Email đã được đăng ký</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Giới tính<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown formControlName="Gender"
+              [styleClass]="(createVendorContactForm.get('Gender').invalid && (createVendorContactForm.get('Gender').dirty || createVendorContactForm.get('Gender').touched)) ? 'error-border' : ''"
+              [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listGender" optionLabel="name"
+              placeholder="Chọn giới tính" [showClear]="true" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorContactForm.get('Gender').valid || createVendorContactForm.get('Gender').untouched">
+            <span *ngIf="createVendorContactForm.get('Gender').hasError('required')" class="error-message-span">Không
+              được
+              để trống</span>
+          </div>
+        </div>
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Số điện thoại<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <input
+              [ngClass]="(createVendorContactForm.get('Phone').invalid && (createVendorContactForm.get('Phone').dirty || createVendorContactForm.get('Phone').touched)) ? 'error-border' : ''"
+              formControlName="Phone" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorContactForm.get('Phone').valid || createVendorContactForm.get('Phone').untouched">
+            <span *ngIf="createVendorContactForm.get('Phone').hasError('required')" class="error-message-span">
+              Nhập số điện thoại</span>
+            <span *ngIf="createVendorContactForm.get('Phone').hasError('pattern')" class="error-message-span">
+              Sai định dạng số điện thoại</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+        <button (click)="cancel()" type="button" class="btn-remove">
+          <span class="btn-remove-text">Hủy</span>
+        </button>
+        <button (click)="save()" type="button" class="btn-save">
+          <span class="btn-save-text">Lưu</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

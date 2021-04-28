@@ -1,0 +1,431 @@
+
+.bank-payments-detail {
+  font-family: 'Inter UI';
+}
+
+.bank-payments-detail .bank-payments-detail-content{
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.bank-payments-detail .button-group{
+  width: 100% !important;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.bank-payments-detail .header-box-icon {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.bank-payments-detail .text-header{
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+.bank-payments-detail .fixed{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+.bank-payments-detail .content-bank-pay{
+  height: 601px;
+  border-radius: 4px;
+  border: solid 1px var(--sub-bg-2);
+  background-color: var(--white-text-bg);
+}
+
+.bank-payments-detail .mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.bank-payments-detail .mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.bank-payments-detail .mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.bank-payments-detail .help-block > div {
+  position: absolute;
+  top: 58px;
+}
+
+.bank-payments-detail .head button{
+  margin-bottom: 15px;
+}
+
+.form-control{
+  background: #e7dfdf;
+}
+
+.bank-payments-detail .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.bank-payments-detail .button-group .btn-cancel .text-cancel{
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.bank-payments-detail .btn-create {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+
+.bank-payments-detail .button-group .btn-create .text-save{
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff !important;
+}
+
+.bank-payments-detail .mat-raised-button,
+.bank-payments-detail button {
+  box-shadow: none !important;
+  height: 40px;
+  min-width: 124px;
+  border-radius: 0.25em;
+}
+
+
+.bank-payments-detail input[name='moneyToLetter'] {
+  font-weight: 600;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.bank-payments-detail hr{
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.bank-payments-detail .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.bank-payments-detail .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.bank-payments-detail .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.bank-payments-detail .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.bank-payments-detail .bank-infop{
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: var(--sub-bg-1);
+  margin-left: 2%;
+}
+
+.borderless td, .borderless th {
+  border: none !important; 
+}
+
+.bank-payments-detail .text-status{
+  color: red;
+}
+.bank-payments-detail th{
+  font-weight: normal;
+}
+
+.bank-payments-detail td{
+  font-weight: bold;
+}
+
+.bank-payments-detail .bank-money{
+  height: 270px;
+  border: dashed 1px #fec163;
+  margin-left: 2%;
+  background-color: #fff9f0;
+}
+
+.bank-payments-detail .require {
+  border-radius: 4px;
+  border: solid 1px #ff9500;
+  background-color: #fff9f0;
+}
+
+.bank-payments-detail .right-text {
+  padding: 0px 15px 0 30px;
+  border-left: 1px solid #999999;
+  padding-bottom: 100px;
+}
+
+.bank-payments-detail .control-label label,
+.bank-payments-detail .control-label {
+  font-weight: 400;
+}
+
+.bank-payments-detail .form-control {
+  border-radius: 0.25rem;
+  
+}
+
+input[type="text"]:disabled {
+  background: #e7dfdf;
+}
+
+.bank-payments-detail .form-control,
+.bank-payments-detail select.form-control {
+  height: auto;
+  max-height: 34px;
+  margin-bottom: 18px;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.bank-payments-detail p.form-control{
+  min-height: 34px ;
+  max-height: none !important;
+}
+
+.bank-payments-detail .no-padding {
+  padding: 0 !important;
+}
+
+.bank-payments-detail .no-padding-left {
+  padding-left: 0 !important
+}
+
+.bank-payments-detail .box-text-money {
+  height: 'auto';
+  background-color: #0f62fe;
+}
+
+.bank-payments-detail .box-text-money .text-money-title {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.bank-payments-detail .box-text-money .text-money-number {
+  float: right;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.bank-payments-detail .box-text-money .text-money-text {
+  width: 100%;
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.bank-payments-detail .mt-25{
+  margin-top: 25px;
+}
+
+.bank-payments-detail .border-right-color {
+  border-right: 1px solid #999999;
+}
+
+::ng-deep .bank-payments-detail .mat-form-field-underline {
+  border: none !important;
+  background-image: none !important;
+}
+
+::ng-deep .bank-payments-detail .mat-form-field-wrapper {
+  bottom: 5px;
+}
+
+::ng-deep .bank-payments-detail .mat-form-field-infix {
+  border: 2px solid transparent !important;
+  height: 34px;
+}
+
+::ng-deep .bank-payments-detail .mat-select-value {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
+::ng-deep .bank-payments-detail .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .bank-payments-detail .mat-option-text {
+  font-size: 14px !important;
+}
+
+.bank-payments-detail .error-border,
+.bank-payments-detail .error-border:focus {
+  border-color: #f44336;
+}
+
+.bank-payments-detail .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.bank-payments-detail .help-block {
+  color: red;
+  margin: 0 !important
+}
+
+::ng-deep .bank-payments-detail .mat-input-ripple {
+  display: none
+}
+
+::ng-deep .bank-payments-detail .mat-focused {
+  border-color: #176edb !important;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .bank-payments-detail .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+@media only screen and (max-width: 1423px) {
+  .bank-payments-detail .ios-warning {
+      top: 0px;
+  }
+  .bank-payments-detail .save {
+      margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media only screen and (max-width: 768px) {
+  .bank-payments-detail .fixed {
+      width: 62% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (max-width: 414px) {
+  .bank-payments-detail .fixed {
+      width: 85.3% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 375px) {
+  .bank-payments-detail .fixed {
+      width: 83.7% !important;
+  }
+}
+
+
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .bank-payments-detail .fixed {
+      width: 80.7% !important;
+  }
+}

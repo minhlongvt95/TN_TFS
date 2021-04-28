@@ -1,0 +1,120 @@
+.create-update-template-email .required, 
+.create-update-template-email .error-message-span {
+    color:red
+}
+
+.create-update-template-email .buffer-top {
+    margin-top: 1.2rem;
+}
+
+.create-update-template-email .buffer-bottom {
+    margin-bottom: 1.2rem;
+}
+
+.create-update-template-email .full-width {
+    width: 100% !important; 
+}
+
+.create-update-template-email .cancel {
+    width: 64px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.create-update-template-email .text-label {
+    line-height: 2.3rem;
+}
+  
+.create-update-template-email .cancel .text-cancel {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.create-update-template-email .save {
+    width: 86px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    margin-left: 5px;
+  }
+  
+  .create-update-template-email .save .text-save {
+    width: 25px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+  }
+
+  .pointer {
+    font-family: 'Inter UI';
+    cursor: pointer;
+    color: #0f62fe;
+  }
+
+/*Begin: Customize Accordion */
+
+::ng-deep .create-update-template-email .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+  }
+  
+  ::ng-deep .create-update-template-email .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .create-update-template-email .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .create-update-template-email .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .create-update-template-email .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .create-update-template-email .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  
+  /*End: Customize Accordion */
+
+ /* begin: custome editor */
+ ::ng-deep .create-update-template-email .e-content {
+     min-height: 300px !important;
+     max-height: 600px !important;
+ }
+ /* end custome editor */
+
+ ::ng-deep .create-update-template-email ul.ui-inputtext.ui-state-default.ui-corner-all{
+    width: 100% !important;
+ }
+
+ .error-text-editor{
+   display: block;
+ }

@@ -1,0 +1,276 @@
+::ng-deep .content-wrapper {
+	background-color: #fff !important;
+}
+.sale-bidding-dashboard {
+	background-color: #ffffff;
+  	/* border: solid 1px #dde1e6; */
+}
+
+.sale-bidding-dashboard .title {
+	width: 171px;
+	height: 39px;
+	font-family: 'Inter UI';
+	font-size: 32px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.sale-bidding-dashboard .box-search {
+	text-align: right;
+	margin-top: 15px;
+}
+
+.sale-bidding-dashboard .text-search {
+	width: 364px;
+	height: 32px;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+	padding-left: 10px;
+	padding-right: 30px;
+}
+
+.sale-bidding-dashboard .customize-icons-search {
+	position: absolute;
+	right: 25px;
+	top: 22px;
+	cursor: pointer;
+}
+
+.sale-bidding-dashboard .btn-create {
+	width: 116px;
+	height: 32px;
+	border: solid 1px #c1c7cd;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+	background-color: #0f62fe;
+}
+
+.sale-bidding-dashboard .btn-create-text {
+	width: 68px;
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	text-align: center;
+	color: #ffffff;
+}
+
+.sale-bidding-dashboard .box-chart {
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	height: 410px;
+	padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sale-bidding-dashboard .chart-1-title {
+	height: 19px;
+	font-family: 'Inter UI';
+	font-size: 16px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.sale-bidding-dashboard .chart {
+	margin-top: 30px;
+}
+
+.sale-bidding-dashboard .chart-infor {
+	margin-top: 20px;
+}
+
+.sale-bidding-dashboard .chart-infor-text {
+	margin-left: 5px;
+}
+
+.sale-bidding-dashboard .color-icon {
+	width: 10px;
+    height: 10px;
+	display: inline-block;
+	position: relative;
+	border-radius: 50%;
+}
+
+.sale-bidding-dashboard .box-table-1 {
+	min-height: 315px;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+	padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.sale-bidding-dashboard .box-table-1-title {
+	height: 19px;
+	font-family: 'Inter UI';
+	font-size: 16px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.sale-bidding-dashboard .box-table-1-handle {
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	color: #0f62fe;
+	cursor: pointer;
+}
+.sale-bidding-dashboard .mt-8{
+	margin-top: 8px;
+}
+.sale-bidding-dashboard .Double-Arrow-Left-3 {
+	position: relative;
+	right: 5px;
+	width: 16px;
+	height: 16px;
+	object-fit: contain;
+}
+
+.sale-bidding-dashboard .link {
+	font-family: 'Inter UI';
+	color: #007ad9;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.sale-bidding-dashboard .table-title{
+	display: flex;
+}
+/* ::ng-deep .sale-bidding-dashboard .ui-datepicker{
+	width: 400px;
+} */
+
+.sale-bidding-dashboard .btn-create-order {
+	width: 132px;
+	height: 30px;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+	background-color: #0f62fe;
+	border: solid 1px #cccccc;
+}
+
+.sale-bidding-dashboard .btn-create-order-text {
+	width: 84px;
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	text-align: center;
+	color: #ffffff;
+}
+
+.sale-bidding-dashboard .no-data {
+	height: 270px;
+	border: solid 1px #d7dbe0;
+	background-color: #f2f4f8;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.sale-bidding-dashboard .box-no-data {
+	position: relative; 
+	top: 25%;
+}
+
+.sale-bidding-dashboard .box-icon {
+	width: 57.1px;
+	height: 58px;
+	object-fit: contain;
+}
+
+.sale-bidding-dashboard .box-table-2 {
+	min-height: auto;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+}
+@media only screen and (max-width: 768px) {
+	.sale-bidding-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.sale-bidding-dashboard .table-title{
+		display: contents;
+	}
+	.sale-bidding-dashboard .text-search {
+		width: 100%;
+	}
+	.sale-bidding-dashboard .customize-icons-search {
+		top: 8px;
+	}
+}
+/* @media only screen and (max-width: 375px) {
+	.sale-bidding-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.sale-bidding-dashboard .text-search {
+	  width: 175px;
+	}
+	.sale-bidding-dashboard .table-title{
+		display: contents;
+	}
+	.sale-bidding-dashboard .customize-icons-search {
+	  right: unset;
+	  left: -7%;
+	  top: 3px;
+	}
+
+	.sale-bidding-dashboard .chart-1-title {
+		font-size: 15px;
+	}
+}
+  
+@media only screen and (max-width: 415px) and (min-width: 376px) {
+	.sale-bidding-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.sale-bidding-dashboard .table-title{
+		display: contents;
+	}
+	.sale-bidding-dashboard .text-search {
+		width: 100%;
+	}
+	.sale-bidding-dashboard .customize-icons-search {
+		top: 8px;
+	}
+}
+   */
+/* @media only screen and (max-width: 1423px) and (min-width: 416px) {
+	.sale-bidding-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.sale-bidding-dashboard .text-search {
+		width: 220px;
+	}
+} */

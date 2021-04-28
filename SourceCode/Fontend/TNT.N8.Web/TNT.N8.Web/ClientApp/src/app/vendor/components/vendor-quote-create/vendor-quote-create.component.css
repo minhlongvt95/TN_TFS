@@ -1,0 +1,308 @@
+.vendor-quote-create .header{
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+  }
+  
+  .vendor-quote-create .header-box-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .vendor-quote-create .header-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-top: 10px;
+    margin-left: 10px;
+  }
+  
+  .vendor-quote-create .mt-10{
+      margin-top: 10px;
+  }
+
+  .vendor-quote-create .required {
+    color:red;
+  }
+  
+  .vendor-quote-create .error-message-span {
+    color:red;
+  }
+  
+  .vendor-quote-create .customer-name {
+    width: 119px;
+    height: 20px;
+    font-family: 'Inter UI';
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+  }
+  
+  .vendor-quote-create .customer-type {
+    width: 106px;
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+  }
+  
+  .vendor-quote-create .btn-remove {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+  }
+  
+  .vendor-quote-create .btn-remove-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+  }
+  
+  .vendor-quote-create .save-and-new {
+    width: 142px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #0f62fe;
+    background-color: #ffffff;
+    margin-left: 5px;
+  }
+  
+  .vendor-quote-create .save-and-new .text-save-and-new {
+    width: 102px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0f62fe;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-dropdown {
+    min-width: 0px !important;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-menu ul {
+    text-align: left;
+  }
+  
+  .vendor-quote-create .btn-save {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+  }
+  
+  .vendor-quote-create .btn-save-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .vendor-quote-create .customer-infor {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: none;
+    border: solid 1px #cccccc;
+    padding-bottom: 10px;
+  }
+  
+  /*Begin: Customize Accordion */
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .vendor-quote-create .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  
+  /*End: Customize Accordion */
+  
+  .vendor-quote-create .infor-label {
+    width: 97px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+  }
+  
+  .vendor-quote-create .w100 {
+    width: 100%;
+  }
+  
+  .vendor-quote-create .link {
+    font-family: 'Inter UI';
+    color: #007ad9;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  
+  .vendor-quote-create .no-data {
+    height: 200px;
+    border: solid 1px #d7dbe0;
+    background-color: #f2f4f8;
+    text-align: center;
+  }
+  
+  .vendor-quote-create .box-no-data {
+    position: relative;
+    top: 25%;
+  }
+  
+  .vendor-quote-create .box-icon {
+    width: 57.1px;
+    height: 58px;
+    object-fit: contain;
+  }
+
+  .vendor-quote-create .btn-create {
+    width: 116px;
+    height: 32px;
+    border: solid 1px #c1c7cd;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    margin-left: 5px;
+  }
+  
+  .vendor-quote-create .btn-create-text {
+    width: 68px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  /* End */
+  
+  .vendor-quote-create .mt-10 {
+    margin-top: 10px;
+}
+
+.vendor-quote-create .mt-5 {
+    margin-top: 5px;
+}
+  .vendor-quote-create .fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: #eee;
+  }
+
+  ::ng-deep .vendor-quote-create .ui-datepicker {
+    top: 28px !important;
+  }
+  
+  
+  @media only screen and (max-width: 375px) {
+    .vendor-quote-create .box-handle-infor {
+      border-right: none;
+    }
+    .vendor-quote-create .btn-create {
+      margin-top: 5px;
+    }
+
+    .vendor-quote-create .customer-name {
+      margin-left: -50px;
+      font-size: 18px;
+    }
+  }
+  
+  @media only screen and (max-width: 414px) and (min-width: 376px) {
+    .vendor-quote-create .btn-create {
+      margin-top: 5px;
+    }
+
+    .vendor-quote-create .customer-name {
+      margin-left: -50px;
+      font-size: 18px;
+    }
+  }
+  
+  @media only screen and (max-width: 768px) and (min-width: 415px) {
+    .vendor-quote-create .btn-create {
+      margin-top: 5px;
+    }
+
+    .vendor-quote-create .customer-name {
+      font-size: 18px;
+    }
+  }
+
+  @media only screen and (min-width: 769px) and (max-width: 1024px)  {
+    .vendor-quote-create .customer-name {
+      font-size: 18px;
+      margin-left: 15px;
+    }
+  }
+  

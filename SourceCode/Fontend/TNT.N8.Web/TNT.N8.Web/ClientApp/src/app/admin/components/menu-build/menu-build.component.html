@@ -1,0 +1,522 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="menu-build">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row menu-build-content" id="parent">
+        <div class="col-md-12 no-padding">
+          <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width': withFiexd}">
+            <div class="col-md-12">
+              <div class="center">
+                <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                <span class="header-text">Cấu hình Menu Bar</span>
+              </div>
+
+              <div style="float: right;">
+                <span *ngIf="!isInvalidForm" style="margin-right: 5px;">
+                  <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                </span>
+                <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                  <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                </div>
+                <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                  <!-- <div *ngIf="(promotionCodeControl.invalid && (promotionCodeControl.dirty || promotionCodeControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">Mã chương trình không được để trống</span>
+                  </div> -->
+                </div>
+
+                <!-- <button #save class="save" [disabled]="awaitResult" type="button" (click)="saveMenuBar()">
+                  <span class="text-save">Lưu</span>
+                </button> -->
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="row menu-build-content">
+        <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="{{title}}" [selected]="true">
+              <div *ngIf="level == 0" class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="row no-margin" style="text-align: right;">
+                  <button class="save" [disabled]="awaitResult" type="button" (click)="saveMenuModule()">
+                    <span class="text-save">Thêm</span>
+                  </button>
+                </div>
+                <div class="row">
+                  <form [formGroup]="createMenuMouleForm">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Mã module<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="codeModuleControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(codeModuleControl.invalid && (codeModuleControl.dirty || codeModuleControl.touched)) ? 'error-border' : ''"
+                            placeholder="Mã module">
+                        </div>
+                        <div class="col-md-12" [hidden]="codeModuleControl.valid || codeModuleControl.untouched">
+                          <span
+                            *ngIf="codeModuleControl.hasError('required') || codeModuleControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Tên module<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="nameModuleControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(nameModuleControl.invalid && (nameModuleControl.dirty || nameModuleControl.touched)) ? 'error-border' : ''"
+                            placeholder="Tên module">
+                        </div>
+                        <div class="col-md-12" [hidden]="nameModuleControl.valid || nameModuleControl.untouched">
+                          <span
+                            *ngIf="nameModuleControl.hasError('required') || nameModuleControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="row mt-10">
+                  <div class="col-md-12">
+                    <p-table [columns]="cols1" [value]="listMenuModule" [resizableColumns]="true" [responsive]="true"
+                      [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" 
+                      dataKey="menuBuildId" editMode="row">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                            <span>
+                              {{col.header}}
+                            </span>
+                          </th>
+                          <th style="width:8rem"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="rowData">
+                          <td [ngStyle]="{'text-align': 'center', 'width': '10%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" class="number-input" id="indexOrder" name="indexOrder"
+                                  [(ngModel)]="rowData.indexOrder" [ngStyle]="{'width': '100%'}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.indexOrder}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="code" name="code"
+                                  [(ngModel)]="rowData.code" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.code}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="name" name="name"
+                                  [(ngModel)]="rowData.name" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                <span (click)="nextToSubMenuModule(rowData)" class="link">
+                                  {{rowData.name}}
+                                </span>
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="nameIcon" name="nameIcon"
+                                  [(ngModel)]="rowData.nameIcon" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.nameIcon}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" 
+                              pInitEditableRow icon="pi pi-pencil" class="ui-button-info"
+                              (click)="onRowEditInit(rowData)">
+                            </button>
+                            <button *ngIf="editing" pButton type="button" 
+                              pSaveEditableRow icon="pi pi-check" class="ui-button-success"
+                              style="margin-right: .5em" (click)="onRowEditSave(rowData)">
+                            </button>
+                            <button *ngIf="editing" pButton type="button" 
+                              pCancelEditableRow icon="pi pi-times" class="ui-button-danger"
+                              (click)="onRowEditCancel(0, rowData, ri)">
+                            </button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="level == 1" class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="row no-margin">
+                  <div class="col-md-6 no-padding" style="text-align: left;">
+                    <button class="save" [disabled]="awaitResult" type="button" (click)="backToMenuModule()">
+                      <span class="text-save">Quay lại</span>
+                    </button>
+                  </div>
+                  <div class="col-md-6 no-padding" style="text-align: right;">
+                    <button class="save" [disabled]="awaitResult" type="button" (click)="saveSubMenuModule()">
+                      <span class="text-save">Thêm</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="row mt-12" style="margin-top: 15px;">
+                  <form [formGroup]="createSubMenuMouleForm">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Mã sub module<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="codeSubModuleControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(codeSubModuleControl.invalid && (codeSubModuleControl.dirty || codeSubModuleControl.touched)) ? 'error-border' : ''"
+                            placeholder="Mã sub module">
+                        </div>
+                        <div class="col-md-12" [hidden]="codeSubModuleControl.valid || codeSubModuleControl.untouched">
+                          <span
+                            *ngIf="codeSubModuleControl.hasError('required') || codeSubModuleControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Tên sub module<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="nameSubModuleControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(nameSubModuleControl.invalid && (nameSubModuleControl.dirty || nameSubModuleControl.touched)) ? 'error-border' : ''"
+                            placeholder="Tên sub module">
+                        </div>
+                        <div class="col-md-12" [hidden]="nameSubModuleControl.valid || nameSubModuleControl.untouched">
+                          <span
+                            *ngIf="nameSubModuleControl.hasError('required') || nameSubModuleControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Đường dẫn mặc định</span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="pathSubModuleControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(pathSubModuleControl.invalid && (pathSubModuleControl.dirty || pathSubModuleControl.touched)) ? 'error-border' : ''"
+                            placeholder="Tên sub module">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="row mt-10">
+                  <div class="col-md-12">
+                    <p-table [columns]="cols2" [value]="listSubMenuModule" [resizableColumns]="true" [responsive]="true"
+                      dataKey="menuBuildId" editMode="row" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,20,30]">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                            <span>
+                              {{col.header}}
+                            </span>
+                          </th>
+                          <th style="width:8rem"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="rowData">
+                          <td [ngStyle]="{'text-align': 'center', 'width': '10%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" class="number-input" id="indexOrder" name="indexOrder"
+                                  [(ngModel)]="rowData.indexOrder" [ngStyle]="{'width': '100%'}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.indexOrder}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="code" name="code"
+                                  [(ngModel)]="rowData.code" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.code}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="name" name="name" [(ngModel)]="rowData.name"
+                                  [ngStyle]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                <span *ngIf="rowData.indexOrder != 1" (click)="nextToMenuPageModule(rowData)" class="link">
+                                  {{rowData.name}}
+                                </span>
+                                <span *ngIf="rowData.indexOrder == 1">
+                                  {{rowData.name}}
+                                </span>
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="path" name="path" [(ngModel)]="rowData.path"
+                                  [ngStyle]="{'width': '100%'}" (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.path}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+
+                          <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil" class="ui-button-info"
+                              (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check" class="ui-button-success"
+                              style="margin-right: .5em" (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times" class="ui-button-danger"
+                              (click)="onRowEditCancel(1, rowData, ri)"></button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="level == 2" class="col-md-12" style="padding-bottom: 10px; padding-top: 10px;">
+                <div class="row no-margin">
+                  <div class="col-md-6 no-padding" style="text-align: left;">
+                    <button class="save" [disabled]="awaitResult" type="button" (click)="backToSubMenuModule()">
+                      <span class="text-save">Quay lại</span>
+                    </button>
+                  </div>
+                  <div class="col-md-6 no-padding" style="text-align: right;">
+                    <button class="save" [disabled]="awaitResult" type="button" (click)="saveMenuPage()">
+                      <span class="text-save">Thêm</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="row mt-10">
+                  <form [formGroup]="createMenuPageForm">
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Tên menu page<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="nameMenuPageControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(nameMenuPageControl.invalid && (nameMenuPageControl.dirty || nameMenuPageControl.touched)) ? 'error-border' : ''"
+                            placeholder="Tên menu page">
+                        </div>
+                        <div class="col-md-12" [hidden]="nameMenuPageControl.valid || nameMenuPageControl.untouched">
+                          <span
+                            *ngIf="nameMenuPageControl.hasError('required') || nameMenuPageControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Name Icon<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="nameIconMenuPageControl" class="w100 input-text" type="text"
+                            pInputText
+                            [ngClass]="(nameIconMenuPageControl.invalid && (nameIconMenuPageControl.dirty || nameIconMenuPageControl.touched)) ? 'error-border' : ''"
+                            placeholder="Name Icon">
+                        </div>
+                        <div class="col-md-12"
+                          [hidden]="nameIconMenuPageControl.valid || nameIconMenuPageControl.untouched">
+                          <span
+                            *ngIf="nameIconMenuPageControl.hasError('required') || nameIconMenuPageControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>Đường dẫn<span style="color: red;">*</span></span>
+                        </div>
+                        <div class="col-md-12">
+                          <input formControlName="pathMenuPageControl" class="w100 input-text" type="text" pInputText
+                            [ngClass]="(pathMenuPageControl.invalid && (pathMenuPageControl.dirty || pathMenuPageControl.touched)) ? 'error-border' : ''"
+                            placeholder="Đường dẫn">
+                        </div>
+                        <div class="col-md-12" [hidden]="pathMenuPageControl.valid || pathMenuPageControl.untouched">
+                          <span
+                            *ngIf="pathMenuPageControl.hasError('required') || pathMenuPageControl?.errors?.forbiddenSpaceText"
+                            class="error-message-span">Không được để trống</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-10">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <p-checkbox formControlName="isPageDetailMenuPageControl" label="Là page detail"
+                            [binary]="true"></p-checkbox>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="row mt-10">
+                  <div class="col-md-12">
+                    <p-table [columns]="cols3" [value]="listMenuPage" [resizableColumns]="true" [responsive]="true"
+                      dataKey="menuBuildId" editMode="row" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,20,30]">
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'text-align': col.textAlign, 'width': col.width}">
+                            <span>
+                              {{col.header}}
+                            </span>
+                          </th>
+                          <th style="width:8rem"></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-editing="editing" let-ri="rowIndex">
+                        <tr [pEditableRow]="rowData">
+                          <td [ngStyle]="{'text-align': 'center', 'width': '10%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" class="number-input" id="indexOrder" name="indexOrder"
+                                  [(ngModel)]="rowData.indexOrder" [ngStyle]="{'width': '100%'}"
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.indexOrder}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="name" name="name"
+                                  [(ngModel)]="rowData.name" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                <span (click)="nextToMenuPageModule(rowData)" class="link">
+                                  {{rowData.name}}
+                                </span>
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+                          <td [ngStyle]="{'text-align': 'left', 'width': '30%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="path" name="path"
+                                  [(ngModel)]="rowData.path" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                {{rowData.path}}
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+                          <td [ngStyle]="{'text-align': 'center', 'width': '20%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <input pInputText type="text" id="nameIcon" name="nameIcon"
+                                  [(ngModel)]="rowData.nameIcon" [ngStyle]="{'width': '100%'}"
+                                  (keydown.enter)="$event.preventDefault()">
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                <span class="{{rowData.nameIcon}}"></span>
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+                          <td [ngStyle]="{'text-align': 'center', 'width': '10%'}">
+                            <p-cellEditor>
+                              <ng-template pTemplate="input">
+                                <p-checkbox [(ngModel)]="rowData.isPageDetail" [binary]="true"
+                                  (onChange)="updateIsPageDetail(rowData)"></p-checkbox>
+                              </ng-template>
+                              <ng-template pTemplate="output">
+                                <p-checkbox [(ngModel)]="rowData.isPageDetail" [binary]="true" disabled="true">
+                                </p-checkbox>
+                              </ng-template>
+                            </p-cellEditor>
+                          </td>
+                          <td style="text-align:center">
+                            <button *ngIf="!editing" pButton type="button" pInitEditableRow icon="pi pi-pencil"
+                              class="ui-button-info" (click)="onRowEditInit(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pSaveEditableRow icon="pi pi-check"
+                              class="ui-button-success" style="margin-right: .5em"
+                              (click)="onRowEditSave(rowData)"></button>
+                            <button *ngIf="editing" pButton type="button" pCancelEditableRow icon="pi pi-times"
+                              class="ui-button-danger" (click)="onRowEditCancel(2, rowData, ri)"></button>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

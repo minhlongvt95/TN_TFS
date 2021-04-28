@@ -1,0 +1,63 @@
+.cus-contact-popup .w100 {
+	width: 100%;;
+}
+
+.cus-contact-popup .error-message-span {
+    color: red !important;
+}
+
+.cus-contact-popup .require {
+    color: #F94E4E;
+}
+
+.cus-contact-popup .group-button-footer {
+    text-align: right;
+    padding-top: 10px;
+    border-top: solid 1px #cccccc;
+}
+
+.cus-contact-popup .group-button-footer .cancel {
+    width: 72px;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    margin-right: 5px;
+}
+
+.cus-contact-popup .group-button-footer .cancel .cancel-label {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.cus-contact-popup .group-button-footer .save {
+    width: 70px;
+    height: 30px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+}
+
+.cus-contact-popup .group-button-footer .save .save-label {
+    width: 22px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}

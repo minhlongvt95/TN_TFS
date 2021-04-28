@@ -1,0 +1,143 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="product-bom-dialog">
+  <form [formGroup]="productBOMForm" style="height: 100%;">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-10">
+                  <label>Mã nguyên vật liệu</label><span style="color: red;">*</span>
+                </div>
+                <div class="col-md-2" style="text-align: right;">
+                  <div pTooltip="Tạo nhanh nguyên vật liệu" tooltipZIndex="10000"
+                    (click)="openQuickCreProductDialog()">
+                    <i class="pi pi-plus" style="color: #0000FF"></i>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listProduct" formControlName="ProductCode"
+                    [styleClass]="(productBOMForm.get('ProductCode').invalid && (productBOMForm.get('ProductCode').dirty || productBOMForm.get('ProductCode').touched)) ? 'error-border' : ''"
+                    [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder=""
+                    [autoDisplayFirst]="false" (onChange)="changeProduct($event)" optionLabel="productCodeName"
+                    [style]="{'width': '100%'}"></p-dropdown>
+                </div>
+                <div class="col-md-12"
+                  [hidden]="productBOMForm.get('ProductCode').valid || productBOMForm.get('ProductCode').untouched">
+                  <span *ngIf="productBOMForm.get('ProductCode').hasError('required')" class="error-message-span">Chưa
+                    chọn mã nguyên vật liệu</span>
+                    <span *ngIf="productBOMForm.get('ProductCode').hasError('mustUniqueProduct')" class="error-message-span">
+                      Đã tồn tại [{{productBOMForm.get('ProductCode').value.productCode}} - {{productBOMForm.get('ProductCode').value.productName}}] trong thời gian hiệu lực đã tạo</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Tên nguyên vật liệu</label>
+                </div>
+                <div class="col-md-12">
+                  <input readonly pInputText type="text" formControlName="ProductName" class="w100">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Đơn vị tính</label>
+                </div>
+                <div class="col-md-12">
+                  <input readonly pInputText type="text" formControlName="ProductUnitName" class="w100">
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Số lượng<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="number-input" formControlName="Quantity"
+                    [ngClass]="(productBOMForm.get('Quantity').invalid && (productBOMForm.get('Quantity').dirty || productBOMForm.get('Quantity').touched)) ? 'error-border' : ''"
+                    [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                </div>
+                <div class="col-md-12"
+                  [hidden]="productBOMForm.get('Quantity').valid || productBOMForm.get('Quantity').untouched">
+                  <span *ngIf="productBOMForm.get('Quantity').hasError('required')" class="error-message-span">Số lượng
+                    không được để trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Hiệu lực từ<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="EffectiveFromDate" [yearNavigator]="true"
+                    yearRange="{{minYear}}:{{currentYear}}"
+                    [styleClass]="(productBOMForm.get('EffectiveFromDate').invalid && (productBOMForm.get('EffectiveFromDate').dirty || productBOMForm.get('EffectiveFromDate').touched)) ? 'error-pcalendar' : ''"
+                    dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                    [maxDate]="productBOMForm.get('EffectiveToDate').value" [inputStyle]="{'width':'100%'}"
+                    [baseZIndex]="9999"></p-calendar>
+                </div>
+                <div class="col-md-12"
+                  [hidden]="productBOMForm.get('EffectiveFromDate').valid || productBOMForm.get('EffectiveFromDate').untouched">
+                  <span *ngIf="productBOMForm.get('EffectiveFromDate').hasError('required')"
+                    class="error-message-span">Chưa chọn ngày hiệu lực
+                    từ</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Hiệu lực đến<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-calendar formControlName="EffectiveToDate" [yearNavigator]="true"
+                    yearRange="{{minYear}}:{{currentYear}}"
+                    [styleClass]="(productBOMForm.get('EffectiveToDate').invalid && (productBOMForm.get('EffectiveToDate').dirty || productBOMForm.get('EffectiveToDate').touched)) ? 'error-pcalendar' : ''"
+                    dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                    [minDate]="productBOMForm.get('EffectiveFromDate').value" [inputStyle]="{'width':'100%'}"
+                    [baseZIndex]="9999"></p-calendar>
+                </div>
+                <div class="col-md-12"
+                  [hidden]="productBOMForm.get('EffectiveToDate').valid || productBOMForm.get('EffectiveToDate').untouched">
+                  <span *ngIf="productBOMForm.get('EffectiveToDate').hasError('required')"
+                    class="error-message-span">Chưa chọn ngày hiệu lực
+                    đến</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-md-12" style="margin-top: 128px;">
+    <div class="group-button-footer">
+      <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+      <button type="button" class="save" (click)="save()"><span class="save-label">Lưu</span></button>
+    </div>
+  </div>
+</div>

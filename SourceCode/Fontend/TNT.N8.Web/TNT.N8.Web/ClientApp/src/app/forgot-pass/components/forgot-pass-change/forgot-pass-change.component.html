@@ -1,0 +1,45 @@
+<div class="col-md-12">
+  <div class="main-result">
+    <h2 class="no-margin center">{{ 'forgotPass.title_change' | translate }}</h2>
+    <ng-container *ngIf="success == true">
+      <form class="main-content" name="form" (ngSubmit)="f.form.valid && change_pass()" #f="ngForm" novalidate>
+        <label class="text-justify no-bold">Nhập mật khẩu mới cho tài khoản: </label>
+        <p class="bold">{{model.UserName}} </p>
+        <div class="form-group icon-with-input" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+          <input type="password" class="form-control" name="password" [(ngModel)]="model.Password" #password="ngModel"
+            placeholder="Mật khẩu mới" required (keyup)="onKeyPass($event)"/>
+          <i class="material-icons" aria-hidden="true">lock</i>
+          <div *ngIf="f.submitted && !password.valid" class="help-block">
+            {{ 'forgotPass.messages.password_required' | translate }}</div>
+          <div *ngIf="check_pass == -1" class="help-block" style="color: red;">
+            {{check_pass_message}}</div>
+        </div>
+        <div class="form-group icon-with-input" [ngClass]="{ 'has-error': f.submitted && !re_password.valid }">
+          <input type="password" class="form-control" name="re_password" [(ngModel)]="model.Re_password"
+            #re_password="ngModel" placeholder="Nhập lại mật khẩu mới" required (keyup)="onKeyRePass($event)"/>
+          <i class="material-icons" aria-hidden="true">lock</i>
+          <div *ngIf="f.submitted && !re_password.valid" class="help-block">
+            {{ 'forgotPass.messages.password_required' | translate }}</div>
+          <div *ngIf="check_re_pass == -1" class="help-block" style="color: red;">
+            {{check_re_pass_message}}</div>
+        </div>
+        <div class="form-group">
+          <button [disabled]="disable"
+            class="login-button btn btn-primary">{{ 'forgotPass.buttons.send_change' | translate }}</button>
+        </div>
+        <div [ngClass]="{ 'has-error': state && state==-1 }">
+          <div *ngIf="state && state==-1 " class="help-block">{{resetPassMessageCode}}</div>
+        </div>
+        <img *ngIf="loading"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <div><a class="ml-160 cursor" (click)="redirectLogin()">Quay về Đăng nhập</a></div>
+      </form>
+    </ng-container>
+    <ng-container *ngIf="success == false">
+        <form class="main-content" name="form" novalidate>
+          <label class="text-justify no-bold mb-30">{{ resetPassMessageCode }}</label>
+          <div><a class="ml-160 cursor" (click)="redirectLogin()">Quay về Đăng nhập</a></div>
+        </form>
+      </ng-container>
+  </div>
+</div>

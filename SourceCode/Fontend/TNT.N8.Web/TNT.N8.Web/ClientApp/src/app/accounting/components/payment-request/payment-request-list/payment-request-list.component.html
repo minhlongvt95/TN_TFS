@@ -1,0 +1,152 @@
+<section class="payment-request-list">
+  <div class="row">
+    <div class="hidden-md hidden-lg">
+      <h4>QUẢN LÝ ĐỀ NGHỊ THANH TOÁN/HOÀN ỨNG</h4>
+    </div>
+    <div class="button-action bg-white shadow">
+      <h4 class="hidden-xs hidden-sm">QUẢN LÝ ĐỀ NGHỊ THANH TOÁN/HOÀN ỨNG</h4>
+      <span class="pull-right" >
+        <a href="/accounting/payment-request-create" mat-raised-button color="primary">Tạo đề nghị thanh toán</a>
+      </span>
+    </div>
+    <div action="" class="filter-employee form-horizontal bg-white shadow" accept-charset="utf-8">
+      <!--[formGroup]="filterForm"-->
+      <div class="row">
+        <div class="col-md-2">
+          <mat-form-field class="w100">
+            <input type="text" placeholder="Mã phiếu" name="requestCode" matInput [(ngModel)]="requestCode" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="w100">
+            <mat-select (selectionChange)="selectedFn($event,'Status')" multiple [formControl]="groupCtrlStatus" placeholder="Trạng thái">
+              <mat-option *ngFor="let stt of listStatus" [value]="stt.categoryId">{{stt.categoryName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <div class="col-sm-2 date_oder"><span>Ngày tạo</span></div>
+          <div class="col-sm-5">
+            <mat-form-field class="w100">
+              <input matInput [matDatepicker]="pickerFromDate" name="startDate" placeholder="Từ ngày"
+                     (dateChange)="compareTwoDate($event)" [(ngModel)]="startDate">
+              <mat-datepicker-toggle matSuffix [for]="pickerFromDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerFromDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-5">
+            <mat-form-field class="w100">
+              <input matInput [matDatepicker]="pickerToDate" name="endDate" placeholder="Đến ngày"
+                     (dateChange)="compareTwoDate($event)" [(ngModel)]="endDate">
+              <mat-datepicker-toggle matSuffix [for]="pickerToDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerToDate></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <!-- hàng 2 -->
+      <div class="row" style="padding-top:15px">
+        <div class="col-md-2">
+          <mat-form-field class="w100">
+            <input type="text" placeholder="Người yêu cầu" name="employeeNameControl" matInput
+                   [matAutocomplete]="autoEmployeeName" [formControl]="employeeNameControl">
+            <mat-autocomplete #autoEmployeeName="matAutocomplete" (optionSelected)="selectEmployee($event)">
+              <mat-option *ngFor="let option of filteredEmployee | async" [value]="option.employeeId">
+                {{ option.employeeName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field class="w100">
+            <mat-select name="paymentControl" [formControl]="paymentControl" placeholder="Hình thức chi trả" [(ngModel)]="paymentId">
+              <mat-option *ngFor="let stt of paymentList" [value]="stt.categoryId">{{stt.categoryName}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="w100">
+            <input type="text" placeholder="Đơn vị" name="organization" matInput [formControl]="orgControl"
+                   [(ngModel)]="empOrganizationNameDisplay">
+          </mat-form-field>
+          <label class="filterUnit no-padding-left" (click)="openOrgDialog()">{{ 'employee.list.unit_search' | translate }}</label>
+        </div>
+        <div class="col-sm-2">
+          <div style="padding-top: 10px;">
+            <button style="margin-right: 10px" (click)="searchPaymentRequest()" matTooltip="{{ 'employeesalary.tooltip.search' | translate }}" class="btn-search">
+              <i class="material-icons">
+                search
+              </i>
+            </button>
+            <button (click)="refreshParameter()" matTooltip="{{ 'employeesalary.tooltip.refresh' | translate }}" class="btn-delete">
+              <i class="material-icons">
+                cached
+              </i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-list bg-white shadow">
+      <mat-table #table [dataSource]="dataSourceListPaymentRequest">
+        <ng-container matColumnDef="requestCode">
+          <mat-header-cell *matHeaderCellDef>
+            Mã phiếu
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span>{{ element.requestPaymentCode }}</span>
+            <a class="link" (click)="goToRequest(element.requestPaymentId)">{{ element.requestPaymentCode }}</a>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="requestName">
+          <mat-header-cell *matHeaderCellDef>
+            Người yêu cầu
+            <i class="fas fa-sort" (click)="sort('requestName')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.requestEmployeeName }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="requestContent">
+          <mat-header-cell *matHeaderCellDef>
+            Nội dung yêu cầu
+            <i class="fas fa-sort" (click)="sort('offerEmployeeName')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.description }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="org">
+          <mat-header-cell *matHeaderCellDef> Chi nhánh </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.branchName }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="sum">
+          <mat-header-cell *matHeaderCellDef>Tổng tiền</mat-header-cell>
+          <mat-cell *matCellDef="let element "> {{ element.totalAmount | number:0 }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createDate">
+          <mat-header-cell *matHeaderCellDef>
+            Ngày tạo
+            <i class="fas fa-sort" (click)="sort('createDate')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.createDate | date:'dd-MM-yyyy' }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="payment">
+          <mat-header-cell *matHeaderCellDef>
+            Hình thức chi trả
+            <i class="fas fa-sort" (click)="sort('status')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.paymentName }} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>
+            Trạng thái
+            <i class="fas fa-sort" (click)="sort('status')"></i>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.statusName }} </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSize]="[5]" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</section>

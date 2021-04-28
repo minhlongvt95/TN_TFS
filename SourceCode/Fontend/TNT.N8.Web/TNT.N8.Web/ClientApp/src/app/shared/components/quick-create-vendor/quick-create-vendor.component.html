@@ -1,0 +1,108 @@
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="quick-create-vendor">
+  <form [formGroup]="quickCreVendorForm">
+    <div class="row no-margin">
+      <div class="col-md-6">
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Nhóm nhà cung cấp<span class="required">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listVendorGroup" optionLabel="categoryName" [filter]="true"
+              [autoDisplayFirst]="false" [baseZIndex]="1000000"
+              [styleClass]="(vendorGroupControl.invalid && (vendorGroupControl.dirty || vendorGroupControl.touched)) ? 'error-border' : ''"
+              formControlName="vendorGroupControl" [showClear]="true" [resetFilterOnHide]="true"
+              placeholder="Chọn nhóm nhà cung cấp" [showClear]="true" [style]="{'width': '100%'}">
+            </p-dropdown>
+          </div>
+          <div class="col-md-12" [hidden]="vendorGroupControl.valid || vendorGroupControl.untouched">
+            <span *ngIf="vendorGroupControl.hasError('required')" class="error-message-span">Không được để
+              trống</span>
+          </div>
+        </div>
+
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Mã nhà cung cấp<span class="required">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100 input-text" type="text" maxlength="20" formControlName="vendorCodeControl"
+              [ngClass]="(vendorCodeControl.invalid && (vendorCodeControl.dirty || vendorCodeControl.touched)) ? 'error-border' : ''"
+              (keydown.enter)="$event.preventDefault()" pInputText placeholder="Tối đa 20 ký tự" />
+          </div>
+          <div class="col-md-12" [hidden]="vendorCodeControl.valid || vendorCodeControl.untouched">
+            <span *ngIf="vendorCodeControl.hasError('required') || vendorCodeControl?.errors?.forbiddenSpaceText"
+              class="error-message-span">Không được để trống</span>
+            <span *ngIf="vendorCodeControl.hasError('pattern')" class="error-message-span">
+              Mã nhà cung cấp không cho phép chứa khoảng trắng và ký tự đặc biệt</span>
+          </div>
+        </div>
+
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Tên nhà cung cấp<span class="required">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100 input-text" type="text" formControlName="vendorNameControl"
+              [ngClass]="(vendorNameControl.invalid && (vendorNameControl.dirty || vendorNameControl.touched)) ? 'error-border' : ''"
+              (keydown.enter)="$event.preventDefault()" pInputText />
+          </div>
+          <div class="col-md-12" [hidden]="vendorNameControl.valid || vendorNameControl.untouched">
+            <span *ngIf="vendorNameControl.hasError('required') || vendorNameControl?.errors?.forbiddenSpaceText"
+              class="error-message-span">Không được để trống</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Số điện thoại</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100 input-text" type="text" formControlName="vendorPhoneControl"
+              (keydown.enter)="$event.preventDefault()" pInputText />
+          </div>
+          <div class="col-md-12">
+            <span *ngIf="vendorPhoneControl.hasError('pattern')" class="error-message-span">
+              Sai định dạng Số điện thoại</span>
+          </div>
+        </div>
+
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Email</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100 input-text" type="text" formControlName="vendorEmailControl"
+              [ngClass]="(vendorEmailControl.invalid && (vendorEmailControl.dirty || vendorEmailControl.touched)) ? 'error-border' : ''"
+              (keydown.enter)="$event.preventDefault()" pInputText />
+          </div>
+          <div class="col-md-12">
+            <span *ngIf="vendorEmailControl.hasError('pattern')" class="error-message-span">
+              Sai định dạng Email</span>
+          </div>
+        </div>
+
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <span>Địa chỉ</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100 input-text" type="text" formControlName="vendorAddressControl"
+              (keydown.enter)="$event.preventDefault()" pInputText />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin" style="text-align: right;">
+      <div class="col-md-12" style="margin-top: 35px;">
+        <button [disabled]="awaitResponse" class="mr-5" type="button" pButton icon="pi pi-check"
+          (click)="quickCreaVendor()" label="Lưu"></button>
+        <button type="button" pButton icon="pi pi-times" (click)="cancelQuickCre()" label="Hủy"
+          class="ui-button-secondary"></button>
+      </div>
+    </div>
+  </form>
+</div>

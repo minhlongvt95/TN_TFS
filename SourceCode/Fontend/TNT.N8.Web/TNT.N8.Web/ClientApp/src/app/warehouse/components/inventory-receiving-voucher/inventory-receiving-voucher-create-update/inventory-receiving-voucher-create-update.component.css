@@ -1,0 +1,970 @@
+/*custom style PrimeNG Panel*/
+:host ::ng-deep .detailspanel {
+  border-radius: 4px;
+}
+
+  :host ::ng-deep .detailspanel .ui-panel-titlebar {
+    /*height: 42px;*/
+    background-color: #f2f4f8;
+    padding: 0px;
+    line-height: 42px;
+    font-family: 'Inter UI' !important;
+    font-size: 13px;
+    font-weight: 400;
+  }
+
+  :host ::ng-deep .detailspanel .ui-panel-content {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    font-family: 'Inter UI' !important;
+    font-weight: 400;
+  }
+/*end custom style PrimeNG Panel*/
+.inventory-receiving-voucher-create .spanheadpanel {
+  /*width: 42px;*/
+  height: 100%;
+  border-right: 1px solid #c8c8c8;
+  float: left;
+  display: block;
+  cursor: pointer;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inventory-receiving-voucher-create .spanheadpanelfinal {
+  height: 41px;
+  float: left;
+  display: block;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 14px;
+}
+
+.inventory-receiving-voucher-create .imgheadpanel {
+  width: 16.2px;
+  height: 15px;
+  color: #a2a9b0;
+  line-height: inherit !important;
+}
+
+.inventory-receiving-voucher-create .imgheadhistorypanel {
+  width: 16.2px;
+  height: 15px;
+  color: #0f62fe;
+  font-size: 18px;
+  line-height: inherit !important;
+}
+
+.inventory-receiving-voucher-create .buttonheadpanelFirst {
+  float: right;
+  margin: 6px 18px 6px 8px;
+  height: 30px;
+  font-family: 'Inter UI' !important;
+  font-size: 13px;
+}
+
+:host ::ng-deep .buttonheadpanelFirst .ui-button-text {
+  padding: 0 1em !important;
+  font-weight: bold;
+}
+
+.inventory-receiving-voucher-create .buttonheadNormal {
+  /*float: right;*/
+  margin: 6px 8px 6px 8px;
+  height: 30px;
+  font-family: 'Inter UI' !important;
+  font-size: 13px;
+  background-color: #fff !important;
+  border: 1px solid #c1c7cd;
+}
+
+:host ::ng-deep .buttonheadNormal .ui-button-text {
+  padding: 0 1em !important;
+  color: #121619 !important
+}
+/*custom accordion PrimeNG*/
+:host ::ng-deep .detailsaccordion {
+  border: 1px solid #fff !important;
+  padding: 0px;
+}
+
+  :host ::ng-deep .detailsaccordion .ui-accordion-header {
+    margin-bottom: 0px !important;
+    border: 1px solid #fff !important;
+  }
+
+    :host ::ng-deep .detailsaccordion .ui-accordion-header a {
+      background-color: #fff !important;
+      color: #121619 !important;
+      font-size: 16px;
+      font-family: 'Inter UI' !important;
+      font-weight: bold;
+      border: none !important;
+      padding-left: 0px !important;
+    }
+
+      :host ::ng-deep .detailsaccordion .ui-accordion-header a span {
+        color: #121619 !important;
+      }
+
+  :host ::ng-deep .detailsaccordion .ui-accordion-content {
+    margin-bottom: 0px !important;
+    border: 1px solid #fff !important;
+    padding: 0em 41px 0em 2em;
+  }
+/*end custom style PrimeNG accordion*/
+
+/*custom accordion  Summary PrimeNG*/
+:host ::ng-deep .detailSummarysAccordion {
+  /*border: 1px solid #fff !important;*/
+  padding: 0px;
+}
+
+  :host ::ng-deep .detailSummarysAccordion .ui-accordion-header {
+    margin-bottom: 0px !important;
+    /*border: 1px solid #fff !important;*/
+  }
+
+    :host ::ng-deep .detailSummarysAccordion .ui-accordion-header a {
+      background-color: #fff !important;
+      color: #121619 !important;
+      font-size: 16px;
+      font-family: 'Inter UI' !important;
+      font-weight: bold;
+      border: 1px solid #c8c8c8 !important;
+      padding-left: 24px !important;
+      /*height: 42px !important;*/
+    }
+
+      :host ::ng-deep .detailSummarysAccordion .ui-accordion-header a span {
+        color: #121619 !important;
+      }
+
+  :host ::ng-deep .detailSummarysAccordion .ui-accordion-content {
+    margin-bottom: 0px !important;
+    border-top: none !important;
+    border-left: 1px solid #c8c8c8 !important;
+    border-right: 1px solid #c8c8c8 !important;
+    border-bottom: 1px solid #c8c8c8 !important;
+    padding: 0px;
+    /*padding: 1.5em 19px 0em 28px;*/
+  }
+
+
+/*custom p-radioButton PrimeNG*/
+:host ::ng-deep .p-radioButtonCustom {
+  font-family: 'Inter UI' !important;
+  font-weight: 400;
+}
+
+:host ::ng-deep .ui-radiobutton-label {
+  font-weight: normal;
+}
+/* Endcustom p-radioButton PrimeNG*/
+.rowCustomer {
+  margin-top: 16px;
+}
+
+label {
+  font-weight: 400 !important;
+}
+/*Custom dropdown PrimeNg*/
+:host ::ng-deep .ui-dropdown {
+  width: 100% !important;
+}
+/*end */
+
+/*Custome Calendar PrimeNG*/
+/*:host ::ng-deep  .ui-calendar {
+  width: 68% !important;
+}*/
+:host ::ng-deep .ui-datepicker {
+  top: 26px !important;
+  left: -156.984px !important;
+}
+
+:host ::ng-deep .cusCalendar {
+  width: 49% !important;
+  height: 25px !important;
+  margin-right: 2px;
+}
+
+:host ::ng-deep .ui-calendar .ui-inputtext {
+  width: 100%;
+  height: 25px !important;
+}
+/*Socail CSS*/
+.error-border, .error-border:focus {
+  border-color: #f44336;
+}
+
+/*Custome End Calendar PrimeNG*/
+/*Custome Multiselect PrimeNG*/
+:host ::ng-deep .ui-multiselect {
+  display: block !important;
+}
+/*Custome end multiselect PrimeNG*/
+/*Custome autoComplete PrimeNG*/
+:host ::ng-deep .ui-autocomplete {
+  display: block !important;
+}
+/*Custome end autoComplete PrimeNG*/
+
+.full-width {
+  width: 100%;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+.no-padding-left {
+  padding-left: 0 !important
+}
+
+.required {
+  color: red;
+}
+
+.no-padding-right {
+  padding-right: 0 !important
+}
+
+.inventory-receiving-voucher-create {
+  background-color: #fff;
+  margin: -15px;
+  padding: 20px;
+}
+
+.btn-create-order {
+  background-color: #6D98E7 !important;
+  color: #fff !important;
+  height: 40px;
+}
+
+.left-column {
+  border: solid 1px #d9d9d9;
+  padding: 15px 20px;
+}
+
+.left-header {
+  padding-left: 15px;
+}
+
+  .left-header h3 {
+    margin-bottom: 0;
+  }
+
+.main-button-row {
+  text-align: right;
+}
+
+
+.form-control {
+  border-radius: 0.25rem;
+}
+
+.mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+#attribute-table {
+  height: 217px;
+}
+
+  #attribute-table .mat-header-cell:first-child, #order-table .mat-cell:first-child {
+    max-width: 350px;
+  }
+
+#order-table {
+  height: auto;
+}
+
+  #order-table .mat-header-cell:first-child, #order-table .mat-cell:first-child {
+    max-width: 40px;
+  }
+
+.mat-header-cell {
+  color: black;
+  overflow: visible;
+}
+
+.mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+mat-cell.mat-cell, mat-header-cell.mat-header-cell {
+  overflow: visible;
+}
+
+.mat-error {
+  position: absolute;
+}
+
+::ng-deep .mat-input-invalid {
+  border-color: #f44336;
+}
+
+::ng-deep .error-border .mat-form-field-underline {
+  border-bottom: 1px solid #f44336 !important;
+}
+
+.mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.wrap-content-timeline {
+  padding: 0;
+}
+
+.header-timeline span {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.header-timeline {
+  padding-top: 20px;
+  padding-left: 0;
+  margin-left: 0px;
+  padding-right: 0;
+  height: 55px;
+}
+
+.title-timeline {
+  height: 100%;
+  border-bottom: 2px solid #454c66;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.clock-timeline {
+  top: 3px;
+  position: relative;
+}
+
+.material-icons {
+  cursor: pointer;
+}
+
+.timeline > li {
+  margin-right: 0 !important;
+}
+
+  .timeline > li > .timeline-item {
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+.timeline-content .timeline-header {
+  font-size: 13px !important;
+  color: #4E6BA5 !important;
+  font-weight: bold;
+  padding-top: 0;
+}
+
+.timeline-content {
+  margin-top: 20px;
+}
+
+.material-icons {
+  font-size: 20px;
+  top: 0.25rem;
+  position: relative;
+  padding-right: 0.5rem;
+}
+
+.material-icons {
+  font-size: 20px;
+  position: relative;
+  top: 4px;
+}
+
+.material-icons {
+  position: absolute;
+  margin-left: -9px;
+}
+
+.filter-button-timeline {
+  text-align: right;
+  height: 100%;
+  border-bottom: 1px solid #cccccc;
+}
+
+  .filter-button-timeline li {
+    list-style-type: none;
+  }
+
+
+.my-drop-zone {
+  padding: 9px;
+  border: dashed 2px lightgray;
+  background-color: #eee !important;
+}
+
+.drag-file {
+  font-size: 14px;
+  position: absolute;
+  padding: 2px 20px;
+}
+
+.button-save-note {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+  padding: 12px;
+  border-top: 1px solid #ccc;
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding-right: 5px;
+  transition-property: opacity;
+  transition-duration: 2s;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.status {
+  width: 23px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+}
+
+.red {
+  background-color: #F94E4E;
+}
+
+.green {
+  background-color: #88D859;
+}
+
+.blue {
+  background-color: #6D98E7;
+}
+
+.grey {
+  background-color: #f7f7f8;
+}
+
+.orange {
+  background-color: #FFC050;
+}
+
+.img-icon {
+  float: left;
+  margin-right: 5px;
+  margin-top: 3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.action-button {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.switch-view {
+  font-size: 40px;
+  position: relative;
+  right: 5px;
+  cursor: pointer;
+  color: rgb(100, 100, 100);
+}
+
+::ng-deep .mat-checkbox-inner-container-no-side-margin {
+  width: 12px !important;
+  height: 12px !important;
+  top: 2px;
+  margin-right: 10px !important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(109, 152, 231) !important;
+}
+
+::ng-deep .mat-ripple-element {
+  background: rgba(109, 152, 231, .4) !important;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.form-control, select.form-control {
+  height: auto;
+}
+
+.control-height, select.control-height {
+  max-height: 34px;
+}
+
+.mat-column-phonenumber {
+  max-width: 90px;
+}
+
+.table-buttons {
+  float: right;
+  position: relative;
+  top: 30px;
+}
+
+table.table-buttons tr td {
+  padding-left: 15px;
+}
+
+a.link-name {
+  position: relative;
+  top: 6px;
+  cursor: pointer;
+}
+
+.refresh-icon {
+  font-size: 16px;
+  position: relative;
+  left: 15px;
+  bottom: 5px;
+  float: right;
+  cursor: pointer;
+}
+
+.mat-header-row {
+  min-height: 45px !important;
+}
+
+.mat-row {
+  min-height: 40px !important;
+}
+
+.mat-table {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.mat-row:hover {
+  background-color: #f7f7f8;
+  cursor: pointer;
+}
+
+.selected-row, .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.btn-search {
+  float: right;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+::ng-deep #emp-paginator .mat-paginator-container, #emp-paginator.mat-paginator {
+  min-height: 40px;
+}
+
+.mat-paginator, .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.filterUnit {
+  color: #6D98E7;
+  cursor: pointer;
+}
+
+.top-15 {
+  padding-top: 15px;
+}
+
+.bottom-15 {
+  padding-bottom: 15px;
+}
+
+.title {
+  font-size: 14px;
+  color: #4e6ba5;
+  font-weight: 600;
+}
+
+.control-label label, .control-label {
+  font-weight: 400;
+}
+
+.require {
+  color: #F94E4E;
+}
+
+.opaque {
+  color: #999999;
+  font-style: italic;
+}
+
+.br-1 {
+  border-right: 1px solid #999999;
+}
+
+hr {
+  margin-top: 10px !important;
+  border-top: 1px solid #999999;
+}
+
+.btn-edit, .btn-cancel {
+  background: #e4e4e4;
+  border: 1px solid #666666 !important;
+}
+
+.btn-create {
+  color: #fff;
+  background: #6d98e7;
+  margin-left: 10px;
+}
+
+.btn-delete, .btn-edit, .btn-cancel, .btn-create, .btn-create-add {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.btn-create-add {
+  margin-left: 10px;
+  color: #6d98e7;
+  border: 1px solid #6d98e7 !important;
+}
+
+.mb-11 {
+  margin-bottom: 13px;
+}
+
+.mb-12 {
+  margin-bottom: 13px;
+}
+
+.pr-30 {
+  padding-right: 30px;
+}
+
+.pl-30 {
+  padding-left: 30px;
+}
+
+.mat-form-field {
+  background: #fff;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-form-field-underline {
+  opacity: 0;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-form-field-wrapper {
+  bottom: 6px;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-form-field-infix {
+  border: 2px solid transparent;
+  height: 34px;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-select-value {
+  font-family: 'Open Sans', sans-serif;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .mat-option-text {
+  font-size: 14px !important;
+}
+
+.arrow_drop_down {
+  position: relative;
+  float: right;
+  bottom: 18px;
+  left: 20px;
+}
+
+.autoComplete {
+  padding-right: 30px;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-radio-outer-circle, ::ng-deep .inventory-receiving-voucher-create .mat-radio-inner-circle {
+  height: 15px !important;
+  width: 15px !important;
+  top: 1px !important;
+  left: 2px !important;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #6d98e7 !important;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #6d98e7 !important;
+}
+
+::ng-deep .inventory-receiving-voucher-create .mat-icon-button {
+  position: relative;
+  bottom: 2px;
+}
+
+.grid-display {
+  display: grid;
+}
+
+.inventory-receiving-voucher-create mat-header-cell {
+  font-size: 12px;
+}
+
+.delete-icon {
+  color: rgb(248, 84, 109);
+  font-size: 20px;
+}
+
+#editor {
+  background-color: #fff;
+}
+
+.clear {
+  position: relative;
+  float: right;
+  top: -15px;
+  left: 15px;
+  font-size: 18px !important;
+}
+
+.clear1 {
+  position: relative;
+  float: right;
+  top: 1px;
+  left: 15px;
+  font-size: 18px !important;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.background-white {
+  background-color: white;
+}
+
+.filter-button-timeline ul {
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.collapse.in {
+  display: initial;
+}
+
+.no-padding-search-dialog {
+  padding-left: 0 !important;
+  right: 0;
+}
+
+.search-box {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+  .search-box input {
+    border-radius: 5px;
+  }
+
+.mat-card-note {
+  padding: 0;
+}
+
+.search-icon {
+  bottom: 8px;
+  right: 23px;
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+}
+
+.refresh-icon {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  top: 10px;
+  right: 10px;
+}
+
+.mat-form-field {
+  line-height: 1.3 !important;
+}
+
+.error-message-span {
+  color: red !important;
+}
+
+.notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+  /*Begin: Tạo góc nhọn trên hộp thoại */
+  .notification::before {
+    position: absolute;
+    bottom: 100%;
+    left: 11px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid #ffffff;
+    border-width: 8px;
+    border-bottom-color: #d1d5da;
+  }
+
+  .notification::after {
+    position: absolute;
+    bottom: 100%;
+    left: 11px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid transparent;
+    margin-bottom: -1px;
+    border-width: 8px;
+    border-bottom-color: #ffffff;
+  }
+  /*End: Tạo góc nhọn trên hộp thoại */
+
+
+  .notification .notifi-row {
+    width: 100%;
+    border-bottom: 1px solid #dde1e6;
+    /*padding: 2px 0px;*/
+    cursor: pointer;
+    text-align: left;
+  }
+
+    .notification .notifi-row .ios-alert {
+      position: absolute;
+      left: 15px;
+      margin-top: 15px;
+      width: 15.9px;
+      height: 15.9px;
+      object-fit: contain;
+    }
+
+    .notification .notifi-row .notifi-text {
+      position: relative;
+      left: 50px;
+      width: 100%;
+      height: 16px;
+      font-family: 'Inter UI';
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.46;
+      letter-spacing: normal;
+      text-align: left;
+      color: #ff3b30;
+    }
+
+  .notification .notifi-row-footer {
+    width: 100%;
+    padding: 10px 10px;
+    text-align: right;
+  }
+
+    .notification .notifi-row-footer .notifi-text-footer {
+      width: 100%;
+      height: 16px;
+      font-family: 'Inter UI';
+      font-size: 13px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.46;
+      letter-spacing: normal;
+      color: #121619;
+    }
+
+.inventory-receiving-voucher-create .bg-blue {
+  margin: 6px 8px 6px 0px;
+  height: 30px;
+  font-family: 'Inter UI' !important;
+  font-size: 13px;
+  background-color: #0000ff !important;
+  border: 1px solid #c1c7cd;
+}
+
+.inventory-receiving-voucher-create .fixed {
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  border: 1px solid #cccccc;
+  border-left: none;
+  background: #f2f4f8;
+}
+.inventory-receiving-voucher-create .button-right div {
+  float: right;
+  display: flex;
+}
+
+@media only screen and (max-width: 768px) {
+  .inventory-receiving-voucher-create .button-right {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+  }
+}
+
+@media only screen and (max-width: 414px) {
+  .inventory-receiving-voucher-create .button-right {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+  }
+}
+
+@media only screen and (max-width: 375px) {
+  .inventory-receiving-voucher-create .button-right {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+  }
+
+  .inventory-receiving-voucher-create .products {
+    margin-left: -15px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .inventory-receiving-voucher-create .button-right {
+    width: 100%;
+    border-top: 1px solid #cccccc;
+  }
+}
+

@@ -1,0 +1,740 @@
+
+.quote-detail {
+  font-family: 'Inter UI';
+}
+
+.quote-detail .quote-detail-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.quote-detail .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.quote-detail .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 960px;
+  border: 1px solid #cccccc;
+}
+
+.quote-detail .fixed4 {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 960px;
+  border: 1px solid #cccccc;
+}
+
+.quote-detail .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.quote-detail .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.quote-detail .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.quote-detail .notification {
+  position: absolute;
+  top: 38px;
+  width: 380px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+.quote-detail .btn-move {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.quote-detail .mr-5 {
+  margin-right: 5px;
+}
+
+.quote-detail .icons-move {
+  font-size: 10px !important;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+.quote-detail .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.quote-detail .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.quote-detail .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.quote-detail .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.quote-detail .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.quote-detail .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.quote-detail .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+.quote-detail .button-group .cancel {
+  /* width: 64px; */
+  min-width: 90px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.quote-detail .button-group .cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.quote-detail .button-group .save-and-new {
+  width: 150px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.quote-detail .button-group .cencal-approvel {
+  width: fit-content;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.quote-detail .button-group .save-and-new .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.quote-detail .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.quote-detail .button-group .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .quote-detail .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.quote-detail .require {
+  color: #F94E4E;
+}
+
+.quote-detail .error-message-span {
+  color: red !important;
+}
+
+.quote-detail .w100 {
+  width: 100% !important;
+}
+
+.quote-detail .input-text {
+  min-height: 2.55em !important;
+}
+
+.quote-detail .mt-5 {
+  margin-top: 5px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.quote-detail .mt-10 {
+  margin-top: 10px;
+}
+
+.quote-detail .quote-code-text {
+  font-size: 13px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #878d96;
+}
+
+.quote-detail .quote-date-text {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.quote-detail .ios-add-circle-outline {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.quote-detail .add-product-text {
+  width: 146px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+/* Phần tổng hợp bên phải */
+.quote-detail .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.quote-detail .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.quote-detail .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.quote-detail .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.quote-detail .box-part-1 {
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 0px;
+}
+
+.quote-detail .overview .total-monney-label {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.quote-detail .overview .total-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #121619;
+}
+
+.quote-detail .result-monney-label {
+  height: 14px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: black;
+}
+
+.quote-detail .result-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: black;
+}
+
+.quote-detail .result-monney-text {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.quote-detail .btn-save-note {
+  width: 158px;
+  height: 32px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  border: solid 1px #cccccc;
+  margin-left: 5px;
+}
+
+.quote-detail .save-note-lable {
+  width: 110px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.quote-detail .save-cancel-lable {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.quote-detail .btn-cancel-note {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+/* CSS time line */
+.quote-detail .timeline>li {
+  margin-right: 0 !important;
+}
+
+.quote-detail .style-delete {
+  color: #FE747A;
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.quote-detail .style-edit {
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.quote-detail .note-user {
+  font-family: 'Inter UI';
+  font-weight: bold;
+}
+
+.quote-detail .timeline>li>.timeline-item {
+  box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.quote-detail .timeline-content {
+  margin-top: 20px;
+}
+
+.quote-detail .bg-blueX {
+  background-color: #4E6BA5 !important;
+}
+
+.quote-detail .color-w {
+  color: #fff !important;
+}
+
+.quote-detail .timeline-item .onHover {
+  display: none;
+}
+
+.quote-detail .timeline-item:hover .onHover {
+  display: block;
+}
+
+.quote-detail .material-icons {
+  cursor: pointer;
+}
+
+.quote-detail .timeline-user-avatar {
+  border-radius: 50%;
+  margin-right: 5px;
+  float: left;
+}
+
+.quote-detail .note-title {
+  font-size: 11px !important;
+  color: #222 !important;
+  font-weight: normal !important;
+}
+
+.quote-detail .time-note {
+  font-size: 10px !important;
+  color: #5d5a5a !important;
+  font-weight: normal !important;
+}
+
+.quote-detail .timeline-body {
+  padding: 10px 15px;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.quote-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.quote-detail .file-item div:nth-child(1),
+.quote-detail .file-item div:nth-child(3) {
+  padding-left: 0 !important;
+}
+
+.quote-detail .file-item div:nth-child(2) {
+  padding: 0 5px !important;
+}
+
+.quote-detail .item-name {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.quote-detail .preview-doc {
+  cursor: pointer;
+}
+
+.quote-detail .box-search {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.quote-detail .text-search {
+  width: 364px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.quote-detail .btn-create {
+  width: 116px;
+  height: 32px;
+  border: solid 1px #c1c7cd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.quote-detail .btn-create-text {
+  width: 68px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.import-file{
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  color: black;
+  border: solid 1px #c1c7cd;
+}
+.background-color-import{
+  background-color: #007ad9;
+}
+.text-import{
+  color: white;
+}
+
+.mt-25{
+  margin-top: 25px;
+}
+/* End */
+/* iphone 6/7/8 */
+@media only screen and (max-width:376px){
+  .quote-detail .fixed4{
+    position: relative;
+  }
+  .quote-detail .button-group .cancel {
+    width: 129px;
+  }
+  .quote-detail .button-group .save-and-new{
+    width: 129px;
+  }
+  .quote-detail .save{
+    width: 128px;
+  }
+  ::ng-deep p-button.ng-star-inserted{
+    width: 100%;
+  }
+  ::ng-deep .ui-dialog{
+    width: 90% !important;
+  }
+  input.ui-inputtext.ui-corner-all.ui-state-default.ui-widget{
+    max-width: 100%;
+  }
+}
+/* iphone 6/7/8 plus*/
+@media only screen and (min-width:376px) and (max-width: 415px){
+  .quote-detail .fixed4{
+    position: relative;
+  }
+  .quote-detail .button-group .cancel {
+    width: 144px;
+  }
+  .quote-detail .save{
+    width: 144px;
+  }
+  .quote-detail .button-group .save-and-new{
+    width: 144px;
+  }
+  ::ng-deep p-button.ng-star-inserted{
+    width: 100%;
+  }
+  ::ng-deep .ui-dialog{
+    width: 90% !important;
+  }
+  input.ui-inputtext.ui-corner-all.ui-state-default.ui-widget{
+    max-width: 100%;
+  }
+}
+/*ipad*/
+@media only screen and (max-width:769px) and (min-width: 415px){
+  .quote-detail .fixed4{
+    position: relative;
+  }
+}

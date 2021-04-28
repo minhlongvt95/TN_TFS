@@ -1,0 +1,106 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="send-sms-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form class="form-group" [formGroup]="formSendSMS">
+        <div class="row">
+          <div class="col-md-2">Nội dung</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <p-editor formControlName="contentControl" [style]="{'height':'180px', 'width': '100%'}"
+                  [styleClass]="(contentControl.invalid  && (contentControl.dirty || contentControl.touched)) ? 'error-border': ''">
+                </p-editor>
+              </div>
+              <div class="col-md-12" [hidden]="contentControl.valid || contentControl.untouched">
+                <span *ngIf="contentControl.hasError('required')" class="error-message-span">Nội dung không được để
+                  trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <!-- <span class="color-link" (click)="selectSMSTemplate()">Chọn SMS mẫu</span> -->
+            <div class="note">
+              <p>Chú thích:</p>
+              <p class="color-link" (click)="replate_token(name)">- {{name}}: Tên khách hàng</p>
+              <p class="color-link" (click)="replate_token(hotline)">- {{hotline}}: Số hotline</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-2">Thời điểm gửi</div>
+          <div class="col-md-7">
+            <div class="row" style="margin-top: 5px;">
+              <div class="col-md-12">
+                <p-radioButton name="group1" value="0" label="Gửi ngay" [(ngModel)]="selectedTypeTime"
+                  [ngModelOptions]="{standalone: true}" (onClick)="changeTypeTime(0)">
+                </p-radioButton>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-12">
+                <p-radioButton name="group1" value="1" label="Gửi vào lúc" [(ngModel)]="selectedTypeTime"
+                  [ngModelOptions]="{standalone: true}" (onClick)="changeTypeTime(1)">
+                </p-radioButton>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="selectedTypeTime == 1" class="row" style="margin-top: 10px;">
+          <div class="col-md-2"></div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-calendar formControlName="sendSMSDateControl" dateFormat="dd/mm/yy"
+                      [style]="{'width':'100%', 'top': '0px !important'}" showButtonBar="true" [minDate]="today"
+                      [styleClass]="(sendSMSDateControl.invalid  && (sendSMSDateControl.dirty || sendSMSDateControl.touched)) ? 'error-pcalendar': ''"
+                      [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+                  </div>
+                  <div class="col-md-12" [hidden]="sendSMSDateControl.valid || sendSMSDateControl.untouched">
+                    <span *ngIf="sendSMSDateControl.hasError('required')" class="error-message-span">Không được để
+                      trống</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-calendar formControlName="sendSMSHourControl" [timeOnly]="true" [style]="{'width':'100%'}"
+                      [inputStyle]="{'width':'100%'}"
+                      [styleClass]="(sendSMSHourControl.invalid  && (sendSMSHourControl.dirty || sendSMSHourControl.touched)) ? 'error-pcalendar': ''">
+                    </p-calendar>
+                  </div>
+                  <div class="col-md-12" [hidden]="sendSMSHourControl.valid || sendSMSHourControl.untouched">
+                    <span *ngIf="sendSMSHourControl.hasError('required')" class="error-message-span">Không được để
+                      trống</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendSMS()"><span class="save-label">Gửi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

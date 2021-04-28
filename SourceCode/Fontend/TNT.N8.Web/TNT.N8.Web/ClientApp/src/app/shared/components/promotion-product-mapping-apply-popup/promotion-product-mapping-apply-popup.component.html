@@ -1,0 +1,84 @@
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popupInner"></p-toast>
+
+<div class="promotion-product-mapping-apply-popup">
+  <div class="row no-margin" style="padding-bottom: 10px;">
+    <strong>{{headerTypeName}} : {{soLuongTang | number}}</strong>
+  </div>
+  <div *ngIf="!chiChonMot" class="row no-margin">
+    <p-table [columns]="cols" [value]="listPromotionProductMappingApply" [resizableColumns]="true"
+      [(selection)]="selectedPromotionProductMappingApply" columnResizeMode="expand" [paginator]="true" [rows]="5"
+      [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 3em">
+            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+          </th>
+          <th *ngFor="let col of columns" pResizableColumn
+            [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td>
+            <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+          </td>
+          <td *ngFor="let col of columns" [ngSwitch]="col.field"
+            [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+            <span *ngSwitchCase="'quantity'">
+              <input type="text" class="number-input" 
+                [(ngModel)]="rowData.quantity" [ngModelOptions]="{standalone: true}"
+                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                (keydown.enter)="$event.preventDefault()"
+                (change)="changeQuantity(rowData)">
+            </span>
+            <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div *ngIf="chiChonMot" class="row no-margin">
+    <p-table [columns]="cols" [value]="listPromotionProductMappingApply" [resizableColumns]="true"
+      [(selection)]="selectedPromotionProductMappingApply" columnResizeMode="expand" [paginator]="true" [rows]="5"
+      [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th style="width: 3em"></th>
+          <th *ngFor="let col of columns" pResizableColumn
+            [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td>
+            <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+          </td>
+          <td *ngFor="let col of columns" [ngSwitch]="col.field"
+            [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width, 'color': rowData.error == true ? col.color : '' }">
+            <span *ngSwitchCase="'quantity'">
+              <input type="text" class="number-input" 
+                [(ngModel)]="rowData.quantity" [ngModelOptions]="{standalone: true}"
+                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                (keydown.enter)="$event.preventDefault()"
+                (change)="changeQuantity(rowData)">
+            </span>
+            <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="row no-margin" style="text-align: right;">
+    <div class="col-md-12" style="margin-top: 35px;">
+      <button type="button" pButton icon="pi pi-times" (click)="cancelApplyPromotion()" label="Hủy"
+        class="ui-button-secondary" style="margin-right: 5px;"></button>
+      <button type="button" pButton icon="pi pi-check" (click)="applyPromotion()"
+        label="Áp dụng"></button>
+    </div>
+  </div>
+</div>

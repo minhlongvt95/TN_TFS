@@ -1,0 +1,82 @@
+<div class="org-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;" [formGroup]="orgForm" *ngIf="orgForm">
+    <div class="row org-dialog-title">
+      <span>
+        THÔNG TIN ĐƠN VỊ
+      </span>
+    </div>
+    <div class="row">
+      <label>{{ 'organization.org_name' | translate }}<span class="required">*</span></label>
+      <div>
+        <input type="text"
+               id="formOrgName"
+               class="form-control"
+               name="formOrgName"
+               formControlName="formOrgName"
+               [ngClass]="formOrgName.hasError('required') && !formOrgName.valid && !formOrgName.untouched ? 'error-border' : ''"
+               [(ngModel)]="organizationModel.OrganizationName"
+               maxlength="255">
+        <div class="md-errors-spacer" [hidden]="formOrgName.valid || formOrgName.untouched">
+          <mat-error *ngIf="formOrgName.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>{{ 'organization.org_code' | translate }}<span class="required">*</span></label>
+      <div>
+        <input type="text"
+               id="formOrgCode"
+               class="form-control"
+               name="formOrgCode"
+               formControlName="formOrgCode"
+               [ngClass]="(formOrgCode?.errors?.checkDuplicateCode || formOrgCode.hasError('required')) && !formOrgCode.valid && !formOrgCode.untouched ? 'error-border' : ''"
+               [(ngModel)]="organizationModel.OrganizationCode"
+               maxlength="32">
+        <div class="md-errors-spacer" [hidden]="formOrgCode.valid || formOrgCode.untouched">
+          <mat-error *ngIf="formOrgCode.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          <mat-error *ngIf="formOrgCode?.errors?.checkDuplicateCode">{{ 'organization.messages.duplicate_code' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>{{ 'organization.org_parent' | translate }}</label>
+      <span>{{ parent }}</span>
+    </div>
+    <div class="row">
+      <label>{{ 'organization.org_phone' | translate }}</label>
+      <div>
+        <input type="text"
+               id="formOrgPhone"
+               class="form-control"
+               name="formOrgPhone"
+               formControlName="formOrgPhone"
+               [ngClass]="formOrgPhone.hasError('pattern') && !formOrgPhone.valid && !formOrgPhone.untouched ? 'error-border' : ''"
+               [(ngModel)]="organizationModel.Phone"
+               maxlength="32">
+        <div class="md-errors-spacer" [hidden]="formOrgPhone.valid || formOrgPhone.untouched">
+          <mat-error *ngIf="formOrgPhone.hasError('pattern')">{{ 'lead.messages.wrong_phone' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>{{ 'organization.org_address' | translate }}</label>
+      <div>
+        <input type="text"
+               id="formOrgAddress"
+               class="form-control"
+               name="formOrgAddress"
+               formControlName="formOrgAddress"
+               [(ngModel)]="organizationModel.Address"
+               maxlength="255">
+      </div>
+    </div>
+    <div class="row">
+      <mat-checkbox formControlName="formOrgFinancialIndependence" id="formOrgFinancialIndependence" name="formOrgFinancialIndependence"
+                    [(ngModel)]="organizationModel.IsFinancialIndependence">Đơn vị độc lập tài chính</mat-checkbox>
+    </div>
+    <div class="row org-dialog-buttons">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">LƯU</button>
+    </div>
+  </form>
+</div>

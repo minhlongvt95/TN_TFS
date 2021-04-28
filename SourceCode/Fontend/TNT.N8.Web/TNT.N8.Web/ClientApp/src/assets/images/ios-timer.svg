@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16.004" viewBox="0 0 16 16.004">
+    <defs>
+        <style>
+            .prefix__cls-1{fill:#0f62fe}
+        </style>
+    </defs>
+    <g id="prefix__ios-timer" transform="translate(-56 -56)">
+        <path id="prefix__Path_80" d="M64 72a8 8 0 0 1-5.553-13.763.642.642 0 0 1 .892.924 6.716 6.716 0 1 0 5.3-1.848v2.5a.644.644 0 0 1-1.288 0v-3.169A.644.644 0 0 1 64 56a8 8 0 0 1 0 16z" class="prefix__cls-1" data-name="Path 80"/>
+        <path id="prefix__Path_81" d="M160.652 160.1l3.895 2.8a1.178 1.178 0 1 1-1.37 1.918 1.138 1.138 0 0 1-.274-.274l-2.8-3.895a.393.393 0 0 1 .548-.548z" class="prefix__cls-1" data-name="Path 81" transform="translate(-99.826 -99.82)"/>
+    </g>
+</svg>

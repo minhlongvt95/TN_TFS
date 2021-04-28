@@ -1,0 +1,199 @@
+<p-toast position="bottom-right"></p-toast>
+
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<p-dialog header="Thông Báo" [(visible)]="displayModal" [style]="{width: '50vw'}" [baseZIndex]="10000"
+  [draggable]="false" [resizable]="false">
+  <p>Danh mục đang được sử dụng, không cho phép xoá!!!</p>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="displayModal=false" label="OK"></button>
+  </p-footer>
+</p-dialog>
+
+<div class="masterdata-content">
+  <div class="row">
+    <div class="col-md-12">
+      <span style="font-size: 24px">Quản lý danh mục dữ liệu</span>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <div class="col-md-12" style="padding-right: 10px">
+      <form class="tree-content1">
+        <div class="tree-view1 ">
+          <label>
+            Nhóm dữ liệu
+          </label>
+          <div class="form-group control-input" style="padding-right: 10px">
+            <p-dropdown #dropdownVal [options]="categoryTypeModellist" [formControl]="selectedCategoryType"
+              optionLabel="categoryTypeName" [filter]="true" [style]="{'width': '50%'}" (onChange)="selectItemChange()">
+            </p-dropdown>
+          </div>
+        </div>
+      </form>
+      <div class="tree-title">
+        <div class="row">
+          <div class="col-md-8">
+            <span>Dữ liệu mặc định</span>
+          </div>
+        </div>
+      </div>
+      <div class="tree-content">
+        <div class="tree-view">
+          <div class="pr0 col-md-12" style="padding-left: 0px;">
+            <div class="shadow bg-white">
+              <p-table #myTable [columns]="colHeader" [value]="categoryModelDefaultList" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[5,10,20]" [resizableColumns]="true" [reorderableColumns]="true"
+                [responsive]="true" selectionMode="single">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="display: table-cell; text-align: center; width: 10%;">
+                      <span>
+                        Hoạt động
+                        <br />
+                        <p-checkbox name="groupname" #default value="val" [(ngModel)]="selectAllDefault" binary="true"
+                          (onChange)="masterToggleDdefault()">
+                        </p-checkbox>
+                      </span>
+                    </th>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWidth}">
+                      <span *ngSwitchCase="'categoryCode'">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                      <span *ngSwitchCase="'categoryName'">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                      <span *ngSwitchDefault>
+
+                      </span>
+                    </th>
+                    <th style="text-align: center; width: 10%;">Hiển thị mặc định</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td style="display: table-cell; text-align: center; width: 10%;">
+                      <span class="ui-column-title">Hoạt động</span>
+                      <p-checkbox name="groupname" value="val" [(ngModel)]="rowData.active"
+                        (onChange)="updateActiveDefault(rowData.categoryId)" binary="true">
+                      </p-checkbox>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWith}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'categoryName'">
+                        {{rowData.categoryName}}&nbsp;
+                        &nbsp;<a>({{rowData.countCategoryById}})</a>
+                      </span>
+                      <span *ngSwitchCase="'categoryCode'">
+                        {{rowData.categoryCode}}
+                      </span>
+                    </td>
+                    <td style="text-align: center; width: 10%;">
+                      <span class="ui-column-title">Hiển thị mặc định</span>
+                      <p-radioButton [inputId]="rowData.categoryId" name="isDefault" [value]="true"
+                        [(ngModel)]="rowData.isDefault" (onClick)="updateIsDefault(rowData.categoryId)">
+                      </p-radioButton>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom: 50px;"></div>
+  <div class="row">
+    <div class="col-md-12" style="padding-right: 10px">
+      <div class="tree-title">
+        <div class="row">
+          <div class="col-md-6">
+            <span>Dữ liệu tuỳ chỉnh</span>
+          </div>
+          <div class="col-md-6" style="text-align: right; padding-right: 5px;">
+            <button (click)="openMasterDataDialog('create', 'create')" *ngIf="actionAdd" pButton icon="pi pi-plus"
+              class="ui-button" pTooltip="Tạo dữ liệu mới" tooltipPosition="bottom"></button>
+          </div>
+        </div>
+      </div>
+      <div class="tree-content">
+        <div class="tree-view">
+          <div class="pr0 col-md-12" style="padding-left: 0px;">
+            <div class="shadow bg-white">
+              <p-table #myTable [columns]="colHeader" [value]="categoryModelEditList" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[5,10,20]" [resizableColumns]="true" [reorderableColumns]="true"
+                [responsive]="true" selectionMode="single">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="display: table-cell; text-align: center; width: 10%;">
+                      <span>
+                        Hoạt động
+                        <br />
+                        <p-checkbox #edit name="groupname" value="val" [(ngModel)]="selectAllEdit" binary="true"
+                          (onChange)="masterToggleEdit()">
+                        </p-checkbox>
+                      </span>
+                    </th>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWidth}">
+                      <span *ngSwitchCase="'categoryCode'">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                      <span *ngSwitchCase="'categoryName'">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                    </th>
+                    <th style="text-align: center; width: 5%;">Xóa</th>
+                    <th style="text-align: center; width: 5%;">Sửa</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td style="text-align: center; width: 5%;">
+                      <span class="ui-column-title">Hoạt động</span>
+                      <p-checkbox name="groupname" value="val" [(ngModel)]="rowData.active"
+                        (onChange)="updateActiveEdit(rowData.categoryId)" binary="true">
+                      </p-checkbox>
+                    </td>
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display, 'width': col.colWidth}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'categoryName'">
+                        {{rowData.categoryName}}&nbsp;
+                        &nbsp;<a>({{rowData.countCategoryById}})</a>
+                      </span>
+                      <span *ngSwitchCase="'categoryCode'">
+                        {{rowData.categoryCode}}
+                      </span>
+                    </td>
+                    <td style="text-align: center; width: 5%;">
+                      <button (click)="deleteMasterDataById(rowData.categoryId, rowData.countCategoryById)"
+                        *ngIf="actionDelete" pButton icon="pi pi-trash" class="ui-button-danger"></button>
+                    </td>
+                    <td style="text-align: center; width: 5%;">
+                      <button (click)="openMasterDataDialog('edit', rowData.categoryId)" *ngIf="actionEdit" pButton
+                        icon="pi pi-pencil" class="ui-button"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body{
+      padding: 10px 30px 0;
+      font-family: Arial;
+    }
+        td, span, div, h3 {
+            
+        }
+
+        td, span, div {
+            font-size: 12px;
+        }
+
+        table.table-bordered tr td:nth-child(2){
+            border-bottom: dotted 1px black;
+        }
+
+        tr.no-border td{
+        	border-bottom: 0 !important;
+        }
+    </style>
+</head>
+<body style="font-family: Arial">
+  <div style="width:100%; padding: 0 !important">
+    <table style="width: 100%; font-size: 20px">
+      <tr>
+          <td>[CompanyName]</td>
+          <td style="font-weight: 600; text-align: right">Số phiếu: <b>[Code]</b></td>
+      </tr>
+      <tr>
+          <td colspan="2">[CompanyAddress]</td>
+      </tr>
+    </table>
+    <div class="col-md-12" style="padding: 0; margin:0; text-align: center">
+      <div class="col-md-12">
+        <div style="width: 100% !important; font-size: 15px;"><h2>PHIẾU ỦY NHIỆM CHI</h2></div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div style="text-align: right"><span style="font-style:italic;font-size: 12px">Ngày [CreateDateDay] Tháng [CreateMonth] Năm [CreateYear]</span></div>
+    </div>
+    <div style="padding-top: 0px">
+    	<table class="table table-bordered" cellpadding='5px' cellspacing='0' style="padding-left: 5px; width: 100%">
+    		<tbody>
+    			<tr class="no-border">
+    		<td><b>Đơn vị chuyển tiền</b></td>
+    		<td></td>
+    	</tr>
+    	<tr class="no-border">
+    		<td colspan="2" style="background-color: #cccccc"></td>
+    	</tr>
+		<tr>
+			<td width="20%">Tên chủ tài khoản:</td>
+			<td>[PayerAccountName]</td>
+		</tr>
+		<tr>
+			<td>Số tài khoản:</td>
+			<td>[PayerAccountNumber]</td>
+		</tr>
+		<tr>
+			<td>Ngân hàng:</td>
+			<td>[PayerBankName]</td>
+		</tr>
+		<tr>
+			<td>Chi nhánh</td>
+			<td>[PayerBranchName]</td>
+		</tr>
+    		</tbody>
+    	</table>
+
+		<table class="table table-bordered" cellpadding='5px' cellspacing='0' style="padding-left: 5px; width: 100%">
+			<tbody>
+				<tr class="no-border">
+		    		<td><b>Đơn vị nhận tiền</b></td>
+		    		<td></td>
+		    	</tr>
+		    	<tr class="no-border">
+		    		<td colspan="2" style="background-color: #cccccc"></td>
+		    	</tr>
+				<tr>
+					<td width="20%">Tên chủ tài khoản:</td>
+					<td>[ReceiveAccountName]</td>
+				</tr>
+				<tr>
+					<td>Số tài khoản:</td>
+					<td>[ReceiveAccountNumber]</td>
+				</tr>
+				<tr>
+					<td>Ngân hàng:</td>
+					<td>[ReceiveBankName]</td>
+				</tr>
+				<tr class="no-border">
+					<td>Chi nhánh</td>
+					<td>[ReceiveBranchName]</td>
+				</tr>
+			</tbody>
+		</table>
+
+      <table class="table table-bordered" cellpadding='5px' cellspacing='0' style="padding-left: 5px; width: 100%">
+        <tbody>
+		<tr>
+    		<td colspan="2" style="background-color: #cccccc"></td>
+    	</tr>
+          <tr>
+            <td style="width: 20%"><span style="font-weight: bold">&nbsp;Người tạo:</span></td>
+            <td>&nbsp;<b>[CreatedBy]</b></td>
+          </tr>
+          <tr>
+            <td><span style="">&nbsp;Lí do chi:</span></td>
+            <td>&nbsp;[Reason]</td>
+          </tr>
+          <!--
+          <tr>
+            <td><span style="">&nbsp;Trạng thái:</span></td>
+            <td>&nbsp;[Status]</td>
+          </tr>
+  		  -->
+  		  <tr>
+            <td>&nbsp;<b>Số tiền:</b></td>
+            <td>&nbsp;<b>[Price] &#32; VNĐ</b></td>
+          </tr>
+          <tr>
+            <td>&nbsp;<b>Bằng chữ:</b></td>
+            <td>&nbsp;<b>[PriceString]</b></td>
+          </tr>
+          <tr>
+            <td><span style="">&nbsp;Ngày hạch toán:</span></td>
+            <td>&nbsp;[PaidDate]</td>
+          </tr>
+          <tr>
+            <td>&nbsp;Nội dung chi:</td>
+            <td>&nbsp;[Content]</td>
+          </tr>
+          <tr>
+            <td>&nbsp;<i>Ghi chú:</i></td>
+            <td>&nbsp;[Note]</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-12" style="padding-right: 0;padding-top: 5px;margin-top: 5px">
+        <table style="width: 100%; text-align: center;" cellpadding="5" cellspacing="3">
+          <tr>
+            <td><b>Người lập phiếu</b></td>
+            <td><b>Người nộp tiền</b></td>
+            <td><b>Thủ quỹ</b></td>
+            <td><b>Giám đốc</b></td>
+          </tr>
+          <tr>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <br>
+      <!--<div class="col-md-12" style="padding-top: 10px;font-size: 13px"><h4 style="font-size: 13px">Thực thu:</h4></div>-->
+    </div>
+  </div>
+</body>

@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        .table-assistant {
+            width: 450px;
+        }
+
+        .table-title {
+            text-align: center;
+            border-bottom: solid 1px black;
+        }
+
+        .table-assistant tr td:nth-child(2) {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <img src="[pathlogo]" width="140" height="53" />
+    <br />
+    <br />
+    Hi,[Employeename],Gửi anh/chị thông tin lương tháng [Month] năm [Year]
+    <br />
+    <table class="table-assistant">
+        <tr>
+            <td colspan="2" class="table-title"><b>PHIẾU LƯƠNG THÁNG [Month].[Year]</b></td>
+        </tr>
+        <tr>
+            <td>Họ và tên:</td>
+            <td><b>[Employeename]</b></td>
+        </tr>
+        <tr>
+            <td>Chức vụ:</td>
+            <td>[PostionName]</td>
+        </tr>
+        <tr>
+            <td>Mã nhân viên:</td>
+            <td>[EmployeeCode]</td>
+        </tr>
+        <tr>
+            <td colspan="2" style="height: 30px"></td>
+        </tr>
+        <tr>
+            <td>Tổng giờ:</td>
+            <td>[ActualWorkingDay]</td>
+        </tr>
+        <tr>
+            <td>Lương theo giờ:</td>
+            <td>[Basedsalary]</td>
+        </tr>
+        <tr>
+            <td>Cộng thêm:</td>
+            <td>[AdditionalAmount]</td>
+        </tr>
+        <tr>
+            <td>Trừ:</td>
+            <td>[ReductionAmount]</td>
+        </tr>
+        <tr>
+            <td><b>Tổng lương:</b></td>
+            <td><b>[ActualPaid]</b></td>
+        </tr>
+    </table>
+</body>
+</html>

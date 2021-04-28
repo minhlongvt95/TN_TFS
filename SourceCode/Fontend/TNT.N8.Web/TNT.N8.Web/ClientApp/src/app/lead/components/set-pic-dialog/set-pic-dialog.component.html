@@ -1,0 +1,47 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="set-pic">
+  <form [formGroup]="picForm">
+  <div class="row no-margin buffer-bottom">
+    <div class="col-md-12 buffer-bottom-label">
+      <span>Người phụ trách</span>
+    </div>
+    <div class="col-md-12">
+      <p-dropdown formControlName="Pic" 
+        scrollHeight="150px"
+        [styleClass]="(picForm.get('Pic').invalid && (picForm.get('Pic').dirty || picForm.get('Pic').touched)) ? 'error-border' : ''"
+        [options]="listPersonalInChange" optionLabel="employeeCodeName"
+        [autoDisplayFirst]="false"
+        [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+      </p-dropdown>
+    </div>
+    <div class="col-md-12">
+      <span [hidden]="picForm.get('Pic').valid || picForm.get('Pic').untouched"
+        *ngIf="picForm.get('Pic').hasError('required')" class="error-message-span">
+        Chọn người phụ trách</span>
+    </div>
+  </div>
+</form>
+
+
+  <div class="row no-margin">
+    <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+      <button (click)="cancel()" type="button" class="btn-remove">
+        <span class="btn-remove-text">Hủy</span>
+      </button>
+      <button (click)="save()" type="button" class="btn-save">
+        <span class="btn-save-text">Gán</span>
+      </button>
+    </div>
+  </div>
+
+</div>

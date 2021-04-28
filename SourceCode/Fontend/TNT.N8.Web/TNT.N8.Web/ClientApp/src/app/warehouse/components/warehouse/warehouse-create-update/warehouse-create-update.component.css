@@ -1,0 +1,66 @@
+.create-warehouse .w100 {
+  width: 100% !important;
+}
+
+.create-warehouse .required {
+  color: red
+}
+
+.create-warehouse .top-buffer {
+  margin-top: 1rem;
+}
+
+.create-warehouse .bottom-buffer {
+  margin-bottom: 1.2rem;
+}
+
+.create-warehouse .cancel {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.create-warehouse .error-message-span {
+  color: red
+}
+
+.create-warehouse .cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.create-warehouse .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.create-warehouse .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+

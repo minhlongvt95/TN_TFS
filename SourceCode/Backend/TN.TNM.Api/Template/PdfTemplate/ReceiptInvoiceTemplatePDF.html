@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body{
+      padding: 30px;
+      font-family: Arial;
+    }
+        td, span, div, h3 {
+            
+        }
+
+        td, span, div {
+            font-size: 17px;
+        }
+
+        table.table-bordered tr td:nth-child(2){
+            border-bottom: dotted 1px black;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table width="100%">
+            <tr>
+                <td>[CompanyName]</td>
+                <td style="font-weight: 600; text-align: right">Số phiếu: <b>[ReceiptInvCode]</b></td>
+            </tr>
+            <tr>
+                <td colspan="2">[CompanyAddress]</td>
+            </tr>
+        </table>
+        <h2 style="text-align: center; margin-bottom: 20px; font-weight:600">PHIẾU THU TIỀN MẶT</h2>
+        <div style="float: right; margin-bottom: 15px; font-size: 13px;"><i><b>Ngày [Date] Tháng [Month] Năm [Year]</b></i></div>
+        <table class="table table-bordered" cellpadding="5px" cellspacing="0px" width="100%">
+            <tr>
+                <td width="23%"><b>Họ tên người nhận tiền:</b></td>
+                <td><b>[RecipientName]</b></td>
+            </tr>
+            <tr>
+                <td>Địa chỉ:</td>
+                <td>[ReceipientAddress]</td>
+            </tr>
+            <tr>
+                <td>Lý do thu tiền:</td>
+                <td>[ReceiptInvReason]</td>
+            </tr>
+            <tr>
+                <td>Nội dung thu tiền:</td>
+                <td>[ReceiptInvDetail]</td>
+            </tr>
+            <tr>
+                <td><b>Số tiền:</b></td>
+                <td><b>[ReceiptInvPrice] VNĐ</b></td>
+            </tr>
+            <tr>
+                <td><b>Bằng chữ:</b></td>
+                <td><b>[ReceiptInvPriceText]</b></td>
+            </tr>
+            <tr>
+                <td><i>Ghi chú:</i></td>
+                <td>[Note]</td>
+            </tr>
+        </table>
+        <table width="100%" style="margin-top: 30px;text-align: center;" cellpadding="5" cellspacing="3">
+          <tr style="font-weight: bold">
+            <td><b>Người lập phiếu</b></td>
+            <td><b>Người nộp tiền</b></td>
+            <td><b>Thủ quỹ</b></td>
+            <td><b>Giám đốc</b></td>
+          </tr>
+          <tr>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+          </tr>
+        </table>
+    </div>
+</body>
+</html>

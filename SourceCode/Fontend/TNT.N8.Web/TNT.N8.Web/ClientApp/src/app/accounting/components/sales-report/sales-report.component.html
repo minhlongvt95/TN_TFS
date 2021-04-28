@@ -1,0 +1,313 @@
+<!-- <div class="sales-report">
+  <div class="row">
+    <div class="col-md-6">
+      <span style="font-size: 24px">Báo cáo kết quả kinh doanh</span>
+    </div>
+    <div class="col-md-6">
+
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12" style="padding-right: 10px; margin-bottom: 12px;">
+      <div class="col-md-12 row left-header">
+        <div class="col-md-3">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Từ tháng" [(ngModel)]="fromMonth">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker2" placeholder="Đến tháng" [(ngModel)]="toMonth">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1" style="padding-right: 15px">
+          <button matTooltip="{{ 'accounting.tooltip.search' | translate }}" class="btn-search" (click)="search()">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="form-group col-md-12">
+        <div class="example-container mat-elevation-z8">
+          <div class="col-md-12 row">
+            <div class="col-md-3 bold-title" style="padding-left: 23px">Tổng</div>
+            <div class="col-md-2 bold-title" style="padding-left: 18px">{{totalSales | number:'1.0-0'}}</div>
+            <div class="col-md-2 bold-title" style="padding-left: 118px">{{totalCost | number:'1.0-0'}}</div>
+            <div class="col-md-2 bold-title" style="padding-left: 215px">{{totalSales - totalCost | number:'1.0-0'}}</div>
+          </div>
+          <mat-table #table [dataSource]="dataSource">
+            <ng-container matColumnDef="month">
+              <mat-header-cell *matHeaderCellDef>
+                Tháng
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.salesReportMonth}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sale">
+              <mat-header-cell *matHeaderCellDef>
+                Doanh Thu (VND)
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.totalSales | number: '1.0-0'}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="cost">
+              <mat-header-cell *matHeaderCellDef>
+                Chi phí (VND)
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.totalCost | number: '1.0-0'}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="benefit">
+              <mat-header-cell *matHeaderCellDef>
+                Lãi trong tháng (VND)
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.benefits | number: '1.0-0'}}
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+        <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100]" id="order-paginator">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+
+<section class="sales-report">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2" />
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Báo cáo kết quả kinh doanh</div>
+                  <div class="box-header-subtitle">
+                    {{ listSalesReport.length }} bản ghi - Sắp xếp theo thời gian
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 no-padding">
+        <div class="row no-margin no-padding">
+          <!-- <div class="col-md-12 no-padding header-button" style="text-align: right;">
+            <button type="button" class="export-exel" *ngIf="actionDownload">
+              <span class="export-exel-text">Xuất Excel</span>
+            </button>
+            <button type="button" class="import-exel" *ngIf="actionImport" (click)="importCustomer()">
+              <span class="import-exel-text">Nhập từ Excel</span>
+            </button>
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreate()">
+              <span class="btn-create-text">Tạo mới</span>
+            </button>
+            <div style="clear: both;"></div>
+          </div> -->
+          <div class="col-md-12 no-padding">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh" />
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel" />
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input
+               [(ngModel)]="filterGlobal" type="text" class="iput-text global-filter" placeholder="Tìm kiếm trong danh sách"
+                (input)="
+                  table.filterGlobal($event.target.value.trim(), 'contains')
+                " />
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <form [formGroup]="saleReportForm">
+          <div class="row no-margin pb-1">
+            <div class="col-md-12">
+              BỘ LỌC DỮ LIỆU
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Từ ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar
+                          formControlName = 'FromDate'
+                          [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                          [maxDate]="endDate"
+                          placeholder="dd/mm/yy"
+                          showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Đến ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar
+                          formControlName = 'ToDate'
+                          [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                          [minDate]="startDate"
+                          [maxDate]="maxEndDate"
+                          placeholder="dd/mm/yy"
+                          showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin pb-1">
+            <div class="col-md-12 mt-5" style="text-align: right;">
+              <button type="button" class="btn-search" (click)="search()">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-{{ leftColNumber }} no-padding">
+      <p-table dataKey="sds" #table [columns]="selectedColumns" [value]="listSalesReport"
+        [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+        [rowsPerPageOptions]="[10, 20, 30]" [responsive]="true"
+        [(selection)]="selectedColumns">
+        <!-- <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="colsSaleReport" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template> -->
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <!-- <th style="width: 3.5em; text-align: center;">
+              #
+            </th> -->
+            <th *ngFor="let col of columns" pResizableColumn
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+              <span>
+                {{ col.header }}
+              </span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column"
+                [ngSwitch]="col.field" [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+              <!-- <span class="ui-column-title">{{col.header}}</span> -->
+              <span *ngSwitchCase="'totalSales'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'totalCost'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'benefits'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{ rightColNumber }} no-padding">
+      <div class="box-filter">
+        <form [formGroup]="saleReportForm">
+          <div class="row no-margin pb-1">
+            <div class="col-md-12">
+              BỘ LỌC DỮ LIỆU
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Từ ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar
+                          formControlName = 'FromDate'
+                          [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                          [maxDate]="endDate"
+                          placeholder="dd/mm/yy"
+                          showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Đến ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar
+                          formControlName = 'ToDate'
+                          [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                          [minDate]="startDate"
+                          [maxDate]="maxEndDate"
+                          placeholder="dd/mm/yy"
+                          showButtonBar="true"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin pb-1">
+            <div class="col-md-12 mt-5" style="text-align: right;">
+              <button type="button" class="btn-search" (click)="search()">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

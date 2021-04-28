@@ -1,0 +1,33 @@
+<div id="lead-confirm-dialog-content">
+  <div class="row">
+    <div class="col-md-12 popup-title">
+      <span>
+        Xác nhận chỉnh sửa
+      </span>
+    </div>
+    <div class="col-md-12 popup-text">
+      Bạn có chắc chắn muốn thực hiện?
+    </div>
+
+    <div class="col-md-12 popup-text" style="font-size: 13px">
+      Bạn đang thực hiện chỉnh sửa <b>Người phụ trách</b> thành <b>{{data.picValue}}</b>, <b>Trạng thái</b> thành <b>{{data.statusValue}}</b>, <b>Mức độ tiềm năng</b> thành <b>{{data.potentialValue}}</b>
+    </div>
+
+    <div class="col-md-12 popup-text" style="font-size: 13px">
+      Gửi thông báo qua email tới
+    </div>
+    <div class="col-md-12 popup-text" style="font-size: 13px">
+      <mat-checkbox (change)="$event ? masterToggleEmpToSendEmail() : null"
+                    [checked]="selection?.hasValue() && isAllSelectedEmpToSendEmail()"
+                    [indeterminate]="selection?.hasValue() && !isAllSelectedEmpToSendEmail()">Tất cả</mat-checkbox>
+      <mat-checkbox *ngFor="let emp of managerArray"
+                    (click)="$event.stopPropagation()"
+                    (change)="checkboxClick($event, emp)"
+                    [checked]="selection?.isSelected(emp)">{{ emp.employeeName }}</mat-checkbox>
+    </div>
+    <div class="col-md-12 popup-buttons" style="margin-bottom: 15px">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onOkClick()">XÁC NHẬN</button>
+    </div>
+  </div>
+</div>

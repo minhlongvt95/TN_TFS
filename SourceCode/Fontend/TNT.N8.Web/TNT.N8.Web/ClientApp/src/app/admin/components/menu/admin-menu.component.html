@@ -1,0 +1,39 @@
+<aside class="main-sidebar">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- sidebar menu: style can be found in sidebar.less -->
+    <ul class="sidebar-menu">
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['']">
+          <i class="fa fa-home"></i><span>Home</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['diagnostics']">
+          <i class="fa fa-bar-chart text-green"></i><span>Diagnostics</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['hostname']">
+          <i class="fa fa-server text-aqua"></i><span>Hostname</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['config']">
+          <i class="fa fa-cogs text-orange"></i><span>Config</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['serialnumber']">
+          <i class="fa fa-barcode"></i><span>Serial Number</span>
+        </a>
+      </li>
+      <li [routerLinkActive]="['link-active']">
+        <a [routerLink]="['debug']">
+          <i class="fa fa-bug text-red"></i><span>Debug</span>
+        </a>
+      </li>
+
+    </ul>
+  </section>
+</aside>

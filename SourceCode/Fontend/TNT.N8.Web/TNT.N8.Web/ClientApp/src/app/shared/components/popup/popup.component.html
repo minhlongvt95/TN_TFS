@@ -1,0 +1,30 @@
+<div id="popup-content">
+  <form [formGroup]="popupForm" class="my-4 w100">
+    <div class="row">
+      <div class="col-md-12 popup-title">
+        <span>
+          {{data.title}}
+        </span>
+      </div>
+      <div class="col-md-2 popup-icon">
+        <i class="material-icons" style="font-size: 40px;">
+          error_outline
+        </i>
+      </div>
+      <div class="col-md-10 popup-text">
+        {{data.content}} <br />
+        {{data.contentline}}
+      </div>
+      <div class="col-md-10" *ngIf="data.mode == 'reject'">
+        <mat-form-field class="w100">
+          <textarea matInput name="reason" formControlName="reasonControl" required placeholder="Lí do từ chối" [(ngModel)]='data.message'></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12 popup-buttons">
+        <button mat-raised-button class="btn-ok" (click)="onOkClick()" *ngIf="data.mode != 'reject'">ĐỒNG Ý</button>
+        <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">ĐÓNG</button>
+        <button mat-raised-button class="btn-ok" (click)="onRejectClick()" *ngIf="data.mode == 'reject'">XÁC NHẬN</button>
+      </div>
+    </div>
+  </form>
+</div>

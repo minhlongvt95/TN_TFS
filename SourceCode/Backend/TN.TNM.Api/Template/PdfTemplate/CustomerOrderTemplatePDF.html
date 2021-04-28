@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body {
+            font-size: 14px;
+            padding: 30px;
+        }
+
+        .auto-style1 {
+            width: 70%;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .title {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .tableList {
+            border: none;
+            padding-left: 5px;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+        <table style="width: 100%; border: none !important" cellspacing="0" cellpadding="4">
+            <tr>
+                <td style="border-style: none; text-align: center; font-weight: bold; font-size: 16px">HÓA ĐƠN BÁN HÀNG</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; text-align: center;">Ngày [Date] tháng [Month] năm [Year]</td>
+            </tr>
+        </table>
+        <table style="width: 100%;margin-top:10px;height:50px" cellspacing="0" cellpadding="4">
+            <tr>
+                <td class="auto-style1 title" style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">[CompanyName]</td>
+                <td class="auto-style1 title" style="border: none">Đơn hàng số: [OrderCode]</td>
+            </tr>
+            <tr>
+                <td class="title" style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Mã số thuế: [TaxCode]</td>
+                <td style="border: none">NV bán hàng: [Seller]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">[CompanyAddress]</td>
+                <td style="border: none">Điểm xuất hàng: [LocationOfShipment]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">ĐT: [Phone] – Email:[Email] </td>
+                <td style="border: none">Điểm giao hàng: [PlaceOfDelivery]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Số tài khoản:</td>
+                <td style="border: none">Diễn giải: [Description]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Tại ngân hàng:</td>
+                <td style="border: none"></td>
+            </tr>
+        </table>
+
+        <table style="width: 100%; margin-top: 9px;height:45px" cellspacing="0" cellpadding="4">
+            <tr>
+                <td class="auto-style1 title" style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Người mua hàng: [CustomerName]</td>
+                <td class="auto-style1 title" style="border: none">Người nhận hàng: [RecipientName]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">SĐT: [contact.Phone]</td>
+                <td style="border: none">SĐT: [RecipientPhone]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Địa chỉ: [contact.Address]</td>
+                <td style="border: none">Địa chỉ nhận: [PlaceOfDelivery2]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">Mã số thuế: [contact.TaxCode]</td>
+                <td style="border: none">Ngày/giờ nhận: [ReceivedDate]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none solid none none; border-width: medium 1px medium medium; border-color: inherit;">HT Thanh toán: [PaymentMethodObj.CategoryName]</td>
+                <td style="border: none">Ghi chú: [ShippingNote]</td>
+            </tr>
+        </table>
+
+        <table style="width: 100%; margin-top:9px;" cellspacing="0" cellpadding="4">
+            <tr>
+                <th>STT</th>
+                <th>Tên hàng hóa, dịch vụ</th>
+                <th>ĐVT</th>
+                <th>
+                    Số
+                    <br />
+                    lượng
+                </th>
+                <th>Đơn giá</th>
+                <th>Tỷ giá</th>
+                <th>Thuế</th>
+                <th>
+                    Chiết khấu<br />
+                    (VND)
+                </th>
+                <th>Thành tiền (VND)</th>
+            </tr>
+            <tr>
+                <td style="text-align: center">(1)</td>
+                <td style="text-align: center">(2)</td>
+                <td style="text-align: center">(3)</td>
+                <td style="text-align: center">(4)</td>
+                <td style="text-align: center">(5)</td>
+                <td style="text-align: center">(6)</td>
+                <td style="text-align: center">(7)</td>
+                <td style="text-align: center">(8)</td>
+                <td style="text-align: center">(9)=(4)x(5)x(6)x(7)-(8)</td>
+            </tr>
+            [Type0CustomerOrderDetail]
+            <tr>
+                <td class="title" colspan="9">Chi phí khác</td>
+            </tr>
+            [Type1CustomerOrderDetail]
+        </table>
+
+        <table style="width: 100%; margin-top: 15px; border: none !important" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="auto-style1 title" style="border-style: none"></td>
+                <td class="title" style="border-style: none">Tổng tiền hàng (VND):</td>
+                <td class="title" style="border-style: none">[customerOrder.Amount]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none"></td>
+                <td style="border-style: none">Chiết khấu (VND):</td>
+                <td style="border-style: none">[CustomerOrderDiscount]</td>
+            </tr>
+            <tr>
+                <td style="border-style: none"></td>
+                <td class="title" style="border-style: none">Thành tiền (VND):</td>
+                <td class="title" style="border-style: none">[CustomerOrderAmountAfterDiscount]</td>
+            </tr>
+            
+            <tr>
+                <td style="border-style: none"><span class="title">Thành tiền bằng chữ:</span> <span style="font-style: italic">[CustomerOrderAmountAfterDiscountText]</span></td>
+                <td style="border-style: none"></td>
+                <td style="border-style: none"></td>
+            </tr>
+        </table>
+        <table style="width: 100%;margin-top: 1px ; border: none !important" cellspacing="0" cellpadding="0">
+            <tr>
+                <td class="col-md-6 title" style="border-style: none; text-align: center; font-weight: bold;">Người mua hàng</td>
+                <td class="col-md-6 title" style="border-style: none; text-align: center; font-weight: bold;">Người lập phiếu</td>
+            </tr>
+            <tr>
+                <td style="border-style: none; text-align: center;">(Ký và ghi rõ họ tên)</td>
+                <td style="border-style: none; text-align: center;">(Ký và ghi rõ họ tên)</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

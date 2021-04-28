@@ -1,0 +1,577 @@
+
+.cash-payments-create {
+  font-family: 'Inter UI';
+}
+
+.cash-payments-create .cash-payments-create-content{
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.cash-payments-create .button-group{
+  width: 100% !important;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+/* .cash-payments-create .fixed{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+} */
+
+.cash-payments-create .button-group .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+.cash-payments-create .button-group .btn-cancel .text-cancel{
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-payments-create .button-group .btn-create-add {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #0f62fe;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.cash-payments-create .button-group .btn-create-add .text-save-and-new{
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0f62fe;
+}
+
+.cash-payments-create .button-group .btn-create {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.cash-payments-create .button-group .btn-create .text-save{
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.cash-payments-create .overview .button-group {
+  width: 100% !important;
+  /* height: 42px; */
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.cash-payments-create .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-payments-create .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.cash-payments-create .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.cash-payments-create .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.cash-payments-create input[name='moneyToLetter'] {
+  font-weight: 600;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.cash-payments-create .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+
+.cash-payments-create .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cash-payments-create .notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.cash-payments-create .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.cash-payments-create .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.cash-payments-create .cash-create hr {
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.cash-payments-create .require {
+  color: #F94E4E;
+}
+
+.cash-payments-create .opaque {
+  color: #999999;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.cash-payments-create .right-text {
+  padding: 0px 15px 0 30px;
+  border-left: 1px solid #999999;
+  padding-bottom: 100px;
+}
+
+.cash-payments-create .control-label label,
+.cash-payments-create .control-label {
+  font-weight: 400;
+}
+
+.cash-payments-create .form-control {
+  border-radius: 0.25rem;
+}
+
+.cash-payments-create .form-control,
+.cash-payments-create select.form-control {
+  height: auto;
+  max-height: 34px;
+  margin-bottom: 18px;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.cash-payments-create p.form-control {
+  min-height: 34px ;
+  max-height: none !important;
+}
+
+.cash-payments-create .no-padding {
+  padding: 0 !important;
+}
+
+.cash-payments-create .no-margin {
+  margin: 0 !important;
+}
+
+.cash-payments-create .error-message-span {
+  color: red !important;
+}
+
+.cash-payments-create .no-padding-left {
+  padding-left: 0 !important
+}
+
+::ng-deep .cash-payments-create .mat-form-field-underline {
+  border: none !important;
+}
+
+::ng-deep .cash-payments-create .mat-form-field-wrapper {
+  bottom: 5px;
+}
+
+::ng-deep .cash-payments-create .mat-form-field-infix {
+  border: 2px solid transparent !important;
+  height: 34px;
+}
+
+::ng-deep .cash-payments-create .mat-select-value {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
+
+::ng-deep .cash-payments-create .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .cash-payments-create .mat-option-text {
+  font-size: 14px !important;
+}
+
+.cash-payments-create .error-border,
+.cash-payments-create .error-border:focus {
+  border-color: #f44336;
+}
+
+.cash-payments-create .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.cash-payments-create .help-block {
+  color: red;
+  margin: 0 !important
+}
+
+.cash-payments-create .mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.cash-payments-create .mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.cash-payments-create .mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.cash-payments-create .clear {
+  position: relative;
+  float: right;
+  bottom: 16px;
+  left: 22px;
+  font-size: 18px !important;
+}
+
+.cash-payments-create .cursor {
+  cursor: pointer;
+}
+
+
+.cash-payments-create .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.cash-payments-create .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.cash-payments-create .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.cash-payments-create .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.cash-payments-create .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-create .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+/* ::ng-deep .cash-payments-create .row{
+  margin-left: 0px;
+  margin-right: 0px;
+} */
+
+/* ::ng-deep .cash-payments-create input{
+  height: 32px !important;
+} */
+
+.cash-payments-create .cash-name {
+  width: 119px;
+  height: 20px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-payments-create .header-box-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.cash-payments-create .w100 {
+  width: 100% !important;
+}
+
+.cash-payments-create .mt-10 {
+  margin-top: 10px;
+}
+
+.cash-payments-create .box-text-money {
+  height: 'auto';
+  background-color: #0f62fe;
+}
+
+.cash-payments-create .box-text-money .text-money-title {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.cash-payments-create .box-text-money .text-money-number {
+  float: right;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.cash-payments-create .box-text-money .text-money-text {
+  width: 100%;
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.cash-payments-create .border-right-color {
+  border-right: 1px solid #999999;
+}
+
+
+/*End: Customize Accordion */
+@media only screen and (max-width: 1423px) {
+  .cash-payments-create .ios-warning {
+      top: 0px;
+  }
+  .cash-payments-create .save {
+      margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media  screen and (min-width:415px) and (max-width: 769px) {
+  .cash-payments-create .fixed {
+      width: 62% !important;
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      background: #ffffff;
+      border: 1px solid #cccccc;
+  }
+  .cash-payments-create[_ngcontent-ng-cli-universal-c7] .no-margin[_ngcontent-ng-cli-universal-c7] {
+    margin-bottom: 30px !important;}
+}
+
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (min-width: 376px) and (max-width: 415px) {
+  .cash-payments-create .fixed {
+      width: 85.3% !important;
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      background: #ffffff;
+      border: 1px solid #cccccc;
+  }
+
+}
+
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 376px) {
+  .cash-payments-create .fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+      width: 83.7% !important;
+  }
+  .cash-payments-create .button-group .btn-cancel{
+    width: 58px;
+  }
+}
+
+
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .cash-payments-create .fixed {
+      width: 80.7% !important;
+  }
+}

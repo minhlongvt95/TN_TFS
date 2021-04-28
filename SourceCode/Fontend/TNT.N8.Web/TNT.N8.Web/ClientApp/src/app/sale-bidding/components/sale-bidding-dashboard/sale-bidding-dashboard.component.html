@@ -1,0 +1,345 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="sale-bidding-dashboard">
+  <div class="row no-margin" style="padding-bottom : 10px;">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="title">Dashboard</span>
+        </div>
+        <div class="col-md-12">
+          <span>{{currentTimeString}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box-search">
+        <input class="text-search" type="text" placeholder="Nhập tên hồ sơ thầu" [(ngModel)]="saleBiddingName"
+          (keydown)="onKeydown($event)">
+        <i class="pi pi-search customize-icons-search" (click)="getDashBoardSaleBidding()"></i>
+        <!-- <button *ngIf="actionAdd" class="btn-create" type="button" (click)="gotoCreate()"> -->
+        <!-- <span class="btn-create-text">Tạo hồ sơ thầu</span>
+        </button> -->
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Biểu đồ hồ sơ thầu -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8 mt-8">
+              <span class="box-table-1-title">Giá trị loại HST theo hợp đồng</span>
+            </div>
+            <div class="col-md-4 mt-8">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListSaleBidding('statusWinLose')">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="isShow" class="col-md-12 no-padding" style="margin-top: 10px;">
+              <div id="container">
+              </div>
+            </div>
+            <div *ngIf="!isShow" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Danh sách hồ sơ thầu chờ phê duyệt -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách HST chờ phê duyệt</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListSaleBidding('statusCho')">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listSaleBiddingWaitApproval.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="selectedColWaiApproval" [value]="listSaleBiddingWaitApproval"
+                [(selection)]="selectedSalerBidding" [resizableColumns]="true" columnResizeMode="expand"
+                [responsive]="true" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5,15,30]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="colWaitApproval" [(ngModel)]="selectedColWaiApproval"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'saleBiddingCode'" class="link" (click)="onViewSaleBiddingDetail(rowData)">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'startDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueBid'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'ros'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>b
+              </p-table>
+            </div>
+            <div *ngIf="!(listSaleBiddingWaitApproval.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danh sách hồ sơ thầu hết hiệu lực -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách HST hết hiệu lực</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;"
+                (click)="goToListSaleBidding('Expired', effectiveDate)">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listSaleBiddingExpired.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="selectedColExpired" [value]="listSaleBiddingExpired" [resizableColumns]="true"
+                columnResizeMode="expand" [responsive]="true" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5,15,30]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="colExpired" [(ngModel)]="selectedColExpired"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{'max-width': '50%'}" defaultLabel="Chọn cột"></p-multiSelect>
+                    <p-calendar [(ngModel)]="effectiveDate" [yearNavigator]="true"
+                      yearRange="{{minYear}}:{{currentYear}}" dateFormat="dd/mm/yy"
+                      placeholder="Chọn ngày hiệu lực" showButtonBar="true" [style]="{'padding-left': '10px', 'max-width': '50%'}"
+                      [baseZIndex]="9999" (onSelect)="getDashBoardSaleBidding()">
+                    </p-calendar>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'saleBiddingCode'" class="link" (click)="onViewSaleBiddingDetail(rowData)">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'startDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'bidStartDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueBid'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'ros'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'effecTime'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listSaleBiddingExpired.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danh sách hồ sơ thầu chậm so với ngày mở thầu -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách HST chậm so với ngày mở thầu</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListSaleBidding('SlowStartDate')">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listSaleBiddingSlowStartDate.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="selectedColSlow" [value]="listSaleBiddingSlowStartDate" [resizableColumns]="true"
+                columnResizeMode="expand" [responsive]="true" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5,15,30]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left; display: flex;">
+                    <p-multiSelect [options]="colSlow" [(ngModel)]="selectedColSlow"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'saleBiddingCode'" class="link" (click)="onViewSaleBiddingDetail(rowData)">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'startDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'bidStartDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueBid'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'ros'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'slowDay'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listSaleBiddingSlowStartDate.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Danh sách hồ sơ thầu phải nộp trong tuần -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách HST phải nộp trong tuần sau</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListSaleBidding('InWeek')">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listSaleBiddingInWeek.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="selectedColInWeek" [value]="listSaleBiddingInWeek" [resizableColumns]="true"
+                columnResizeMode="expand" [responsive]="true" [paginator]="true" [rows]="5"
+                [rowsPerPageOptions]="[5,15,30]">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="colInWeek" [(ngModel)]="selectedColInWeek"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'saleBiddingCode'" class="link" (click)="onViewSaleBiddingDetail(rowData)">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'startDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'bidStartDate'">{{rowData[col.field] | date : 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'valueBid'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'ros'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="!(listSaleBiddingInWeek.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

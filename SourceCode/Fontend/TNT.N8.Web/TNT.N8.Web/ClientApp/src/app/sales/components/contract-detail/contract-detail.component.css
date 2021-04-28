@@ -1,0 +1,738 @@
+.contract-detail {
+  font-family: 'Inter UI';
+}
+
+.contract-detail .contract-detail-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.contract-detail .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.contract-detail .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  border: 1px solid #cccccc;
+}
+
+.contract-detail .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#dialog .no-margin {
+  margin: 0 !important;
+}
+
+#dialog .overview {
+  border-bottom: 2px solid #dde1e6;
+  margin-bottom: 1rem;
+  padding: 10px 20px;
+}
+
+#dialog .row{
+  margin-top: 10px;
+  margin-bottom: 1rem;
+}
+
+.contract-detail .fixed4 {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 960px;
+  border: 1px solid #cccccc;
+}
+
+.contract-detail .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.contract-detail .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.cursor {
+  cursor: pointer;
+  line-height: 32px;
+}
+
+.contract-detail .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.contract-detail .notification {
+  position: absolute;
+  top: 38px;
+  width: 380px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.contract-detail .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.contract-detail .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.contract-detail .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.contract-detail .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.contract-detail .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.contract-detail .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.contract-detail .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+.contract-detail .button-group .cancel {
+  width: 64px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.import-file {
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  color: black;
+  border: solid 1px #c1c7cd;
+}
+
+.text-import {
+  color: white;
+}
+
+.contract-detail .button-group .cancel .text-cancel, .text-import-file {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.contract-detail .button-group .save-and-new {
+  width: 160px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.contract-detail .button-group .save-and-new .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.contract-detail .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.contract-detail .button-group .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .contract-detail .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.contract-detail .require {
+  color: #F94E4E;
+}
+
+.contract-detail .error-message-span {
+  color: red !important;
+}
+
+.contract-detail .w100 {
+  width: 100% !important;
+}
+
+.contract-detail .input-text {
+  min-height: 2.55em !important;
+}
+
+.contract-detail .btn-move {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.contract-detail .mr-5 {
+  margin-right: 5px;
+}
+
+.contract-detail .icons-move {
+  font-size: 10px !important;
+}
+
+.contract-detail .mt-5 {
+  margin-top: 5px;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.contract-detail .mt-10 {
+  margin-top: 10px;
+}
+
+.contract-detail .contract-code-text {
+  font-size: 13px;
+  font-weight: 600;
+  font-style: italic;
+  font-stretch: normal;
+  /* font-style: normal; */
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #878d96;
+}
+
+.contract-detail .contract-date-text {
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.contract-detail .ios-add-circle-outline {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.contract-detail .add-product-text {
+  width: 146px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #0f62fe;
+  cursor: pointer;
+}
+
+/* Phần tổng hợp bên phải */
+
+.contract-detail .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.contract-detail .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.contract-detail .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.contract-detail .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.contract-detail .box-part-1 {
+  border-bottom: 1px solid #cccccc;
+  padding: 10px 0px;
+}
+
+.contract-detail .overview .total-monney-label {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.contract-detail .overview .total-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #121619;
+}
+
+.contract-detail .result-monney-label {
+  height: 14px;
+  font-family: Inter;
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+}
+
+.contract-detail .result-monney-number {
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+}
+
+.contract-detail .result-monney-text {
+  height: 14px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.contract-detail .btn-save-note {
+  width: 158px;
+  height: 32px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  border: solid 1px #cccccc;
+  margin-left: 5px;
+}
+
+.contract-detail .save-note-lable {
+  width: 110px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.contract-detail .btn-cancel-note {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+/* End */
+
+/* CSS time line */
+
+.contract-detail .timeline>li {
+  margin-right: 0 !important;
+}
+
+.contract-detail .style-delete {
+  color: #FE747A;
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.contract-detail .style-edit {
+  cursor: pointer;
+  font-size: 1.55em;
+}
+
+.contract-detail .note-user {
+  font-family: 'Inter UI';
+  font-weight: bold;
+}
+
+.contract-detail .timeline>li>.timeline-item {
+  box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.contract-detail .timeline-content {
+  margin-top: 20px;
+}
+
+.contract-detail .bg-blueX {
+  background-color: #4E6BA5 !important;
+}
+
+.contract-detail .color-w {
+  color: #fff !important;
+}
+
+.contract-detail .timeline-item .onHover {
+  display: none;
+}
+
+.contract-detail .timeline-item:hover .onHover {
+  display: block;
+}
+
+.contract-detail .material-icons {
+  cursor: pointer;
+}
+
+.contract-detail .timeline-user-avatar {
+  border-radius: 50%;
+  margin-right: 5px;
+  float: left;
+}
+
+.contract-detail .note-title {
+  font-size: 11px !important;
+  color: #222 !important;
+  font-weight: normal !important;
+}
+
+.contract-detail .time-note {
+  font-size: 10px !important;
+  color: #5d5a5a !important;
+  font-weight: normal !important;
+}
+
+.contract-detail .timeline-body {
+  padding: 10px 15px;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+  padding-right: 5px !important;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
+}
+
+.contract-detail .file-upload-zone .col-md-4:nth-child(3n) {
+  padding-left: 5px !important;
+}
+
+.contract-detail .file-item div:nth-child(1), .contract-detail .file-item div:nth-child(3) {
+  padding-left: 0 !important;
+}
+
+.contract-detail .file-item div:nth-child(2) {
+  padding: 0 5px !important;
+}
+
+.contract-detail .item-name {
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.contract-detail .preview-doc {
+  cursor: pointer;
+}
+
+.contract-detail .box-search {
+  text-align: right;
+  margin-top: 15px;
+}
+
+.contract-detail .text-search {
+  width: 364px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.contract-detail .btn-create {
+  width: 116px;
+  height: 32px;
+  border: solid 1px #c1c7cd;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.contract-detail .btn-create-text {
+  width: 68px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.import-file {
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  color: black;
+  border: solid 1px #c1c7cd;
+}
+
+.background-color-import {
+  background-color: #007ad9;
+}
+
+.text-import {
+  color: white;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+.contract-detail span.ui-column-title{
+  min-width: 115px;
+}
+/* End */
+@media only screen and (max-width:376px){
+  .contract-detail .fixed4{
+    position: relative;
+  }
+  .contract-detail .button-group .save-and-new{
+    width:84px;
+  }
+  ::ng-deep .ui-dialog{
+    width: 80% !important;
+  }
+}
+@media only screen and (min-width:376px) and (max-width:415px){
+  .contract-detail .fixed4{
+    position: relative;
+  }
+
+  .contract-detail .button-group .save-and-new{
+    width:102px;
+  }
+  ::ng-deep .ui-dialog{
+    width: 80% !important;
+  }
+}
+@media only screen and(min-width:415px)and (max-width:769px){
+  .contract-detail .fixed4{
+    position: relative;
+  }
+  ::ng-deep .ui-dialog{
+    width: 80% !important;
+  }
+}

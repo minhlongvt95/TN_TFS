@@ -1,0 +1,70 @@
+<div class="template-email-dialog">
+  <div class="org-dialog-title">
+    <span>
+      Mẫu email
+    </span>
+  </div>
+  <div class="row mt-15">
+    <form class="form-group" [formGroup]="formSearch">
+        <div class="col-md-1 mt-8">
+          <label>Tiêu đề:</label>
+        </div>
+        <div class="col-md-3">
+          <input
+            class="form-control w100" id="title" name="title"
+            formControlName="titleControl"
+          >
+        </div>
+        <div class="col-md-1 mt-8">
+          <label>Nội dung:</label>
+        </div>
+        <div class="col-md-3">
+          <input
+            class="form-control w100" id="content" name="content"
+            formControlName="contentControl"
+          >
+        </div>
+        <div class="col-md-3">
+          <button (click)="search()" matTooltip="{{ 'order.tooltip.search' | translate }}" class="btn-search">
+            <i class="fa fa-search"></i>
+          </button>
+        </div>
+    </form>
+  </div>
+
+  <div class="row mt-15">
+    <div class="mat-elevation-z8">
+      <mat-table #table [dataSource]="dataSource" matSort id="template-email-table" class="w100">
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Tiêu đề </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="color-link">{{element.title}}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="content">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nội dung </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="color-link">{{element.content | formatData: 40}}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span class="color-link cursor" (click)="slectedTemplateEmail(element.id)">Chọn</span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns:displayedColumns; let i = index;"></mat-row>
+      </mat-table>
+    </div>
+    <mat-paginator [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+  </div>
+
+  <div class="row org-dialog-buttons">
+    <button mat-raised-button color="basic" (click)="onCancelClick()">HỦY</button>
+  </div>
+</div>
+  

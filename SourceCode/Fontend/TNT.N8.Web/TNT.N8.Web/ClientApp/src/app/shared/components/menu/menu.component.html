@@ -1,0 +1,70 @@
+<aside class="main-sidebar" style="background-color:#121619">
+  <section class="sidebar">
+    <ul class="sidebar-menu custom-sidebar-menu">
+      <!-- <li *ngFor="let item of lstBreadCrumLeftMenu; let i = index" [attr.data-index]="i" class="treeview"
+        [hidden]="item.Active">
+        <a href="#" target="_blank" class="cursor" style="padding-left:18px !important;padding: 15px 0;"
+          [ngStyle]="{'color':'#ffffff'}"
+          (click)="addRemoveIcon(i)">
+          <img style="margin-right:17px;float:left" *ngIf="item.nameIcon.includes('.png')" class="img_conf_cus_lead"
+            src="../../assets/icons/Menu/menu_crm/{{item.nameIcon}}">
+          <i style="margin-right:17px;width:17px;height:18px" *ngIf="!item.nameIcon.includes('.png')"
+            class="fa {{item.nameIcon}}" aria-hidden="true"></i>
+          <span [ngStyle]="{'height':isToggleCick ? '54px' : null}" pTooltip="{{item.Name}}"
+            style="color:#78a9ff;font-weight:bold;font-size:11px;text-align:left;padding-right: 30px;">
+            {{item.Name.trim()|uppercase}}
+          </span>
+          <span *ngIf="!isToggleCick" class="pull-right-container"
+            style="top: 45%; width:16px;height: 16px;">
+            <i class="fa fa-plus-circle module-add{{i}}" style="font-size:16px;width:16px;height:16px;color:#78a9ff"
+              aria-hidden="true"></i>
+            <i class="fa fa-minus-circle module-remove{{i}}"
+              style="font-size:16px;width:16px;height:16px;color:#78a9ff;display:none" aria-hidden="true"></i>
+          </span>
+        </a>
+        <ul
+          [ngStyle]="{'margin-top':isToggleCick ? '10px' : null,'padding-left':isToggleCick ? '0px' :'20px','border-left':isToggleCick ? '1px solid' : '0'}"
+          *ngIf="item.LstChildren.length>0" class="treeview-menu report" style="line-height:14px !important; background: #121619; padding-top: 0">
+          <li *ngFor="let resource of item.LstChildren; let j = index" [attr.data-index]="j" class="treeview" 
+          [ngStyle]="{'background-color':resource.Display=='none' ? 'unset' : '#262a2d', 'border-right':resource.Display=='none' ? 'none' : '4px solid #78a9ff',
+          'margin-left': isToggleCick ? '0' : '-21px', 'padding': isToggleCick ? '5px' : '5px 0 5px 40px'}" [hidden]="resource.Active">
+            <a class="cursor" routerLink="{{resource.Path}}" (click)="gotoPage(resource.Path)">
+              <span
+                [ngStyle]="{'color':resource.Display=='none' ? '#f2f4f8':'#ffff','font-weight':resource.Display=='none' ? 'normal':'bold','font-size':'12px'}"
+                pTooltip="{{resource.Name}}">
+                {{resource.Name.trim()}}
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li> -->
+      <li *ngFor="let item of lstBreadCrumLeftMenu; let i = index" [attr.data-index]="i" class="treeview"
+        [hidden]="item.Active">
+        <a href="#" target="_blank" class="cursor menu-item-1" (click)="addRemoveIcon(i)">
+          <img *ngIf="item.nameIcon.includes('.png')" class="img_conf_cus_lead"
+            src="../../assets/icons/Menu/menu_crm/{{item.nameIcon}}">
+          <i *ngIf="!item.nameIcon.includes('.png')" class="fa {{item.nameIcon}}" aria-hidden="true"></i>
+          <span class="menu-item-name-1" pTooltip="{{item.Name}}">
+            {{item.Name.trim()|uppercase}}
+          </span>
+          <span class="pull-right-container">
+            <i class="fa fa-plus-circle module-add{{i}}" aria-hidden="true"></i>
+            <i class="fa fa-minus-circle module-remove{{i}}" aria-hidden="true"></i>
+          </span>
+        </a>
+        <ul *ngIf="item.LstChildren.length>0" class="treeview-menu report">
+          <li *ngFor="let resource of item.LstChildren; let j = index" [attr.data-index]="j" class="treeview" 
+          [ngStyle]="{'background-color':resource.Display=='none' ? 'unset' : '#262a2d', 'border-right':resource.Display=='none' ? 'none' : '4px solid #78a9ff'}" [hidden]="resource.Active">
+            <a class="cursor" routerLink="{{resource.Path}}" (click)="gotoPage(resource.Path)">
+              <span
+                [ngStyle]="{'color':resource.Display=='none' ? '#f2f4f8':'#ffff','font-weight':resource.Display=='none' ? 'normal':'bold','font-size':'12px'}"
+                pTooltip="{{resource.Name}}">
+                {{resource.Name.trim()}}
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+</aside>

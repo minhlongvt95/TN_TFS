@@ -1,0 +1,83 @@
+<div class="wrapper">
+  <main-header></main-header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <section class="content">
+      <div class="main">
+        <form [formGroup]="profileForm" *ngIf="profileForm">
+          <a class="col-md-12" style="text-align: left; text-decoration: underline; font-family: serif" href="#">Quay về trang chủ</a>
+          <div class="col-md-1 no-padding" style="text-align: left">
+            <p class="label_">Tên đăng nhập:</p>
+            <p class="label_">Họ và tên đệm:</p>
+            <p class="label_">Tên:</p>
+            <p class="label_">Email:</p>
+            <p class="label_" style="margin: 84px 0px !important">Ảnh đại diện:</p>
+          </div>
+          <div class="col-md-6 input_info" style="position: relative; top: 20px; text-align: left">
+            <input  class="col-md-7"
+                    type ="text"
+                    name ="username" 
+                    [(ngModel)] ="username"
+                    id ="formUsername"
+                    formControlName ="formUsername"
+                    [ngClass] ="formUsername.hasError('required') && !formUsername.valid && !formUsername.untouched ? 'error-border' : ''"
+                    maxlength="255"
+                    />
+            <div class="space_error col-md-4" [hidden]="formUsername.valid || formUsername.untouched">
+              <mat-error *ngIf="formUsername.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+            </div>
+            <input  type ="text" 
+                    class="col-md-7"
+                    name ="firstname" 
+                    [(ngModel)] ="firstname"
+                    id ="formFirstname"
+                    formControlName ="formFirstname"
+                    [ngClass] ="formFirstname.hasError('required') && !formFirstname.valid && !formFirstname.untouched ? 'error-border' : ''"
+                    maxlength="255"
+                    />
+            <div class="space_error col-md-4" [hidden]="formFirstname.valid || formFirstname.untouched">
+              <mat-error *ngIf="formFirstname.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+            </div>       
+            <input  type="text"
+                    name="lastname" 
+                    class="col-md-7"
+                    [(ngModel)]="lastname" 
+                    id="formLastname"
+                    formControlName ="formLastname"
+                    [ngClass] ="formLastname.hasError('required') && !formLastname.valid && !formLastname.untouched ? 'error-border':''"
+                    maxlength="255"
+                    />
+            <div class="space_error col-md-4" [hidden]="formLastname.valid || formLastname.untouched">
+                <mat-error *ngIf="formLastname.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+            </div>
+            <input  type="text"
+                    name="email"
+                    class="col-md-7"
+                    [(ngModel)]="email"
+                    id="formEmail"
+                    formControlName="formEmail"
+                    [ngClass] ="(formEmail.hasError('required') || formEmail.hasError('pattern')) && !formEmail.valid && !formEmail.untouched ? 'error-border' : ''"
+                    maxlength="255"
+                    />
+            <div class="space_error col-md-4" [hidden]="formEmail.valid || formEmail.untouched">
+                <mat-error *ngIf="formEmail.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+                <mat-error *ngIf="formEmail.hasError('pattern')">{{ 'lead.messages.wrong_email' | translate }}</mat-error>
+            </div>
+            <div class="avatar col-md-12">
+              <img class="image_avatar" [src]="avatarUrl != '' ?avatarUrl:'../../../../assets/images/no-avatar.png'" />
+              <a class="edit_avatar" (click)="openImageUpload()" >Thay đổi ảnh đại diện</a>
+            </div>
+            <div class="button_row col-md-6">
+              <button mat-raised-button class="save_button " (click)="UpdateUserProfile()">Lưu</button>
+              <button mat-raised-button class="cancel_button" (click)="cancelCreate()">Hủy</button>
+            </div>
+            <!--<img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />-->
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
+  <main-footer></main-footer>
+</div>

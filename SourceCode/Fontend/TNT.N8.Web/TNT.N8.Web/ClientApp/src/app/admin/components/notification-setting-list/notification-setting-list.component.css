@@ -1,0 +1,272 @@
+.notification-setting-list {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.notification-setting-list .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.notification-setting-list .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.notification-setting-list .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.notification-setting-list .box-header-group {
+  margin-top: 10px;
+}
+
+.notification-setting-list .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0f62fe;
+  text-align: center;
+}
+
+.notification-setting-list .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.notification-setting-list .box-header-title {
+  width: auto;
+  height: auto;
+  font-family: 'Inter UI';
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.notification-setting-list .noun-product {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.notification-setting-list .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.notification-setting-list .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.notification-setting-list .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.notification-setting-list .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.notification-setting-list .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.notification-setting-list .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.notification-setting-list .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.notification-setting-list .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.notification-setting-list .box-filter {
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding: 10px 0px;
+}
+
+.notification-setting-list .code-text {
+  width: 100%;
+  height: 32px;
+  font-family: 'Inter UI';
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  padding-left: 5px;
+}
+
+.notification-setting-list .mt-5 {
+  margin-top: 5px;
+}
+
+.notification-setting-list .btn-search {
+  width: 72px;
+  height: 32px;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.notification-setting-list .btn-search:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.notification-setting-list .btn-search-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/* Config rows Per Page Options */
+::ng-deep .notification-setting-list .ui-inputtext {
+  padding: 0.3em;
+}
+
+.notification-setting-list .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.notification-setting-list .no-data {
+  height: 435px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.notification-setting-list .box-no-data {
+  position: relative; 
+  top: 25%;
+}
+
+.notification-setting-list .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+::ng-deep .notification-setting-list .ui-datepicker {
+  margin-top: 20%;
+}
+
+/* Máy để bàn */
+@media only screen and (min-width: 1025px) and (max-width: 1423px)  {
+  
+}
+
+/* Ipad Pro */
+@media only screen and (min-width: 769px) and (max-width: 1024px)  {
+  .notification-setting-list .box-header-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .notification-setting-list .Money-2 {
+    width: 15.4px;
+    height: 11.5px;
+    margin-top: 7px;
+  }
+
+  .notification-setting-list .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Ipad */
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+  .notification-setting-list .btn-create {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+  .notification-setting-list .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8/X */
+@media only screen and (max-width: 375px) {
+  .notification-setting-list .iput-text {
+    margin-top: 5px;
+  }
+}

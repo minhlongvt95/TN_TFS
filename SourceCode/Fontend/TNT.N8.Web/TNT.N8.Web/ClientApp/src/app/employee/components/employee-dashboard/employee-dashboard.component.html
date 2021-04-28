@@ -1,0 +1,221 @@
+<div class="employee-dashboard">
+  <div class="row">
+    <div class="button-action bg-white shadow">
+      <h4 class="mt-2 mb-0">Nhân viên</h4>
+      <!-- <button color="primary" mat-raised-button tabindex="1" (click)="gotoCreate()">Tạo khách hàng</button> -->
+      <!-- <mat-form-field class="">
+        <input tabindex="0" placeholder="Tìm kiếm tên..." (keyup.enter)="getData()" [(ngModel)]='keyname' matInput class="form-control">
+        <i class="fas fa-search" matSuffix (click)="getData()" matTooltip="Tìm kiếm"></i>
+      </mat-form-field> -->
+      <span class="box-search">
+        <input type="text" class="search-input" placeholder="Tìm kiếm tên..." (keyup.enter)="getData()"
+          [(ngModel)]='keyname'>
+        <i class="fas fa-search icon-search" matSuffix (click)="getData()" matTooltip="Tìm kiếm"></i>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 step-process">
+      <div class="bg-white shadow">
+        <div class="form-content">
+          <h5>Lịch làm việc trong tuần từ <i class="fas fa-chevron-left weekArrowToggle" (click)="changeWeek(0)"></i>
+            {{firstDayOfWeek | date:'dd/MM/yyyy'}} đến {{lastDayOfWeek | date:'dd/MM/yyyy'}} <i
+              class="fas fa-chevron-right weekArrowToggle" (click)="changeWeek(1)"></i></h5>
+        </div>
+        <div>
+          <mat-table class="w100" #table [dataSource]="dataSource" class="mat-elevation-z8" id="table-dashboard">
+            <ng-container matColumnDef="expand">
+              <mat-header-cell *matHeaderCellDef> <i class="arrowAll material-icons" (click)="expandAll($event)"
+                  (click)="toggleCollapseIcon($event)"></i> </mat-header-cell>
+              <mat-cell *matCellDef="let element"> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="expandOrg">
+              <mat-header-cell *matHeaderCellDef> <i class="material-icons">arrow_drop_down</i> </mat-header-cell>
+              <mat-cell *matCellDef="let element" [style.padding-left]="paddingLeft(element.positionName)"> <i
+                  class="arrowElement material-icons" (click)="expandEle(element.organizationId)"
+                  (click)="toggleCollapseIcon($event)">{{ lessthan40 ? 'arrow_drop_down' : 'arrow_right'}}</i>
+                <span>{{element.organizationName}}</span> </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Tên </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <img class="img-icon" *ngIf="element.employeeId != auth.EmployeeId"
+                  (click)="onViewDetail(element.employeeId, element.contactId)"
+                  [src]="(element.avatarUrl!='' && element.avatarUrl!=null)?element.avatarUrl:'../../../../assets/images/no-avatar.png'" />
+                <img class="img-icon" *ngIf="element.employeeId == auth.EmployeeId"
+                  [src]="(element.avatarUrl!='' && element.avatarUrl!=null)?element.avatarUrl:'../../../../assets/images/no-avatar.png'" />
+                <a *ngIf="element.employeeId != auth.EmployeeId" role="button"
+                  (click)="onViewDetail(element.employeeId, element.contactId)">{{element.employeeName}}</a>
+                <span *ngIf="element.employeeId == auth.EmployeeId">{{element.employeeName}}</span>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef> Mã </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.employeeCode}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="time">
+              <mat-header-cell *matHeaderCellDef> Thời gian </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div>Sáng</div>
+                <div>Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="monday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[0]}}</div>
+                <div>Thứ 2</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="isHighlighted(element.employeeId,0,'AM')">Sáng</div>
+                <div [class.highlighted]="isHighlighted(element.employeeId,0,'PM')">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="tuesday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[1]}}</div>
+                <div>Thứ 3</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="isHighlighted(element.employeeId,1,'AM')">Sáng</div>
+                <div [class.highlighted]="isHighlighted(element.employeeId,1,'PM')">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="wednesday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[2]}}</div>
+                <div>Thứ 4</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="isHighlighted(element.employeeId,2,'AM')">Sáng</div>
+                <div [class.highlighted]="isHighlighted(element.employeeId,2,'PM')">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="thursday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[3]}}</div>
+                <div>Thứ 5</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="isHighlighted(element.employeeId,3,'AM')">Sáng</div>
+                <div [class.highlighted]="isHighlighted(element.employeeId,3,'PM')">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="friday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[4]}}</div>
+                <div>Thứ 6</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="isHighlighted(element.employeeId,4,'AM')">Sáng</div>
+                <div [class.highlighted]="isHighlighted(element.employeeId,4,'PM')">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="saturday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[5]}}</div>
+                <div>Thứ 7</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="true">Sáng</div>
+                <div [class.highlighted]="true">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sunday">
+              <mat-header-cell *matHeaderCellDef>
+                <div>{{dayOfWeek[6]}}</div>
+                <div>Chủ nhật</div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div [class.highlighted]="true">Sáng</div>
+                <div [class.highlighted]="true">Chiều</div>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns" class="empRow"
+              [class.hiddenRow]="!expandedElement.includes(row.organizationId)"
+              [@detailExpand]="expandedElement.includes(row.organizationId) ? 'expanded' : 'collapsed'">
+            </mat-row>
+            <mat-row *matRowDef="let row; columns: ['expandOrg']; when: isExtendedRow" class="orgRow">
+            </mat-row>
+          </mat-table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 step-process" [style.padding-right]="0">
+      <div class="bg-white shadow mb-15" *ngIf="isManager">
+        <div class="form-content">
+          <h5>Nhân viên sắp hết hạn hợp đồng</h5>
+          <a role="button" style="float: right; font-size: 12px" (click)="goToEmployeeList('contract')">Xem tất cả</a>
+        </div>
+        <div class="no-data text-center">
+          <h5 *ngIf="listEmpEndContract.length == 0"><i class="fas fa-times"></i>Không có dữ liệu</h5>
+        </div>
+        <div>
+          <table class="w100" *ngIf="listEmpEndContract.length > 0">
+            <tr>
+              <th class="fz-12">Nhân viên</th>
+              <th class="fz-12">Loại HĐ</th>
+              <th class="fz-12">Ngày hết hạn</th>
+            </tr>
+            <tr *ngFor="let emp of listEmpEndContract; let i=index"
+              [style.background]="(i%2 == 0) ? '#f0f0f0' : '#ffffff'">
+              <td class="link-name">
+                <a role="button" *ngIf="emp.employeeId != auth.EmployeeId"
+                  (click)="onViewDetail(emp.employeeId, emp.contactId)">{{emp.employeeName}}</a>
+                <span *ngIf="emp.employeeId == auth.EmployeeId">{{emp.employeeName}}</span>
+              </td>
+              <td>{{emp.contractName}}</td>
+              <td>{{emp.contractEndDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="bg-white shadow mb-15" *ngIf="isManager">
+        <div class="form-content">
+          <h5>Nhân viên sắp sinh nhật <i style="color: #ff79b9; padding-left: 0.25rem" class="fas fa-birthday-cake"></i>
+          </h5>
+          <a role="button" style="float: right; font-size: 12px" (click)="goToEmployeeList('birthday')">Xem tất cả</a>
+        </div>
+        <div class="no-data text-center">
+          <h5 *ngIf="listEmpNearestBirthday.length == 0"><i class="fas fa-times"></i>Không có dữ liệu</h5>
+        </div>
+        <div>
+          <table class="w100" *ngIf="listEmpNearestBirthday.length > 0">
+            <tr>
+              <th class="fz-12">Nhân viên</th>
+              <th class="fz-12">Phòng ban</th>
+              <th class="fz-12">Ngày sinh</th>
+            </tr>
+            <tr *ngFor="let emp of listEmpNearestBirthday; let i=index"
+              [style.background]="(i%2 == 0) ? '#f0f0f0' : '#ffffff'">
+              <td class="link-name">
+                <a role="button" *ngIf="emp.employeeId != auth.EmployeeId"
+                  (click)="onViewDetail(emp.employeeId, emp.contactId)">{{emp.employeeName}}</a>
+                <span *ngIf="emp.employeeId == auth.EmployeeId">{{emp.employeeName}}</span>
+              </td>
+              <td matTooltip="{{emp.organizationName}}">
+                {{emp.organizationName.trim().length > 15 ? emp.organizationName.trim().slice(0,12)+'...' : emp.organizationName.trim()}}
+              </td>
+              <td [style.padding-right]="'0.25rem'">{{emp.startedDate | date:'dd/MM/yyyy'}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="bg-white shadow mb-15">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-content">
+              <h5>Thông tin ngày phép</h5>
+              <p>Số buổi nghỉ có phép: <span>{{amountAbsentWithPermission}}</span></p>
+              <p>Số buổi nghỉ không phép: <span>{{amountAbsentWithoutPermission}}</span></p>
+              <p>Số buổi phép trong năm: {{employeeAllowance.MaternityAllowance}}</p>
+              <p>Số buổi nghỉ phép còn lại:
+                {{employeeAllowance.MaternityAllowance - amountAbsentWithPermission > 0 ? employeeAllowance.MaternityAllowance - amountAbsentWithPermission : 0}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

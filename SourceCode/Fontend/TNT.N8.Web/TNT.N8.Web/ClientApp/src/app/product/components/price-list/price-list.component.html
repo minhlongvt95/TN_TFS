@@ -1,0 +1,265 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="price-list">
+  <div class="row no-margin ">
+    <form [formGroup]="priceProductForm" style="height: 100%;">
+      <div class="col-md-12">
+        <div class="row price-list-content">
+          <div class="row no-margin button-group " id="parent">
+            <div class="col-md-12 " [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+              <span *ngIf="!isInvalidForm">
+                <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+              </span>
+              <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+              </div>
+              <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                <div *ngIf="(productControl.invalid && (productControl.dirty || productControl.touched))"
+                  class="notifi-row" (click)="scroll(boxProductCode)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="productControl.hasError('required')" class="notifi-text">Chưa chọn mã sản phẩm</span>
+                </div>
+                <div
+                  *ngIf="(effectiveDateControl.invalid && (effectiveDateControl.dirty || effectiveDateControl.touched))"
+                  class="notifi-row" (click)="scroll(boxEffectiveDate)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="effectiveDateControl.hasError('required')" class="notifi-text">Chưa chọn ngày hiệu
+                    lực</span>
+                </div>
+                <div *ngIf="(priceVNDControl.invalid && (priceVNDControl.dirty || priceVNDControl.touched))"
+                  class="notifi-row" (click)="scroll(boxPriceVND)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="priceVNDControl.hasError('required')" class="notifi-text">Chưa điền giá bán VND</span>
+                </div>
+                <div
+                  *ngIf="(MinimumQuantityControl.invalid && (MinimumQuantityControl.dirty || MinimumQuantityControl.touched))"
+                  class="notifi-row" (click)="scroll(boxMinQuantity)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="MinimumQuantityControl.hasError('required')" class="notifi-text">Chưa điền số lượng tối
+                    thiểu</span>
+                </div>
+                <div *ngFor="let mes of messErrFile" class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="!isValidation" class="notifi-text">{{mes}}</span>
+                </div>
+              </div>
+              <div style="float: right;">
+                <button pButton type="button" class="excel" style="margin-left: 5px;" (click)="showDialogImport()"
+                  label="Nhập từ excel"></button>
+                <button class="btn-cancel" type="button" (click)="cancel()"><span
+                    class="text-cancel">Hủy</span></button>
+                <button #save class="btn-create" *ngIf="actionAdd && !isUpdate" type="button" (click)="createPrice()"
+                  [disabled]="awaitResult"><span class="text-save">Lưu</span></button>
+                <button #save class="btn-create" *ngIf="actionEdit && isUpdate" type="button" (click)="updatePrice()"
+                  [disabled]="awaitResult"><span class="text-save">Cập nhật</span></button>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+          <div class="row no-margin" style="background-color: #ffffff; padding: 10px 0px">
+            <div class="col-md-8" style="margin-top: 20px;">
+              <p-table #dt [columns]="selectedColumns" [value]="listPrice" [responsive]="true" [resizableColumns]="true"
+                selectionMode="single" (onRowSelect)="reShowNote($event)" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[10,30,100]" class="table-border">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" class="search" pInputText size="50" placeholder="Nhập từ khóa tìm kiếm"
+                      (input)="dt.filterGlobal($event.target.value.trim(), 'contains')">
+                  </div>
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" [ngModelOptions]="{standalone: true}"
+                      optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                      defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                    <th style="width:4em"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field" class="ui-resizable-column"
+                      [ngStyle]="{'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'effectiveDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span>
+                      <span *ngSwitchCase="'priceVnd'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchCase="'priceForeignMoney'">{{rowData[col.field] | number}}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                    <td>
+                      <button *ngIf="actionDelete" (click)="delPriceProduct(rowData)" pButton icon="pi pi-trash"
+                        class="ui-button-danger"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="col-md-4 no-padding">
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Thêm giá bán sản phẩm" [selected]="true">
+                    <div class="col-md-12">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Mã sản phẩm<span class="require">*</span></label>
+                        </div>
+                        <div #boxProductCode class="col-md-12 no-padding">
+                          <p-dropdown [options]="listProduct" placeholder="Chọn mã sản phẩm" filter="true"
+                            [virtualScroll]="true" itemSize="30" [resetFilterOnHide]="true" [showClear]="true"
+                            formControlName="productControl" optionLabel="productCodeName" [style]="{'width': '100%'}"
+                            (onChange)="changeProduct($event)"
+                            [styleClass]="(productControl.invalid && (productControl.dirty || productControl.touched)) ? 'error-border' : ''">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="productControl.valid || productControl.untouched">
+                        <span *ngIf="productControl.hasError('required')" class="error-message-span">Chưa điền mã
+                          sản phẩm</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10" *ngIf="isDisplayName">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Tên sản phẩm : <strong>{{productName}}</strong></label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Ngày hiệu lực<span class="require">*</span></label>
+                        </div>
+                        <div class="col-md-12 no-padding" #boxEffectiveDate>
+                          <p-calendar formControlName="effectiveDateControl" [yearNavigator]="true"
+                            yearRange="{{minYear}}:{{currentYear}}"
+                            [inputStyleClass]="(effectiveDateControl.invalid && (effectiveDateControl.dirty || effectiveDateControl.touched)) ? 'error-border' : ''"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                            [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+                        </div>
+                        <div class="col-md-12 no-padding"
+                          [hidden]="effectiveDateControl.valid || effectiveDateControl.untouched">
+                          <span *ngIf="effectiveDateControl.hasError('required')" class="error-message-span">Chưa chọn
+                            ngày hiệu lực</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Giá bán VND<span class="require">*</span></label>
+                        </div>
+                        <div #boxPriceVND class="col-md-12 no-padding">
+                          <input class="w100 input-text" placeholder="Nhập giá bán VND" type="text" pInputText
+                            formControlName="priceVNDControl"
+                            [ngClass]="(priceVNDControl.invalid  && (priceVNDControl.dirty ||  priceVNDControl.touched)) ? 'error-border': ''"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                        </div>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="priceVNDControl.valid || priceVNDControl.untouched">
+                        <span *ngIf="priceVNDControl.hasError('required')" class="error-message-span">Chưa điền giá bán
+                          VND</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Số lượng tối thiểu<span class="require">*</span></label>
+                        </div>
+                        <div #boxMinQuantity class="col-md-12 no-padding">
+                          <input class="w100 input-text" placeholder="Nhập số lượng tối thiểu" type="text" pInputText
+                            formControlName="MinimumQuantityControl"
+                            [ngClass]="(MinimumQuantityControl.invalid  && (MinimumQuantityControl.dirty ||  MinimumQuantityControl.touched)) ? 'error-border': ''"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                        </div>
+                      </div>
+                      <div class="col-md-12 no-padding"
+                        [hidden]="MinimumQuantityControl.valid || MinimumQuantityControl.untouched">
+                        <span *ngIf="MinimumQuantityControl.hasError('required')" class="error-message-span">Chưa điền
+                          số lượng tối thiểu</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Giá bán ngoại tệ</label>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                          <input class="w100 input-text" placeholder="Nhập giá bán ngoại tệ" type="text" pInputText
+                            formControlName="priceForeignMoneyControl"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Nhóm khách hàng</label>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                          <p-dropdown [options]="listGroupCustomer" placeholder="Chọn nhóm khách hàng"
+                            formControlName="customerGroupCategoryControl" optionLabel="categoryName"
+                            [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p-dialog header="Nhập file excel" [(visible)]="displayDialog" [modal]="true" [responsive]="true"
+  [style]="{width: '550px', minWidth: '200px'}" [minY]="70" [baseZIndex]="10000">
+  <div class="col-md-4 mt-25">
+    <span>File mẫu</span>
+  </div>
+  <div class="col-md-8 mt-25">
+    <button class="import-file" type="button" (click)="downloadTemplateExcel()">
+      <span class="text-import-file">Tải file mẫu</span>
+    </button>
+  </div>
+  <div class="col-md-4 mt-25">
+    <span>Chọn file</span>
+  </div>
+  <div class="col-md-8 mt-25" style="margin-bottom: 25px;">
+    <button class="btn btn-primary btn-file import-file">
+      <span class="text-import">Chọn file</span>
+      <input type="file" id="importFilePriceProduct" (change)="chooseFile($event)" accept=".xlsx, .xls">
+    </button>
+    <span>{{fileName}}</span>
+    <span *ngIf="fileName != ''" (click)="cancelFile()" style="cursor: pointer;margin-left: 10px;">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </span>
+  </div>
+  <p-footer>
+    <button class="btn btn-primary btn-file import-file" type="button" #save (click)="importExcel()">
+      <span class="text-import">Lưu</span>
+    </button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,175 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="create-update-template-email">
+  <div class="container">
+    <div class="row buffer-bottom">
+      <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+        <button (click)="cancel()" class="cancel" type="button" style="margin-right: 0.5rem;">
+          <span class="text-cancel">Hủy</span>
+        </button>
+        <button class="save" type="button" (click)="createEmail()">
+          <span class="text-save">Lưu</span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <form [formGroup]="createEmailForm">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Mẫu Email" [selected]="true">
+              <div class="row buffer-bottom">
+                <div class="col-md-2 text-label">
+                  Tên mẫu gửi<span class="required">*</span>
+                </div>
+                <div class="col-md-10">
+                  <input formControlName="EmailName"
+                    [ngClass]="(createEmailForm.get('EmailName').invalid && (createEmailForm.get('EmailName').dirty || createEmailForm.get('EmailName').touched)) ? 'error-border' : ''"
+                    type="text" class="full-width" pInputText />
+                </div>
+                <div class="col-md-10 col-md-offset-2"
+                  [hidden]="createEmailForm.get('EmailName').valid || createEmailForm.get('EmailName').untouched">
+                  <span
+                    *ngIf="createEmailForm.get('EmailName').hasError('required') || createEmailForm.get('EmailName').hasError('blankString')"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+              <div class="row buffer-bottom">
+                <div class="col-md-2 text-label">
+                  Tiêu đề Email<span class="required">*</span>
+                </div>
+                <div class="col-md-10">
+                  <input formControlName="EmailTitle"
+                    [ngClass]="(createEmailForm.get('EmailTitle').invalid && (createEmailForm.get('EmailTitle').dirty || createEmailForm.get('EmailTitle').touched)) ? 'error-border' : ''"
+                    type="text" class="full-width" pInputText />
+                </div>
+                <div class="col-md-10 col-md-offset-2"
+                  [hidden]="createEmailForm.get('EmailTitle').valid || createEmailForm.get('EmailTitle').untouched">
+                  <span
+                    *ngIf="createEmailForm.get('EmailTitle').hasError('required') || createEmailForm.get('EmailTitle').hasError('blankString')"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+              <div class="row buffer-bottom">
+                <div class="col-md-2 text-label">
+                  Trạng thái cần gửi<span class="required">*</span>
+                </div>
+                <div class="col-md-10">
+                  <p-dropdown
+                   [filter]="true" [resetFilterOnHide]="true"
+                    [styleClass]="(createEmailForm.get('EmailType').invalid && (createEmailForm.get('EmailType').dirty || createEmailForm.get('EmailType').touched)) ? 'error-border' : ''"
+                    formControlName="EmailType" [options]="listEmailType" optionLabel="categoryName"
+                    [autoDisplayFirst]="false" [style]="{'width': '100%'}"
+                    (onChange)="changeEmailType()"></p-dropdown>
+                </div>
+                <div class="col-md-10 col-md-offset-2"
+                  [hidden]="createEmailForm.get('EmailType').valid || createEmailForm.get('EmailType').untouched">
+                  <span *ngIf="createEmailForm.get('EmailType').hasError('required')" class="error-message-span">Chọn
+                    trạng thái gửi</span>
+                </div>
+              </div>
+              <div class="row buffer-bottom">
+                <div class="col-md-2 text-label">
+                  Nội dung Email<span class="required">*</span>
+                </div>
+                <div class="col-md-10">
+                  <ejs-richtexteditor [insertImageSettings]='insertImageSettings' #templateRTE id='defaultRTE'
+                    [toolbarSettings]='tools' [value]='contenModel'>
+                    <ng-template>
+                    </ng-template>
+                  </ejs-richtexteditor>
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                  <span id="errorTextEditor" class="error-message-span"
+                    [ngStyle]="{'display': validatorEditor == true ? 'none' : 'block'}">Không được để trống</span>
+                </div>
+              </div>
+              <div class="row buffer-bottom">
+                <div class="col-md-2 text-label">
+                  CC Email
+                </div>
+                <div class="col-md-10">
+                  <p-chips formControlName="CCEmail" [addOnTab]="true" [addOnBlur]="true"></p-chips>
+                </div>
+              </div>
+              <!-- <div class="row buffer-bottom">
+              <div class="col-md-2 text-label">
+              File đính kèm
+              </div>
+              <div class="col-md-10">
+                <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false"
+                multiple="multiple" 
+                accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt" 
+                maxFileSize="10000000"
+                invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                chooseLabel="Chọn file"
+                cancelLabel="Hủy toàn bộ file"
+                (onSelect)="handleFile($event, fileUpload)"
+                (onRemove)="removeFile($event)"
+                (onClear)="clearAllFile()">
+               </p-fileUpload>
+              </div>
+            </div> -->
+
+              <div class="row buffer-bottom">
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-10">
+                  <p-checkbox formControlName="Active" binary="true" label="Có hiệu lực"></p-checkbox>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </form>
+      </div>
+      <div class="col-md-3 no-padding">
+        <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+          <p-accordionTab header=" Chú thích" [selected]="true">
+            <div class="row">
+              <div class="col-md-12">
+                <p-table [columns]="selectedColumns" [value]="listEmailTemplateToken" [resizableColumns]="true"
+                  [(first)]="first" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+                  [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                        [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                        <span>
+                          {{col.header}}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </span>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                        [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                        <span class="ui-column-title">{{col.header}}</span>
+                        <span *ngSwitchCase="'tokenCode'" class="pointer"  (click)="addTokenToContent(rowData['tokenCode'])">
+                          {{rowData[col.field]}}
+                        </span>
+                        <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+    </div>
+  </div>
+</div>

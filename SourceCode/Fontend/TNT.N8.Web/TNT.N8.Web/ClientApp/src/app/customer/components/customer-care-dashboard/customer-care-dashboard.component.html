@@ -1,0 +1,203 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<section class="customer-care-dashboard container add-content-customer-dashboard w100">
+  <div class="row">
+    <div class="button-action bg-white shadow">
+      <h4 class="mt-2 mb-0">Chăm sóc khách hàng</h4>
+      <button pButton *ngIf="actionAdd" class="ui-button ui-button-raised" (click)="gotoCreate()" label="Tạo chương trình chăm sóc"></button>
+    </div>
+  </div>
+  <div class="row row-eq-height">
+    <div class="col-md-3 bg-blue br-1">
+      <div class="row">
+        <div class="form-content">
+          <h5 class="tip1"><i class="fas fa-chevron-left" id="changeMonthLeft" role="button" (click)="changeMonth('left')"></i> TƯƠNG TÁC - {{month}}/{{year}} <i class="fas fa-chevron-right" id="changeMonthRight" role="button" (click)="changeMonth('right')"></i></h5>
+          <h5 style="text-align: center">{{ careTotal }}</h5>
+        </div>
+        <div class="listTopNewCustomer">
+          <div class="customerItem w100">
+            <table>
+              <tr *ngFor="let element of listTotal" style="height: 50px;">
+                <td style="padding-left: 40px;"><span>{{ element.categoryName }}</span></td>
+                <td style="padding-left: 50px;"><span>{{ element.total }}</span></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 bg-white b-05">
+      <div class="row">
+        <div class="form-content">
+          <h5 class="tip">Danh sách khách hàng sắp sinh nhật</h5>
+          <div class="text-right">
+            <a role="button" (click)="goToListCustomer()">Xem tất cả</a>
+          </div>
+        </div>
+        <div class="listTopNewCustomer">
+          <!-- <div *ngIf="listCusIsNewBought.length == 0" class="alert-empty"><h4>Không có dữ liệu</h4></div> -->
+          <div *ngIf="listCusBidth.length == 0" class=" no-data">
+            <h5><i class="fas fa-times"></i> Không có dữ liệu</h5>
+          </div>
+          <div class="customerItem w100" *ngFor="let element of listCusBidth">
+            <div style="padding-top: 15px; padding-right: 5px;">
+              <img (click)="gotoViewCustomer(element.objectId,element.contactId)" [src]="(element.avatarUrl != '' && element.avatarUrl != null) ? element.avatarUrl : defaultAvatar" />
+              <!--<img src="../../../../assets/images/no-avatar.png" />-->
+            </div>
+            <table class="w100">
+              <tr>
+                <td><a (click)="gotoViewCustomer(element.objectId,element.contactId)" role="button">{{ element.customerName }}</a></td>
+                <td class="text-right">
+                  <i class="pi pi-plus-circle" style="font-size: 2em;cursor: pointer;" pTooltip="Tạo đơn hàng" tooltipPosition="bottom" (click)="goToOrder(element.objectId,element.contactId)"></i>
+                </td>
+              </tr>
+              <tr style="font-size: 12px;">
+                <td>
+                  <div><i class="fas fa-phone"></i><span>{{ element.phone }}</span></div>
+                  <div><i class="fas fa-envelope"></i><span>{{ element.email }}</span></div>
+                  <div><i class="fas fa-birthday-cake"></i><span style="color: red;">{{ element.birthDay| date:'dd/MM/yyyy' }}</span></div>
+                </td>
+                <td class="text-right">
+                  <div style="white-space: nowrap">Phụ trách bởi:</div>
+                  <div style="white-space: nowrap">{{ element.employeeName }}</div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-5 bg-white bl-1">
+      <div class="row">
+        <div class="form-content">
+          <h5 class="tip">Tình hình chăm sóc khách hàng trong năm</h5>
+        </div>
+        <div class="listTopNewCustomer">
+          <!-- <div *ngIf="listCusSaleTop.length == 0" class="alert-empty"><h4>Không có dữ liệu</h4></div> -->
+          <div class=" no-data" *ngIf="listChar.length == 0">
+            <h5><i class="fas fa-times"></i> Không có dữ liệu</h5>
+          </div>
+          <div class="customerItem w100" *ngIf="listChar.length != 0">
+            <canvas #canvas_2 width="100%" height="50px" id="barChart"></canvas>
+          </div>
+          <div class="customerItem w100" *ngIf="listChar.length != 0">
+            <div class="col-md-6">
+              <span class="color-icon" style="background-color: #6d98e7"></span>
+              <span class="legend-text">Tổng khách hàng trong chương trình</span>
+            </div>
+            <div class="col-md-6 legend-chart">
+              <span class="color-icon" style="background-color: #FE9A2E"></span>
+              <span class="legend-text">Khách hàng đã chăm sóc</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row row-eq-height">
+    <div class="col-md-4 bg-white br-1">
+      <div class="row">
+        <div class="form-content">
+          <h5 class="tip">Khách hàng mới cần chăm sóc</h5>
+          <div class="text-right">
+            <a role="button">Xem tất cả</a>
+          </div>
+        </div>
+        <div class="listTopNewCustomer">
+          <!-- <div *ngIf="listCusIsNewBought.length == 0" class="alert-empty"><h4>Không có dữ liệu</h4></div> -->
+          <div *ngIf="listCustomerNewCS.length == 0" class=" no-data">
+            <h5><i class="fas fa-times"></i> Không có dữ liệu</h5>
+          </div>
+          <div class="customerItem w100" *ngFor="let element of listCustomerNewCS">
+            <div style="padding-top: 15px; padding-right: 5px;">
+              <img (click)="gotoViewCustomer(element.objectId,element.contactId)" [src]="(element.avatarUrl != '' && element.avatarUrl != null) ? element.avatarUrl : defaultAvatar" />
+              <!--<img src="../../../../assets/images/no-avatar.png" />-->
+            </div>
+            <table class="w100">
+              <tr>
+                <td><a (click)="gotoViewCustomer(element.objectId,element.contactId)" role="button">{{ element.customerName }}</a></td>
+                <td class="text-right">
+                  <!--<i role="button" matTooltip="Tạo đơn hàng" class="material-icons">note_add</i>-->
+                </td>
+              </tr>
+              <tr style="font-size: 12px;">
+                <td>
+                  <div><i class="fas fa-phone"></i><span>{{ element.phone }}</span></div>
+                  <div><i class="fas fa-envelope"></i><span>{{ element.email }}</span></div>
+                </td>
+                <td class="text-right">
+                  <!--<div style="white-space: nowrap">Phụ trách bởi:</div>
+                <div style="white-space: nowrap">{{ element.employeeName }}</div>-->
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8 bg-white br-1">
+      <div class="row">
+        <div class="form-content">
+          <h5 class="tip">Chương trình chăm sóc khách hàng mới nhất</h5>
+          <div class="text-right">
+            <a role="button" (click)="goToListCustomerCare()">Xem tất cả</a>
+          </div>
+        </div>
+        <div class="listTopNewCustomer">
+          <!-- <div *ngIf="listCusIsNewBought.length == 0" class="alert-empty"><h4>Không có dữ liệu</h4></div> -->
+          <div *ngIf="listCustomerCareActive.length == 0" class=" no-data">
+            <h5><i class="fas fa-times"></i> Không có dữ liệu</h5>
+          </div>
+
+          <div class="listTopNewCustomer">
+            <!-- <div *ngIf="listCusIsNewBought.length == 0" class="alert-empty"><h4>Không có dữ liệu</h4></div> -->
+            <div *ngIf="listCustomerNewCS.length == 0" class=" no-data">
+              <h5><i class="fas fa-times"></i> Không có dữ liệu</h5>
+            </div>
+
+            <div class="customerItem w100" *ngIf="listCustomerNewCS.length != 0">
+              <div style="padding-top: 15px; padding-right: 50px;">
+                <!--<img (click)="gotoViewCustomer(element.customerId,element.contactId)" [src]="(element.avatarUrl != '' && element.avatarUrl != null) ? element.avatarUrl : defaultAvatar" />-->
+                <!--<img src="../../../../assets/images/no-avatar.png" />-->
+              </div>
+              <table class="w100">
+                <tr>
+                  <th style="width:50%;">&nbsp;</th>
+                  <th style="width:30%;" style="text-align: center;"><div style="color: #3c8dbc">Số khách hàng áp dụng</div></th>
+                  <th style="width:20%;"><div style="color: #3c8dbc">Tình trạng</div></th>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="listTopNewCustomer">
+            <div class="customerItem w100" *ngFor="let element of listCustomerCareActive">
+              <div style="width: 30px;">
+                <div *ngIf="element.categoryCare == 'Gift'">
+                  <a><i class="fas fa-gift"></i></a>
+                </div>
+              </div>
+              <table class="w100">
+                <tr>
+                  <td style="width:50%;">
+                    <div class="w100">{{ element.customerCareTitle }}</div>
+                    <div class="w100" style="color: darkgrey">{{ element.dateCreate }}</div>
+                  </td>
+                  <td style="width:30%;">
+                    <div class="w100" style="text-align: center;">{{ element.customerTotal }}</div>
+                  </td>
+                  <td style="width:20%;">
+                    <div class="w100">{{ element.status }}</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

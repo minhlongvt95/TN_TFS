@@ -1,0 +1,263 @@
+<div class="create-lead-dialog">
+  <div class="create-header">
+    <span>{{ 'lead.create_title' | translate }}</span>
+    <span>
+      <i class="material-icons cancel-icon" matTooltip="Hủy" (click)="cancelCreate()">
+        clear
+      </i>
+    </span>
+  </div>
+  <form class="create-lead-form-dialog" [formGroup]="createForm">
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.fullname' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-2 control-input" style="padding-right: 0">
+        <select id="formGender" formControlName="formGender" class="form-control" name="formGender" [(ngModel)]="contactModel.Gender">
+          <option *ngFor="let gender of genders" [value]="gender.code">{{ gender.name }}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6 control-input" style="padding-left: 10px; padding-right: 10px">
+        <input id="formfirstName" [ngClass]="formfirstName.hasError('required') && !formfirstName.valid && !formfirstName.untouched ? 'error-border' : ''"
+               formControlName="formfirstName" [(ngModel)]="contactModel.FirstName" type="text" class="form-control"
+               placeholder="{{ 'lead.placeholder.fullname' | translate }}" name="formfirstName" maxlength="100">
+        <div class="md-errors-spacer" [hidden]="formfirstName.valid || formfirstName.untouched">
+          <mat-error *ngIf="formfirstName.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+      <div class="form-group col-md-4 control-input" style="padding-left: 0">
+        <input id="formlastName" [ngClass]="formlastName.hasError('required') && !formlastName.valid && !formlastName.untouched ? 'error-border' : ''"
+               [(ngModel)]="contactModel.LastName" [formControl]="formlastName" type="text" class="form-control"
+               placeholder="{{ 'lead.placeholder.name' | translate }}" name="formlastName" maxlength="32">
+        <div class="md-errors-spacer" [hidden]="formlastName.valid || formlastName.untouched">
+          <mat-error *ngIf="formlastName.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.email' | translate }}</label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <input id="formEmail" [ngClass]="formEmail.hasError('pattern') && !formEmail.valid && !formEmail.untouched || errEmail ? 'error-border' : ''" #email
+               formControlName="formEmail" type="text" class="form-control" name="formEmail" [(ngModel)]="contactModel.Email" maxlength="100" (keyup)="checkEmail()" (focusout)="popupConfirm()">
+        <div class="md-errors-spacer" [hidden]="formEmail.valid || formEmail.untouched">
+          <mat-error *ngIf="formEmail.hasError('pattern')">{{ 'lead.messages.wrong_email' | translate }}</mat-error>
+        </div>
+        <div class="md-errors-spacer" style="color: #F4483B;" *ngIf="errEmail">{{ 'lead.messages.exit_email' | translate }}</div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.phone' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <input type="text" [ngClass]="(formPhone.hasError('required') || formPhone.hasError('pattern')) && !formPhone.valid && !formPhone.untouched || errPhone ? 'error-border' : ''" #phone
+               formControlName="formPhone" class="form-control" id="formPhone" name="Phone" [(ngModel)]="contactModel.Phone" maxlength="32" (keyup)="checkPhone()" (focusout)="popupConfirm()">
+        <div class="md-errors-spacer" [hidden]="formPhone.valid || formPhone.untouched">
+          <mat-error *ngIf="formPhone.hasError('pattern')">{{ 'lead.messages.wrong_phone' | translate }}</mat-error>
+          <mat-error *ngIf="formPhone.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+        <div class="md-errors-spacer" style="color: #F4483B;" *ngIf="errPhone">{{ 'lead.messages.exit_phone' | translate }}</div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.address' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-4 control-input-nolabel" style="padding-right: 0">
+        <input class="form-control"
+               type="text"
+               id="formCity"
+               formControlName="formCity"
+               name="formCity"
+               placeholder="{{ 'lead.placeholder.cityOrProvince' | translate }}"
+               [matAutocomplete]="autoProvince"
+               [ngClass]="formCity.hasError('required') && !formCity.valid && !formCity.untouched ? 'error-border' : ''">
+        <mat-autocomplete #autoProvince="matAutocomplete" (optionSelected)="selectedProvince($event)">
+          <mat-option *ngFor="let province of filteredProvinces | async" [value]="province.provinceId" matTooltip="{{province.provinceName}}">
+            {{province.provinceName}}
+          </mat-option>
+        </mat-autocomplete>
+        <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearDataProvince()">clear</i>
+        <div class="md-errors-spacer" [hidden]="formCity.valid || formCity.untouched">
+          <mat-error *ngIf="formCity.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+      <div class="form-group col-md-4 control-input-nolabel" style="padding-right: 10px; padding-left: 10px">
+        <input class="form-control"
+               type="text"
+               id="formDistrict"
+               formControlName="formDistrict"
+               name="formDistrict"
+               placeholder="{{ 'lead.placeholder.district' | translate }}"
+               [matAutocomplete]="autoDistrict"
+               [ngClass]="formDistrict.hasError('required') && !formDistrict.valid && !formDistrict.untouched ? 'error-border' : ''">
+        <mat-autocomplete #autoDistrict="matAutocomplete" (optionSelected)="selectedDistrict($event)">
+          <mat-option *ngFor="let district of filteredDistricts | async" [value]="district.districtId" matTooltip="{{district.districtName}}">
+            {{district.districtName}}
+          </mat-option>
+        </mat-autocomplete>
+        <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearDataDistrict()">clear</i>
+        <div class="md-errors-spacer" [hidden]="formDistrict.valid || formDistrict.untouched">
+          <mat-error *ngIf="formDistrict.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+      <div class="form-group col-md-4 control-input-nolabel" style="padding-left: 0">
+        <input class="form-control"
+               type="text"
+               id="formGuild"
+               formControlName="formGuild"
+               name="formGuild"
+               placeholder="{{ 'lead.placeholder.guild' | translate }}"
+               [matAutocomplete]="autoWard"
+               [ngClass]="formGuild.hasError('required') && !formGuild.valid && !formGuild.untouched ? 'error-border' : ''">
+        <mat-autocomplete #autoWard="matAutocomplete" (optionSelected)="selectedWard($event)">
+          <mat-option *ngFor="let ward of filteredWards | async" [value]="ward.wardId" matTooltip="{{ward.wardName}}">
+            {{ward.wardName}}
+          </mat-option>
+        </mat-autocomplete>
+        <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearDataWard()">clear</i>
+        <div class="md-errors-spacer" [hidden]="formGuild.valid || formGuild.untouched">
+          <mat-error *ngIf="formGuild.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <input id="formAddress" [ngClass]="formAddress.hasError('required') && !formAddress.valid && !formAddress.untouched ? 'error-border' : ''"
+               formControlName="formAddress" type="text" class="form-control" name="formAddress" placeholder="{{ 'lead.placeholder.address' | translate }}" [(ngModel)]="contactModel.Address"
+               maxlength="250">
+        <div class="md-errors-spacer" [hidden]="formAddress.valid || formAddress.untouched">
+          <mat-error *ngIf="formAddress.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.requirement' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <select [ngClass]="formRequirement.hasError('required') && !formRequirement.valid && !formRequirement.untouched ? 'error-border' : ''"
+                id="formRequirement" class="form-control" formControlName="formRequirement" name="formRequirement" [(ngModel)]="leadModel.InterestedGroupId">
+          <option value="" selected disabled>Chọn nhu cầu sản phẩm dịch vụ</option>
+          <option *ngFor="let requirement of requirements" [value]="requirement.categoryId">{{ requirement.categoryName }}</option>
+        </select>
+        <div class="md-errors-spacer" [hidden]="formRequirement.valid || formRequirement.untouched">
+          <mat-error *ngIf="formRequirement.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.requirement_detail' | translate }}</label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <input type="text" class="form-control" formControlName="formRequirementDetail" id="formRequirementDetail" name="formRequirementDetail" placeholder="{{ 'lead.placeholder.requirement' | translate }}" [(ngModel)]="leadModel.RequirementDetail">
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.incharge' | translate }}</label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <input class="form-control" type="text" id="picCtrl" formControlName="picCtrl" name="picCtrl"
+               [matAutocomplete]="autoPic" style="position: relative"
+               (change)="changePersonInCharge()">
+        <mat-autocomplete #autoPic="matAutocomplete" (optionSelected)="selectedPicFn($event)">
+          <mat-option *ngFor="let option of filteredPic | async" [value]="option.employeeId">
+            {{option.employeeName}}
+          </mat-option>
+        </mat-autocomplete>
+        <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearEmployee()">clear</i>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.payment' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <select [ngClass]="formPayment.hasError('required') && !formPayment.valid && !formPayment.untouched ? 'error-border' : ''"
+                class="form-control" id="formPayment" formControlName="formPayment" name="formPayment" [(ngModel)]="leadModel.PaymentMethodId">
+          <option value="" selected disabled>Chọn phương thức thanh toán</option>
+          <option *ngFor="let payment of payments" [value]="payment.categoryId">{{ payment.categoryName }}</option>
+        </select>
+        <div class="md-errors-spacer" [hidden]="formPayment.valid || formPayment.untouched">
+          <mat-error *ngIf="formPayment.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row row-margin">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.potential' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-12 control-input">
+        <select [ngClass]="formPotential.hasError('required') && !formPotential.valid && !formPotential.untouched ? 'error-border' : ''"
+                class="form-control" id="formPotential" formControlName="formPotential" name="formPotential" [(ngModel)]="leadModel.PotentialId">
+          <option value="" selected disabled>Chọn mức độ tiềm năng</option>
+          <option *ngFor="let item of potentials" [value]="item.categoryId">{{ item.categoryName }}</option>
+        </select>
+        <div class="md-errors-spacer" [hidden]="formPotential.valid || formPotential.untouched">
+          <mat-error *ngIf="formPotential.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row collapse in" id="companyNameSelect">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.company' | translate }}</label>
+      </div>
+      <div class="form-group col-md-9 control-input" style="padding-right: 10px">
+        <input class="form-control" type="text" id="formCompany" formControlName="formCompany" name="formCompany" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedCompany($event)">
+          <mat-option *ngFor="let company of filteredCompanies | async" [value]="company.companyId">
+            {{company.companyName}}
+          </mat-option>
+        </mat-autocomplete>
+        <i class="material-icons clear cursor" matTooltip="Xóa" (click)="clearCompanyData()">clear</i>
+      </div>
+      <div class="form-group col-md-3 no-padding-left" style="text-align: right">
+        <button type="button" mat-raised-button data-toggle="collapse" data-target="#companyNameText,#companyNameSelect" aria-expanded="false" aria-controls="companyNameText"
+                data-parent="#createGroup" style="background-color: #6D98E7; color: #fff" (click)="btnCreateCompanyClick()">
+          {{ 'lead.buttons.create_com' | translate }}
+        </button>
+      </div>
+    </div>
+  
+    <div class="row collapse" id="companyNameText">
+      <div class="col-md-12 control-label">
+        <label>{{ 'lead.company_name' | translate }}<span class="required">*</span></label>
+      </div>
+      <div class="form-group col-md-9 control-input" style="padding-right: 10px">
+        <input [ngClass]="formCompanyName?.errors?.checkCreateCompanyValidation && !formCompanyName.valid && !formCompanyName.untouched ? 'error-border' : ''"
+               type="text" class="form-control" id="formCompanyName" formControlName="formCompanyName" placeholder="" name="formCompanyName" [(ngModel)]="leadModel.CompanyName">
+        <div class="md-errors-spacer" [hidden]="formCompanyName.valid || formCompanyName.untouched">
+          <mat-error *ngIf="formCompanyName?.errors?.checkCreateCompanyValidation">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+      <div class="form-group col-md-3 no-padding-left" style="text-align: right">
+        <button type="button" mat-raised-button data-toggle="collapse" data-target="#companyNameText,#companyNameSelect" aria-expanded="false" aria-controls="companyNameSelect"
+                data-parent="#createGroup" style="border: solid 1px black" (click)="btnCancelClick()">
+          {{ 'lead.buttons.cancel' | translate }}
+        </button>
+      </div>
+    </div>
+  
+    <div class="row create-footer">
+      <div class="form-group col-md-9" style="text-align: right;padding-right: 23px">
+        <button type="button" mat-raised-button class="btn-cancel" (click)="cancelCreate()">Hủy</button>
+        <button type="button" mat-raised-button class="btn-save-add" (click)="createLeadFunction(true)">{{ 'lead.buttons.save_add' | translate }}</button>
+      </div>
+      <div class="form-group col-md-3" style="padding: 0; margin-left: -13px">
+        <button type="button" mat-raised-button class="btn-save" (click)="createLeadFunction(false)">{{ 'lead.buttons.save' | translate }}</button>
+      </div>
+    </div>
+  </form>
+</div>
+

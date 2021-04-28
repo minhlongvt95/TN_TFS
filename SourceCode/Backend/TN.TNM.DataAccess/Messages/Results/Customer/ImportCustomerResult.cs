@@ -1,0 +1,12 @@
+﻿using System.Collections.Generic;
+
+namespace TN.TNM.DataAccess.Messages.Results.Customer
+{
+    public class ImportCustomerResult : BaseResult
+    {
+       public List<Databases.Entities.Customer> lstcontactCustomerDuplicate { get; set; }
+       public List<Databases.Entities.Contact> lstcontactContactDuplicate { get; set; }
+       public List<Databases.Entities.Contact> lstcontactContact_CON_Duplicate { get; set; }
+       public bool isDupblicateInFile { get; set; }
+    }
+}

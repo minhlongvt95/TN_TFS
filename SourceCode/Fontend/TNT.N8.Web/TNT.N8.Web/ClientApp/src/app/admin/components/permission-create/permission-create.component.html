@@ -1,0 +1,158 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<div class="permission-create">
+  <div class="row no-margin bg-white shadow">
+    <div class="col-md-6 pd-10">
+      <span class="title">Thông tin nhóm quyền</span>
+    </div>
+    <div class="col-md-6 pd-10">
+      <div class="header-button">
+        <button mat-raised-button color="basic" (click)="btnCancel()">Hủy</button>
+        <button mat-raised-button color="primary" *ngIf="actionAdd" (click)="btnSaveClick()">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin bg-white shadow mt-10">
+    <div class="col-md-12 pd-20">
+      <form [formGroup]="createPermissionForm" *ngIf="createPermissionForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <span>Tên nhóm quyền:<span style="color: #f44336">*</span></span>
+              </div>
+              <div class="col-md-12">
+                <input type="text"
+                       class="form-control"
+                       name="roleValueControl"
+                       formControlName="roleValueControl"
+                       [ngClass]="roleValueControl.hasError('required') && !roleValueControl.valid && !roleValueControl.untouched ? 'error-border' : ''"
+                       [(ngModel)]="roleValue"
+                       maxlength="255">
+                <div class="md-errors-spacer" [hidden]="roleValueControl.valid || roleValueControl.untouched">
+                  <mat-error *ngIf="roleValueControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-12">
+                <span>Mô tả:</span>
+              </div>
+              <div class="col-md-12">
+                <input type="text"
+                       class="form-control"
+                       name="roleDescriptionControl"
+                       formControlName="roleDescriptionControl"
+                       [ngClass]="roleDescriptionControl.hasError('required') && !roleDescriptionControl.valid && !roleDescriptionControl.untouched ? 'error-border' : ''"
+                       [(ngModel)]="roleDescription"
+                       maxlength="255">
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-12">
+      <span class="permission-action ml-5">PHÂN QUYỀN CHỨC NĂNG</span>
+    </div>
+
+    <div class="col-md-12 pd-10">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let elementModule of listTreeData">
+          <div class="module">
+              <mat-checkbox [(ngModel)]="elementModule.checked"
+                            (change)="changeModule(elementModule)"
+                            [checked]="elementModule.checked"
+                            [indeterminate]="elementModule.indeterminate">{{elementModule.name}}</mat-checkbox>
+              <i class="material-icons collapsed icon-collapse"
+                data-toggle="collapse"
+                [attr.href]="'.' + elementModule.key"
+                aria-expanded="false"
+                [attr.aria-controls]="elementModule.key"
+                role="button"
+                (click)="changeIcon($event)">add</i>
+          </div>
+
+          <ul id="" role="tabpanel" class="tree collapse" [ngClass]="elementModule.key">
+            <li class="" *ngFor="let resource of elementModule.children">
+              <span>
+                <i class="material-icons icon"
+                style="cursor: pointer;"
+                   data-toggle="collapse"
+                   [attr.data-target]="'.' + resource.toggle"
+                   [attr.aria-controls]="resource.toggle"
+                   aria-expanded="false"
+                   (click)="changeIcon($event)">arrow_right</i>
+                <mat-checkbox [(ngModel)]="resource.checked"
+                              (change)="changeResource(elementModule.key, resource.key)"
+                              [checked]="resource.checked"
+                              [indeterminate]="resource.indeterminate">{{resource.name}}</mat-checkbox>
+              </span>
+
+              <ul class="tree collapse action-list" [ngClass]="resource.toggle">
+                <li class="" *ngFor="let action of resource.children">
+                  <mat-checkbox [(ngModel)]="action.checked"
+                                (change)="changeAction(elementModule.key, resource.key, action.key)"
+                                [checked]="action.checked">{{action.name}}</mat-checkbox>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <span class="permission-action ml-5">MÀN HÌNH MẶC ĐỊNH</span>
+    </div>
+
+    <div class="col-md-12 pd-10">
+      <div class="row">
+        <div class="col-md-6" *ngFor="let menuModule of listMenuModule">
+          <div class="module">
+            <span>{{menuModule.name}}</span>
+            <i class="material-icons collapsed icon-collapse"
+              data-toggle="collapse"
+              [attr.href]="'.df' + menuModule.code"
+              aria-expanded="false"
+              [attr.aria-controls]="'df' + menuModule.code"
+              role="button"
+              (click)="changeIcon($event)">add</i>
+          </div>
+
+          <ul id="" role="tabpanel" class="tree collapse" [ngClass]="'df' + menuModule.code">
+            <ng-container *ngFor="let subMenuModule of menuModule.children">
+              <li class="" *ngIf="subMenuModule.indexOrder != 1">
+                <span>
+                  <i class="material-icons icon"
+                    style="cursor: pointer;"
+                    data-toggle="collapse"
+                    [attr.data-target]="'.df' + subMenuModule.code"
+                    [attr.aria-controls]="'df' + subMenuModule.code"
+                    aria-expanded="false"
+                    (click)="changeIcon($event)">arrow_right
+                  </i>
+                  <span>{{subMenuModule.name}}</span>
+                </span>
+  
+                <ul class="tree collapse action-list" [ngClass]="'df' + subMenuModule.code" style="padding: 10px 10px;">
+                  <ng-container *ngFor="let menuPage of subMenuModule.children">
+                    <li class="" *ngIf="menuPage.isShow" style="padding: 5px 5px;">
+                      <p-radioButton name="{{menuPage.codeParent}}" 
+                        value="{{menuPage.path}}" label="{{menuPage.name}}" 
+                        [(ngModel)]="subMenuModule.path">
+                      </p-radioButton>
+                    </li>
+                  </ng-container>
+                </ul>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

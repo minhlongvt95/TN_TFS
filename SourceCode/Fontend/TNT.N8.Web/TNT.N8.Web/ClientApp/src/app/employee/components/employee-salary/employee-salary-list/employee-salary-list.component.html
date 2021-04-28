@@ -1,0 +1,374 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<div class="employeesalary-list">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="head w100 bg-white shadow">
+        <div class="col-md-6">
+          <span style="font-size: 24px">{{ 'employeesalary.list.title' | translate }} - Tháng {{ month }}/{{ year }}</span>
+        </div>
+        <div class="col-md-6 main-button-row">
+          <button class="btn-bordered"
+                  *ngIf="!isApproved && !isInApprovalProgress && !noItem && (isApprover || isPosition)"
+                  mat-raised-button
+                  tabindex="0"
+                  (click)="sendApprove()"
+                  color="primary">
+            {{ 'employeesalary.list.buttons.sendapproval' | translate }}
+          </button>
+          <button class="btn-bordered" *ngIf="isInApprovalProgress && (isApprover || isPosition)" (click)='goToNextStep("reject") && actionEdit' mat-raised-button color="accent" tabindex="1">{{ 'employeesalary.list.buttons.refusedtoapprove' | translate }}</button>
+          <button class="btn-bordered" *ngIf="isInApprovalProgress && (isApprover || isPosition)" (click)='goToNextStep("approve") && actionEdit' mat-raised-button color="primary" tabindex="2">{{ 'employeesalary.list.buttons.approval' | translate }}</button>
+          <button class="btn-bordered" *ngIf="isApproved && !noItem && actionEmail" (click)='sendEmailEmployeePayslip()' mat-raised-button color="primary" tabindex="4">Gửi Payslip</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="head w100 bg-white shadow">
+
+        <div class="col-md-6">
+          <label style="color: #ff4081">Trạng thái: {{ statusName }}</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!--Right content-->
+    <div class="col-md-3">
+      <div class="panel panel-default shadow">
+        <div class="panel-heading">
+          <span class="" style="font-size: 20px;margin-top: 15px">{{ 'employeesalary.list.search' | translate }}</span>
+          <span class="">
+            <button matTooltip="{{ 'employeesalary.tooltip.search' | translate }}" (click)="search()" class="btn-search"><i class="fa fa-search"></i></button>
+          </span>
+          <span class="">
+            <button style="margin-right: 10px"
+                    matTooltip="{{ 'employeesalary.tooltip.refresh' | translate }}"
+                    (click)="refreshParameter()"
+                    class="btn-search">
+              <i class="material-icons refresh-icon">
+                cached
+              </i>
+            </button>
+          </span>
+        </div>
+        <div class="panel-body form-horizontal">
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" matInput name="employeeName" [(ngModel)]="employeeName" placeholder="{{ 'employeesalary.list.placeholder.first' | translate }}" />
+              </mat-form-field>
+            </div>
+            <!--<div class="col-md-6">
+              <mat-form-field class="w100">
+                <input type="text" required matInput name="LastName" placeholder="{{ 'employeesalary.list.placeholder.last' | translate }}" />
+              </mat-form-field>
+            </div>-->
+          </div>
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" matInput name="employeeCode" [(ngModel)]="employeeCode" placeholder="{{ 'employeesalary.list.code' | translate }}" />
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+
+                <input name="startDate" matInput id="startDate" type="month" placeholder="Tháng(mm/YYYY)" [(ngModel)]="IO" />
+              </mat-form-field>
+            </div>
+          </div>
+          <!--<div class="form-group">
+            <div class="col-md-12">
+              <mat-form-field class="w100">
+                <input type="text" required matInput name="branch"  placeholder="{{ 'employeesalary.list.branch' | translate }}" />
+              </mat-form-field>
+            </div>
+          </div>-->
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <!--<mat-form-field class="w100">
+                <input type="text" matInput name="employeeUnit" [(ngModel)]="employeeUnit" placeholder="{{ 'employeesalary.list.unit' | translate }}" />
+              </mat-form-field>-->
+              <mat-form-field class="w100">
+                <input readonly matInput placeholder="{{ 'employeesalary.list.unit' | translate }}" name="orgSelect" [(ngModel)]="empOrganizationNameDisplay" />
+              </mat-form-field>
+              <a href="javascript:;" (click)="openOrgDialog()">Chọn đơn vị &gt;&gt;</a>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <!--<mat-form-field class="w100">(selectionChange)="changeEmployeePostion($event)"
+                <input type="text" matInput name="employeePostionId" [(ngModel)]="employeePostionId" placeholder="{{'employeesalary.list.employeelevel' | translate }}" />
+              </mat-form-field>-->
+              <mat-form-field class="w100">
+                <mat-select [(ngModel)]="employeePostionId" placeholder="Chức vụ">
+                  <mat-option *ngFor="let item of arrayPostion" [value]="item.positionId">{{item.positionName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-12">
+              <!--<label class="control-label">{{ 'employeesalary.list.salarydate' | translate }}</label>
+              <input type="text" class="form-control" name="salarydate">-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Left content-->
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-md-3">
+          <i matTooltip="{{ 'lead.tooltip.switch' | translate }}" class="material-icons switch-view">dashboard</i>
+        </div>
+
+        <div class="col-md-9">
+          <table class="table-buttons">
+            <tr>
+              <td *ngIf="actionDownload">
+                <i class="fa fa-square"></i>&nbsp;
+                <a (click)="downloadTemplateTimeSheet()">{{ 'employeesalary.list.buttons.templateexcel' | translate }}</a>
+              </td>
+              <td *ngIf="!isInApprovalProgress && !isApproved && actionImport">
+                <i class="fa fa-square"></i>&nbsp;
+                <a (click)="importTimeSheet()">{{ 'employeesalary.list.buttons.importexcel' | translate }}</a>
+              </td>
+              <td *ngIf="actionDownload">
+                <i class="fa fa-arrow-down"></i>&nbsp;
+                <a (click)="export()">{{ 'employeesalary.list.buttons.export' | translate }}</a>
+              </td>
+              <td *ngIf="!isInApprovalProgress && !isApproved && actionImport">
+                <i class="fa fa-arrow-down"></i>&nbsp;
+                <a (click)="importSalaryHandmade()">Import File nhập tay</a>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 13px">
+        <div class="form-group col-md-12" style="overflow: auto !important;">
+          <div class="example-container mat-elevation-z8" style="overflow: auto !important;">
+            <mat-table #table [dataSource]="dataSource" id="employee-table" style="width:450%;">
+              <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null" color="primary"
+                                [checked]="selection?.hasValue() && isAllSelected()"
+                                [indeterminate]="selection?.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let rows">
+                  <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                                (change)="$event ?rowCheckboxClick($event,rows): null"
+                                [checked]="selection?.isSelected(rows)">
+                  </mat-checkbox>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeecode">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeecode' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <span class="link-name" (click)="onViewDetail(element.employeeId, element.contactId)">{{element.employeeCode}}</span>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeename">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeename' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.employeeName}} </mat-cell>
+              </ng-container>
+
+
+              <ng-container matColumnDef="employeepostionid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeepostionid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.postionName}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeeunit">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeeunit' | translate }}  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.employeeUnit}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="employeebranch">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.employeebranch' | translate }}   </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.employeeBranch}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="basedsalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.basedsalary' | translate }}  </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.basedSalary| number:0}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="monthlyworkingday">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.monthlyworkingday' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.monthlyWorkingDay}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="unPaidLeaveDay">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.unPaidLeaveDay' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.unPaidLeaveDay}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="vacationDay">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.vacationDay' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.vacationDay}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="overtime">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.overtime' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.overtime}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="actualWorkingDay">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.actualWorkingDay' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.actualWorkingDay}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="actualOfSalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.actualOfSalary' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.actualOfSalary| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="overtimeOfSalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.overtimeOfSalary' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.overtimeOfSalary| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="enrollmentSalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.enrollmentSalary' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.enrollmentSalary| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="retentionSalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.retentionSalary' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.retentionSalary| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="fuelAllowance">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.fuelAllowance' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.fuelAllowance| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="phoneAllowance">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.phoneAllowance' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.phoneAllowance| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="lunchAllowance">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.lunchAllowance' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.lunchAllowance| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="otherAllowance">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.otherAllowance' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.otherAllowance| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="socialInsuranceSalary">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.socialInsuranceSalary' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.socialInsuranceSalary| number:0}} </mat-cell>
+              </ng-container>
+              <!--<ng-container matColumnDef="socialInsuranceCompanyPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.socialInsuranceCompanyPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.socialInsuranceCompanyPaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <!--<ng-container matColumnDef="healthInsuranceCompanyPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.healthInsuranceCompanyPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.healthInsuranceCompanyPaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <!--<ng-container matColumnDef="unemploymentinsuranceCompanyPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.unemploymentinsuranceCompanyPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.unemploymentinsuranceCompanyPaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <ng-container matColumnDef="totalInsuranceCompanyPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.totalInsuranceCompanyPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.totalInsuranceCompanyPaid| number:0}} </mat-cell>
+              </ng-container>
+              <!--<ng-container matColumnDef="socialInsuranceEmployeePaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.socialInsuranceEmployeePaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.socialInsuranceEmployeePaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <!--<ng-container matColumnDef="healthInsuranceEmployeePaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.healthInsuranceEmployeePaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.healthInsuranceEmployeePaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <!--<ng-container matColumnDef="unemploymentinsuranceEmployeePaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.unemploymentinsuranceEmployeePaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.unemploymentinsuranceEmployeePaid| number:0}} </mat-cell>
+              </ng-container>-->
+              <ng-container matColumnDef="totalInsuranceEmployeePaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.totalInsuranceEmployeePaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.totalInsuranceEmployeePaid| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="desciplineAmount">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.desciplineAmount' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.desciplineAmount| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="reductionAmount">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.reductionAmount' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.reductionAmount| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="additionalAmount">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.additionalAmount' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.additionalAmount| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="bankAccountCode">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.bankAccountCode' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.bankAccountCode}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="bankAccountName">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.bankAccountName' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.bankAccountName}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="branchOfBank">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.branchOfBank' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.branchOfBank}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="totalIncome">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.totalIncome' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.totalIncome| number:0}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="actualPaid">
+                <mat-header-cell *matHeaderCellDef> {{ 'employeesalary.list.grid.actualPaid' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.actualPaid| number:0}} </mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"
+                       (click)="highlight(row)"
+                       [ngClass]="{ 'selected-row': selectedRowIndex == row.employeeMonthySalaryId}">
+              </mat-row>
+            </mat-table>
+            <mat-paginator #paginator [pageSize]="10" id="emp-paginator" style="position: sticky; left: 0px;">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <div class="head w100 bg-white shadow">
+        <!--<div class="panel panel-default">-->
+        <div class="panel-heading">NOTE</div>
+        <div class="panel-body" *ngFor="let note of notes">
+          <div class="form-group no-margin-bottom">
+            <i>{{note.title}}<span style="font-weight:bold">{{note.actor}}</span></i>
+          </div>
+          <div class="form-group no-margin-bottom">
+            <i>{{note.subTitle}}</i>
+          </div>
+          <div class="form-group">
+            <span style="font-weight:bold"> {{note.content}}</span>
+          </div>
+        </div>
+        <!--</div>-->
+      </div>
+
+    </div>
+  </div>
+
+</div>

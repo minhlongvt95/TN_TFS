@@ -1,0 +1,426 @@
+.customer-care-detail {
+    width: 100%;
+	padding: 0 15px;
+}
+
+.customer-care-detail .button-action {
+    padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+
+.customer-care-detail .button-action button {
+	float: right;
+	margin-left: .5rem;
+}
+
+.customer-care-detail .button-action h4 {
+	margin-top: .5rem;
+	margin-bottom: 0;
+	display: inline-block;
+}
+
+.customer-care-detail .title-customner-care {
+    font-size: 20px;
+    margin: 5px 15px;
+}
+
+.customer-care-detail .bg-white {
+	background: #fff;
+}
+
+.customer-care-detail .bg-blue {
+	background: blue;
+}
+
+.customer-care-detail .shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.customer-care-detail .btn-cancel {
+    background: #e4e4e4;
+    border: 1px solid #666666 !important;
+}
+
+.customer-care-detail .btn-create {
+    color: #fff;
+    background: #6d98e7;
+    margin-left: 10px;
+}
+
+.customer-care-detail .form-content {
+	width: 100%;
+	padding: 15px 15px;
+}
+
+.customer-care-detail .cursor {
+	cursor: pointer;
+}
+
+.customer-care-detail .title-button-step-one {
+	margin-right: 15px;
+}
+
+.customer-care-detail .title-button-step-two {
+	margin-left: 15px;
+}
+
+.customer-care-detail #addFilter {
+	float: right;
+	margin-right: 15px;
+}
+
+.customer-care-detail .mt-8 {
+    margin-top: 8px;
+}
+
+.customer-care-detail .mt-15 {
+	margin-top: 15px;
+}
+
+.customer-care-detail .mt-mb-200 {
+    margin-top: 200px;
+    margin-bottom: 200px;
+}
+
+.customer-care-detail .mb-125 {
+	margin-bottom: 1.25rem;
+}
+
+.customer-care-detail .w100 {
+	width: 100%;
+}
+
+.customer-care-detail .form-control {
+    border-radius: 0.25rem;
+}
+
+.customer-care-detail .form-control,
+.customer-care-detail .select.form-control {
+    height: auto;
+    max-height: 34px;
+}
+
+/*format input select*/
+::ng-deep .customer-care-detail .mat-form-field-underline {
+    opacity: 0;
+}
+
+::ng-deep .customer-care-detail .mat-form-field-wrapper {
+    bottom: 6px;
+}
+
+::ng-deep .customer-care-detail .mat-select-trigger {
+    bottom: 1px;
+}
+
+::ng-deep .customer-care-detail .mat-option-text {
+    font-size: 14px !important;
+}
+
+::ng-deep .customer-care-detail .mat-form-field-infix {
+	padding: 0;
+}
+/*end*/
+
+.customer-care-detail .ml-15 {
+	margin-left: 15px;
+}
+
+.customer-care-detail .ml-45 {
+	margin-left: 45px;
+}
+
+.customer-care-detail .ml-195 {
+    margin-left: 195px;
+}
+
+.customer-care-detail .ml-210 {
+    margin-left: 210px;
+}
+
+.customer-care-detail .ml-30 {
+    margin-left: 30px;
+}
+
+.customer-care-detail .ml-120 {
+    margin-left: 120px;
+}
+
+.customer-care-detail .mt-6 {
+	margin-top: 6px;
+}
+
+.customer-care-detail .error-border,
+.customer-care-detail .error-border:focus {
+    border-color: #f44336;
+}
+
+.customer-care-detail #coverSendFilter {
+	text-align: center;
+	margin: 15px 0px;
+}
+
+.customer-care-detail .row-filter {
+    background-color: #ededed;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
+::ng-deep .customer-care-detail .dropdown-btn {
+	width: 600px !important;
+	background: white !important;
+}
+
+.customer-care-detail #border-color-dropdown-list {
+	border-color: red !important;
+}
+
+.customer-care-detail .error-border[_ngcontent-c12] {
+	border-color: red !important;
+}
+
+.customer-care-detail .color-label {
+	background-color: #ededed;
+}
+
+.customer-care-detail #resultFilteredCustomer {
+	text-align: center;
+	font-size: 30px;
+    color: red;
+}
+
+.customer-care-detail .titleTotalCustomer {
+    height: 65px;
+    text-align: left;
+    top: 15px;
+    font-size: 15px;
+}
+
+.customer-care-detail .valueTotalCustomer {
+    height: 50px;
+}
+
+/* css customer table */
+
+.customer-care-detail .mat-elevation-z8 {
+    box-shadow: none;
+    border: solid 1px #d9d9d9;
+}
+
+.customer-care-detail mat-cell.mat-cell,
+.customer-care-detail mat-header-cell.mat-header-cell {
+    overflow: visible;
+}
+
+.customer-care-detail .mat-header-row {
+    background-color: rgb(228, 228, 228);
+    min-height: 50px;
+}
+
+.customer-care-detail .mat-header-cell {
+    font-size: 15px;
+    color: black;
+    overflow: visible;
+}
+
+::ng-deep .customer-care-detail #customer-table .mat-checkbox-inner-container-no-side-margin {
+    width: 12px !important;
+    height: 12px !important;
+}
+  
+::ng-deep .customer-care-detail #customer-table .mat-checkbox-checked.mat-accent .mat-checkbox-background, 
+::ng-deep .customer-care-detail #customer-table .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: rgb(109, 152, 231) !important;
+}
+  
+::ng-deep .customer-care-detail #customer-table .mat-ripple-element {
+    background: rgba(109, 152, 231, .4) !important;
+}
+
+::ng-deep .customer-care-detail #customer-table .mat-select {
+    width: 65%;
+}
+
+.customer-care-detail .img-icon {
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.customer-care-detail .non-img-icon {
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.customer-care-detail .link-name {
+    position: relative;
+    /* cursor: pointer; */
+}
+
+.customer-care-detail .color-link {
+    color: #23527c;
+}
+
+.customer-care-detail .no-link-name {
+    top: 6px;
+    position: relative;
+}
+
+.customer-care-detail .center {
+    text-align: center;
+}
+
+.customer-care-detail .no-data {
+    color: red;
+}
+
+/* end */
+
+.customer-care-detail .fw-bold {
+    font-weight: bold;
+}
+
+.customer-care-detail .font-italic {
+    font-style: italic;
+}
+
+.customer-care-detail .require {
+    color: #F94E4E;
+}
+
+.customer-care-detail .textarea-border {
+    border: 1px solid #dedede;
+    border-radius: 0.25rem;
+    padding: 5px 5px;
+}
+
+.customer-care-detail .error-border-textarea {
+    border-color: red !important;
+}
+
+.customer-care-detail .info-label {
+    font-weight: bold;
+    color: #6D98E7;
+}
+
+.customer-care-detail .material-icons {
+    position: absolute;
+    color: #6D98E7;
+}
+
+.customer-care-detail .icon-card-info {
+    position: relative;
+    top: 7px;
+    padding-right: 5px;
+}
+
+.customer-care-detail .icon-card-info i {
+    top: -4px;
+    position: relative;
+}
+
+.customer-care-detail .float-right {
+    float: right;
+}
+
+.customer-care-detail .error-customer-type {
+    font-weight: bold;
+    margin-left: 225px;
+}
+
+::ng-deep .customer-care-detail .multiselect-dropdown .dropdown-btn .selected-item {
+    margin-top: 2px;
+}
+
+.customer-care-detail .mat-raised-button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .mat-table {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .mat-select {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .mat-option {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .mat-paginator {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.customer-care-detail .status {
+    width: 23px;
+    height: 20px;
+    float: left;
+    margin-right: 10px;
+}
+  
+.customer-care-detail .red {
+    background-color: #F94E4E;
+}
+
+.customer-care-detail .blue {
+    background-color: #6D98E7;
+}
+
+::ng-deep .customer-care-detail .paginator .mat-form-field-wrapper {
+    bottom: 0px;
+}
+
+.customer-care-detail .note {
+    font-size: 12px;
+    padding: 5px 0px 0px 7px;
+    border: solid 1px #ccc;
+    margin-top: 15px;
+    border-radius: 5%;
+}
+
+.customer-care-detail .mat-column-customerName {
+    flex: 0 0 20%;
+}
+
+.customer-care-detail .mat-column-dateOfBirth {
+    flex: 0 0 14%;
+}
+
+.customer-care-detail .mat-column-customerEmail {
+    flex: 0 0 20%;
+}
+
+.customer-care-detail .mat-column-customerPhone {
+    flex: 0 0 10%;
+}
+
+.customer-care-detail .mat-column-picName {
+    flex: 0 0 20%;
+}
+
+.customer-care-detail .mat-column-customerCareCustomerStatusId {
+    flex: 0 0 16%;
+}
+
+.customer-care-detail .clear {
+	float: right;
+	top: 1px;
+	right: -10px;
+	font-size: 15px !important;
+}

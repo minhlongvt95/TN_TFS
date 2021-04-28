@@ -1,0 +1,283 @@
+
+.cash-receipts-view {
+  font-family: 'Inter UI';
+}
+
+.cash-receipts-view .cash-receipts-view-content{
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.cash-receipts-view .button-group{
+  width: 100% !important;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.cash-receipts-view .header-box-icon {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.cash-receipts-view .text-header{
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-receipts-view .content-bank-pay{
+  height: 601px;
+  border-radius: 4px;
+  border: solid 1px var(--sub-bg-2);
+  background-color: var(--white-text-bg);
+}
+
+.cash-receipts-view .help-block > div {
+  position: absolute;
+  top: 58px;
+}
+
+.cash-receipts-view .head button{
+  margin-bottom: 15px;
+}
+
+.cash-receipts-view .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.cash-receipts-view .button-group .btn-cancel .text-cancel{
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-receipts-view .btn-create {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+
+.cash-receipts-view .button-group .btn-create .text-save{
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff !important;
+}
+
+.cash-receipts-view .mat-raised-button,
+.cash-receipts-view button {
+  box-shadow: none !important;
+  height: 40px;
+  min-width: 124px;
+  border-radius: 0.25em;
+}
+
+
+.cash-receipts-view input[name='moneyToLetter'] {
+  font-weight: 600;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.cash-receipts-view hr{
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.cash-receipts-view .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.cash-receipts-view .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-receipts-view .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.cash-receipts-view .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.cash-receipts-view .bank-infop{
+  border-radius: 4px; 
+  border: solid 1px #dde1e6;
+  background-color: var(--sub-bg-1);
+  margin-left: 2%;
+}
+
+.borderless td, .borderless th {
+  border: none !important; 
+}
+
+.cash-receipts-view .text-status{
+  color: red;
+}
+.cash-receipts-view th{
+  font-weight: normal;
+}
+
+.cash-receipts-view td{
+  font-weight: bold;
+}
+
+.cash-receipts-view .bank-money{
+  height: 270px;
+  border: dashed 1px #fec163;
+  margin-left: 2%;
+  background-color: #fff9f0;
+}
+
+.cash-receipts-view .control-label label,
+.cash-receipts-view .control-label {
+  font-weight: 400;
+}
+
+.cash-receipts-view .mt-25{
+  margin-top: 25px;
+}
+
+input[type="text"]:disabled {
+  background: #e7dfdf;
+}
+
+.cash-receipts-view .no-padding {
+  padding: 0 !important;
+}
+
+.cash-receipts-view .no-padding-left {
+  padding-left: 0 !important
+}
+
+
+.cash-receipts-view .help-block {
+  color: red;
+  margin: 0 !important
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-receipts-view .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+@media only screen and (max-width: 1423px) {
+  .cash-receipts-view .ios-warning {
+      top: 0px;
+  }
+  .cash-receipts-view .save {
+      margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media only screen and (max-width: 768px) {
+  .cash-receipts-view .fixed {
+      width: 62% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (max-width: 414px) {
+  .cash-receipts-view .fixed {
+      width: 85.3% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 375px) {
+  .cash-receipts-view .fixed {
+      width: 83.7% !important;
+  }
+}
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .cash-receipts-view .fixed {
+      width: 80.7% !important;
+  }
+}

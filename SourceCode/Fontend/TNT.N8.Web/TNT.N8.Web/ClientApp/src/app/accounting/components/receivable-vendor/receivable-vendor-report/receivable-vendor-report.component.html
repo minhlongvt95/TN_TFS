@@ -1,0 +1,281 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration="1s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="receivable-vendor-report">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="\assets\icons\components\money-2.svg" class="noun-product">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Công nợ nhà cung cấp</div>
+                  <div class="box-header-subtitle">
+                    {{listReceivableVendorReport.length}} đầu mục - Sắp xếp theo số tiền còn phải trả - Cập nhật
+                    {{nowDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" [(ngModel)]="filterGlobar" placeholder="Tìm kiếm trong danh sách"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã nhà cung cấp</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listVendor" [(ngModel)]="vendorCode" defaultLabel="Chọn mã nhà cung cấp"
+              optionLabel="vendorCode" [style]="{'width': '100%'}" [resetFilterOnHide]="true" 
+              [virtualScroll]="true" itemSize="30"
+              selectedItemsLabel="{0} nhà cung cấp được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên nhà cung cấp</span>
+          </div>
+          <div class="col-md-12 mt-5">
+            <input type="text" class="bank-payments-code-text" placeholder="Tên nhà cung cấp" [(ngModel)]="vendorName">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="dd/mm/yy" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchReceiableVendor()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="listReceivableVendorReport.length > 0" class="col-md-{{leftColNumber}} no-padding"
+      style="border: 1px solid #ccc;">
+      <div class="row" style="margin-left: 20px !important;margin-right: 17px; margin-top: 12px;
+      margin-bottom: 12px;">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-{{colSumarySection}} no-padding">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Tổng đặt hàng (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalPurchase | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img class="tongdathang" src="/assets/icons/components/chitietcongno_tongdathang.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-{{colSumarySection}} no-padding">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Tổng thanh toán (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalPaid | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img class="tongdathanhtoan" src="/assets/icons/components/chitietcongno_tongdathanhtoan.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-{{colSumarySection}} no-padding"
+              [style.margin-top]="colSumarySection == 6 ? '10px': '0px'">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Số tiền còn phải trả (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalPurchase - this.totalPaid | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img class="tongdathanhtoan" src="/assets/icons/components/chitietcongno_tongconphaithu.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Danh sách công nợ nhà cung cấp" [selected]="true">
+          <p-table #myTable [columns]="selectedColumns" [value]="listReceivableVendorReport"
+            (sortFunction)="sortColumnInList($event)" [customSort]="true" columnResizeMode="expand" [paginator]="true"
+            [rows]="10" [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+            <ng-template pTemplate="caption">
+              <div style="text-align: left;">
+                <p-multiSelect [options]="colsList" optionLabel="header" [(ngModel)]="selectedColumns"
+                  [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                  [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+              </div>
+            </ng-template>
+            <!-- <ng-template pTemplate="colgroup" let-columns>
+            <colgroup>
+              <col *ngFor="let col of columns" style="width:200px">
+            </colgroup>
+          </ng-template> -->
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th style="width: 3.5em; text-align: center;">
+                  #
+                </th>
+                <!--<th style="width: 3em;">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th> -->
+                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                  [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td style="text-align: center;">
+                  {{rowData.index}}
+                </td>
+                <!-- <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td> -->
+                <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                  [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                  <span *ngSwitchCase="'vendorName'" (click)="goToDetail(rowData)" class="link" style="display: inline-block;
+                padding: 2px 2px;">
+                    {{ rowData[col.field] }}
+                  </span>
+                  <span *ngSwitchCase="'totalPurchase'">{{ rowData[col.field] | number }}</span>
+                  <span *ngSwitchCase="'totalPaid'">{{ rowData[col.field] | number }}</span>
+                  <span *ngSwitchCase="'debt'">{{ rowData[col.field] | number }}</span>
+                  <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <div style="clear: both;"></div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div *ngIf="!(listReceivableVendorReport.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã nhà cung cấp</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listVendor" [(ngModel)]="vendorCode" defaultLabel="Chọn mã nhà cung cấp"
+              optionLabel="vendorCode" [style]="{'width': '100%'}" [resetFilterOnHide]="true" [virtualScroll]="true" itemSize="30"
+              selectedItemsLabel="{0} nhà cung cấp được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Tên nhà cung cấp</span>
+          </div>
+          <div class="col-md-12 mt-5">
+            <input type="text" class="bank-payments-code-text" placeholder="Tên nhà cung cấp" [(ngModel)]="vendorName">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="dd/mm/yy" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchReceiableVendor()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,311 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="salebidding-approved">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/lead_search.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách phê duyệt hồ sơ thầu</div>
+                  <div class="box-header-subtitle">
+                    {{listSaleBidding.length}} bản ghi - sắp xếp theo ngày tạo gần nhất
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12 no-padding">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Tên hồ sơ thầu</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" [(ngModel)]="saleBiddingName" class="quote-code-text" placeholder="">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Bên mời thầu</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" [(ngModel)]="customerName" class="quote-code-text" placeholder="">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người phụ trách</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployee" [(ngModel)]="employeeSelect" optionLabel="employeeName"
+              defaultLabel="Chọn người phụ trách" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} nhóm được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày nộp thầu từ</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="Đến ngày" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="Từ ngày" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <p-checkbox [(ngModel)]="isApproved" [binary]="true" label="Đã duyệt"></p-checkbox>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchSaleBidding()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="listSaleBidding.length > 0" class="col-md-{{leftColNumber}} no-padding">
+      <div class="row no-margin" *ngIf="listSaleBiddingSelected !=null && listSaleBiddingSelected.length > 1">
+        <div class="col-md-12" style="margin-bottom: 15px;">
+          <div class="d-inline float-right">
+            <button *ngIf="actionReject" (click)="reject(null)" type="button" class="btn-reject">
+              <span class="btn-reject-text">Từ chối</span>
+            </button>
+            <button *ngIf="actionApprove" (click)="approvalShowDiaLog(null)" type="button" class="btn-approval">
+              <span class="btn-approval-text">Phê duyệt</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <p-table #myTable [columns]="selectedColumns" [value]="listSaleBidding" [(selection)]="listSaleBiddingSelected"
+        (sortFunction)="customSort($event)" [customSort]="true" [resizableColumns]="true" columnResizeMode="expand"
+        [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" dataKey="saleBiddingId">
+        <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="colsList" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3em">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display,'width': col.width }">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+            <th>Thao tác</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [pSelectableRow]="rowData">
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, 'width': col.width }">
+              <span (click)="goToDetail(rowData)" *ngSwitchCase="'saleBiddingName'" class="link" style="display: inline-block;
+                padding: 2px 2px;">
+                {{ rowData[col.field] }}
+              </span>
+              <span *ngSwitchCase="'valueBid'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'bidStartDate'">
+                {{rowData[col.field] | date:'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+            <td>
+              <div class="row">
+                <div class="col-md-12">
+                  <button *ngIf="actionReject" (click)="reject(rowData['saleBiddingId'])" type="button"
+                    class="btn-reject">
+                    <span class="btn-reject-text">Từ chối</span>
+                  </button>
+                  <button *ngIf="actionApprove" (click)="approvalShowDiaLog(rowData['saleBiddingId'])" type="button"
+                    class="btn-approval">
+                    <span class="btn-approval-text">Phê duyệt</span>
+                  </button>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="!(listSaleBidding.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Tên hồ sơ thầu</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" [(ngModel)]="saleBiddingName" class="quote-code-text" placeholder="">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Bên mời thầu</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" [(ngModel)]="customerName" class="quote-code-text" placeholder="">
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người phụ trách</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployee" [(ngModel)]="employeeSelect" optionLabel="employeeName"
+              defaultLabel="Chọn người phụ trách" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} nhóm được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày nộp thầu từ</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="Đến ngày" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="Từ ngày" showButtonBar="true"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <p-checkbox [(ngModel)]="isApproved" [binary]="true" label="Đã duyệt"></p-checkbox>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchSaleBidding()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p-dialog header="Bạn có muốn từ chối hồ sơ thầu này?" [(visible)]="displayDialogStatus" [modal]="true"
+    [responsive]="true" [style]="{width: '500px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <label>Lí do từ chối</label>
+          </div>
+          <div class="col-md-9">
+            <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="reasonRefuse" [ngModelOptions]="{standalone: true}"
+              class="w100"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton (click)="approveOrReject(1, null,null)" label="Chấp thuận"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton (click)="displayDialogStatus=false" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+  <p-dialog header="Bạn có muốn duyệt hồ sơ thầu này?" [(visible)]="displayDialogStatusAppr" [modal]="true"
+    [responsive]="true" [style]="{width: '500px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <div class="row no-margin">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+            <label>Lí do duyệt</label>
+          </div>
+          <div class="col-md-9">
+            <textarea rows="3" cols="30" pInputTextarea [(ngModel)]="reasonRefuse" [ngModelOptions]="{standalone: true}"
+              class="w100"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p-footer>
+      <button type="button" pButton (click)="approveOrReject(2,null,true)" label="Chấp thuận"
+        class="ui-button-secondary"></button>
+      <button type="button" pButton (click)="displayDialogStatusAppr=false" label="Hủy"
+        class="ui-button-secondary"></button>
+    </p-footer>
+  </p-dialog>
+</div>

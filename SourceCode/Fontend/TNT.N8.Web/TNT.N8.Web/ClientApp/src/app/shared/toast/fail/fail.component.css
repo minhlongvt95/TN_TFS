@@ -1,0 +1,52 @@
+.fail-dialog {
+  background-color: rgb(250, 114, 124);
+  padding: 0 !important;
+}
+
+  .fail-dialog table {
+    width: 100%;
+  }
+
+    .fail-dialog table tr td {
+      padding: 15px;
+    }
+
+      .fail-dialog table tr td:nth-child(2) {
+        padding: 0;
+      }
+
+.icon {
+  padding-right: 15px;
+}
+
+.close-icon {
+  padding-left: 60px;
+}
+
+i {
+  cursor: pointer;
+}
+
+.fail-dialog div {
+  background-color: rgb(150, 68, 74);
+  height: 3px;
+  -webkit-animation: pgb-fail 5s linear backwards;
+}
+
+.fail-dialog:hover div {
+  -webkit-animation-play-state: paused;
+}
+
+.fail-dialog .pgb-fail {
+  width: 0;
+}
+
+@keyframes pgb-fail {
+  from {
+    width: 100%;
+  }
+
+  to {
+    width: 0;
+  }
+}

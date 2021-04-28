@@ -1,0 +1,125 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+
+<div class="send-email-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form class="form-group" [formGroup]="formSendEmail">
+        <div class="row">
+          <div class="col-md-2">Tiêu đề</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <input type="text" class="w100" pInputText formControlName="titleControl"
+                  [ngClass]="(titleControl.invalid && (titleControl.dirty || titleControl.touched)) ? 'error-border': ''" />
+              </div>
+              <div class="col-md-12" [hidden]="titleControl.valid || titleControl.untouched">
+                <span *ngIf="titleControl.hasError('required')" class="error-message-span">Tiêu đề không được để
+                  trống</span>
+                <span *ngIf="titleControl?.errors?.maxlength" class="error-message-span">Tối đa 300 ký tự</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-2">Nội dung</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <p-editor formControlName="contentControl" [style]="{'height':'180px', 'width': '100%'}"
+                  [styleClass]="(contentControl.invalid  && (contentControl.dirty || contentControl.touched)) ? 'error-border': ''">
+                </p-editor>
+              </div>
+              <div class="col-md-12" [hidden]="contentControl.valid || contentControl.untouched">
+                <span *ngIf="contentControl.hasError('required')" class="error-message-span">Nội dung không được để
+                  trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <!-- <span class="color-link" (click)="selectEmailTemplate()">Chọn email mẫu</span> -->
+            <div class="note">
+              <p>Chú thích:</p>
+              <p class="color-link" (click)="replate_token(name)">- {{name}}: Tên khách hàng</p>
+              <p class="color-link" (click)="replate_token(hotline)">- {{hotline}}: Số hotline</p>
+              <p class="color-link" (click)="replate_token(address)">- {{address}}: Địa chỉ công ty</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-2">Thời điểm gửi</div>
+          <div class="col-md-7">
+            <div class="row" style="margin-top: 5px;">
+              <div class="col-md-12">
+                <p-radioButton name="group1" value="0" label="Gửi ngay" [(ngModel)]="selectedTypeTime"
+                  [ngModelOptions]="{standalone: true}" (onClick)="changeTypeTime(0)">
+                </p-radioButton>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col-md-12">
+                <p-radioButton name="group1" value="1" label="Gửi vào lúc" [(ngModel)]="selectedTypeTime"
+                  [ngModelOptions]="{standalone: true}" (onClick)="changeTypeTime(1)">
+                </p-radioButton>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="selectedTypeTime == 1" class="row" style="margin-top: 10px;">
+          <div class="col-md-2"></div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-calendar formControlName="sendEmailDateControl" dateFormat="dd/mm/yy"
+                      [style]="{'width':'100%', 'appendTo': 'body', 'top': '0px !important'}" showButtonBar="true"
+                      [styleClass]="(sendEmailDateControl.invalid  && (sendEmailDateControl.dirty || sendEmailDateControl.touched)) ? 'error-pcalendar': ''"
+                      [minDate]="today" [inputStyle]="{'width':'100%'}" [baseZIndex]="5000"></p-calendar>
+                  </div>
+                  <div class="col-md-12" [hidden]="sendEmailDateControl.valid || sendEmailDateControl.untouched">
+                    <span *ngIf="sendEmailDateControl.hasError('required')" class="error-message-span">Không được để
+                      trống</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-calendar formControlName="sendEmailHourControl" [timeOnly]="true" [style]="{'width':'100%'}"
+                      [inputStyle]="{'width':'100%'}"
+                      [styleClass]="(sendEmailHourControl.invalid  && (sendEmailHourControl.dirty || sendEmailHourControl.touched)) ? 'error-pcalendar': ''"
+                      [baseZIndex]="2000"></p-calendar>
+                  </div>
+                  <div class="col-md-12" [hidden]="sendEmailHourControl.valid || sendEmailHourControl.untouched">
+                    <span *ngIf="sendEmailHourControl.hasError('required')" class="error-message-span">Không được để
+                      trống</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendEmail()"><span class="save-label">Gửi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

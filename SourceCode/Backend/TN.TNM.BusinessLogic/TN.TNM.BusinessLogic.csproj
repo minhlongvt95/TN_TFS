@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>%24/Rosa_Bonita/SourceCode/Backend/TN.TNM.BusinessLogic</SccProjectName>
+    <SccProvider>{4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}</SccProvider>
+    <SccAuxPath>http://192.168.1.10:8080/tfs/defaultcollection</SccAuxPath>
+    <SccLocalPath>.</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>NU1605</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Messages\Requests\Vendor\CreateVendorBankRequest.cs" />
+    <Compile Remove="Messages\Requests\Vendor\DeleteVendorBankByIdRequest.cs" />
+    <Compile Remove="Messages\Requests\Vendor\EditVendorBankByIdRequest.cs" />
+    <Compile Remove="Messages\Requests\Vendor\GetVendorBankByIdRequest.cs" />
+    <Compile Remove="Messages\Responses\Vendor\CreateVendorBankResponse.cs" />
+    <Compile Remove="Messages\Responses\Vendor\DeleteVendorBankByIdResponse.cs" />
+    <Compile Remove="Messages\Responses\Vendor\EditVendorBankByIdResponse.cs" />
+    <Compile Remove="Messages\Responses\Vendor\GetVendorBankByIdResponse.cs" />
+    <Compile Remove="Models\Vendor\VendorBankAccountModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.1.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.2.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TN.TNM.Common\TN.TNM.Common.csproj" />
+    <ProjectReference Include="..\TN.TNM.DataAccess\TN.TNM.DataAccess.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+      <HintPath>C:\Users\Master\.nuget\packages\microsoft.aspnetcore.mvc.core\2.0.4\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices.Protocols">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.DirectoryServices.Protocols.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

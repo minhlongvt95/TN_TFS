@@ -1,0 +1,153 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<div class="cash-receipts-view">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row cash-receipts-view-content">
+            <div class="row no-margin button-group" >
+              <div class="col-md-6 w-100-res">
+                <div class="row m-0" style="display:flex; align-items: center;">
+                  <div class="col-md-1 col-sm-1 col-xs-3 p-0">
+                    <div class="header-box-icon">
+                      <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                    </div>
+                  </div>
+                  <div class="col-md-11 col-sm-10 col-xs-9 p-0">
+                    <div>
+                      <span class="text-header">Chi tiết phiếu thu tiền mặt</span>
+                    </div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+              <div class="col-md-6 w-100-res">
+                <div class="row btn-group-save">
+                  <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 3px;">
+                    <button class="btn-cancel" (click)="cancel()">
+                      <span class="text-cancel">Quay lại</span></button>
+                    <button class="btn-create" *ngIf="actionDownload" type="button" (click)="exportPdf()"><span
+                        class="text-save">Xuất PDF</span></button>
+                  </div>
+                </div>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+
+            <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Thông tin phiếu thu tiền mặt" [selected]="true">
+                    <div class="row no-margin">
+                      <div class="col-md-12 body">
+                        <div class="row">
+                          <div class="col-md-7 bank-infop">
+                            <div class="row no-margin">
+                              <div class="col-md-6">
+                                <table class="table borderless mt-25">
+                                  <tbody>
+                                    <tr>
+                                      <th class="col-md-4 mt-25">Mã phiếu thu:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.ReceiptInvoiceCode}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Ngày tạo:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.CreatedDate | date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Người tạo:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.NameCreateBy}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Lý do thu:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.NameReceiptInvoiceReason}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Đối tượng thu:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.NameObjectReceipt}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Nơi thu:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.OrganizationName}}</td>
+                                    </tr>
+                                    <tr class="text-status">
+                                      <th class="col-md-4">Trạng thái:</th>
+                                      <td class="col-md-8">{{cashReceiptModel.StatusName}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="col-md-6">
+                                <table class="table borderless mt-25">
+                                  <tbody>
+                                    <tr>
+                                      <th class="col-md-5">Ngày hạch toán:</th>
+                                      <td class="col-md-7">{{cashReceiptModel.ReceiptDate | date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-5">Người nộp tiền:</th>
+                                      <td class="col-md-7">{{cashReceiptModel.RecipientName}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-5">Địa chỉ:</th>
+                                      <td class="col-md-7" >{{cashReceiptModel.RecipientAddress}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-5">Nội dung thu:</th>
+                                      <td class="col-md-7">{{cashReceiptModel.ReceiptInvoiceDetail}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-5">Ghi chú:</th>
+                                      <td class="col-md-7">{{cashReceiptModel.ReceiptInvoiceNote}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 bank-money">
+                            <table class="table borderless mt-25">
+                              <tbody>
+                                <tr>
+                                  <th class="col-md-4">Số tiền:</th>
+                                  <td class="col-md-8">{{cashReceiptModel.Amount | number:0}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Đơn vị tiền:</th>
+                                  <td class="col-md-8">{{cashReceiptModel.ReceiptInvoicePriceCurrency}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Tỉ giá:</th>
+                                  <td class="col-md-8">{{cashReceiptModel.ExchangeRate  | number:0}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Bằng chữ:</th>
+                                  <td class="col-md-8">{{cashReceiptModel.AmountText}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,451 @@
+.create-order-dialog {
+  background-color: #fff;
+  margin: -15px;
+  padding: 20px;
+}
+
+.create-order-dialog .error-border,
+.create-order-dialog .error-border:focus {
+  border-color: #f44336;
+}
+
+.create-order-dialog .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.create-order-dialog .full-width {
+  width: 100%;
+}
+
+.create-order-dialog .no-padding {
+  padding: 0 !important;
+}
+
+.create-order-dialog .no-margin {
+  margin: 0 !important;
+}
+
+.create-order-dialog .no-padding-left {
+  padding-left: 0 !important
+}
+
+.create-order-dialog .no-padding-right {
+  padding-right: 0 !important
+}
+
+/*Set font*/
+.create-order-dialog span,
+.create-order-dialog div,
+.create-order-dialog a,
+.create-order-dialog .mat-cell,
+.create-order-dialog .mat-header-cell,
+.create-order-dialog input,
+.create-order-dialog button,
+.create-order-dialog .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.create-order-dialog .btn-create-order-dialog {
+  background-color: #6D98E7 !important;
+  color: #fff !important;
+  height: 40px;
+}
+
+.create-order-dialog .left-column {
+  border: solid 1px #d9d9d9;
+  padding: 15px 20px;
+}
+
+.create-order-dialog .left-header {
+  padding-left: 15px;
+}
+
+.create-order-dialog .left-header h3 {
+  margin-bottom: 0;
+}
+
+.create-order-dialog .main-button-row {
+  text-align: right;
+}
+
+.create-order-dialog .form-control {
+  border-radius: 0.25rem;
+}
+
+.create-order-dialog .mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+.create-order-dialog #attribute-table {
+  height: 217px;
+}
+
+.create-order-dialog #attribute-table .mat-header-cell:first-child,
+.create-order-dialog #order-table .mat-cell:first-child {
+  max-width: 350px;
+}
+
+.create-order-dialog #order-table {
+  height: auto;
+}
+
+.create-order-dialog #order-table .mat-header-cell:first-child,
+.create-order-dialog #order-table .mat-cell:first-child {
+  max-width: 40px;
+}
+
+.create-order-dialog .mat-header-cell {
+  color: black;
+  overflow: visible;
+}
+
+.create-order-dialog .mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+.create-order-dialog mat-cell.mat-cell,
+.create-order-dialog mat-header-cell.mat-header-cell {
+  overflow: visible;
+}
+
+.create-order-dialog .mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.create-order-dialog .status {
+  width: 23px;
+  height: 20px;
+  float: left;
+  margin-right: 10px;
+}
+
+.create-order-dialog .red {
+  background-color: #F94E4E;
+}
+
+.create-order-dialog .green {
+  background-color: #88D859;
+}
+
+.create-order-dialog .blue {
+  background-color: #6D98E7;
+}
+
+.create-order-dialog .grey {
+  background-color: #f7f7f8;
+}
+
+.create-order-dialog .orange {
+  background-color: #FFC050;
+}
+
+.create-order-dialog .img-icon {
+  float: left;
+  margin-right: 5px;
+  margin-top: 3px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.create-order-dialog .action-button {
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.create-order-dialog .switch-view {
+  font-size: 40px;
+  position: relative;
+  right: 5px;
+  cursor: pointer;
+  color: rgb(100, 100, 100);
+}
+
+::ng-deep .create-order-dialog .mat-checkbox-inner-container-no-side-margin {
+  width: 12px !important;
+  height: 12px !important;
+  top: 2px;
+  margin-right: 10px !important;
+}
+
+::ng-deep .create-order-dialog .mat-checkbox-checked.mat-accent .mat-checkbox-background, 
+::ng-deep .create-order-dialog .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(109, 152, 231) !important;
+}
+
+::ng-deep .create-order-dialog .mat-ripple-element {
+  background: rgba(109, 152, 231, .4) !important;
+}
+
+.create-order-dialog .mat-dialog-container {
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.create-order-dialog .form-control,
+.create-order-dialog select.form-control {
+  height: 30px !important;
+}
+
+.create-order-dialog .mat-column-phonenumber {
+  max-width: 90px;
+}
+
+.create-order-dialog .table-buttons {
+  float: right;
+  position: relative;
+  top: 30px;
+}
+
+.create-order-dialog table.table-buttons tr td {
+  padding-left: 15px;
+}
+
+.create-order-dialog a.link-name {
+  position: relative;
+  top: 6px;
+  cursor: pointer;
+}
+
+.create-order-dialog .refresh-icon {
+  font-size: 16px;
+  position: relative;
+  left: 15px;
+  bottom: 5px;
+  float: right;
+  cursor: pointer;
+}
+
+.create-order-dialog .mat-header-row {
+  min-height: 45px !important;
+}
+
+.create-order-dialog .mat-row {
+  min-height: 40px !important;
+}
+
+.create-order-dialog .mat-row:hover {
+  background-color: #f7f7f8;
+}
+
+.create-order-dialog .selected-row,
+.create-order-dialog .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.create-order-dialog .btn-search {
+  float: right;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+::ng-deep .create-order-dialog #emp-paginator .mat-paginator-container,
+.create-order-dialog #emp-paginator.mat-paginator {
+  min-height: 40px;
+}
+
+.create-order-dialog .mat-paginator,
+.create-order-dialog .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+.create-order-dialog i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.create-order-dialog .filterUnit {
+  color: #6D98E7;
+  cursor: pointer;
+}
+
+.create-order-dialog .top-15 {
+  padding-top: 15px;
+}
+
+.create-order-dialog .bottom-15 {
+  padding-bottom: 15px;
+}
+
+.create-order-dialog .title {
+  font-size: 14px;
+  color: #4e6ba5;
+  font-weight: 600;
+}
+
+.create-order-dialog .control-label label,
+.create-order-dialog .control-label {
+  font-weight: 400;
+}
+
+.create-order-dialog .require {
+  color: #F94E4E;
+}
+
+.create-order-dialog .opaque {
+  color: #999999;
+  font-style: italic;
+}
+
+.create-order-dialog .br-1 {
+  border-right: 1px solid #999999;
+}
+
+.create-order-dialog hr {
+  margin-top: 10px !important;
+  border-top: 1px solid #999999;
+}
+
+.create-order-dialog .btn-cancel:hover{
+  color: #fff !important;
+  background: #6d98e7;
+}
+
+.create-order-dialog .btn-create {
+  color: #fff;
+  background: #6d98e7;
+  margin-left: 10px;
+}
+
+.create-order-dialog .btn-delete,
+.create-order-dialog .btn-edit,
+.create-order-dialog .btn-cancel,
+.create-order-dialog .btn-create,
+.create-order-dialog .btn-create-add {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.create-order-dialog .btn-create-add {
+  margin-left: 10px;
+  color: #6d98e7;
+  border: 1px solid #6d98e7 !important;
+}
+
+.create-order-dialog .mb-11 {
+  margin-bottom: 11px;
+}
+
+.create-order-dialog .mb-12 {
+  margin-bottom: 12px;
+}
+
+.create-order-dialog .pr-30 {
+  padding-right: 30px;
+}
+
+.create-order-dialog .pl-30 {
+  padding-left: 30px;
+}
+
+.create-order-dialog .mat-form-field {
+  background: #fff;
+}
+
+::ng-deep .create-order-dialog .mat-form-field-underline {
+  display: none !important;
+}
+
+::ng-deep .create-order-dialog .mat-form-field-wrapper {
+  bottom: 6px;
+}
+
+::ng-deep .create-order-dialog .mat-form-field-infix {
+  border: none !important;
+  height: 30px;
+}
+
+::ng-deep .create-order-dialog .mat-select-value {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12px;
+}
+
+::ng-deep .create-order-dialog .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .create-order-dialog .mat-option-text {
+  font-size: 14px !important;
+}
+
+.create-order-dialog .arrow_drop_down {
+  position: relative;
+  float: right;
+  bottom: 18px;
+  left: 20px;
+}
+
+.create-order-dialog .clear {
+  position: relative;
+  float: right;
+  bottom: 16px;
+  left: 20px;
+  font-size: 18px !important;
+}
+
+.create-order-dialog .autoComplete {
+  padding-right: 30px;
+}
+
+::ng-deep .create-order-dialog .mat-radio-outer-circle, 
+::ng-deep .create-order-dialog .mat-radio-inner-circle {
+  height: 15px !important;
+  width: 15px !important;
+  top: 1px !important;
+  left: 2px !important;
+}
+
+::ng-deep .create-order-dialog .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #6d98e7 !important;
+}
+
+::ng-deep .create-order-dialog .mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #6d98e7 !important;
+}
+
+::ng-deep .create-order-dialog .mat-icon-button {
+  position: relative;
+  bottom: 2px;
+}
+
+.create-order-dialog .grid-display {
+  display: grid;
+}
+
+.create-order-dialog mat-header-cell {
+  font-size: 12px;
+}
+
+.create-order-dialog .org-dialog-title {
+  background-color: #6D98E7;
+  color: #fff;
+  font-weight: bold;
+  margin: -26px -26px 0 -26px !important;
+  padding: 20px;
+  font-size:14px;
+}
+
+.create-order-dialog .org-dialog-buttons {
+  text-align: right;
+}
+
+.create-order-dialog .mat-option {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.create-order-dialog .cursor {
+  cursor: pointer;
+}

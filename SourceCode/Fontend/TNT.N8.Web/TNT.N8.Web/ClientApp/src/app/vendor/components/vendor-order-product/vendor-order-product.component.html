@@ -1,0 +1,320 @@
+<section class="vendor-order-product">
+  <div class="row">
+    <div class="title-popup">
+      <h4>THÊM SẢN PHẨM/DỊCH VỤ</h4>
+    </div>
+    <div class="form-content">
+      <div class="row">
+        <mat-radio-group role="tablist" class="col-md-12">
+          <mat-radio-button *ngIf="(vendorOrderDetailModel.orderDetailType == 1) && data.mode == 'edit'" [checked]="vendorOrderDetailModel.orderDetailType == 1" value="supplied_product" style="margin-right: 15px;">Mua sản phẩm/dịch vụ theo đơn đặt hàng của khách hàng</mat-radio-button>
+          <mat-radio-button *ngIf="(vendorOrderDetailModel.orderDetailType != 1) && data.mode == 'edit'" [checked]="vendorOrderDetailModel.orderDetailType != 1" value="incured_product">Chi phí khác</mat-radio-button>
+          <mat-radio-button *ngIf="data.mode == 'create'" value="supplied_product" style="margin-right: 15px;" checked (change)="changeTablist($event,'product')">Mua sản phẩm/dịch vụ theo đơn đặt hàng của khách hàng</mat-radio-button>
+          <mat-radio-button *ngIf="data.mode == 'create'" value="incured_product" (change)="changeTablist($event,'other')">Chi phí khác</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <!-- Mua sản phẩm/dịch vụ theo đơn đặt hàng của khách hàng -->
+      <form [formGroup]="informationProductForm" *ngIf="informationProductForm">
+        <div class="row" *ngIf="vendorOrderDetailModel.orderDetailType == 1">
+          <div class="form-content">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="full-width">
+                      <input name="vendor" matInput placeholder="Nhà cung cấp" [value]="data.vendorName" readonly>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width autoComplete">
+                      <input type="text" required aria-label="Employee" placeholder="Chọn SP/DV" matInput name="productIdControl" formControlName="productIdControl" [matAutocomplete]="autoProduct">
+                      <mat-autocomplete autoActiveFirstOption #autoProduct="matAutocomplete" (optionSelected)="selectedProductFn($event)">
+                        <mat-option *ngFor="let product of filteredProductOptions  | async" [value]="product.productId" matTooltip="{{product.productName}}">
+                          {{product.productName}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <i class="material-icons clear cursor" matTooltip="Xóa" (click)="resetForm()">clear</i>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input type="text" matInput readonly placeholder="Đơn vị tính" name="unitControl" formControlName="unitControl">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input matInput
+                             required
+                             placeholder="{{ 'product.create.amount' | translate }}"
+                             name="quantityControl"
+                             id="quantityControl"
+                             formControlName="quantityControl"
+                             [(ngModel)]="vendorOrderDetailModel.Quantity"
+                             (change)="calculatorMoney()"
+                             mask="separator.{{defaultNumberType}}"
+	                           thousandSeparator=","
+	                           (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                    <div class="md-errors-spacer" [hidden]="quantityControl.valid || quantityControl.untouched">
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="quantityControl.hasError('required')">Không được để trống</mat-error>
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="quantityControl.hasError('min')">Số lượng lớn hơn 0</mat-error>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input #nameit
+                             matInput required
+                             placeholder="{{ 'product.create.unitprice' | translate }}"
+                             name="priceControl"
+                             formControlName="priceControl"
+                             [(ngModel)]="vendorOrderDetailModel.UnitPrice"
+                             (change)="calculatorMoney()"
+                             mask="separator.{{defaultNumberType}}"
+	                           thousandSeparator=","
+	                           (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <mat-select required placeholder="{{ 'product.create.unitmoney' | translate }}" 
+                                  (selectionChange)="selectedUnitmoneyFn($event)" 
+                                  [(ngModel)]="vendorOrderDetailModel.CurrencyUnit" 
+                                  formControlName="moneyUnitControl" 
+                                  name="moneyUnitControl">
+                        <mat-option *ngFor="let option of unitmoney" [value]="option.categoryId">
+                          {{option.categoryName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6" *ngIf="!isVnd">
+                    <mat-form-field class="full-width">
+                      <input matInput required placeholder="{{ 'product.create.exchange' | translate }}" name="exchangeRateControl"
+                             mask="separator.{{defaultNumberType}}"
+                             thousandSeparator=","
+                             (keypress)="onKeyPress($event)"
+                             (change)="calculatorMoney()"
+                             [(ngModel)]="vendorOrderDetailModel.ExchangeRate" 
+                             formControlName="exchangeRateControl"/>
+                    </mat-form-field>
+                    <div class="md-errors-spacer" [hidden]="exchangeRateControl.valid || exchangeRateControl.untouched">
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="exchangeRateControl.hasError('required')">Không được để trống</mat-error>
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="exchangeRateControl.hasError('min')">Tỷ giá lớn hơn 0</mat-error>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <p>Thành tiền ({{ProductMoneyUnit}}): {{ProductAmount|number}}</p>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input matInput placeholder="{{ 'product.create.tax' | translate }}" 
+                            name="vatControl" 
+                            formControlName="vatControl" 
+                            [(ngModel)]="vendorOrderDetailModel.Vat" 
+                            (change)="calculatorMoney()" 
+                            mask="separator.{{defaultNumberType}}" 
+                            thousandSeparator="," 
+                            (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <p>{{ 'product.create.taxprice' | translate }}: {{ProductVAT|number}}</p>
+                  </div>
+                </div>
+              </div>
+              <!---->
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 style="color: #3f51b5">Chọn thuộc tính sản phẩm:</h4>
+                    <div class="example-container mat-elevation-z8">
+                      <mat-table #table [dataSource]="dataSourceProductAttributeCategory" id="attribute-table"> 
+                        <ng-container matColumnDef="nameattribute">
+                          <mat-header-cell *matHeaderCellDef style="min-width: 150px;"> Tên thuộc tính </mat-header-cell>
+                          <mat-cell *matCellDef="let element">{{element.ProductAttributeCategoryName}}</mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="value">
+                          <mat-header-cell *matHeaderCellDef>Giá trị</mat-header-cell>
+                          <mat-cell *matCellDef="let element" id="{{element.ProductAttributeCategoryId}}">
+                            <mat-select [(value)]="element.DefaultValue" (selectionChange)="selectedProductAttributeCategoryValueFn($event,element.ProductAttributeCategoryId)">
+                              <mat-option *ngFor="let attributevalue of element.ProductAttributeCategoryValue" [value]="attributevalue.ProductAttributeCategoryValueId">
+                                {{ attributevalue.ProductAttributeCategoryValue1}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedAttributeColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedAttributeColumns;"></mat-row>
+                      </mat-table>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <mat-select placeholder="Chiết khấu theo SP/DV" 
+                                  (selectionChange)="selectedDiscountTypeList($event)" 
+                                  [(ngModel)]="vendorOrderDetailModel.DiscountType" 
+                                  formControlName="discountTypeControl" 
+                                  name="discountTypeControl" 
+                                  mask="separator.{{defaultNumberType}}" 
+                                  thousandSeparator="," 
+                                  (keypress)="onKeyPress($event)">
+                        <mat-option *ngFor="let option of DiscountTypeList" [value]="option.value">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input matInput 
+                            name="discountValueControl" 
+                            [(ngModel)]="vendorOrderDetailModel.DiscountValue" 
+                            formControlName="discountValueControl" 
+                            (change)="calculatorMoney()" 
+                            mask="separator.{{defaultNumberType}}" 
+                            thousandSeparator="," 
+                            (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    Thành tiền chiết khấu ({{ProductMoneyUnit}}):<span>{{ProductDiscount|number:0}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- Chi phí khác -->
+      <form [formGroup]="internalProductForm" *ngIf="internalProductForm">
+        <div class="row" *ngIf="vendorOrderDetailModel.orderDetailType == 2">
+          <div class="form-content">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <mat-form-field class="full-width">
+                      <input required placeholder="Diễn giải" type="text" aria-label="Vendor"
+                             name="descriptionProductControl" matInput
+                             formControlName="descriptionProductControl"
+                             [(ngModel)]="vendorOrderDetailModel.Description">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input matInput
+                             required
+                             placeholder="{{ 'product.create.amount' | translate }}"
+                             name="quantityIncuredControl"
+                             id="quantityIncuredControl"
+                             formControlName="quantityIncuredControl"
+                             [(ngModel)]="vendorOrderDetailModel.Quantity"
+                             (change)="calculatorMoney()"
+                             mask="separator.{{defaultNumberType}}"
+                             thousandSeparator=","
+                             (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                    <div class="md-errors-spacer" [hidden]="quantityIncuredControl.valid || quantityIncuredControl.untouched">
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="quantityIncuredControl.hasError('required')">Không được để trống</mat-error>
+                      <mat-error style="position: absolute; bottom: 0" *ngIf="quantityIncuredControl.hasError('min')">Số lượng lớn hơn 0</mat-error>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input matInput
+                             required
+                             placeholder="{{ 'product.create.unitprice' | translate }}"
+                             name="priceIncuredControl"
+                             formControlName="priceIncuredControl"
+                             [(ngModel)]="vendorOrderDetailModel.UnitPrice"
+                             (change)="calculatorMoney()"
+                             mask="separator.{{defaultNumberType}}"
+	                           thousandSeparator=","
+	                           (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <p>Thành tiền ({{ProductMoneyUnit}}): {{ProductAmount|number}}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!--RIGHT-->
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <mat-form-field class="full-width">
+                          <mat-select required placeholder="{{ 'product.create.unitmoney' | translate }}" 
+                                      (selectionChange)="selectedUnitmoneyFn($event)" 
+                                      [(ngModel)]="vendorOrderDetailModel.CurrencyUnit" 
+                                      formControlName="moneyIncuredUnitControl" 
+                                      name="moneyIncuredUnitControl">
+                            <mat-option *ngFor="let option of unitmoney" [value]="option.categoryId">
+                              {{option.categoryName}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6" *ngIf="!isVnd">
+                        <mat-form-field class="full-width">
+                          <input placeholder="Tỷ giá" required matInput 
+                                 (change)="calculatorMoney()" 
+                                 name="exchangeRateIncuredControl"
+                                 [(ngModel)]="vendorOrderDetailModel.ExchangeRate" 
+                                 formControlName="exchangeRateIncuredControl"
+                                 mask="separator.{{defaultNumberType}}" 
+                                 thousandSeparator="," 
+                                 (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                        <div class="md-errors-spacer" [hidden]="exchangeRateIncuredControl.valid || exchangeRateIncuredControl.untouched">
+                          <mat-error style="position: absolute; bottom: 0" *ngIf="exchangeRateIncuredControl.hasError('required')">Không được để trống</mat-error>
+                          <mat-error style="position: absolute; bottom: 0" *ngIf="exchangeRateIncuredControl.hasError('min')">Tỷ giá lớn hơn 0</mat-error>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <mat-select placeholder="Chiết khấu theo SP/DV" 
+                                  (selectionChange)="changeVendorOrderDetailDiscountType($event)" 
+                                  [(ngModel)]="vendorOrderDetailModel.DiscountType" 
+                                  formControlName="discountTypeIncuredControl" 
+                                  name="discountTypeIncuredControl">
+                        <mat-option *ngFor="let option of DiscountTypeList" [value]="option.value">
+                          {{option.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="full-width">
+                      <input  matInput 
+                              name="discountValueIncuredControl" 
+                              [(ngModel)]="vendorOrderDetailModel.DiscountValue" 
+                              formControlName="discountValueIncuredControl" 
+                              (change)="calculatorMoney()" 
+                              mask="separator.{{defaultNumberType}}" 
+                              thousandSeparator="," 
+                              (keypress)="onKeyPress($event)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    Thành tiền chiết khấu ({{ProductMoneyUnit}}):<span>{{ProductDiscount|number:0}}</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-md-12 button-action">
+          <button mat-raised-button color="primary" (click)="onOkClick()">LƯU</button>
+          <button mat-raised-button class="btn-bordered" (click)="onCancelClick()">HỦY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

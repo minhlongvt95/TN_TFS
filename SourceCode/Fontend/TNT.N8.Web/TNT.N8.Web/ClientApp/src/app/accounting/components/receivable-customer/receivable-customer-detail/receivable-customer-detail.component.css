@@ -1,0 +1,727 @@
+.receivable-customer-detail {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.receivable-customer-detail .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.receivable-customer-detail .full-width {
+  width: 100% !important;
+}
+
+.receivable-customer-detail .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.receivable-customer-detail .export-exel {
+  width: 104px;
+  height: 30px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-right: 5px;
+}
+
+.receivable-customer-detail .export-exel .export-exel-text {
+  width: 64px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color :#121619;
+}
+
+.receivable-customer-detail .import-exel {
+  width: 134px;
+  height: 30px;
+  border-radius: 4px;
+  border: solid 1px #0f62fe;
+  background-color: #ffffff;
+  margin-right: 5px;
+}
+
+.receivable-customer-detail .import-exel-text {
+  width: 86px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0f62fe;
+}
+
+.receivable-customer-detail .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.receivable-customer-detail .box-header-group {
+  margin-top: 10px;
+}
+
+.receivable-customer-detail .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  /* background-color: #0f62fe; */
+  text-align: center;
+}
+
+.receivable-customer-detail .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.receivable-customer-detail .box-header-title {
+  /* width: 229px; */
+  line-height: 37px;
+  height: 24px;
+  font-family: 'Inter UI';
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.receivable-customer-detail .noun-product {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  /* margin-top: 10px; */
+}
+
+.receivable-customer-detail .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.receivable-customer-detail .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.receivable-customer-detail .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.receivable-customer-detail .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.receivable-customer-detail .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.receivable-customer-detail .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.receivable-customer-detail .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.receivable-customer-detail .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.receivable-customer-detail .box-filter {
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding: 10px 0px;
+}
+
+.receivable-customer-detail .bank-payments-code-text {
+  width: 100%;
+  height: 32px;
+  font-family: 'Inter UI';
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  padding-left: 5px;
+}
+
+.receivable-customer-detail .mt-5 {
+  margin-top: 5px;
+}
+
+.receivable-customer-detail .btn-search {
+  width: 72px;
+  height: 32px;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.receivable-customer-detail .btn-search:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.receivable-customer-detail .btn-search-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/* Config rows Per Page Options */
+::ng-deep .receivable-customer-detail .ui-inputtext {
+  padding: 0.3em;
+}
+
+/* sumary section */
+.receivable-customer-detail .number-header-wrapper {
+  width: 95% !important;
+  height: 158px;
+  border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: white;
+  /* border-radius: 4px;
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  padding: 15px 15px */
+}
+
+.receivable-customer-detail .number-header-wrapper .total-product-label {
+  margin-top: 20px;
+  margin-left: 15px;
+  height: 20px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.receivable-customer-detail .number-header-wrapper .total-product-number-wrapper {
+  margin-top: 20px;
+  margin-left: 15px;
+}
+
+.receivable-customer-detail .number-header-wrapper .total-product-number {
+  height: 29px;
+  font-family: 'Inter UI';
+  font-size: 24px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.21;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.receivable-customer-detail .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.receivable-customer-detail .no-data {
+  height: 435px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.receivable-customer-detail .box-no-data {
+  position: relative; 
+  top: 25%;
+}
+
+.receivable-customer-detail .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+::ng-deep .receivable-customer-detail .ui-datepicker {
+  top: 28px !important;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header{
+  margin: 0 !important;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header a {
+  /* border: 1px solid #ffffff !important; */
+  border: none !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  /* border: 1px solid #ffffff !important; */
+  border: none !important;
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .receivable-customer-detail .ui-accordion .ui-accordion-content {
+  /* border: 1px solid #ffffff !important; */
+  border: none !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+/* ::ng-deep .receivable-customer-detail .ui-multiselect .ui-multiselect-panel {
+  display: contents;
+} */
+
+/* Máy để bàn */
+@media only screen and (min-width: 1025px) and (max-width: 1423px)  {
+  
+}
+
+/* Ipad Pro */
+@media only screen and (min-width: 769px) and (max-width: 1024px)  {
+  .receivable-customer-detail .box-header-icon {
+    width: 27px;
+    height: 27px;
+  }
+
+  .receivable-customer-detail .Money-2 {
+    width: 15.4px;
+    height: 11.5px;
+    margin-top: 7px;
+  }
+
+  .receivable-customer-detail .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Ipad */
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+  .receivable-customer-detail .btn-create {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+  .receivable-customer-detail .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Iphone 6/7/8/X */
+@media only screen and (max-width: 375px) {
+  .receivable-customer-detail .iput-text {
+    margin-top: 5px;
+  }
+}
+
+
+/* 
+.receivale-cus-report span,
+.receivale-cus-report div,
+.receivale-cus-report a,
+.receivale-cus-report .mat-cell,
+.receivale-cus-report .mat-header-cell,
+.receivale-cus-report input,
+.receivale-cus-report button,
+.receivale-cus-report .mat-paginator{
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .receivale-cus-report .left-header {
+  padding-left: 15px;
+}
+  
+.receivale-cus-report .left-header h3 {
+  margin-bottom: 0;
+}
+
+.receivale-cus-report .form-control {
+  border-radius: 0.25rem;
+}
+
+.receivale-cus-report .mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+.receivale-cus-report .mat-header-cell {
+  font-size: 15px;
+  color: black;
+  overflow: visible;
+}
+
+.receivale-cus-report .mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+.receivale-cus-report mat-cell .mat-cell, 
+.receivale-cus-report mat-header-cell .mat-header-cell {
+  overflow: visible;
+}
+
+.receivale-cus-report .mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.receivale-cus-report .total-money {
+  font-size: 15px;
+  padding-top: 4px;
+  padding-bottom: 3px;
+}
+
+.receivale-cus-report .control-label {
+  margin-bottom: 5px;
+}
+
+.receivale-cus-report label {
+  margin-bottom: 0 !important;
+}
+
+.receivale-cus-report .form-control, 
+.receivale-cus-report select.form-control {
+  height: 30px !important;
+}
+
+.receivale-cus-report a.link-name {
+  cursor: pointer;
+}
+
+.receivale-cus-report .mat-header-row {
+  min-height: 45px !important;
+}
+
+.receivale-cus-report .mat-row {
+  min-height: 40px !important;
+}
+
+.receivale-cus-report hr {
+  border-top: solid 1px black;
+}
+
+.receivale-cus-report .mat-row:hover {
+  background-color: #f7f7f8;
+}
+
+.receivale-cus-report .selected-row, 
+.receivale-cus-report .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.receivale-cus-report .btn-search {
+  float: left;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  margin-top: 15px;
+  cursor: pointer;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.receivale-cus-report .mat-paginator, 
+.receivale-cus-report .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+.receivale-cus-report i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.receivale-cus-report input.mat-chip-input {
+  border-bottom: 1px dotted;
+}
+
+.receivale-cus-report .fromDate {
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.receivale-cus-report .bold-title {
+  font-weight: bold;
+}
+
+.receivale-cus-report .mat-raised-button {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .mat-table {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivale-cus-report .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+ */
+
+/* 
+.receivable-cus-detail span,
+.receivable-cus-detail div,
+.receivable-cus-detail a,
+.receivable-cus-detail .mat-cell,
+.receivable-cus-detail .mat-header-cell,
+.receivable-cus-detail input,
+.receivable-cus-detail button,
+.receivable-cus-detail .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivable-cus-detail .btn-create-order {
+  background-color: #6D98E7 !important;
+  color: #fff !important;
+  width: 120px;
+  height: 40px;
+}
+
+.receivable-cus-detail .btn-cancel {
+  margin-right: 10px;
+  background-color: #e4e4e4;
+  border: solid 1px darkgray;
+  width: 80px;
+}
+
+.receivable-cus-detail .left-header {
+  padding-left: 15px;
+}
+
+.receivable-cus-detail .main-button-row {
+  text-align: right;
+}
+
+.receivable-cus-detail .form-control {
+  border-radius: 0.25rem;
+}
+
+.receivable-cus-detail .mat-header-row {
+  background-color: rgb(228, 228, 228);
+  min-height: 50px;
+}
+
+.receivable-cus-detail .mat-header-cell {
+  font-size: 15px;
+  color: black;
+  overflow: visible;
+}
+
+.receivable-cus-detail .mat-cell {
+  font-size: 12px;
+  overflow: visible;
+}
+
+.receivable-cus-detail mat-cell.mat-cell,
+.receivable-cus-detail mat-header-cell.mat-header-cell {
+  overflow: visible;
+}
+
+.receivable-cus-detail .mat-elevation-z8 {
+  box-shadow: none;
+  border: solid 1px #d9d9d9;
+}
+
+.receivable-cus-detail .mat-dialog-container {
+  padding: 0 !important;
+  overflow-x: hidden !important;
+}
+
+.receivable-cus-detail .control-label {
+  margin-bottom: 5px;
+}
+
+.receivable-cus-detail label {
+  margin-bottom: 0 !important;
+}
+
+.receivable-cus-detail .form-control,
+.receivable-cus-detail select.form-control {
+  height: 30px !important;
+}
+
+.receivable-cus-detail .mat-header-row {
+  min-height: 45px !important;
+}
+
+.receivable-cus-detail .mat-row {
+  min-height: 40px !important;
+}
+
+.receivable-cus-detail .mat-row:hover {
+  background-color: #f7f7f8;
+}
+
+.receivable-cus-detail .selected-row,
+.receivable-cus-detail .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.receivable-cus-detail .btn-search {
+  float: left;
+  min-width: 30px;
+  height: 30px;
+  background-color: #6D98E7;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+}
+
+.receivable-cus-detail .mat-paginator,
+.receivable-cus-detail .mat-paginator-container {
+  min-height: 40px !important;
+  border: solid 0.5px #d9d9d9;
+  border-top: 0 !important;
+}
+
+.receivable-cus-detail i.fa-sort {
+  color: rgb(97, 97, 97);
+  padding-left: 15px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.receivable-cus-detail input.mat-chip-input {
+  border-bottom: 1px dotted;
+}
+
+.receivable-cus-detail .title p {
+  color: #222;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.receivable-cus-detail .title-receipt {
+  background: #618cde;
+  margin-bottom: 0;
+  padding: 15px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.receivable-cus-detail hr {
+  border-top: solid 1px #ddd;
+}
+
+.receivable-cus-detail .mat-raised-button {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivable-cus-detail .mat-table {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivable-cus-detail .mat-paginator {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.receivable-cus-detail .cursor {
+  cursor: pointer;
+} */

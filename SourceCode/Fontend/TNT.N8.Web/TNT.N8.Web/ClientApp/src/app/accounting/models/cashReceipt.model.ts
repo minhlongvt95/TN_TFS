@@ -1,0 +1,32 @@
+export class CashReceiptModel {
+  ReceiptInvoiceId: string;
+  ReceiptInvoiceCode: string;
+  ReceiptInvoiceDetail: string;
+  ReceiptInvoicePrice: number;
+  ReceiptInvoicePriceCurrency: string;
+  ReceiptInvoiceReason: string;
+  ReceiptInvoiceNote: string;
+  RegisterType: string;
+  OrganizationId: string;
+  StatusId: string;
+  RecipientName: string;
+  RecipientAddress: string;
+  UnitPrice: number;
+  CurrencyUnit: string;
+  ExchangeRate: number;
+  Amount: number;
+  AmountText: string;
+  Active: boolean;
+  CreatedById: string;
+  CreatedDate: Date;
+  UpdatedById: string;
+  UpdatedDate: Date;
+  ReceiptDate: Date;
+  CreateByAvatarUrl: string;
+  NameReceiptInvoiceReason: string;
+  NameCreateBy: string;
+  NameObjectReceipt: string;
+  VouchersDate: Date;
+  StatusName: string;
+  OrganizationName: string;
+}

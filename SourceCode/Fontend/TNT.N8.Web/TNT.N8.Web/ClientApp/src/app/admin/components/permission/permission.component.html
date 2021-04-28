@@ -1,0 +1,44 @@
+<div class="permission_content">
+  <div class="col-md-12">
+    <div class="col-md-6 title">Quản lý nhóm quyền</div>
+    <div class="col-md-6 row_button no-padding">
+      <button mat-raised-button class="btn-edit" *ngIf="actionAdd" (click)="openCreate()">Tạo mới</button>
+    </div>
+  </div>
+  <hr class="devider">
+  <div class="row">
+  <div class="col-md-12 form-group">
+    <div class="permission-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" id="pemission-table">
+      <ng-container matColumnDef="roleValue">
+        <mat-header-cell *matHeaderCellDef> Tên nhóm quyền <i class="fas fa-sort sort-icon" (click)="sort('roleValue')"></i></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a class="link" (click)="onViewPermissionDetail(element.roleId)">{{element.roleValue}}</a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef> Mô tả </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            {{element.description}}
+          </mat-cell>
+        </ng-container>
+      <ng-container matColumnDef="userNumber">
+        <mat-header-cell *matHeaderCellDef> Đang sử dụng <i class="fas fa-sort" (click)="sort('userNumber')"></i></mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          {{element.userNumber}}
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns">
+        </mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"
+               (click)="highlight(row)"
+               [ngClass]="{ 'selected-row': selectedRowIndex == row.permissionSetId}">
+      </mat-row>
+    </mat-table>
+    </div>
+    <mat-paginator id="permission-paginator" #paginator [pageSize]="10">
+      </mat-paginator>
+  </div>
+ 
+  </div>
+</div>

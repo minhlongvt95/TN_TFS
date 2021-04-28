@@ -1,0 +1,57 @@
+.org-dialog-content .row {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 20px;
+}
+
+.org-dialog-content .no-margin {
+  margin: 0 !important;
+}
+
+.org-dialog-content .org-dialog-title {
+  background-color: #6D98E7;
+  color: #fff;
+  font-weight: bold;
+  margin: -24px -24px 0 -24px !important;
+  padding: 20px;
+}
+
+.form-control {
+  font-family: 'Open Sans', sans-serif;
+  border-radius: 0.25em;
+}
+
+.required {
+  color: red;
+}
+
+.error-border, .error-border:focus {
+  border-color: #f44336;
+}
+
+  .error-border:focus {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+  }
+
+.org-dialog-content .org-dialog-buttons {
+  text-align: right;
+}
+
+.org-dialog-content .btn-cancel, .org-dialog-content .btn-ok {
+  background-color: #fff;
+}
+
+.org-dialog-content .btn-ok {
+  color: #6D98E7;
+}
+
+  .org-dialog-content .btn-ok:hover,
+  .org-dialog-content .btn-ok:focus,
+  .org-dialog-content .btn-cancel:hover,
+  .org-dialog-content .btn-cancel:focus {
+    color: #fff;
+    background-color: #6D98E7
+  }
+
+.mat-raised-button {
+  font-family: 'Open Sans', sans-serif;
+}

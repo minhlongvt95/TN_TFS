@@ -1,0 +1,44 @@
+.bg-white {
+	background: #fff;
+}
+.shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.detail-content .btn-bordered {
+	border: 1px solid #ddd;
+}
+.detail-content .button-action {
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+.detail-content .form-content {
+	float: left;
+	width: 100%;
+	padding: 10px 15px;
+	margin-bottom: 15px;
+}
+.required {
+    color: red;
+}
+.no-padding-left{
+	padding-left: 0px;
+}
+.w100 {
+	width: 100% !important;
+}
+.padding-top-20{
+	padding-top : 20px
+}
+.detail-content{
+	width: 100%;
+	padding: 0 15px;
+}
+.bottom-20{
+	bottom:  20px;
+	font: 15px;
+}
+.label-15px{
+	font-size: 15px;
+}

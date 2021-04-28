@@ -1,0 +1,160 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<div class="quick-create-product">
+  <form [formGroup]="productForm">
+    <div class="row bottom-buffer top-buffer">
+      <div class="col-md-12">
+        <div class="row no-margin">
+          <div class="col-md-4">
+            <p-checkbox label="Theo dõi tồn kho" (onChange)="changeFollowInventory($event)"
+              formControlName="FolowInventory" binary="true"></p-checkbox>
+          </div>
+          <div class="col-md-4">
+            <p-checkbox label="Quản lý serial number"
+              formControlName="ManagerSerialNumber" binary="false">
+            </p-checkbox>
+          </div>
+        </div>
+
+        <div class="row no-margin" style="padding-top: 20px;">
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Nhóm sản phẩm/dịch vụ <span class="required">*</span>
+                <span (click)="openProductCategoryDialog()">
+                  <span class="add-product-text">
+                    (Chọn từ cây danh sách)
+                  </span>
+                </span>
+              </div>
+              <div class="col-md-12" #boxProductCategory>
+                <input
+                  [ngClass]="(productForm.get('ProductCategory').invalid && (productForm.get('ProductCategory').dirty || productForm.get('ProductCategory').touched)) ? 'error-border' : ''"
+                  (click)="openProductCategoryDialog()" readonly formControlName="ProductCategory" type="text"
+                  class="full-width" pInputText />
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('ProductCategory').valid || productForm.get('ProductCategory').untouched">
+                <span *ngIf="productForm.get('ProductCategory').hasError('required')" class="error-message-span">Không
+                  được để trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Tính chất<span class="required">*</span>
+              </div>
+              <div class="col-md-12" #boxProperty>
+                <p-dropdown formControlName="Property" [options]="listProperty" optionLabel="categoryName"
+                  [showClear]="true" [filter]="true" [resetFilterOnHide]="true"
+                  [styleClass]="(productForm.get('Property').invalid && (productForm.get('Property').dirty || productForm.get('Property').touched)) ? 'error-border' : ''"
+                  [autoDisplayFirst]="false" [style]="{'width': '100%'}"></p-dropdown>
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('Property').valid || productForm.get('Property').untouched">
+                <span *ngIf="productForm.get('Property').hasError('required')" class="error-message-span">Không được
+                  để trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Đơn vị tính<span class="required">*</span>
+              </div>
+              <div class="col-md-12" #boxProductUnit>
+                <p-dropdown
+                  [styleClass]="(productForm.get('ProductUnit').invalid && (productForm.get('ProductUnit').dirty || productForm.get('ProductUnit').touched)) ? 'error-border' : ''"
+                  formControlName="ProductUnit" [options]="listProductUnit" optionLabel="categoryName"
+                  [showClear]="true" [filter]="true" [resetFilterOnHide]="true" [autoDisplayFirst]="false"
+                  [style]="{'width': '100%'}"></p-dropdown>
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('ProductUnit').valid || productForm.get('ProductUnit').untouched">
+                <span *ngIf="productForm.get('ProductUnit').hasError('required')" class="error-message-span">Không
+                  được
+                  để trống</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Mã sản phẩm <span class="required">*</span>
+              </div>
+              <div class="col-md-12" #boxProductCode>
+                <input maxlength="25"
+                  [ngClass]="(productForm.get('ProductCode').invalid && (productForm.get('ProductCode').dirty || productForm.get('ProductCode').touched)) ? 'error-border' : ''"
+                  formControlName="ProductCode" type="text" class="full-width" pInputText />
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('ProductCode').valid || productForm.get('ProductCode').untouched">
+                <span
+                  *ngIf="productForm.get('ProductCode').hasError('required') || productForm.get('ProductCode').hasError('blankString') "
+                  class="error-message-span">Không được
+                  để trống</span>
+                <span *ngIf="productForm.get('ProductCode').hasError('duplicateCode')" class="error-message-span">Mã
+                  sản phẩm đã tồn tại trong hệ thống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Tên sản phẩm<span class="required">*</span>
+              </div>
+              <div class="col-md-12" #boxProductName>
+                <input maxlength="200"
+                  [ngClass]="(productForm.get('ProductName').invalid && (productForm.get('ProductName').dirty || productForm.get('ProductName').touched)) ? 'error-border' : ''"
+                  formControlName="ProductName" type="text" class="full-width" pInputText />
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('ProductName').valid || productForm.get('ProductName').untouched">
+                <span
+                  *ngIf="productForm.get('ProductName').hasError('required') || productForm.get('ProductName').hasError('blankString') "
+                  class="error-message-span">Không được
+                  để trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 no-margin">
+            <div class="row bottom-buffer">
+              <div class="col-md-12 buffer-bottom-label">
+                Cách tính giá tồn kho<span class="required" *ngIf="isDisplayRequired">*</span>
+              </div>
+              <div class="col-md-12" #boxInventoryPrices>
+                <p-dropdown formControlName="InventoryPrices" [options]="listPriceInventory"
+                  [styleClass]="(productForm.get('InventoryPrices').invalid && (productForm.get('InventoryPrices').dirty || productForm.get('InventoryPrices').touched)) ? 'error-border' : ''"
+                  [showClear]="true" [filter]="true" [resetFilterOnHide]="true" optionLabel="categoryName"
+                  [autoDisplayFirst]="false" [style]="{'width': '100%'}"></p-dropdown>
+              </div>
+              <div class="col-md-12"
+                [hidden]="productForm.get('InventoryPrices').valid || productForm.get('InventoryPrices').untouched">
+                <span *ngIf="productForm.get('InventoryPrices').hasError('required')" class="error-message-span">Không
+                  được
+                  để trống</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin" style="text-align: right;">
+          <div class="col-md-12" style="padding-top: 20px;">
+            <button type="button" pButton icon="pi pi-check" style="margin-right: 5px;" (click)="quickCreateProduct()"
+              label="Lưu"></button>
+            <button type="button" pButton icon="pi pi-times" (click)="cancel()" label="Hủy"
+              class="ui-button-secondary"></button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

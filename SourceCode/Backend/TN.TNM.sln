@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TN.TNM.Api", "TN.TNM.Api\TN.TNM.Api.csproj", "{9F4F5FC2-1972-4296-A63F-9B3986B93703}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TN.TNM.BusinessLogic", "TN.TNM.BusinessLogic\TN.TNM.BusinessLogic.csproj", "{FF3BE7A6-FB95-4C9F-9CE6-3A4C76B62779}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TN.TNM.DataAccess", "TN.TNM.DataAccess\TN.TNM.DataAccess.csproj", "{1D6DBB67-846D-4F0D-B9F4-E80511E97A84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TN.TNM.Common", "TN.TNM.Common\TN.TNM.Common.csproj", "{7658F7A5-A73B-435D-9EC1-67F0B11D1204}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F4F5FC2-1972-4296-A63F-9B3986B93703}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F4F5FC2-1972-4296-A63F-9B3986B93703}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F4F5FC2-1972-4296-A63F-9B3986B93703}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F4F5FC2-1972-4296-A63F-9B3986B93703}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF3BE7A6-FB95-4C9F-9CE6-3A4C76B62779}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF3BE7A6-FB95-4C9F-9CE6-3A4C76B62779}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF3BE7A6-FB95-4C9F-9CE6-3A4C76B62779}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF3BE7A6-FB95-4C9F-9CE6-3A4C76B62779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D6DBB67-846D-4F0D-B9F4-E80511E97A84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D6DBB67-846D-4F0D-B9F4-E80511E97A84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D6DBB67-846D-4F0D-B9F4-E80511E97A84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D6DBB67-846D-4F0D-B9F4-E80511E97A84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7658F7A5-A73B-435D-9EC1-67F0B11D1204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7658F7A5-A73B-435D-9EC1-67F0B11D1204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7658F7A5-A73B-435D-9EC1-67F0B11D1204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7658F7A5-A73B-435D-9EC1-67F0B11D1204}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12649512-FE25-4102-B9FA-28132BF37782}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://192.168.1.10:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TN.TNM.Api\\TN.TNM.Api.csproj
+		SccProjectName1 = TN.TNM.Api
+		SccLocalPath1 = TN.TNM.Api
+		SccProjectUniqueName2 = TN.TNM.BusinessLogic\\TN.TNM.BusinessLogic.csproj
+		SccProjectName2 = TN.TNM.BusinessLogic
+		SccLocalPath2 = TN.TNM.BusinessLogic
+		SccProjectUniqueName3 = TN.TNM.Common\\TN.TNM.Common.csproj
+		SccProjectName3 = TN.TNM.Common
+		SccLocalPath3 = TN.TNM.Common
+		SccProjectUniqueName4 = TN.TNM.DataAccess\\TN.TNM.DataAccess.csproj
+		SccProjectName4 = TN.TNM.DataAccess
+		SccLocalPath4 = TN.TNM.DataAccess
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,64 @@
+.update-time-cus-care {
+    background-color: #fff;
+    margin: -15px;
+    padding: 20px;
+}
+
+.org-dialog-title {
+    background-color: #6D98E7;
+    color: #fff;
+    font-weight: bold;
+    margin: -26px -26px 0 -26px !important;
+    padding: 20px;
+    font-size:14px;
+}
+
+.org-dialog-buttons {
+    text-align: right;
+}
+
+.form-control {
+    border-radius: 0.25rem;
+}
+
+.form-control, select.form-control {
+    height: auto;
+    max-height: 30px;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.mt-15 {
+    margin-top: 15px !important;
+}
+
+.ml-30 {
+    margin-left: 30px;
+}
+
+::ng-deep .update-time-cus-care .mat-form-field-underline {
+    opacity: 0;
+}
+
+::ng-deep .update-time-cus-care .mat-form-field-wrapper {
+    bottom: 16px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.error-border, .error-border:focus {
+    border-color: #f44336;
+}
+
+.clear {
+    float: right;
+    cursor: pointer;
+}
+
+.no-margin {
+    margin: 0px;
+}

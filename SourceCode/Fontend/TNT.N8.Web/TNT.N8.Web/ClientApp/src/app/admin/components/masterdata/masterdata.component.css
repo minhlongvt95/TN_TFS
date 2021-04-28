@@ -1,0 +1,53 @@
+.masterdata-content {
+    background-color: #fff;
+    margin: -15px;
+    padding: 20px;
+}
+
+.masterdata-content .row {
+    margin-right: 0 !important;
+}
+
+.masterdata-content .tree-title {
+    color: #6d98e7;
+    background-color: rgb(215, 215, 215);
+    padding: 10px;
+    padding-left: 20px;
+}
+
+.masterdata-content .tree-title span {
+    font-size: 15px;
+    color: rgb(81, 107, 175);
+    position: relative;
+    /*top: 10px;*/
+}
+
+.masterdata-content .tree-content1 {
+    padding: 10px 0;
+}
+
+.masterdata-content .tree-content {
+    background-color: rgb(242, 242, 242);
+    height: fit-content;
+    overflow-y: scroll;
+    padding: 20px 0;
+}
+
+.masterdata-content .tree-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Handle */
+
+.masterdata-content .tree-content::-webkit-scrollbar-thumb {
+    background: rgb(153, 153, 153);
+    border-radius: 50px;
+}
+
+.masterdata-content .tree-view1 {
+    padding-left: 15px;
+}
+
+.masterdata-content .tree-view {
+    padding-left: 35px;
+}

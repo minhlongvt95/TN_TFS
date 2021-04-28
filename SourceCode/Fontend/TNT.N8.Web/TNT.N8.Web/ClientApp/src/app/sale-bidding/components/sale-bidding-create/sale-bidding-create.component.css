@@ -1,0 +1,433 @@
+.sale-bidding-create .btn-move {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.sale-bidding-create .mr-5 {
+    margin-right: 5px;
+}
+
+.sale-bidding-create .icons-move {
+    font-size: 10px !important;
+}
+
+.sale-bidding-create {
+    font-family: 'Inter UI';
+}
+
+.sale-bidding-create .header {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+}
+
+.sale-bidding-create .header-box-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.sale-bidding-create .header-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+.sale-bidding-create .customer-name {
+    width: 119px;
+    height: 20px;
+    font-family: 'Inter UI';
+    font-size: 22px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 2.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.sale-bidding-create .customer-type {
+    width: 106px;
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+}
+
+.sale-bidding-create .btn-remove {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.sale-bidding-create .btn-remove-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.sale-bidding-create .save-and-new {
+    width: 142px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #0f62fe;
+    background-color: #ffffff;
+    margin-left: 5px;
+}
+
+.sale-bidding-create .save-and-new .text-save-and-new {
+    width: 102px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0f62fe;
+}
+
+.sale-bidding-create .btn-save {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+}
+
+.sale-bidding-create .btn-save-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.sale-bidding-create .customer-infor {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: none;
+    border: solid 1px #cccccc;
+    padding-bottom: 10px;
+}
+
+.sale-bidding-create .notification {
+    position: absolute;
+    top: 38px;
+    width: 307px;
+    box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+    border: solid 1px #dde1e6;
+    background-color: #ffffff;
+    z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.sale-bidding-create .notification::before {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid #ffffff;
+    border-width: 8px;
+    border-bottom-color: #d1d5da;
+}
+
+.sale-bidding-create .notification::after {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid transparent;
+    margin-bottom: -1px;
+    border-width: 8px;
+    border-bottom-color: #ffffff;
+}
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.sale-bidding-create .notification .notifi-row {
+    width: 100%;
+    border-bottom: 1px solid #dde1e6;
+    padding: 10px 0px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.sale-bidding-create .notification .notifi-row .ios-alert {
+    position: absolute;
+    left: 15px;
+    width: 15.9px;
+    height: 15.9px;
+    object-fit: contain;
+}
+
+.sale-bidding-create .notification .notifi-row .notifi-text {
+    position: relative;
+    left: 50px;
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ff3b30;
+}
+
+.sale-bidding-create .notification .notifi-row-footer {
+    width: 100%;
+    padding: 10px 10px;
+    text-align: right;
+}
+
+.sale-bidding-create .notification .notifi-row-footer .notifi-text-footer {
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    color: #121619;
+}
+
+.sale-bidding-create .box-waring {
+    display: inline-block;
+    width: 49px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: #ffcc00;
+    text-align: center;
+    cursor: pointer;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+}
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+}
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+}
+
+::ng-deep .sale-bidding-create .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.sale-bidding-create .w100 {
+    width: 100%;
+}
+
+.sale-bidding-create .mb-10 {
+    margin-bottom: 10px;
+}
+
+.sale-bidding-create .mt-20 {
+    margin-top: 20px;
+}
+
+.sale-bidding-create .mt-10 {
+    margin-top: 10px;
+}
+
+.sale-bidding-create .ml-10 {
+    margin-left: 10px;
+}
+
+.sale-bidding-create .bg-007ad9 {
+    background-color: #007ad9;
+}
+
+.sale-bidding-create .py-10 {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sale-bidding-create .text-center {
+    text-align: center;
+}
+
+.sale-bidding-create .require {
+    color: #F94E4E;
+}
+
+.sale-bidding-create .error-message-span {
+    color: red !important;
+}
+
+::ng-deep .sale-bidding-create .ui-multiselect-panel {
+    top: 32px !important;
+}
+
+::ng-deep .sale-bidding-create .ui-dropdown-panel {
+    top: 32px !important;
+}
+
+::ng-deep .sale-bidding-create :focus {
+    outline: none !important;
+}
+
+::ng-deep .sale-bidding-create .ui-datepicker {
+    top: 32px !important;
+}
+
+.sale-bidding-create .float-right {
+    float: right;
+}
+
+.sale-bidding-create .d-inline {
+    display: inline;
+}
+
+.sale-bidding-create .clear-time {
+    position: absolute;
+    right: 25px;
+    display: flex;
+    top: 0px;
+    align-items: center;
+    bottom: 0px;
+    z-index: 9999999;
+}
+
+.sale-bidding-create .d-none {
+    display: none;
+}
+
+.sale-bidding-create .clear-time i:hover {
+    cursor: pointer;
+}
+
+.sale-bidding-create .cursor i:hover {
+    cursor: pointer;
+}
+
+.sale-bidding-create .fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: #ffffff;
+    width: 960px;
+    border: 1px solid #cccccc;
+}
+
+::ng-deep .sale-bidding-create .ui-datepicker-title select {
+    margin-top: 0px !important;
+    margin-left: 5px !important;
+}
+
+::ng-deep .sale-bidding-create .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem .ui-menuitem-link .ui-menuitem-icon {
+    font-size: 17px;
+    color: #121619;
+}
+
+::ng-deep .sale-bidding-create .ui-tabmenu {
+    border-bottom: 10px solid #cccccc;
+}
+
+/* Máy để bàn */
+
+@media only screen and (min-width: 1025px) and (max-width: 1423px) {}
+
+/* Ipad Pro */
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+    .sale-bidding-list .diplay-center {
+        display: block !important;
+    }
+}
+
+/* Ipad */
+
+@media only screen and (min-width: 375px) and (max-width: 768px) {
+    .sale-bidding-list .diplay-center {
+        display: block !important;
+    }
+}
+
+/* Iphone 6/7/8 Plus */
+
+@media only screen and (min-width: 375px) and (max-width: 414px) {
+    .sale-bidding-list .diplay-center {
+        display: block !important;
+    }
+}
+
+/* Iphone 6/7/8/X */
+
+@media only screen and (max-width: 375px) {
+    .sale-bidding-list .diplay-center {
+        display: block !important;
+    }
+}
+
+.sale-bidding-create .mt-25 {
+    margin-top: 25px;
+}

@@ -1,0 +1,138 @@
+<section class="list-content">
+	<div class="row">
+		<div class="hidden-md hidden-lg no-padding-left">
+			<h4>{{'budget.list.title'| translate }}</h4>
+		</div>
+		<div class="button-action bg-white shadow ">
+			<h4 class="hidden-xs hidden-sm col-md-10 no-padding-left">{{'budget.list.title'| translate }}</h4>
+      <span class="pull-right">
+        <a  (click)="openBudgetCreateDialog()"
+        mat-raised-button color="primary">{{'budget.list.buttons.create'| translate }}</a>
+			</span>
+    </div>
+    <!-- <div class="padding-bottom-20">
+      <label style="font-size: 15px">{{'budget.list.info-label'| translate }}</label>
+    </div> -->
+    <form action="" class="filter-employee form-horizontal bg-white shadow" accept-charset="utf-8" [formGroup]="searchBudgetForm">
+      <!--[formGroup]="filterForm"-->
+      <div class="row">
+        <h6 style="font-size: 15px ; padding-left:20px">{{'budget.list.info-label'| translate }}</h6>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-2">
+              <label class="search-label">{{'budget.list.EstimateYear'| translate }}</label>
+            </div>
+            <div class="col-md-10">
+              <div class="col-md-3">
+                <mat-form-field >
+                    <input type="text" matInput
+                      class="search-input" 
+                      [(ngModel)]="ProcurementYear" 
+                      [matAutocomplete]="autoProcurementYear"
+                      name="YearEstimate"
+                      formControlName="ProcurementYearControl">
+                    <mat-autocomplete #autoProcurementYear="matAutocomplete">
+                      <mat-option class="noneOption" >              
+                      </mat-option>
+                      <mat-option *ngFor="let option of listYear" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1" style="text-align: left">
+                <i matTooltip="{{ 'lead.tooltip.refresh' | translate }}" class="material-icons refresh-icon" 
+                (click)="refreshParameter()">
+                  cached
+                </i>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+           <div class="col-md-2">
+            <label class="search-label">{{'budget.list.EstimateMonth'| translate }}</label>
+           </div>
+          <div class="col-md-10">
+            <div class="col-md-3">
+              <mat-form-field >
+                  <input type="text" matInput
+                    class="search-input"
+                    [(ngModel)]="ProcurementMonth" 
+                    [matAutocomplete]="autoProcurementMonth"
+                    name="MonthEstimate"
+                    formControlName="ProcurementMonthControl">
+                  <mat-autocomplete #autoProcurementMonth="matAutocomplete">
+                    <mat-option class="noneOption" >              
+                    </mat-option>
+                    <mat-option *ngFor="let option of listMonth" [value]="option">
+                      {{option}}
+                    </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>  
+            </div>
+            <div class="col-md-1" style="text-align: left ; padding-top: 10px">
+                <button type="button" matTooltip="{{ 'lead.tooltip.search' | translate }}" class="btn-search" (click)="searchBudget()" >
+                    <i class="fa fa-search"></i>
+                  </button>
+            </div>
+          </div>
+          
+        </div>
+      </div> 
+    </form>
+	</div>
+	<div class="row" >
+		<div class=" bg-white shadow">
+      <mat-table #table class="mat-elevation-z8" id="budget-table" [dataSource]="dataSourcelistAllBudget"> 
+
+        
+        <ng-container matColumnDef="DateCreate">
+          <mat-header-cell *matHeaderCellDef> <label class="label-column">{{'budget.list.DateCreate'| translate }}</label>
+            <i class="fas fa-sort" (click)="sort('createdDate')"></i> </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.createdDate | date:'dd-MM-yyyy'}} </mat-cell>
+        </ng-container>
+      
+       
+        <ng-container matColumnDef="EstimateCode">
+          <mat-header-cell *matHeaderCellDef><label class="label-column"> {{'budget.list.EstimateCode'| translate }}</label>
+            <i class="fas fa-sort" (click)="sort('procurementPlanCode')"></i>  </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+              <a class="link" (click)="goToProcurementPlan(element.procurementPlanId)">{{element.procurementPlanCode}} </a> </mat-cell>
+        </ng-container>
+      
+       
+        <ng-container matColumnDef="Content">
+          <mat-header-cell *matHeaderCellDef class="min-width-200"> <label class="label-column">{{'budget.list.Content'| translate }}</label>
+            <i class="fas fa-sort" (click)="sort('procurementContent')"></i> </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="min-width-200">{{element.procurementContent}}  </mat-cell>
+        </ng-container>
+      
+       
+        <ng-container matColumnDef="AmountMoney">
+          <mat-header-cell *matHeaderCellDef><label class="label-column">{{'budget.list.AmountMoney'| translate }}</label>
+            <i class="fas fa-sort" (click)="sort('procurementAmount')"></i> </mat-header-cell>
+          <mat-cell *matCellDef="let element" > {{element.procurementAmount | number:0}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="YearEstimate">
+            <mat-header-cell *matHeaderCellDef class="max-width-100"><label class="label-column">{{'budget.list.EstimateYear'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('procurementYear')"></i> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="max-width-100">{{element.procurementYear}}  </mat-cell>
+          </ng-container>
+        
+        <ng-container matColumnDef="MonthEstimate">
+            <mat-header-cell *matHeaderCellDef class="max-width-100"><label class="label-column">{{'budget.list.MonthEstimate'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('procurementMonth')"></i> </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="max-width-100">{{element.procurementMonth}}  </mat-cell>
+          </ng-container>
+        
+        <mat-header-row *matHeaderRowDef="displayedColumns" ></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row >
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[10]" showFirstLastButtons></mat-paginator>
+		</div>
+	</div>
+</section>

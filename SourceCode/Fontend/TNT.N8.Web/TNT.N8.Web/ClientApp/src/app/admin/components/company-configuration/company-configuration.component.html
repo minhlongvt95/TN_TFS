@@ -1,0 +1,152 @@
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+<div class="company-configuration">
+    <div class="row">
+        <div class="col-md-6">
+            <span style="font-size: 24px">{{ 'CompanyConfiguration.create.title' | translate }}</span>
+        </div>
+        <div class="col-md-6 main-button-row">
+            <button pButton style="margin-right: 2%;" class="ui-button-secondary ui-button-raised"
+                (click)="onCancelBtn()" *ngIf="!isViewMode"
+                label="{{ 'CompanyConfiguration.create.buttons.cancel' | translate }}"></button>
+            <button pButton class="ui-button ui-button-raised" (click)="onSaveBtn()" *ngIf="!isViewMode && actionEdit"
+                label="{{ 'CompanyConfiguration.create.buttons.save' | translate }}"></button>
+            <button pButton class="ui-button ui-button-raised" (click)="onEditBtn()" *ngIf="isViewMode && actionEdit"
+                label="{{ 'CompanyConfiguration.create.buttons.edit' | translate }}"></button>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-12 ">
+            <p class="title">{{ 'CompanyConfiguration.create.info_company' | translate }}</p>
+            <form class="form-group col-md-12 top-15 bottom-15 grey" [formGroup]="configFormGroup"
+                *ngIf="configFormGroup">
+                <div style="margin-top:9px">
+                    <div class="col-md-6 no-padding">
+                        <div class="row order-row pr-30">
+                            <div class="col-md-12 control-label">
+                                <label>{{ 'CompanyConfiguration.create.companyName' | translate }}<span
+                                        class="require">{{ 'CompanyConfiguration.create.require' | translate }}</span></label>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="text" pInputText formControlName="companyName" class="form-control"
+                                    name="CompanyName" />
+                                <div class="md-errors-spacer" [hidden]="companyName.valid || companyName.untouched">
+                                    <span *ngIf="companyName.hasError('required')" class="error-message-span">Không được
+                                        bỏ trống</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row order-row pr-30">
+                            <div class="col-md-12 control-label">
+                                <label>{{'CompanyConfiguration.create.TaxCode' | translate }}</label>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input pInputText type="text" formControlName="taxCode" class="form-control"
+                                    name="TaxCode" maxlength="25" />
+                                <div class="md-errors-spacer" [hidden]="taxCode.valid || taxCode.untouched">
+                                    <span *ngIf="taxCode.hasError('pattern')" class="error-message-span">Mã số thuế
+                                        không đúng định
+                                        dạng</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row order-row pr-30">
+                            <div class="col-md-12 control-label">
+                                <label>{{'CompanyConfiguration.create.CompanyAddress' | translate }}</label>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input pInputText type="text" formControlName="address" class="form-control"
+                                    name="Address" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 no-padding">
+                        <div class="row order-row pr-30 form-group">
+                            <div class="col-md-6 control-label">
+                                <label>{{'CompanyConfiguration.create.Phone' | translate }}<span
+                                        class="require">{{ 'CompanyConfiguration.create.require' | translate }}</span></label>
+                                <input pInputText type="text" formControlName="phoneNumber" class="form-control"
+                                    name="PhoneNumber" />
+                                <div class="md-errors-spacer" [hidden]="phoneNumber.valid || phoneNumber.untouched">
+                                    <span *ngIf="phoneNumber.hasError('required')" class="error-message-span">Không được
+                                        bỏ trống</span>
+                                    <span *ngIf="phoneNumber.hasError('pattern')" class="error-message-span">Số điện
+                                        thoại không đúng định
+                                        dạng</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6 control-label ">
+                                <label>{{'CompanyConfiguration.create.Email' | translate }}</label>
+                                <input pInputText type="text" formControlName="email" class="form-control"
+                                    name="Email" />
+                                <div class="md-errors-spacer" [hidden]="email.valid || email.untouched">
+                                    <span *ngIf="email.hasError('pattern')" class="error-message-span">Email không đúng
+                                        định dạng</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row order-row pr-30 form-group">
+                            <div class="col-md-6 control-label">
+                                <label>{{'CompanyConfiguration.create.ContactName' | translate }}</label>
+                                <input pInputText type="text" formControlName="representative" class="form-control"
+                                    name="Representative" maxlength="50" />
+                            </div>
+                            <div class="col-md-6 control-label ">
+                                <label>{{'CompanyConfiguration.create.ContactRole' | translate }}</label>
+                                <input pInputText type="text" formControlName="position" class="form-control"
+                                    name="Position" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <div class="title">
+                {{'CompanyConfiguration.create.ListBank' | translate}}
+                <div style="float:right">
+                    <button class="ui-button-raised ui-button" style="float:right;" pButton tabindex="0"
+                        (click)="addBankAccountDialog()" *ngIf="!isViewMode"
+                        label="{{ 'CompanyConfiguration.create.AddBank' | translate }}"></button>
+                </div>
+            </div>
+            <div class="col-md-12 bottom-15 no-padding-left" style="margin-top:9px;padding-right: 0px !important;">
+                <p-table #myTable [columns]="colHeader" [value]="listBankAccount" [paginator]="true" [rows]="5"
+                    [rowsPerPageOptions]="[5,10,20]" [resizableColumns]="true" [reorderableColumns]="true"
+                    [responsive]="true" selectionMode="single">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                                [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                                <span>
+                                    {{col.header}}
+                                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                                </span>
+                            </th>
+                            <th style="text-align: center; width: 5%;">Xóa</th>
+                            <th style="text-align: center; width: 5%;">Sửa</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                                <span class="ui-column-title">{{col.header}}</span> {{rowData[col.field]}}
+                            </td>
+                            <td style="text-align: center; width: 5%;">
+                                <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteItem(rowData)"
+                                    class="ui-button-danger"></button>
+                            </td>
+                            <td style="text-align: center; width: 5%;">
+                                <button *ngIf="actionEdit" pButton icon="pi pi-pencil" class="ui-button"></button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

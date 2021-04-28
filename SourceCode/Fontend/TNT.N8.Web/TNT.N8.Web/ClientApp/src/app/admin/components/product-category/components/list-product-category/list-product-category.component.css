@@ -1,0 +1,137 @@
+.mainpage{
+    margin-top: -15px;
+    background: #fff;
+    padding: 15px;
+}
+
+.mat-elevation-z8 {
+    box-shadow: none !important;
+    border: solid 1px #cccccc;
+    border-bottom: none;
+}
+
+.no-padding {
+    padding: 0
+  }
+  
+.title{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    opacity: 0.8;
+}
+  
+.row_button{
+    text-align: right;
+    font-family: 'Open Sans', sans-serif;
+    padding-bottom: 20px;
+}
+
+.btn-create{
+    background :#6d98e7;
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+}
+  
+mat-paginator{
+    border: 1px solid #cccccc;
+    border-top: none;
+}
+
+tr {
+    border: 1px solid #cccccc;
+    height: 42px;
+}
+
+.body_table tr{
+    border-top: none !important;
+}
+
+thead {
+    background: #f2f2f2;
+}
+
+td {
+    font-size: 14px;
+    padding: 10px 0px 10px 20px;
+    word-wrap: break-word;
+    font-family: 'Open Sans', sans-serif;
+}
+
+th{
+    padding: 20px 0px 20px 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px; 
+}
+
+.body_table tr:hover {
+    background: #dcecff;
+}
+
+.body_table tr:hover .btn-edit{
+    display: inline-block;
+}
+
+  .body_table tr:hover .btn-delete {
+    display: inline-block;
+  }
+
+.body_table tr:hover .btn-add{
+    display: inline-block;
+}
+
+hr{
+    margin: 20px 15px;
+    padding: 10px;
+    border-top: 1px solid #cccccc;
+}
+
+.full_width {
+    width: 100%;
+}
+
+table .icon_triger {
+    font-size: 16px;
+    background: #000000;
+    color: #fff;
+    border-radius: 3px;
+}
+
+.btn-edit,.btn-add, .btn-delete {
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+}
+
+table .btn-add {
+    border-radius: 3px;
+    background: #6d98e7;
+    color: #fff; 
+}
+
+.nameCell {
+    padding-left: 20px;
+}
+
+.child_row .headerCell_childName {
+    padding-left: 30px;
+}
+
+.child_row .headerCell_grandchildName {
+    padding-left: 60px;
+}
+
+.width-35{
+    width: 35% !important;
+}
+
+.width-15{
+    width: 15% !important;
+}
+
+.width-30{
+    width: 30% !important;
+}
+
+.width-10{
+    width: 10% !important;
+}

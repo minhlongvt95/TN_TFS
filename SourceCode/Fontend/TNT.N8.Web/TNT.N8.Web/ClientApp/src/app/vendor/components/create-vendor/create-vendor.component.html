@@ -1,0 +1,320 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="create-vendor">
+  <div class="row no-margin" id="parent">
+    <div class="col-md-12 header" style="padding: 6px;" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+      <div class="row">
+        <div class="col-md-6 no-padding">
+          <div class="row no-margin">
+            <div class="col-md-1 col-sm-1 col-xs-3">
+              <div class="header-box-icon">
+                <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+              </div>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-9">
+              <div>
+                <span class="customer-name">Tạo mới nhà cung cấp</span>
+              </div>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+              <button type="button" class="btn-remove">
+                <span (click)="goBackToList()" class="btn-remove-text">Hủy</span>
+              </button>
+              <button (click)="createVendor(true)" *ngIf="actionAdd" #saveAndCreate class="save-and-new" type="button">
+                <span class="text-save-and-new">Lưu và Thêm mới</span>
+              </button>
+              <button (click)="createVendor(false)" *ngIf="actionAdd" type="button" class="btn-save">
+                <span class="btn-save-text">Lưu</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="createVendorForm">
+    <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+      <div class="col-md-12 customer-infor">
+        <div class="row">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Thông tin nhà cung cấp" [selected]="true">
+              <div class="col-md-4">
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Nhóm nhà cung cấp</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="VendorGroup"
+                      [styleClass]="(createVendorForm.get('VendorGroup').invalid && (createVendorForm.get('VendorGroup').dirty || createVendorForm.get('VendorGroup').touched)) ? 'error-border' : ''"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listVendorGroup"
+                      optionLabel="categoryName" placeholder="Chọn nhóm nhà cung cấp" [showClear]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createVendorForm.get('VendorGroup').valid || createVendorForm.get('VendorGroup').untouched"
+                      *ngIf="createVendorForm.get('VendorGroup').hasError('required')" class="error-message-span">
+                      Chọn nhóm nhà cung cấp</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Mã nhà cung cấp</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="VendorCode" type="text" maxlength="20"
+                      [ngClass]="(createVendorForm.get('VendorCode').invalid && (createVendorForm.get('VendorCode').dirty || createVendorForm.get('VendorCode').touched)) ? 'error-border' : ''"
+                      class="w100" pInputText placeholder="Tối đa 20 ký tự" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createVendorForm.get('VendorCode').valid || createVendorForm.get('VendorCode').untouched">
+                    <span
+                      *ngIf="createVendorForm.get('VendorCode').hasError('required') || createVendorForm.get('VendorCode').hasError('blankString') "
+                      class="error-message-span">Không được
+                      để trống</span>
+                    <span *ngIf="createVendorForm.get('VendorCode').hasError('duplicateCode')"
+                      class="error-message-span">Mã nhà cung cấp đã tồn tại trong hệ thống</span>
+                    <span *ngIf="createVendorForm.get('VendorCode').hasError('pattern')" class="error-message-span">
+                      Mã nhà cung cấp không cho phép chứa khoảng trắng và ký tự đặc biệt</span>
+                  </div>
+                </div>
+              
+              </div>
+
+              <div class="col-md-4">
+
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Tên nhà cung cấp</span><span class="required">*</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="VendorName" type="text" maxlength="32"
+                      [ngClass]="(createVendorForm.get('VendorName').invalid && (createVendorForm.get('VendorName').dirty || createVendorForm.get('VendorName').touched)) ? 'error-border' : ''"
+                      class="w100" pInputText placeholder="" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createVendorForm.get('VendorName').valid || createVendorForm.get('VendorName').untouched">
+                    <span
+                      *ngIf="createVendorForm.get('VendorName').hasError('required') || createVendorForm.get('VendorName').hasError('blankString') "
+                      class="error-message-span">
+                      Nhập tên nhà cung cấp</span>
+                  </div>
+                </div>
+
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Email</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="Email" type="text" maxlength="100"
+                      [ngClass]="(createVendorForm.get('Email').invalid && (createVendorForm.get('Email').dirty || createVendorForm.get('Email').touched)) ? 'error-border' : ''"
+                      class="w100" pInputText placeholder="" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createVendorForm.get('Email').valid || createVendorForm.get('Email').untouched">
+                    <span *ngIf="createVendorForm.get('Email').hasError('pattern')" class="error-message-span">
+                      Sai định dạng Email</span>
+                  </div>
+                </div>
+
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Số điện thoại</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="Phone" type="text" maxlength="32"
+                      [ngClass]="(createVendorForm.get('Phone').invalid && (createVendorForm.get('Phone').dirty || createVendorForm.get('Phone').touched)) ? 'error-border' : ''"
+                      class="w100" pInputText placeholder="" />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createVendorForm.get('Phone').valid || createVendorForm.get('Phone').untouched">
+                    <span *ngIf="createVendorForm.get('Phone').hasError('pattern')" class="error-message-span">
+                      Sai định dạng số điện thoại</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-4 area-right">
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Khu vực</span>
+                  </div>
+                  <div class="col-md-12" style="padding-top: 5px;
+                  padding-bottom: 5px;">
+                    <div class="row">
+                      <div class="col-md-6 in_country">
+                        <p-radioButton (onClick)="changeLocation()" name="groupname" value="1"
+                          formControlName="Location" label="Trong nước">
+                        </p-radioButton>
+                      </div>
+                      <div class="col-md-6 in_country">
+                        <p-radioButton (onClick)="changeLocation()" name="groupname" value="2"
+                          formControlName="Location" label="Nước ngoài">
+                        </p-radioButton>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="isInVietNam" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Tỉnh/Thành phố</span>
+                  </div>
+                  <div *ngIf="isInVietNam" class="col-md-12">
+                    <p-dropdown formControlName="Province" (onChange)="changeProvince($event)"
+                      [styleClass]="(createVendorForm.get('Province').invalid && (createVendorForm.get('Province').dirty || createVendorForm.get('Province').touched)) ? 'error-border' : ''"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listProvince"
+                      optionLabel="provinceName" placeholder="Chọn tỉnh/thành phố" [showClear]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createVendorForm.get('Province').valid || createVendorForm.get('Province').untouched"
+                      *ngIf="createVendorForm.get('Province').hasError('required')" class="error-message-span">
+                      Chọn tỉnh/thành phố</span>
+                  </div>
+                </div>
+                <div *ngIf="isInVietNam" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Quận/Huyện</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="District" (onChange)="changeDistrict($event)"
+                      [styleClass]="(createVendorForm.get('District').invalid && (createVendorForm.get('District').dirty || createVendorForm.get('District').touched)) ? 'error-border' : ''"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listCurrentDistrict"
+                      optionLabel="districtName" placeholder="Chọn quận/huyện" [showClear]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span
+                      [hidden]="createVendorForm.get('District').valid || createVendorForm.get('District').untouched"
+                      *ngIf="createVendorForm.get('District').hasError('required')" class="error-message-span">
+                      Chọn quận/huyện</span>
+                  </div>
+                </div>
+                <div *ngIf="isInVietNam" class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Phường/Xã</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown formControlName="Ward"
+                      [styleClass]="(createVendorForm.get('Ward').invalid && (createVendorForm.get('Ward').dirty || createVendorForm.get('Ward').touched)) ? 'error-border' : ''"
+                      [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listCurrentWard"
+                      optionLabel="wardName" placeholder="Chọn phường/xã" [showClear]="true"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createVendorForm.get('Ward').valid || createVendorForm.get('Ward').untouched"
+                      *ngIf="createVendorForm.get('Ward').hasError('required')" class="error-message-span">
+                      Chọn phường/xã</span>
+                  </div>
+                </div>
+                <div class="row buffer-bottom">
+                  <div class="col-md-12 buffer-bottom-label">
+                    <span>Địa chỉ</span>
+                  </div>
+                  <div class="col-md-12">
+                    <input formControlName="Address" type="text" maxlength="250"
+                      [ngClass]="(createVendorForm.get('Address').invalid && (createVendorForm.get('Address').dirty || createVendorForm.get('Address').touched)) ? 'error-border' : ''"
+                      class="w100" pInputText placeholder="Số nhà, đường..." />
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="createVendorForm.get('Address').valid || createVendorForm.get('Address').untouched">
+                    <!-- <span *ngIf="createVendorForm.get('Email').hasError('required')" class="error-message-span">
+                      Nhập tên nhà cung cấp</span> -->
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+      <div class="col-md-12 customer-infor">
+        <div class="row">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Người liên hệ" [selected]="true">
+              <div class="row bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedColumns" [value]="listContact" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10, 20, 30]"
+                        [responsive]="true" selectionMode="single" [(selection)]="selectedContact"
+                        (onRowSelect)="editContact($event.data)">
+                        <ng-template pTemplate="caption">
+                          <div class="row">
+                            <div class="col-md-6" style="display: flex;">
+                              <p-multiSelect [options]="columns" optionLabel="header" [(ngModel)]="selectedColumns"
+                                [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{minWidth: '150px', display: 'flex' }" defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6"
+                              style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                              <span (click)="addVendorContact()" class="link">
+                                <span>
+                                  <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                    class="ios-add-circle-outline">
+                                </span>
+                                <span class="add-contact-text">
+                                  Thêm người liên hệ
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                            <th style="text-align: center;">
+                              <span>Thao tác</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                            <td style="text-align: center;">
+                              <button pButton icon="pi pi-trash" (click)="deleteContact(rowData)" *ngIf="actionAdd"
+                                class="ui-button-danger"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

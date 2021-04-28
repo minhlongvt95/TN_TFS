@@ -1,0 +1,301 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="procedure-request-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="\assets\icons\components\noun_product.svg" class="noun-product">
+                  </div>
+                </div>
+                <div class="col-md-10 col-xs-10 list-purchase-proposal">
+                  <div class="box-header-title">{{ 'procurement-request.list.title_content' | translate }}</div>
+                  <div class="box-header-subtitle">
+                    {{listProcurementRequest.length}} {{ 'procurement-request.list.title_note' | translate }}
+                    {{nowDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreateProcurementRequest()"><span
+                class="btn-create-text">{{ 'procurement-request.list.create' | translate }}</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">{{ 'procurement-request.list.filler' | translate }}</span>
+              </button>
+              <input type="text" [(ngModel)]="filterGlobal" class="iput-text" placeholder="{{ 'procurement-request.list.place_text_search' | translate }}"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.code' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text" placeholder="{{ 'procurement-request.list.code' | translate }}"
+              [(ngModel)]="prcmCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.product' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProduct" [(ngModel)]="selectedProduct" defaultLabel="{{ 'procurement-request.list.product_choose' | translate }}"
+              optionLabel="productCodeName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} {{ 'procurement-request.list.product_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+        
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.person_request' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmp" [(ngModel)]="selectedRequester" defaultLabel="{{ 'procurement-request.list.person_request_choose' | translate }}"
+              itemSize="30" [virtualScroll]="true" optionLabel="employeeName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" selectedItemsLabel="{0} {{ 'procurement-request.list.person_request_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.from_date' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.to_date' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.status' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="selectedStatus" defaultLabel="{{ 'procurement-request.list.status_choose' | translate }}"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} {{ 'procurement-request.list.status_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+        
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.unit' | translate }}</span>
+            <a href="javascript:(0)" (click)="openOrgPopup()"> <u>{{ 'procurement-request.list.tree_unit' | translate }}</u></a>
+          </div>
+          <div class="col-md-12">
+            <input type="text" value="{{prcmOrgName}}" placeholder="{{ 'procurement-request.list.unit' | translate }}" class="bank-payments-code-text" disabled>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchProcurementRequestData()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="listProcurementRequest.length > 0" class="col-md-{{leftColNumber}}">
+      <p-table #myTable [columns]="selectedColumns" [frozenColumns]="frozenCols" [value]="listProcurementRequest"
+        (sortFunction)="sortColumnInList($event)" [customSort]="true" [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+        <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="colsList" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+            [ngStyle]="{ 'width': col.width, 'text-align': col.textAlign, 'display': col.display }">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+              [ngStyle]="{ 'width': col.width, 'text-align': col.textAlign, 'display': col.display }">
+              <span class="ui-column-title">{{col.header}}</span> 
+              <span *ngSwitchCase="'procurementCode'" (click)="gotoView(rowData)" class="link"
+                style="display: inline-block; padding: 2px 2px;">
+                {{ rowData[col.field] }}
+              </span>
+              <!-- <span *ngSwitchCase="'RequestEmployeeName'" pTooltip="{{rowData[col.field]}}"
+                tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+              </span> -->
+              <span *ngSwitchCase="'procurementContent'" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchCase="'organizationName'" pTooltip="{{rowData[col.field]}}"
+                tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchCase="'totalMoney'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}"
+                style="display: inline-block;
+                      padding: 2px 2px;
+                      color: white;
+                      width: 130px;">{{rowData[col.field].trim().length > 18 ? rowData[col.field].trim().slice(0,18)+'...' : rowData[col.field].trim()}}</span>
+              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="!(listProcurementRequest.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>{{ 'procurement-request.list.no_data' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.code' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text" placeholder="{{ 'procurement-request.list.code' | translate }}"
+              [(ngModel)]="prcmCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.product' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProduct" [(ngModel)]="selectedProduct" defaultLabel="{{ 'procurement-request.list.product_choose' | translate }}"
+              itemSize="30" [virtualScroll]="true" optionLabel="productCodeName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" selectedItemsLabel="{0} {{ 'procurement-request.list.product_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.person_request' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmp" [(ngModel)]="selectedRequester" defaultLabel="{{ 'procurement-request.list.person_request_choose' | translate }}"
+              itemSize="30" [virtualScroll]="true" optionLabel="employeeName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" selectedItemsLabel="{0} {{ 'procurement-request.list.person_request_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.from_date' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.to_date' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.status' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="selectedStatus" defaultLabel="{{ 'procurement-request.list.status_choose' | translate }}"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} {{ 'procurement-request.list.status_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+        
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.unit' | translate }}</span>
+            <a href="javascript:(0)" (click)="openOrgPopup()"> <u>{{ 'procurement-request.list.tree_unit' | translate }}</u></a>
+          </div>
+          <div class="col-md-12">
+            <input type="text" value="{{prcmOrgName}}" placeholder="{{ 'procurement-request.list.unit' | translate }}" class="bank-payments-code-text" disabled>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchProcurementRequestData()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

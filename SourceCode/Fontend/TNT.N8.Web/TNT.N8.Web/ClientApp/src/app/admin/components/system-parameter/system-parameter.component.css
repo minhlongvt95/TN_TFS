@@ -1,0 +1,25 @@
+.system-parameter .bg-white {
+	background: #fff;
+}
+
+.system-parameter .shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.system-parameter .pd-10 {
+    padding: 10px 10px 10px 10px;
+}
+
+.system-parameter .w100 {
+    width: 100% !important;
+}
+
+.system-parameter .title {
+    font-size: 20px;
+}
+
+.system-parameter .mt-10 {
+    margin-top: 10px !important;
+}
+
+

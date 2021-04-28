@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="42.093" height="37.495" viewBox="0 0 42.093 37.495">
+    <defs>
+        <style>
+            .prefix__cls-1,.prefix__cls-2{stroke:#002d9c;stroke-miterlimit:10;stroke-width:2px}.prefix__cls-1{fill:rgba(90,200,250,.4)}.prefix__cls-2{fill:none}.prefix__cls-3{fill:#fff}
+        </style>
+    </defs>
+    <g id="prefix__Group_17213" data-name="Group 17213" transform="translate(-1216.218 -273.684)">
+        <g id="prefix__Group_17209" data-name="Group 17209" transform="translate(1217.218 274.573)">
+            <path id="prefix__Path_26583" d="M310.277 325.348c.623 0 3.854-5.949 4.567-6.869.247-.319.3-.472.109-.7s-.611-.213-1.076-.081a6.111 6.111 0 0 1-3.149-.353c-2.42-.687-5.912-1.656-7.316.854-.136.243-.042.215.228.51.737.8 3.838 6.639 4.471 6.639z" class="prefix__cls-1" data-name="Path 26583" transform="translate(-295.49 -316.573)"/>
+            <path id="prefix__Path_26584" d="M308.54 326.708a6.058 6.058 0 0 0-6.12 0c-7.269 3.9-10.2 11.476-10.2 15.2 0 7.517 5.94 9.476 13.262 9.476s13.262-1.851 13.262-9.371c-.003-3.613-3.127-10.999-10.204-15.305z" class="prefix__cls-1" data-name="Path 26584" transform="translate(-292.218 -319.306)"/>
+            <path id="prefix__Path_26585" d="M304.446 331.182c-5.552 2.982-7.792 8.766-7.792 11.609" class="prefix__cls-2" data-name="Path 26585" transform="translate(-293.522 -320.867)"/>
+            <g id="prefix__Group_17208" data-name="Group 17208" transform="translate(11.143 14.94)">
+                <path id="prefix__Path_26586" d="M308 346.649a1.412 1.412 0 0 0 1.412 1.412h1.412a1.412 1.412 0 0 0 1.412-1.412v-.394a1.412 1.412 0 0 0-.966-1.34l-2.305-.768a1.413 1.413 0 0 1-.965-1.34v-.394a1.412 1.412 0 0 1 1.412-1.413h1.412a1.412 1.412 0 0 1 1.412 1.412" class="prefix__cls-2" data-name="Path 26586" transform="translate(-308 -338.693)"/>
+                <path id="prefix__Line_149" d="M0 3L0 0" class="prefix__cls-2" data-name="Line 149" transform="translate(1.639 .487)"/>
+                <path id="prefix__Line_150" d="M0 0L0 2" class="prefix__cls-2" data-name="Line 150" transform="translate(1.639 9.487)"/>
+            </g>
+        </g>
+        <g id="prefix__Group_17212" data-name="Group 17212" transform="translate(1236.668 288.29)">
+            <path id="prefix__Path_26587" d="M325.943 336c-2.73 0-4.943.948-4.943 2.118v17.652c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118v-17.652c-.001-1.17-2.214-2.118-4.943-2.118z" class="prefix__cls-3" data-name="Path 26587" transform="translate(-320.128 -336)"/>
+            <path id="prefix__Path_26588" d="M339.943 347c-2.73 0-4.943.948-4.943 2.118v7.061c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118v-7.061c-.001-1.17-2.214-2.118-4.943-2.118z" class="prefix__cls-3" data-name="Path 26588" transform="translate(-324.243 -339.233)"/>
+            <path id="prefix__Path_26589" d="M321 339v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V339" class="prefix__cls-2" data-name="Path 26589" transform="translate(-320.128 -336.882)"/>
+            <path id="prefix__Path_26590" d="M321 344v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V344" class="prefix__cls-2" data-name="Path 26590" transform="translate(-320.128 -338.351)"/>
+            <path id="prefix__Path_26591" d="M321 349v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V349" class="prefix__cls-2" data-name="Path 26591" transform="translate(-320.128 -339.821)"/>
+            <path id="prefix__Path_26592" d="M321 354v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V354" class="prefix__cls-2" data-name="Path 26592" transform="translate(-320.128 -341.291)"/>
+            <path id="prefix__Path_26593" d="M321 359v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V359" class="prefix__cls-2" data-name="Path 26593" transform="translate(-320.128 -342.76)"/>
+            <ellipse id="prefix__Ellipse_205" cx="5.5" cy="2.5" class="prefix__cls-2" data-name="Ellipse 205" rx="5.5" ry="2.5" transform="translate(.332 -.29)"/>
+            <path id="prefix__Path_26594" d="M335 350v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V350" class="prefix__cls-2" data-name="Path 26594" transform="translate(-324.243 -340.115)"/>
+            <path id="prefix__Path_26595" d="M335 355v3.53c0 1.17 2.213 2.118 4.943 2.118s4.943-.948 4.943-2.118V355" class="prefix__cls-2" data-name="Path 26595" transform="translate(-324.243 -341.585)"/>
+            <ellipse id="prefix__Ellipse_206" cx="4.5" cy="2" class="prefix__cls-2" data-name="Ellipse 206" rx="4.5" ry="2" transform="translate(11.332 7.71)"/>
+        </g>
+    </g>
+</svg>

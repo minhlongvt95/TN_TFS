@@ -1,0 +1,126 @@
+/*Set font*/
+span,button{
+  font-family: 'Open Sans', sans-serif; 
+}
+
+::ng-deep .mat-dialog-container{
+  padding: 0 !important;
+  overflow-x: hidden;
+}
+
+.tree-title {
+  background-color: #6D98E7;
+  padding: 30px;
+  color: #fff;
+  font-weight: 700;
+}
+
+  .tree-title span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #fff;
+    position: relative;
+    top: 10px;
+  }
+
+.tree-content {
+  height: 500px;
+  overflow-y: scroll;
+  padding: 20px 0;
+}
+
+  .tree-content::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Handle */
+  .tree-content::-webkit-scrollbar-thumb {
+    background: rgb(153, 153, 153);
+    border-radius: 50px;
+  }
+
+.tree-view {
+  padding-left: 25px;
+}
+
+.tree-item {
+  /*padding: 2px 20px 3px 10px;*/
+  width: 300px;
+  cursor: pointer;
+}
+
+  .tree-item table {
+    width: 100%;
+  }
+
+    .tree-item table tr td:first-child {
+      width: 8%;
+    }
+
+    .tree-item table tr td:last-child {
+      padding-left: 10px;
+    }
+
+  .tree-item.lvl-2 {
+    margin-left: 25px;
+  }
+
+  .tree-item.lvl-3 {
+    margin-left: 40px;
+  }
+
+  .tree-item.lvl-4 {
+    margin-left: 65px;
+  }
+
+.org-select-content .button-content{
+  text-align:right;
+  padding: 20px 15px;
+}
+
+.btn-select {
+  background-color: #fff;
+  color: #6D98E7;
+}
+
+.btn-cancel {
+  background-color: #fff;
+}
+
+.org-select-content .btn-select:hover,
+.org-select-content .btn-select:focus,
+.org-select-content .btn-cancel:hover,
+.org-select-content .btn-cancel:focus {
+  color: #fff;
+  background-color: #6D98E7
+}
+
+.selected-item {
+  background-color: #6d98e7;
+  color: #fff
+}
+
+.collapse.in {
+  visibility: visible !important;
+  display: block;
+}
+
+tr{
+  height: 34px !important;
+}
+
+.mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+.mat-select {
+    font-family: 'Open Sans', sans-serif;
+}
+.mat-option {
+    font-family: 'Open Sans', sans-serif;
+}

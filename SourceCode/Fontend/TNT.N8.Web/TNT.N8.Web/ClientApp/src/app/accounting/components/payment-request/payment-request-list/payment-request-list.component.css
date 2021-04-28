@@ -1,0 +1,52 @@
+.payment-request-list .bg-white {
+	background: #fff;
+}
+.payment-request-list .shadow {
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+.payment-request-list .w100 {
+	width: 100% !important;
+}
+.payment-request-list {
+	width: 100%;
+	padding: 0 15px;
+}
+.payment-request-list .button-action {
+	padding: 0.75rem 1rem;
+	margin-bottom: 1.25rem;
+	float: left;
+	width: 100%;
+}
+.payment-request-list .button-action button {
+	float: right;
+	margin-left: .5rem;
+}
+.payment-request-list .button-action h4 {
+	margin-top: .5rem;
+	margin-bottom: 0;
+	display: inline-block;
+}
+.payment-request-list .btn-bordered {
+	border: 1px solid #ddd;
+}
+.payment-request-list .filter-employee, .payment-request-list .table-list {
+	float: left;
+	width: 100%;
+	margin: 0 0 15px 0;
+	padding: 15px 10px;
+}
+::ng-deep .payment-request-list input.mat-chip-input{
+	margin: 0 !important;
+}
+
+.payment-request-list .mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.payment-request-list .mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.payment-request-list .mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}

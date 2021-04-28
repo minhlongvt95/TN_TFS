@@ -1,0 +1,553 @@
+.vendor-product-price-list {
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+  }
+  
+  .vendor-product-price-list .box-header {
+    width: 100%;
+    background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+  }
+  
+  .vendor-product-price-list .btn-create {
+    float: right;
+    width: 98px;
+    height: 31px;
+    border-radius: 4px;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+  }
+  
+  .vendor-product-price-list .btn-create-text {
+    width: 50px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+  }
+  
+  .vendor-product-price-list .box-header-group {
+    margin-top: 10px;
+  }
+  
+  .vendor-product-price-list .box-header-icon {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    background-color: #0f62fe;
+    text-align: center;
+  }
+  
+  .vendor-product-price-list .Money-2 {
+    width: 20.4px;
+    height: 18.5px;
+    object-fit: contain;
+    margin-top: 10px;
+  }
+  
+  .vendor-product-price-list .box-header-title {
+    width: auto;
+    height: 24px;
+    font-family: 'Inter UI';
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+  }
+  
+  .vendor-product-price-list .box-header-subtitle {
+    font-family: 'Inter UI';
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+  }
+  
+  .vendor-product-price-list .box-header-group-btn {
+    text-align: right;
+    padding-top: 5px;
+  }
+  
+  .vendor-product-price-list .btn-refresh {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+  }
+  
+  .vendor-product-price-list .ios-refresh {
+    width: 12px;
+    height: 14px;
+    object-fit: contain;
+  }
+  
+  .vendor-product-price-list .btn-filter {
+    width: 104px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #007aff;
+    background-color: #007aff;
+    margin-left: 5px;
+  }
+  
+  .vendor-product-price-list .ios-funnel {
+    width: 12.3px;
+    height: 11.3px;
+    object-fit: contain;
+    margin-right: 5px;
+  }
+  
+  .vendor-product-price-list .btn-filter-text {
+    width: 36px;
+    height: 13px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+  }
+  
+  .vendor-product-price-list .iput-text {
+    width: 248px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #f2f4f8;
+    padding-left: 5px;
+    margin-left: 5px;
+  }
+  
+  .vendor-product-price-list .box-filter {
+    border: solid 1px #c1c7cd;
+    background-color: #f2f4f8;
+    padding: 10px 0px;
+  }
+  
+  .vendor-product-price-list .quote-code-text {
+    width: 100%;
+    height: 32px;
+    font-family: 'Inter UI';
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    padding-left: 5px;
+  }
+  
+  .vendor-product-price-list .quote-code-text:focus {
+    border-color: #007ad9;
+    outline: 0 none;
+  }
+  
+  .vendor-product-price-list .mt-5 {
+    margin-top: 5px;
+  }
+  
+  .vendor-product-price-list .btn-search {
+    width: 72px;
+    height: 32px;
+    border: solid 1px #cccccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+  }
+  
+  .vendor-product-price-list .btn-search:focus {
+    border-color: #007ad9;
+    outline: 0 none;
+  }
+  
+  .vendor-product-price-list .btn-search-text {
+    width: 36px;
+    height: 13px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+  }
+  
+  /* Config rows Per Page Options */
+  ::ng-deep .vendor-product-price-list .ui-inputtext {
+    padding: 0.3em;
+  }
+  
+  .vendor-product-price-list .link {
+    font-family: 'Inter UI';
+    color: #007ad9;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  
+  .vendor-product-price-list .no-data {
+    height: 330px;
+    border: solid 1px #d7dbe0;
+    background-color: #f2f4f8;
+    text-align: center;
+  }
+  
+  .vendor-product-price-list .box-no-data {
+    position: relative; 
+    top: 25%;
+  }
+  
+  .vendor-product-price-list .box-icon {
+    width: 57.1px;
+    height: 58px;
+    object-fit: contain;
+  }
+  
+  .import-file{
+    width: 170px;
+    height: 32px;
+    border-radius: 4px;
+    color: black;
+    border: solid 1px #c1c7cd;
+  }
+
+  .text-import{
+    color: white;
+  }
+
+  .vendor-product-price-list .text-import-file {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+  }
+
+  .vendor-product-price-list .export-exel {
+    float: right;
+    width: 112px;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    margin-right: 5px;
+  }
+  .vendor-product-price-list .export-exel .export-exel-text {
+    width: 64px;
+    height: 16px;
+    font-family: "Inter UI";
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color :#121619;
+  }
+  
+  .vendor-product-price-list .import-exel {
+    float: right;
+    width: 134px;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #0f62fe;
+    background-color: #ffffff;
+    margin-right: 5px;
+  }
+  
+  .vendor-product-price-list .import-exel-text {
+    width: 86px;
+    height: 16px;
+    font-family: "Inter UI";
+    font-size: 13px;
+    font-weight: nomal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #0f62fe;
+  }
+
+  .mt-25{
+    margin-top: 25px;
+  }
+
+  .vendor-product-price-list .ios-warning-active {
+    position: relative;
+    top: 5px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+  
+  .vendor-product-price-list .notification {
+    position: absolute;
+    top: 38px;
+    width: 380px;
+    box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+    border: solid 1px #dde1e6;
+    background-color: #ffffff;
+    z-index: 1;
+  }
+  
+  /*Begin: Tạo góc nhọn trên hộp thoại */
+  .vendor-product-price-list .notification::before {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid #ffffff;
+    border-width: 8px;
+    border-bottom-color: #d1d5da;
+  }
+  
+  .vendor-product-price-list .notification::after {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid transparent;
+    margin-bottom: -1px;
+    border-width: 8px;
+    border-bottom-color: #ffffff;
+  }
+  /*End: Tạo góc nhọn trên hộp thoại */
+  
+  .vendor-product-price-list .notification .notifi-row {
+    width: 100%;
+    border-bottom: 1px solid #dde1e6;
+    padding: 10px 0px;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .vendor-product-price-list .notification .notifi-row .ios-alert {
+    position: absolute;
+    left: 15px;
+    width: 15.9px;
+    height: 15.9px;
+    object-fit: contain;
+  }
+  
+  .vendor-product-price-list .notification .notifi-row .notifi-text {
+    position: relative;
+    left: 50px;
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ff3b30;
+  }
+  
+  .vendor-product-price-list .notification .notifi-row-footer {
+    width: 100%;
+    padding: 10px 10px;
+    text-align: right;
+  }
+  
+  .vendor-product-price-list .notification .notifi-row-footer .notifi-text-footer {
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    color: #121619;
+  }
+  
+
+  ::ng-deep .vendor-product-price-list .ui-datepicker {
+    top: 28px !important;
+  }
+
+  ::ng-deep .vendor-product-price-list .ui-button-text-only{
+    display: none;
+  }
+  
+  ::ng-deep .vendor-product-price-list .ui-buttonset.ui-button-secondary > .ui-button.ui-state-default{
+    border-radius: 50% !important;
+    height: 35px !important;
+    width: 35px !important;
+    background-color: #d7dbe0;
+  }
+
+  /* ::ng-deep .ui-dialog .ui-dialog-content{
+    overflow-y: scroll !important;
+  } */
+  
+  /* Máy để bàn */
+  @media only screen and (min-width: 1025px) and (max-width: 1423px)  {
+    
+  }
+  
+  /* Ipad Pro */
+  @media only screen and (min-width: 769px) and (max-width: 1024px)  {
+    .vendor-product-price-list .box-header-icon {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .vendor-product-price-list .Money-2 {
+      width: 20.4px;
+      height: 19.5px;
+      margin-top: 11px;
+      margin-left: 5px;
+    }
+  
+    .vendor-product-price-list .iput-text {
+      margin-top: 5px;
+    }
+
+    /* .vendor-product-price-list .btn-create {
+      margin-top: 10px;
+    } */
+
+    .vendor-product-price-list .export-exel {
+      margin-top: 2px;
+      /* margin-right: 48px; */
+    }
+
+    .vendor-product-price-list .supplier-price-list {
+      padding-left: 25px;
+      margin-top: 5px;
+    }
+
+    /* .vendor-product-price-list .import-exel {
+      margin-top: 10px;
+    }
+
+    .vendor-product-price-list .box-header-group-btn {
+      margin-top: -35px;
+    } */
+  }
+  
+  /* Ipad */
+  @media only screen and (min-width: 415px) and (max-width: 768px) {
+    .vendor-product-price-list .btn-create {
+      margin-top: -1px;
+    }
+
+    .vendor-product-price-list .ios-warning{
+      margin-bottom: 10px;
+    }
+
+    .vendor-product-price-list .supplier-price-list {
+      margin-left: -25px;
+    }
+  }
+  
+  /* Iphone 6/7/8 Plus */
+  @media only screen and (min-width: 376px) and (max-width: 414px) {
+    .vendor-product-price-list .iput-text {
+      margin-top: 5px;
+    }
+
+    .vendor-product-price-list .ios-warning{
+      margin-bottom: 10px;
+    }
+
+    .vendor-product-price-list tr>td>.ui-column-title{
+      padding: .4em;
+      min-width: 30%;
+      display: inline-block;
+      margin: -.4em 4em -.4em -.4em;
+      font-weight: bold;
+    }
+
+    .vendor-product-price-list .btn-create {
+      margin-top: -1px;
+    }
+
+    .vendor-product-price-list .export-exel {
+      margin-right: 5px;
+    }
+
+  }
+  
+  /* Iphone 6/7/8/X */
+  @media only screen and (max-width: 375px) {
+    .vendor-product-price-list .iput-text {
+      margin-top: 5px;
+    }
+
+    .vendor-product-price-list .ios-warning{
+      margin-bottom: 5px;
+    }
+
+    .vendor-product-price-list tr>td>.ui-column-title{
+      padding: .4em;
+      min-width: 30%;
+      display: inline-block;
+      margin: -.4em 4em -.4em -.4em;
+      font-weight: bold;
+    }
+
+    .vendor-product-price-list .btn-create {
+      margin-top: -1px;
+    }
+
+    .vendor-product-price-list .export-exel {
+      margin-top: 3px;
+      margin-right: 0px;
+    }
+
+    /* .vendor-product-price-list .box-header-group-btn {
+      margin-top: -10px;
+    }
+
+    .vendor-product-price-list .box-header-group-btn .btn-refresh{
+      margin-top: -10px;
+    }
+
+    .vendor-product-price-list .box-header-group-btn .btn-filter {
+      margin-top: -20px;
+    } */
+  }

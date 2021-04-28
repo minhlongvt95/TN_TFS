@@ -1,0 +1,79 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+<div class="organization-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12 no-padding" *ngIf="chooseFinancialIndependence"><span pTooltip="Đơn vị độc lập tài chính sẽ được in đậm" tooltipPosition="right" tooltipZIndex="1200"><i class="pi pi-info-circle"></i></span></div>
+    <div class="col-md-12 box-tree no-padding">
+      <div class="tree-content">
+        <div class="tree-view">
+          <div class="tree-item lvl-1" *ngFor="let org of orgList">
+            <table id="{{org.organizationId}}" title="{{org.isFinancialIndependence}}">
+              <tr>
+                <td style="padding-top: 5px;">
+                  <i class="material-icons tree-icon" data-toggle="collapse" [attr.data-target]="'.' + org.organizationId" [attr.aria-controls]="org.organizationId" aria-expanded="false" *ngIf="hasChild(org)">
+                    arrow_drop_down
+                  </i>
+                </td>
+                <td [ngClass]="{'is-financial-independence': chooseFinancialIndependence && org.isFinancialIndependence}">
+                  <span>{{org.organizationName}}</span>
+                </td>
+              </tr>
+            </table>
+            <div class="tree-item lvl-2 collapse in" [ngClass]="org.organizationId" *ngFor="let orgChild of org.orgChildList">
+              <table id="{{orgChild.organizationId}}" title="{{orgChild.isFinancialIndependence}}">
+                <tr>
+                  <td style="padding-top: 5px;">
+                    <i class="material-icons tree-icon" data-toggle="collapse" [attr.data-target]="'.' + orgChild.organizationId" [attr.aria-controls]="orgChild.organizationId" aria-expanded="false" *ngIf="hasChild(orgChild)">
+                      arrow_drop_down
+                    </i>
+                  </td>
+                  <td [ngClass]="{'is-financial-independence': chooseFinancialIndependence && orgChild.isFinancialIndependence}">
+                    <span>{{orgChild.organizationName}}</span>
+                  </td>
+                </tr>
+              </table>
+              <div class="tree-item lvl-3 collapse in" [ngClass]="orgChild.organizationId" *ngFor="let orgGrantChild of orgChild.orgChildList">
+                <table id="{{orgGrantChild.organizationId}}" title="{{orgGrantChild.isFinancialIndependence}}">
+                  <tr>
+                    <td style="padding-top: 5px;">
+                      <i class="material-icons tree-icon" data-toggle="collapse" [attr.data-target]="'.' + orgGrantChild.organizationId" [attr.aria-controls]="orgGrantChild.organizationId" aria-expanded="false" *ngIf="hasChild(orgGrantChild)">
+                        arrow_drop_down
+                      </i>
+                    </td>
+                    <td [ngClass]="{'is-financial-independence': chooseFinancialIndependence && orgGrantChild.isFinancialIndependence}">
+                      <span>{{orgGrantChild.organizationName}}</span>
+                    </td>
+                  </tr>
+                </table>
+                <div class="tree-item lvl-4 collapse in" [ngClass]="orgGrantChild.organizationId" *ngFor="let orgGrantGrantChild of orgGrantChild.orgChildList">
+                  <table id="{{orgGrantGrantChild.organizationId}}" title="{{orgGrantGrantChild.isFinancialIndependence}}">
+                    <tr>
+                      <td style="padding-top: 5px;">
+                        <i class="material-icons tree-icon" data-toggle="collapse" [attr.data-target]="'.' + orgGrantGrantChild.organizationId" [attr.aria-controls]="orgGrantGrantChild.organizationId" aria-expanded="false" *ngIf="hasChild(orgGrantGrantChild)">
+                          arrow_drop_down
+                        </i>
+                      </td>
+                      <td [ngClass]="{'is-financial-independence': chooseFinancialIndependence && orgGrantGrantChild.isFinancialIndependence}">
+                        <span>{{orgGrantGrantChild.organizationName}}</span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12 mt-10 no-padding">
+      <div style="float: right;">
+        <button class="save" type="button" (click)="save()">
+          <span class="text-save">Chọn</span>
+        </button>
+      </div>
+      <div style="clear: both;"></div>
+    </div>
+  </div>
+</div> 

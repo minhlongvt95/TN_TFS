@@ -1,0 +1,133 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="lead-contac-dialog">
+  <form [formGroup]="contactForm">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Tên liên hệ</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="ContactName"
+                  [ngClass]="(contactForm.get('ContactName').invalid && (contactForm.get('ContactName').dirty || contactForm.get('ContactName').touched)) ? 'error-border' : ''"
+                  type="text" class="w100" pInputText placeholder="" />
+              </div>
+              <div class="col-md-12">
+                <span [hidden]="contactForm.get('ContactName').valid || contactForm.get('ContactName').untouched"
+                  *ngIf="contactForm.get('ContactName').hasError('required')" class="error-message-span">
+                  Nhập tên liên hệ</span>
+                <span *ngIf="contactForm.get('ContactName').hasError('forbiddenSpaceText')" class="error-message-span">
+                  Tên liên hệ không được để trắng</span>
+              </div>
+            </div>
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Vị trí công việc</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="Position" type="text" class="w100" pInputText placeholder="" />
+              </div>
+            </div>
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Số điện thoại</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12">
+                <input
+                  [ngClass]="(contactForm.get('Phone').invalid && (contactForm.get('Phone').dirty || contactForm.get('Phone').touched)) ? 'error-border' : ''"
+                  formControlName="Phone" type="text" class="w100" pInputText placeholder="" />
+              </div>
+              <div class="col-md-12">
+                <span [hidden]="contactForm.get('Phone').valid || contactForm.get('Phone').untouched"
+                  *ngIf="contactForm.get('Phone').hasError('required')" class="error-message-span">
+                  Nhập số điện thoại</span>
+                <span *ngIf="contactForm.get('Phone').hasError('pattern')" class="error-message-span">
+                  Sai định dạng số điện thoại</span>
+              </div>
+            </div>
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Ghi chú</span>
+              </div>
+              <div class="col-md-12">
+                <!-- <input formControlName="Note" type="text" class="w100" pInputText placeholder="" /> -->
+                <textarea class="w100" rows="5" cols="30" formControlName="Note" pInputTextarea></textarea>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-6 buffer-bottom-label">
+                <span>Giới tính</span>
+              </div>
+              <div class="col-md-6 buffer-bottom-label">
+                <span>Ngày sinh</span>
+              </div>
+              <div class="col-md-6">
+                <!-- <input formControlName="Gender" type="text" class="w100" pInputText placeholder="" /> -->
+                <p-dropdown [options]="listGenders" formControlName="Gender" [autoDisplayFirst]="false"
+                  placeholder="Chọn giới tính" [showClear]="true" optionLabel="name" [style]="{'width': '100%'}">
+                </p-dropdown>
+              </div>
+              <div class="col-md-6">
+                <!-- <input formControlName="DateOfBirth" type="text" class="w100" pInputText placeholder="" /> -->
+                <p-calendar formControlName="DateOfBirth" dateFormat="dd/mm/yy"
+                  [style]="{'width':'100%', 'appendTo': 'body', 'top': '0px !important'}" showButtonBar="true"
+                  [maxDate]="maxEndDate"
+                  [inputStyle]="{'width':'100%'}" [baseZIndex]="5000"></p-calendar>
+              </div>
+            </div>
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Mối liên hệ</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="RelationShip" type="text" class="w100" pInputText placeholder="" />
+              </div>
+            </div>
+
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Email</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="Email"
+                  [ngClass]="(contactForm.get('Email').invalid && (contactForm.get('Email').dirty || contactForm.get('Email').touched)) ? 'error-border' : ''"
+                  type="text" class="w100" pInputText placeholder="" />
+              </div>
+              <div class="col-md-12" [hidden]="contactForm.get('Email').valid || contactForm.get('Email').untouched">
+                <span *ngIf="contactForm.get('Email').hasError('pattern')" class="error-message-span">
+                  Sai định dạng Email</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="row" style="margin-top: 25px;">
+          <div class="col-md-12">
+            <div class="group-button-footer" style="display: flex; justify-content: flex-end;">
+              <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+              <button type="button" class="save" (click)="save()"><span class="save-label">Lưu</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

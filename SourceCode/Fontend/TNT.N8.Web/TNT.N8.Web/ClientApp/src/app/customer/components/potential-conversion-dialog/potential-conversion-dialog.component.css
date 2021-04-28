@@ -1,0 +1,78 @@
+.convert-dialog-body{
+  font-family: 'Inter UI';
+}
+
+.convert-dialog-body .buffer-bottom {
+  margin-bottom: 1.2rem;
+}
+
+.convert-dialog-body .buffer-bottom-label {
+  margin-bottom: 3px;
+}
+
+.convert-dialog-body .require {
+  color: #F94E4E;
+}
+
+.convert-dialog-body .error-message-span {
+  color: red !important;
+}
+
+.convert-dialog-body .w100 {
+  width: 100%;
+}
+
+.convert-dialog-body .mt-10{
+  margin-top: 10px;
+}
+
+.convert-dialog-body .group-button-footer .cancel {
+  width: 72px;
+  height: 30px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  margin-right: 5px;
+}
+
+.convert-dialog-body .group-button-footer .cancel .cancel-label {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.convert-dialog-body .group-button-footer .save {
+  width: 70px;
+  height: 30px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  border: solid 1px #cccccc;
+}
+
+.convert-dialog-body .group-button-footer .save .save-label {
+  width: 22px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+.convert-dialog-body .group-button-footer {
+  text-align: right;
+  padding-top: 10px;
+  border-top: solid 1px #cccccc;
+}

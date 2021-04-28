@@ -1,0 +1,91 @@
+.permission-create .bg-white {
+    background: #fff;
+}
+
+.permission-create div,
+.permission-create span,
+.permission-create label {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.permission-create .shadow {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.permission-create .w100 {
+    width: 100% !important;
+}
+
+.permission-create .pd-10 {
+    padding: 10px 10px 10px 10px;
+}
+
+.permission-create .pd-20 {
+    padding: 20px 20px 20px 20px;
+}
+
+.permission-create .title {
+    font-size: 20px;
+}
+
+.permission-create .mt-10 {
+    margin-top: 10px !important;
+}
+
+.permission-create .ml-5 {
+    margin-left: 5px;
+}
+
+.permission-create .ml-10 {
+    margin-left: 10px;
+}
+
+.permission-create .form-control {
+    border-radius: 0.25rem;
+}
+
+.permission-create .error-border {
+    border-color: #f44336;
+}
+
+.permission-create .header-button {
+    float: right;
+}
+
+.permission-create .permission-action {
+    font-weight: bold;
+}
+
+.permission-create ul.tree {
+    list-style-type: none;
+}
+
+::ng-deep .permission-create .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .permission-create .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(109, 152, 231) !important;
+}
+
+::ng-deep .permission-create .mat-checkbox-inner-container {
+  height: 14px;
+  width: 14px;
+}
+
+.permission-create .module {
+    margin-left: 10px;
+}
+
+.permission-create .icon-collapse {
+    font-size: 20px;
+    position: relative;
+    top: 0.15em;
+}
+
+.permission-create .icon {
+    font-size: 24px;
+    position: relative;
+    top: 0.25em;
+}
+
+.permission-create .action-list {
+    margin-left: 15px;
+}

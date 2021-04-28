@@ -1,0 +1,30 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+<div class="dialog-org-permission">
+  <div class="row bottom-buffer">
+    <div class="col-md-12">
+      <ejs-treeview #tree id="listtree" [fields]='listfields' (nodeSelected)="loadRoutingContent($event)">
+      </ejs-treeview>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+      <button class="cancel" type="button" (click)="cancel()">
+        <span class="text-cancel">Hủy</span>
+      </button>
+      <button [disabled]="!canSelectOrganization" class="save" type="button" (click)="save()" style="margin-right: 1.2rem;"
+      [ngClass]="(canSelectOrganization == false) ? 'btn-disabled' : ''"
+      >
+        <span class="text-save">Lưu</span>
+      </button>
+    </div>
+  </div>
+</div>

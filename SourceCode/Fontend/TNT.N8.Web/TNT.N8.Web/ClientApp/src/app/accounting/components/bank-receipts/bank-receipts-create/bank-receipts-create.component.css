@@ -1,0 +1,388 @@
+.bank-receipts-create {
+    font-family: 'Inter UI';
+}
+
+.bank-receipts-create .bank-receipts-content {
+    margin: 0 !important;
+    border-radius: 4px;
+    border: 1px solid #dde1e6;
+}
+
+.bank-receipts-create .button-group {
+    width: 100%;
+    height: 'auto';
+    border-radius: 4px;
+    background: #f2f4f8;
+    border-bottom: 1px solid #dde1e6;
+    padding: 5px 0px;
+}
+/* 
+.bank-receipts-create .fixed {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+} */
+
+.bank-receipts-create .button-group .cancel {
+    width: 64px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.bank-receipts-create .button-group .cancel .text-cancel {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.bank-receipts-create .button-group .save-and-new {
+    width: 142px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    margin-left: 5px;
+}
+
+.bank-receipts-create .button-group .save-and-new .text-save-and-new {
+    width: 102px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.bank-receipts-create .save {
+    width: 86px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    margin-left: 5px;
+}
+
+.bank-receipts-create .button-group .save .text-save {
+    width: 25px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+
+.bank-receipts-create .overview {
+    border-radius: 4px;
+    border: 1px solid #dde1e6;
+}
+
+.bank-receipts-create .overview .button-group {
+    width: 100% !important;
+    height: 42px;
+    border-radius: 4px;
+    background: #ffffff;
+    border-bottom: 1px solid #dde1e6;
+    padding-top: 10px;
+}
+
+.bank-receipts-create .overview .button-group .text-title {
+    width: 152px;
+    height: 17px;
+    font-family: 'Inter UI';
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.bank-receipts-create .overview .button-group .ios-print {
+    width: 17.5px;
+    height: 17.5px;
+    object-fit: contain;
+    float: right;
+    cursor: pointer;
+}
+
+.bank-receipts-create .ios-warning {
+    position: relative;
+    top: 5px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.bank-receipts-create .ios-warning-active {
+    position: relative;
+    top: 5px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.bank-receipts-create .box-waring {
+    display: inline-block;
+    width: 49px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: #ffcc00;
+    text-align: center;
+    cursor: pointer;
+}
+
+.bank-receipts-create .notification {
+    position: absolute;
+    top: 38px;
+    width: 307px;
+    box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+    border: solid 1px #dde1e6;
+    background-color: #ffffff;
+    z-index: 1;
+}
+
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.bank-receipts-create .notification::before {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid #ffffff;
+    border-width: 8px;
+    border-bottom-color: #d1d5da;
+}
+
+.bank-receipts-create .notification::after {
+    position: absolute;
+    bottom: 100%;
+    left: 16px;
+    display: block;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    content: " ";
+    border-left: solid transparent;
+    border-right: solid transparent;
+    border-bottom: solid transparent;
+    margin-bottom: -1px;
+    border-width: 8px;
+    border-bottom-color: #ffffff;
+}
+
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.bank-receipts-create .notification .notifi-row {
+    width: 100%;
+    border-bottom: 1px solid #dde1e6;
+    padding: 10px 0px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.bank-receipts-create .notification .notifi-row .ios-alert {
+    position: absolute;
+    left: 15px;
+    width: 15.9px;
+    height: 15.9px;
+    object-fit: contain;
+}
+
+.bank-receipts-create .notification .notifi-row .notifi-text {
+    position: relative;
+    left: 50px;
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ff3b30;
+}
+
+.bank-receipts-create .notification .notifi-row-footer {
+    width: 100%;
+    padding: 10px 10px;
+    text-align: right;
+}
+
+.bank-receipts-create .notification .notifi-row-footer .notifi-text-footer {
+    width: 100%;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    color: #121619;
+}
+
+
+/*Begin: Customize Accordion */
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+}
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+}
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+}
+
+::ng-deep .bank-receipts-create .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+
+/*End: Customize Accordion */
+
+.bank-receipts-create .error-message-span {
+    color: red !important;
+}
+
+::ng-deep .bank-receipts-create .error-pcalendar .ui-inputtext {
+    border: 1px solid #f44336 !important;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 0.75rem #f4433685;
+}
+
+.bank-receipts-create .w100 {
+    width: 100% !important;
+}
+
+.bank-receipts-create .mt-10 {
+    margin-top: 10px;
+}
+
+.bank-receipts-create .box-text-money {
+    height: 'auto';
+    background-color: #0f62fe;
+}
+
+.bank-receipts-create .box-text-money .text-money-title {
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ffffff;
+}
+
+.bank-receipts-create .box-text-money .text-money-number {
+    float: right;
+    height: 13px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: right;
+    color: #ffffff;
+}
+
+.bank-receipts-create .box-text-money .text-money-text {
+    width: 100%;
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: right;
+    color: #ffffff;
+}
+
+.bank-receipts-create .require {
+    color: #F94E4E;
+}
+
+.bank-receipts-create .opaque {
+    color: #999999;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.bank-receipts-create .border-right-color {
+    border-right: 1px solid #999999;
+}
+
+.bank-receipts-create label {
+    font-weight: 400 !important;
+}
+
+.bank-receipts-create .no-padding {
+    padding: 0 !important;
+}
+
+@media only screen and (max-width: 1423px) {
+    .bank-receipts-create .ios-warning {
+        top: 0px;
+    }
+    .bank-receipts-create .save {
+        margin-left: 0px;
+    }
+}

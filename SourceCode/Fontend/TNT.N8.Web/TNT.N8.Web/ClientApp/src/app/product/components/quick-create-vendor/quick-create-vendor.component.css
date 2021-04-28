@@ -1,0 +1,19 @@
+.quick-create-vendor-pop-up .top-buffer {
+  margin-top: 1.2rem;
+}
+
+.quick-create-vendor-pop-up .bottom-buffer {
+  margin-bottom: 1.2rem;
+}
+
+.quick-create-vendor-pop-up .full-width {
+  width: 100% !important;
+}
+
+.quick-create-vendor-pop-up .buffer-bottom-label {
+  margin-bottom: 4px;
+}
+.quick-create-vendor-pop-up .error-message-span, 
+.quick-create-vendor-pop-up .required{
+  color: red;
+}

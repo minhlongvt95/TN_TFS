@@ -1,0 +1,990 @@
+<div class="customer-care-detail">
+  <ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+  <section>
+    <div class="row">
+      <div class="button-action bg-white shadow">
+        <h4>CHI TIẾT BỘ LỌC VÀ CHƯƠNG TRÌNH CHĂM SÓC KHÁCH HÀNG</h4>
+        <button color="primary" mat-raised-button *ngIf="step == 1" (click)="copyFilters()">Copy bộ lọc khách
+          hàng</button>
+        <button color="primary" mat-raised-button (click)="stepOne()" *ngIf="step == 2">Quay lại bước 1</button>
+      </div>
+    </div>
+
+    <!-- BỘ LỌC -->
+    <div class="row" *ngIf="step == 1">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="bg-white shadow form-content mb-125">
+            <span class="cursor title-button-step-one color-link fw-bold" (click)="stepOne()">Bước 1: Lọc khách hàng mục
+              tiêu</span>
+            <i class="fas fa-chevron-right"></i>
+            <span class="cursor title-button-step-two" (click)="goToCreateProcessCustomerCare()">Bước 2: Nội dung chương
+              trình</span>
+            <div class="row">
+              <p class="title-customner-care">Chương trình chăm sóc khách hàng: {{customerCareModel.CustomerCareCode}} -
+                {{customerCareModel.CustomerCareTitle}}</p>
+            </div>
+            <div class="row col-md-12 mt-15" style="margin-bottom: 15px;">
+              <p-multiSelect [options]="customerType" [style]="{width: '25%'}" [readonly]="true"
+                [(ngModel)]="SelectedTypeCustomer" optionLabel="name" defaultLabel="Chọn Loại khách hàng">
+              </p-multiSelect>
+            </div>
+            <div class="row mt-15">
+              <div class="col-md-12">
+                <form class="form-group" [formGroup]="filterForm">
+                  <div formArrayName="rowFilters">
+                    <div class="col-md-12" *ngFor="let filter of rowFilterFormGroup.controls; let i = index;">
+                      <div [formGroupName]="i">
+                        <div class="row row-filter">
+                          <div class="col-md-2 ml-15">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['criteriaControl'].touched && getFiltersFormGroup(i).controls['criteriaControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedCriteria(i, $event)" name="criteria"
+                                formControlName="criteriaControl">
+                                <mat-option *ngFor="let option of listParentCriteria[i]" [value]="option.criteriaId">
+                                  {{option.criteriaName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['criteriaControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['criteriaControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- ĐIỀU KIỆN -->
+                          <div class="col-md-2" *ngIf="listConditionForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['conditionControl'].touched && getFiltersFormGroup(i).controls['conditionControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedCondition(i, $event)" name="condition"
+                                formControlName="conditionControl">
+                                <mat-option *ngFor="let option of listParentCondition[i]" [value]="option.conditionId">
+                                  {{option.conditionName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['conditionControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['conditionControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: ĐIỀU KIỆN -->
+
+                          <!-- GIÁ TRỊ: LOẠI KHÁCH HÀNG -->
+                          <div class="col-md-2" *ngIf="listValueGroupForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueListGroupControl'].touched && getFiltersFormGroup(i).controls['valueListGroupControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedlistValueListGroup(i, $event)" name="valueListGroup"
+                                formControlName="valueListGroupControl">
+                                <mat-option *ngFor="let option of listParentGroup[i]" [value]="option.valueGroupId">
+                                  {{option.valueGroupName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueListGroupControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueListGroupControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: LOẠI KHÁCH HÀNG -->
+
+                          <!-- GIÁ TRỊ: ĐỘ TUỔI -->
+                          <div class="col-md-2" *ngIf="listValueAgeForm[i] == 1">
+                            <input type="number" class="form-control w100" name="valueAge"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueAgeControl'].touched && getFiltersFormGroup(i).controls['valueAgeControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueAgeControl" (change)="changedValueAge(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueAgeControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueAgeControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueAgeComboForm[i] == 1">
+                            <input type="number" class="form-control w100" name="valueAge"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueAgeFirstControl'].touched && getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueAgeFirstControl" (change)="changedValueAgeFirst(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueAgeFirstControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueAgeFirstControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueAgeComboForm[i] == 1">
+                            <input type="number" class="form-control w100" name="valueAge"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueAgeLastControl'].touched && getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueAgeLastControl" (change)="changedValueAgeLast(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueAgeLastControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueAgeLastControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: ĐỘ TUỔI -->
+
+                          <!-- GIÁ TRỊ: GIỚI TÍNH -->
+                          <div class="col-md-2" *ngIf="listValueSexForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueListSexControl'].touched && getFiltersFormGroup(i).controls['valueListSexControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedlistValueSex(i, $event)" name="valueListSex"
+                                formControlName="valueListSexControl">
+                                <mat-option *ngFor="let option of listParentSex[i]" [value]="option.valueSexId">
+                                  {{option.valueSexName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueListSexControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueListSexControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: GIỚI TÍNH -->
+
+                          <!-- GIÁ TRỊ: DOANH THU -->
+                          <div class="col-md-2" *ngIf="listValueRevenueForm[i] == 1">
+                            <input currencyMask class="form-control w100" name="valueRevenue"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueRevenueControl'].touched && getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueRevenueControl" (blur)="changedValueRevenue(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueRevenueControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueRevenueControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mt-6" *ngIf="listValueRevenueForm[i] == 1">
+                            VND
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueRevenueComboForm[i] == 1">
+                            <input currencyMask class="form-control w100" name="valueRevenueFirst"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].touched && getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueRevenueFirstControl" (blur)="changedValueRevenueFirst(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueRevenueFirstControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueRevenueComboForm[i] == 1">
+                            <input currencyMask class="form-control w100" name="valueRevenueLast"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueRevenueLastControl'].touched && getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valueRevenueLastControl" (blur)="changedValueRevenueLast(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueRevenueLastControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueRevenueLastControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2 mt-6" *ngIf="listValueRevenueComboForm[i] == 1">
+                            VND
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueDateRevenueComboForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].touched && getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].hasError('required') ? 'error-border' : ''">
+                              <input matInput [matDatepicker]="pickerRevenueFirstDate"
+                                formControlName="valueDateRevenueFirstControl"
+                                (dateChange)="setValueDateRevenueFirst(i, $event)">
+                              <mat-datepicker-toggle matSuffix [for]="pickerRevenueFirstDate"></mat-datepicker-toggle>
+                              <mat-datepicker #pickerRevenueFirstDate></mat-datepicker>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueDateRevenueFirstControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValueDateRevenueComboForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].touched && getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].hasError('required') ? 'error-border' : ''">
+                              <input matInput [matDatepicker]="pickerRevenueLastDate"
+                                formControlName="valueDateRevenueLastControl"
+                                (dateChange)="setValueDateRevenueLast(i, $event)">
+                              <mat-datepicker-toggle matSuffix [for]="pickerRevenueLastDate"></mat-datepicker-toggle>
+                              <mat-datepicker #pickerRevenueLastDate></mat-datepicker>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueDateRevenueLastControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: DOANH THU -->
+
+                          <!-- GIÁ TRỊ: SẢN PHẨM -->
+                          <div class="col-md-6" id="listProducts" *ngIf="listValueProductForm[i] == 1">
+                            <ng-multiselect-dropdown [placeholder]="'Chọn sản phẩm'" [(ngModel)]="selectedItems[i]"
+                              [settings]="dropdownSettings" [data]="listDropdownList[i]"
+                              (onSelect)="onItemSelect(i, $event)" (onSelectAll)="onSelectAll(i, $event)"
+                              (onDeSelect)="onItemDeSelect(i, $event)" (onFilterChange)="onFilterChange(i, $event)"
+                              formControlName="valueListProductControl"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueListProductControl'].touched && getFiltersFormGroup(i).controls['valueListProductControl'].hasError('required') ? 'error-border[_ngcontent-c12]' : ''">
+                            </ng-multiselect-dropdown>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueListProductControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueListProductControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: SẢN PHẨM -->
+
+                          <!-- GIÁ TRỊ: SỐ ĐIỂM HIỆN CÓ -->
+                          <div class="col-md-2" *ngIf="listValuePointForm[i] == 1">
+                            <input class="form-control w100" name="valuePoint"
+                              [ngClass]="getFiltersFormGroup(i).controls['valuePointControl'].touched && getFiltersFormGroup(i).controls['valuePointControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valuePointControl" (change)="changedValuePoint(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valuePointControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valuePointControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValuePointComboForm[i] == 1">
+                            <input class="form-control w100" name="valuePointFirst"
+                              [ngClass]="getFiltersFormGroup(i).controls['valuePointFirstControl'].touched && getFiltersFormGroup(i).controls['valuePointFirstControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valuePointFirstControl" (change)="changedValuePointFirst(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valuePointFirstControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valuePointFirstControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <div class="col-md-2" *ngIf="listValuePointComboForm[i] == 1">
+                            <input class="form-control w100" name="valuePointLast"
+                              [ngClass]="getFiltersFormGroup(i).controls['valuePointLastControl'].touched && getFiltersFormGroup(i).controls['valuePointLastControl'].hasError('required') ? 'error-border' : ''"
+                              formControlName="valuePointLastControl" (change)="changedValuePointLast(i, $event)">
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valuePointLastControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valuePointLastControl'].hasError('required')">{{
+                                'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: SỐ ĐIỂM HIỆN CÓ -->
+
+                          <!-- GIÁ TRỊ: NGÀY SINH NHẬT -->
+                          <div class="col-md-2" *ngIf="listValueBirthDayForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueListBirthDayControl'].touched && getFiltersFormGroup(i).controls['valueListBirthDayControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedlistValueBirthDay(i, $event)"
+                                name="valueListBirthDay" formControlName="valueListBirthDayControl">
+                                <mat-option *ngFor="let option of listParentBirthDay[i]"
+                                  [value]="option.valueBirthDayId">
+                                  {{option.valueBirthDayName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueListBirthDayControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueListBirthDayControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: NGÀY SINH NHẬT -->
+
+                          <!-- GIÁ TRỊ: NHÓM KHÁCH HÀNG -->
+                          <div class="col-md-2" *ngIf="listValueCustomerGroupForm[i] == 1">
+                            <mat-form-field class="form-control w100"
+                              [ngClass]="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].touched && getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].hasError('required') ? 'error-border' : ''">
+                              <mat-select (selectionChange)="changedlistValueCustomerGroup(i, $event)"
+                                name="valueListCustomerGroup" formControlName="valueListCustomerGroupControl">
+                                <mat-option *ngFor="let option of listParentCustomerGroup[i]"
+                                  [value]="option.valueCustomerGroupId">
+                                  {{option.valueCustomerGroupName}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                            <div class="md-errors-spacer"
+                              [hidden]="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].untouched">
+                              <mat-error
+                                *ngIf="getFiltersFormGroup(i).controls['valueListCustomerGroupControl'].hasError('required')">
+                                {{ 'lead.messages.required_field' | translate }}</mat-error>
+                            </div>
+                          </div>
+                          <!-- END: GIÁ TRỊ: NHÓM KHÁCH HÀNG -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12" id="coverSendFilter">
+                      <button id="sendFilter" color="primary" mat-raised-button
+                        (click)="goToCreateProcessCustomerCare()">Nội dung chương trình</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: BỘ LỌC -->
+
+    <!-- KẾT QUẢ LỌC -->
+    <div class="row" *ngIf="step == 1">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="bg-white shadow form-content">
+            <div class="row">
+              <div class="col-md-3 titleTotalCustomer">
+                <span class="mb-125"><strong>Số khách hàng trong chương trình </strong></span>
+              </div>
+              <div class="col-md-8 valueTotalCustomer">
+                <span id="resultFilteredCustomer">{{resultFilteredCustomer | number:0}}</span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="user-list mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSource" matSort id="customer-table" class="w100">
+
+                  <ng-container matColumnDef="customerName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Tên
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span class="link-name color-link cursor"
+                        (click)="goToCustomerDetail(element.customerId, element.contactId)"
+                        matTooltip="{{element.customerName}}">
+                        {{ element.customerName.trim().length > 30 ? element.customerName.trim().slice(0,29)+'...' :
+                        element.customerName.trim() }}
+                      </span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="dateOfBirth">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ngày sinh
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span class="link-name color-link">{{element.dateOfBirth | date:'dd/MM/yyyy'}}</span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="customerEmail">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Email
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span class="color-link">{{element.customerEmail}}</span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="customerPhone">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> SĐT
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span class="color-link">{{element.customerPhone}}</span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="picName">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Người phụ trách
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <span class="link-name color-link">{{element.picName}}</span>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="customerCareCustomerStatusId">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Trạng thái
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <div [ngClass]="checkColor(element.customerCareCustomerStatusId)"></div>
+                      <span *ngIf="element.isEditStatus == false">{{element.customerCareCustomerStatusName}}</span>
+                      <mat-select [(ngModel)]="element.customerCareCustomerStatusId"
+                        (selectionChange)="changedCustomerCareCustomerStatus($event, element.customerCareCustomerId)"
+                        *ngIf="element.isEditStatus">
+                        <mat-option [value]="option.categoryId" *ngFor="let option of customerCareCustomerStatusList">
+                          {{ option.categoryName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
+                </mat-table>
+              </div>
+              <div *ngIf="msgNoData == 1 ? true : false" class="center">
+                <label class="no-data mt-mb-200"><i class="fas fa-times no-data"></i> Không có khách hàng nào được tìm
+                  thấy</label>
+              </div>
+              <div class="paginator">
+                <mat-paginator [pageSizeOptions]="pageSizeOptions"></mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: KẾT QUẢ LỌC -->
+
+    <!-- NỘI DUNG BƯỚC 2 -->
+    <div class="row" *ngIf="step == 2">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="bg-white shadow form-content mb-125">
+            <span class="cursor title-button-step-one" (click)="stepOne()">Bước 1: Lọc khách hàng mục tiêu</span>
+            <i class="fas fa-chevron-right"></i>
+            <span class="cursor title-button-step-two color-link fw-bold" (click)="goToCreateProcessCustomerCare()">Bước
+              2: Nội dung chương trình</span>
+            <form class="form-group" [formGroup]="contentProcessCustomerCareForm">
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label>Mã CT CSKH:</label>
+                </div>
+                <div class="col-md-3 mt-8">
+                  <span class="font-italic">{{customerCareModel.CustomerCareCode}}</span>
+                </div>
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Nhân viên phụ
+                    trách:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-dropdown [options]="listEmployeeCharge" optionLabel="employeeName"
+                    formControlName="employeeChargeControl" [filter]="true" [resetFilterOnHide]="true"
+                    [style]="{width: '100%'}" (onChange)="selectSeller($event)">
+                  </p-dropdown>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field
+                    [ngClass]="employeeChargeControl.touched && employeeChargeControl.hasError('required') ? 'error-border' : ''"
+                    class="form-control w100">
+                    <input matInput aria-label="Seller" [matAutocomplete]="autoSeller"
+                      [formControl]="employeeChargeControl" (keyup.enter)="chooseFirstOption()">
+                    <mat-autocomplete #autoSeller="matAutocomplete" (optionSelected)="selectSeller($event)">
+                      <mat-option *ngFor="let seller of filteredSeller | async" [value]="seller.employeeId">
+                        <span>{{ seller.employeeCode }}</span> - <span>{{ seller.employeeName }}</span>
+                      </mat-option>
+                    </mat-autocomplete>
+                    <i class="material-icons clear cursor" matTooltip="Xóa"
+                      (click)="clearDataEmployeeCharge()">clear</i>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="employeeChargeControl.untouched">
+                    <mat-error *ngIf="employeeChargeControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div> -->
+              </div>
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Thời gian áp dụng:</label>
+                </div>
+                <div class="col-md-1 mt-8">
+                  <label class="font-italic">Từ ngày:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-calendar formControlName="effecttiveFromDateControl" yearRange="1960:{{currentYear}}"
+                    [ngClass]="effecttiveFromDateControl.touched && effecttiveFromDateControl.hasError('required') ? 'error-border' : ''"
+                    dateFormat="dd/mm/yy" [style]="{width:'100%'}" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                    [maxDate]="effecttiveToDateControl.value" [minDate]="effecttiveFromDateControl.value"
+                    [baseZIndex]="999">
+                  </p-calendar>
+                  <div class="md-errors-spacer"
+                    [hidden]="effecttiveFromDateControl.untouched || effecttiveFromDateControl.valid">
+                    <span *ngIf="effecttiveFromDateControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field'
+                      | translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="effecttiveFromDateControl.touched && effecttiveFromDateControl.hasError('required') ? 'error-border' : ''">
+                    <input matInput [matDatepicker]="effecttiveFromDate" readonly id="effecttiveFromDateControl"
+                      name="effecttiveFromDateControl" formControlName="effecttiveFromDateControl"
+                      [(ngModel)]="customerCareModel.EffecttiveFromDate">
+                    <mat-datepicker-toggle matSuffix [for]="effecttiveFromDate"></mat-datepicker-toggle>
+                    <mat-datepicker #effecttiveFromDate></mat-datepicker>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="effecttiveFromDateControl.untouched">
+                    <mat-error *ngIf="effecttiveFromDateControl.hasError('required')">{{ 'lead.messages.required_field'
+                      | translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-1 mt-8">
+                  <label class="font-italic">đến ngày:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-calendar formControlName="effecttiveToDateControl" yearRange="1960:{{currentYear}}"
+                    [ngClass]="effecttiveToDateControl.touched && effecttiveToDateControl.hasError('required') ? 'error-border' : ''"
+                    dateFormat="dd/mm/yy" [style]="{width:'100%'}" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                    [minDate]="effecttiveFromDateControl.value" [baseZIndex]="999">
+                  </p-calendar>
+                  <div class="md-errors-spacer"
+                    [hidden]="effecttiveToDateControl.untouched || effecttiveToDateControl.valid">
+                    <span *ngIf="effecttiveToDateControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field'
+                      | translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="effecttiveToDateControl.touched && effecttiveToDateControl.hasError('required') ? 'error-border' : ''">
+                    <input matInput [matDatepicker]="effecttiveToDate" readonly id="effecttiveToDateControl"
+                      name="effecttiveToDateControl" formControlName="effecttiveToDateControl"
+                      [(ngModel)]="customerCareModel.EffecttiveToDate">
+                    <mat-datepicker-toggle matSuffix [for]="effecttiveToDate"></mat-datepicker-toggle>
+                    <mat-datepicker #effecttiveToDate></mat-datepicker>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="effecttiveToDateControl.untouched">
+                    <mat-error *ngIf="effecttiveToDateControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div> -->
+              </div>
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Tiêu đề:</label>
+                </div>
+                <div class="col-md-8">
+                  <input pInputText id="customerCareTitleControl" name="customerCareTitleControl" class="form-control"
+                    [ngClass]="customerCareTitleControl.touched && customerCareTitleControl.hasError('required') ? 'error-border' : ''"
+                    formControlName="customerCareTitleControl" [(ngModel)]="customerCareModel.CustomerCareTitle"
+                    maxlength="200">
+                  <div class="md-errors-spacer" [hidden]="customerCareTitleControl.untouched">
+                    <span class="error-message-span" *ngIf="customerCareTitleControl.hasError('required')">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Nội dung chương
+                    trình:</label>
+                </div>
+                <div class="col-md-8">
+                  <textarea pInputTextarea matInput class="textarea-border" id="customerCareContentControl"
+                    name="customerCareContentControl" formControlName="customerCareContentControl"
+                    [(ngModel)]="customerCareModel.CustomerCareContent"
+                    [ngClass]="customerCareContentControl.touched && customerCareContentControl.hasError('required') ? 'error-border-textarea' : ''"
+                    rows="5"></textarea>
+                  <div class="md-errors-spacer"
+                    [hidden]="customerCareContentControl.untouched || customerCareContentControl.valid">
+                    <span *ngIf="customerCareContentControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field'
+                      | translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-8">
+                  <mat-form-field class="w100" style="height: 90px;">
+                    <textarea matInput class="textarea-border" id="customerCareContentControl"
+                      name="customerCareContentControl" formControlName="customerCareContentControl"
+                      [(ngModel)]="customerCareModel.CustomerCareContent"
+                      [ngClass]="customerCareContentControl.touched && customerCareContentControl.hasError('required') ? 'error-border-textarea' : ''"
+                      rows="5"></textarea>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="customerCareContentControl.untouched">
+                    <mat-error *ngIf="customerCareContentControl.hasError('required')">{{ 'lead.messages.required_field'
+                      | translate }}</mat-error>
+                  </div>
+                </div> -->
+              </div>
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Hình thức:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-dropdown [options]="listCustomerCareContactType" optionLabel="categoryName"
+                    formControlName="customerCareContactTypeControl" [style]="{width: '100%'}"
+                    (onChange)="changedCustomerCareContactType($event)">
+                  </p-dropdown>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="customerCareContactTypeControl.touched && customerCareContactTypeControl.hasError('required') ? 'error-border' : ''">
+                    <mat-select id="customerCareContactType" name="customerCareContactType"
+                      formControlName="customerCareContactTypeControl"
+                      [(ngModel)]="customerCareModel.CustomerCareContactType"
+                      (selectionChange)="changedCustomerCareContactType($event)">
+                      <mat-option *ngFor="let option of listCustomerCareContactType" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="customerCareContactTypeControl.untouched">
+                    <mat-error *ngIf="customerCareContactTypeControl.hasError('required')">{{
+                      'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-2 mt-8">
+                  <label>Chi phí dự kiến (VNĐ):</label>
+                </div>
+                <div class="col-md-3">
+                  <input pInputText currencyMask name="expectedAmountControl" class="form-control"
+                    [ngClass]="expectedAmountControl.touched && expectedAmountControl.hasError('required') ? 'error-border' : ''"
+                    formControlName="expectedAmountControl" [(ngModel)]="customerCareModel.ExpectedAmount">
+                  <div class="md-errors-spacer" [hidden]="expectedAmountControl.untouched">
+                    <span class="error-message-span" *ngIf="expectedAmountControl.hasError('required')">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                    <span class="error-message-span" *ngIf="expectedAmountControl.hasError('pattern')">Chi phí tối đa là
+                      10,000,000,000 VNĐ
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- NỘI DUNG GỬI EMAIL -->
+              <div class="row mt-15" *ngIf="isSendEmail">
+                <div class="col-md-2 mt-8">
+                  <label>Nội dung Email:</label>
+                </div>
+                <div class="col-md-8" id="editor">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-editor formControlName="customerCareContentEmailControl"
+                        [style]="{'height':'180px', 'width': '100%'}"
+                        [styleClass]="(customerCareContentEmailControl.invalid  && (customerCareContentEmailControl.dirty || customerCareContentEmailControl.touched)) ? 'error-border': ''">
+                      </p-editor>
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="customerCareContentEmailControl.valid || customerCareContentEmailControl.untouched">
+                      <span *ngIf="customerCareContentEmailControl.hasError('required')" class="error-message-span">Nội
+                        dung không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <label class="color-link cursor" (click)="selectEmailTemplate()">Chọn email mẫu</label>
+                  <div class="note">
+                    <p>Chú thích:</p>
+                    <p class="color-link cursor" (click)="replate_token(name)">- {{name}}: Tên khách hàng</p>
+                    <p class="color-link cursor" (click)="replate_token(hotline)">- {{hotline}}: Số hotline</p>
+                    <p class="color-link cursor" (click)="replate_token(address)">- {{address}}: Địa chỉ công ty</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-15 ml-195" *ngIf="isSendEmail">
+                <div class="col-md-3">
+                  <mat-radio-group (change)="onChangeRadioSendEmail($event)">
+                    <mat-radio-button [checked]="customerCareModel.IsSendEmailNow" value="true">Gửi ngay
+                    </mat-radio-button>
+                    <mat-radio-button class="ml-30" [checked]="!customerCareModel.IsSendEmailNow" value="false">Gửi vào
+                      lúc</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="row mt-15 ml-195" *ngIf="isSendEmail && isSendEmailAt">
+                <div class="col-md-3 ml-120">
+                  <p-calendar formControlName="sendEmailDateControl" [(ngModel)]="customerCareModel.SendEmailDate"
+                    yearRange="1960:{{currentYear}}"
+                    [ngClass]="sendEmailDateControl.touched && sendEmailDateControl.hasError('required') ? 'error-border' : ''"
+                    dateFormat="dd/mm/yy" [style]="{width:'100%'}" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                    [minDate]="sendEmailDateControl.value" [baseZIndex]="999">
+                  </p-calendar>
+                  <div class="md-errors-spacer" [hidden]="sendEmailDateControl.untouched">
+                    <span *ngIf="sendEmailDateControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3 ml-120">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="sendEmailDateControl.touched && sendEmailDateControl.hasError('required') ? 'error-border' : ''">
+                    <input matInput [matDatepicker]="sendEmailDate" id="sendEmailDateControl"
+                      name="sendEmailDateControl" formControlName="sendEmailDateControl"
+                      [(ngModel)]="customerCareModel.SendEmailDate">
+                    <mat-datepicker-toggle matSuffix [for]="sendEmailDate"></mat-datepicker-toggle>
+                    <mat-datepicker #sendEmailDate></mat-datepicker>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="sendEmailDateControl.untouched">
+                    <mat-error *ngIf="sendEmailDateControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-2">
+                  <input pInputText type="time" id="sendEmailHourControl" name="sendEmailHourControl"
+                    class="form-control"
+                    [ngClass]="sendEmailHourControl.touched && sendEmailHourControl.hasError('required') ? 'error-border' : ''"
+                    formControlName="sendEmailHourControl" [(ngModel)]="customerCareModel.SendEmailHour">
+                  <div class="md-errors-spacer" [hidden]="sendEmailHourControl.untouched">
+                    <mat-error *ngIf="sendEmailHourControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+              <!-- END: NỘI DUNG GỬI EMAIL -->
+
+              <!-- NỘI DUNG GỬI SMS -->
+              <div class="row mt-15" *ngIf="isSendSMS">
+                <div class="col-md-2 mt-8">
+                  <label>Nội dung SMS:</label>
+                </div>
+                <div class="col-md-8">
+                  <p-editor formControlName="customerCareContentSMSControl"
+                    [style]="{'height':'180px', 'width': '100%'}"
+                    [styleClass]="(customerCareContentSMSControl.invalid  && (customerCareContentSMSControl.dirty || customerCareContentSMSControl.touched)) ? 'error-border': ''">
+                  </p-editor>
+                  <!-- <textarea pInputTextarea class="textarea-border" id="customerCareContentSMSControl"
+                                    name="customerCareContentSMSControl" formControlName="customerCareContentSMSControl"
+                                    [(ngModel)]="customerCareModel.CustomerCareContentSMS"
+                                    [ngClass]="customerCareContentSMSControl.touched && customerCareContentSMSControl.hasError('required') ? 'error-border-textarea' : ''"
+                                    rows="5" cols="30"></textarea> -->
+                  <div class="md-errors-spacer" [hidden]="customerCareContentSMSControl.untouched">
+                    <span *ngIf="customerCareContentSMSControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field' | translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-8">
+                  <mat-form-field class="w100" style="height: 90px;">
+                    <textarea matInput class="textarea-border" id="customerCareContentSMSControl"
+                      name="customerCareContentSMSControl" formControlName="customerCareContentSMSControl"
+                      [(ngModel)]="customerCareModel.CustomerCareContentSMS"
+                      [ngClass]="customerCareContentSMSControl.touched && customerCareContentSMSControl.hasError('required') ? 'error-border-textarea' : ''"
+                      rows="5"></textarea>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="customerCareContentSMSControl.untouched">
+                    <mat-error *ngIf="customerCareContentSMSControl.hasError('required')">{{
+                      'lead.messages.required_field' | translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-2">
+                  <label class="color-link cursor" (click)="selectSMSTemplate()">Chọn tin nhắn mẫu</label>
+                  <div class="note">
+                    <p>Chú thích:</p>
+                    <p class="color-link cursor" (click)="replate_token_sms(name)">- {{name}}: Tên khách hàng</p>
+                    <p class="color-link cursor" (click)="replate_token_sms(hotline)">- {{hotline}}: Số hotline</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-15 ml-195" *ngIf="isSendSMS">
+                <div class="col-md-3">
+                  <mat-radio-group (change)="onChangeRadioSendSMS($event)">
+                    <mat-radio-button [checked]="customerCareModel.IsSendNow" value="true">Gửi ngay</mat-radio-button>
+                    <mat-radio-button class="ml-30" [checked]="!customerCareModel.IsSendNow" value="false">Gửi vào lúc
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="row mt-15 ml-195" *ngIf="isSendSMS && isSendSMSAt">
+                <div class="col-md-3 ml-120">
+                  <p-calendar formControlName="sendDateControl" [(ngModel)]="customerCareModel.SendDate"
+                    yearRange="1960:{{currentYear}}"
+                    [ngClass]="sendDateControl.touched && sendDateControl.hasError('required') ? 'error-border' : ''"
+                    dateFormat="dd/mm/yy" [style]="{width:'100%'}" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                    [minDate]="sendDateControl.value" [baseZIndex]="999">
+                  </p-calendar>
+                  <div class="md-errors-spacer" [hidden]="sendDateControl.untouched">
+                    <span *ngIf="sendDateControl.hasError('required')" class="error-message-span">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-3 ml-120">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="sendDateControl.touched && sendDateControl.hasError('required') ? 'error-border' : ''">
+                    <input matInput [matDatepicker]="sendDate" id="sendDateControl" name="sendDateControl"
+                      formControlName="sendDateControl" [(ngModel)]="customerCareModel.SendDate">
+                    <mat-datepicker-toggle matSuffix [for]="sendDate"></mat-datepicker-toggle>
+                    <mat-datepicker #sendDate></mat-datepicker>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="sendDateControl.untouched">
+                    <mat-error *ngIf="sendDateControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-2">
+                  <input pInputText type="time" id="sendHourControl" name="sendHourControl" class="form-control"
+                    [ngClass]="sendHourControl.touched && sendHourControl.hasError('required') ? 'error-border' : ''"
+                    formControlName="sendHourControl" [(ngModel)]="customerCareModel.SendHour">
+                  <div class="md-errors-spacer" [hidden]="sendHourControl.untouched">
+                    <mat-error *ngIf="sendHourControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div>
+              </div>
+              <!-- END: NỘI DUNG GỬI SMS -->
+
+              <!-- NỘI DUNG TẶNG QUÀ -->
+              <div class="row mt-15" *ngIf="isSendGift">
+                <div class="col-md-2 ml-210">
+                  <span class="icon-card-info">
+                    <i class="material-icons">cake</i>
+                  </span>
+                  <label class="info-label">Tặng quà</label>
+                </div>
+              </div>
+              <div class="row mt-15" *ngIf="isSendGift">
+                <div class="col-md-2 mt-8">
+                  <label>Phân loại KH:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-dropdown [options]="listDefaultIdCusPer" optionLabel="categoryName"
+                    formControlName="giftCustomerType1Control" (onChange)="changedGiftCustomerType1($event)"
+                    [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field class="form-control w100">
+                    <mat-select id="giftCustomerType1" name="giftCustomerType1"
+                      formControlName="giftCustomerType1Control" [(ngModel)]="customerCareModel.GiftCustomerType1"
+                      (selectionChange)="changedGiftCustomerType1($event)">
+                      <mat-option value="0">
+                        --Không chọn--
+                      </mat-option>
+                      <mat-option value="0346e1a1-737e-47b5-aac0-86e56133ee7f">
+                        Khách hàng cá nhân
+                      </mat-option> 
+                      <mat-option *ngFor="let option of listDefaultIdCusPer" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+                <div class="col-md-1 mt-8" *ngIf="isShowOptionsGiftType1">
+                  <label class="float-right">Loại quà:</label>
+                </div>
+                <div class="col-md-3" *ngIf="isShowOptionsGiftType1">
+                  <p-dropdown [options]="listGiftTypeId1" optionLabel="categoryName"
+                    formControlName="giftTypeId1Control" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                  <!-- <mat-form-field class="form-control w100">
+                    <mat-select id="giftTypeId1" name="giftTypeId1" formControlName="giftTypeId1Control"
+                      [(ngModel)]="customerCareModel.GiftTypeId1">
+                      <mat-option *ngFor="let option of listGiftTypeId1" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> -->
+                </div>
+                <div class="col-md-1" *ngIf="isShowOptionsGiftType1">
+                  <input pInputText type="number" min="1" max="200" step="1" id="giftTotal1Control"
+                    name="giftTotal1Control" class="form-control"
+                    [ngClass]="giftTotal1Control.touched && giftTotal1Control.hasError('required') ? 'error-border' : ''"
+                    formControlName="giftTotal1Control" [(ngModel)]="customerCareModel.GiftTotal1">
+                  <div class="md-errors-spacer" [hidden]="giftTotal1Control.untouched">
+                    <span class="error-message-span" *ngIf="giftTotal1Control.hasError('required')">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                    <span class="error-message-span" *ngIf="giftTotal1Control.hasError('pattern')">Số quà tặng phải
+                      trong khoảng từ 1 đến 200
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-15" *ngIf="isSendGift">
+                <div class="col-md-2 mt-8">
+                  <label>Phân loại KH:</label>
+                </div>
+                <div class="col-md-3">
+                  <p-dropdown [options]="listDefaultIdCusEnterprise" optionLabel="categoryName"
+                    formControlName="giftCustomerType2Control" (onChange)="changedGiftCustomerType2($event)"
+                    [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+                <!-- <div class="col-md-3">
+                  <mat-form-field class="form-control w100">
+                    <mat-select id="giftCustomerType2" name="giftCustomerType2"
+                      formControlName="giftCustomerType2Control" [(ngModel)]="customerCareModel.GiftCustomerType2"
+                      (selectionChange)="changedGiftCustomerType2($event)">
+                      <mat-option value="0">
+                        --Không chọn--
+                      </mat-option>
+                      <mat-option value="60c3c7c7-cc00-4924-9130-f18cf8c75d33">
+                        Khách hàng doanh nghiệp
+                      </mat-option> 
+                      <mat-option *ngFor="let option of listDefaultIdCusEnterprise" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div> -->
+                <div class="col-md-1 mt-8" *ngIf="isShowOptionsGiftType2">
+                  <label class="float-right">Loại quà:</label>
+                </div>
+                <div class="col-md-3" *ngIf="isShowOptionsGiftType2">
+                  <p-dropdown [options]="listGiftTypeId2" optionLabel="categoryName"
+                    formControlName="giftTypeId2Control" [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                  <!-- <mat-form-field class="form-control w100">
+                    <mat-select id="giftTypeId2" name="giftTypeId2" formControlName="giftTypeId2Control"
+                      [(ngModel)]="customerCareModel.GiftTypeId2">
+                      <mat-option *ngFor="let option of listGiftTypeId2" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select> 
+                  </mat-form-field> -->
+                </div>
+                <div class="col-md-1" *ngIf="isShowOptionsGiftType2">
+                  <input pInputText type="number" min="1" max="200" step="1" id="giftTotal2Control"
+                    name="giftTotal2Control" class="form-control"
+                    [ngClass]="giftTotal2Control.touched && giftTotal2Control.hasError('required') ? 'error-border' : ''"
+                    formControlName="giftTotal2Control" [(ngModel)]="customerCareModel.GiftTotal2">
+                  <div class="md-errors-spacer" [hidden]="giftTotal2Control.untouched">
+                    <span class="error-message-span" *ngIf="giftTotal2Control.hasError('required')">{{
+                      'lead.messages.required_field' |
+                      translate }}</span>
+                    <span class="error-message-span" *ngIf="giftTotal2Control.hasError('pattern')">Số quà tặng phải
+                      trong khoảng từ 1 đến 200
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-15" *ngIf="isSendGift">
+                <div class="md-errors-spacer error-customer-type">
+                  <span class="error-message-span" *ngIf="!isHasValueCustomerType">Phải chọn ít nhất một loại khách
+                    hàng</span>
+                </div>
+              </div>
+              <!-- END: NỘI DUNG TẶNG QUÀ -->
+
+              <div class="row mt-15">
+                <div class="col-md-2 mt-8">
+                  <label><span class="require">{{ 'order.create.require' | translate }}</span>Trạng thái:</label>
+                </div>
+                <!-- <div class="col-md-8">
+                  <mat-form-field class="form-control w100"
+                    [ngClass]="statusIdControl.touched && statusIdControl.hasError('required') ? 'error-border' : ''">
+                    <mat-select id="statusId" name="statusId" formControlName="statusIdControl"
+                      [(ngModel)]="customerCareModel.StatusId">
+                      <mat-option *ngFor="let option of listStatusId" [value]="option.categoryId">
+                        {{option.categoryName}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="md-errors-spacer" [hidden]="statusIdControl.untouched">
+                    <mat-error *ngIf="statusIdControl.hasError('required')">{{ 'lead.messages.required_field' |
+                      translate }}</mat-error>
+                  </div>
+                </div> -->
+                <div class="col-md-8">
+                  <p-dropdown [options]="listStatusId" optionLabel="categoryName" formControlName="statusIdControl"
+                    [ngClass]="statusIdControl.touched && statusIdControl.hasError('required') ? 'error-border' : ''"
+                    [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+              </div>
+
+              <div class="row mt-15">
+                <div class="col-md-12 mt-8 center">
+                  <p>
+                    <button color="basic" mat-raised-button (click)="goToFollowProcessCustomerCare()">HỦY</button>
+                    <button color="primary" [disabled]="isNotSave" mat-raised-button class="ml-15"
+                      (click)="saveContentCustomerCare()">LƯU CT CSKH</button>
+                  </p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END: NỘI DUNG BƯỚC 2 -->
+  </section>
+</div>

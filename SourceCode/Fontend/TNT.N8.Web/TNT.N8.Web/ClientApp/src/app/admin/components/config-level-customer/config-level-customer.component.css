@@ -1,0 +1,94 @@
+.config-level-customer {
+  margin: -15px;
+  padding: 20px;
+}
+
+.customer-level-customer hr {
+  border-top: solid 1px black;
+}
+
+.main-button-row {
+  text-align: right;
+}
+
+.btn-create {
+  background-color: #6D98E7;
+  color: #fff;
+  width: 80px;
+}
+
+.btn-cancel {
+  margin-right: 10px;
+  background-color: #e4e4e4;
+  border: solid 1px black;
+  width: 80px;
+}
+
+.table-config {
+  background: #fff;
+}
+
+.containerConfig {
+  padding-right: 190px;
+  padding-left: 190px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.table {
+    border-collapse: collapse;
+    border: 1px solid #f4f4f4;
+    font-size: 14px;
+}
+.colorHeaderTable {
+    background: #ddd;
+}
+.addLevel {
+    color: #618cde;
+    cursor: pointer;
+    font-weight: bold;
+}
+.remove {
+    color: red;
+    cursor: pointer;
+}
+.valueRevenue {
+  border-radius: 4px;
+}
+.noBorderLeft {
+  border-left: none;
+}
+.noBorder {
+  border-left: none;
+  border-right: none;
+}
+.noBorderRight {
+  border-right: none;
+}
+.backgroundHeader {
+  background: #618cde;
+  color: #fff;
+}
+.backgroundBody {
+  background: #fff;
+}
+.error-border, .error-border:focus {
+  border-color: #f44336;
+}
+
+  .error-border:focus {
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+  }
+  .help-block {
+    color: red;
+    margin-top: -10px;
+    position: absolute;
+}
+
+.btn-default {
+  font-family: 'Open Sans', sans-serif;
+}
+@media screen and (max-width: 720px){
+  .containerConfig{
+    padding-left: 5px ;
+  }
+}

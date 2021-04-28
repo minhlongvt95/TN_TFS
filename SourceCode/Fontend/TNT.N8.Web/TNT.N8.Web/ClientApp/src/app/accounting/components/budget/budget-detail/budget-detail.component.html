@@ -1,0 +1,121 @@
+<section class="detail-content">
+  <div class="row">
+    <div class="hidden-md hidden-lg ">
+      <h4>Chi tiết dự toán</h4>
+    </div>
+    <div class="button-action bg-white shadow">
+      <h4 class="hidden-xs hidden-sm col-md-8 no-padding-left">Chi tiết dự toán</h4>
+      <div class="col-md-4" style="text-align: right">
+        <button mat-raised-button class="btn-bordered" *ngIf = "back" (click)="goBack()" >Quay lại</button>
+        <button mat-raised-button color="primary" class="btn-bordered" 
+        *ngIf="edit" (click)="editButtonClicked()">Sửa</button>
+        <button mat-raised-button class="btn-bordered " color="warn" *ngIf="!back" (click)="cancel()">Hủy</button>
+        
+        <button mat-raised-button color="primary"  class="btn-bordered" *ngIf="!back" (click)="saveBudget()">Lưu</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <form [formGroup]="procurementPlanDetail" action="" class="form-horizontal" accept-charset="utf-8">
+    <div class=" bg-white shadow row"> 
+      <div class="container">
+       
+        <div class="row padding-top-30" style="padding-top:30px">
+            <div class="col-md-6">
+              <label class="label-15px  col-md-3 no-padding-left ">Mã dự toán:</label>
+              {{BudgetRequest.ProcurementPlanCode}}
+
+            </div>
+        </div>
+        <div class="row padding-top-30" style="padding-top:30px">
+            <div class="col-md-4">
+                <label>{{ 'product.create.productcategory' | translate }}<span class="required">*</span></label>
+                <br />
+                <a *ngIf="!back" style="cursor: pointer" (click)="openProductCategoryPopup()">Xem danh sách sản phẩm dịch vụ</a>
+              </div>
+          <div class="col-md-7">
+            <label *ngIf="back">{{ProductCategoryName}}</label>
+              <input *ngIf="!back" type="text"
+              id="productCategoryControl"
+              name="productCategoryControl"
+              formControlName="productCategoryControl"
+              [(ngModel)]="ProductCategoryName"
+              maxlength="255"
+              readonly style="width: 100%">
+              <div style="text-align: center">
+                  <span class=" form-error text-danger small" style="color: red;padding-right: 35px;"
+                  *ngIf="procurementPlanDetail.controls['productCategoryControl'].errors?.required &&
+                  procurementPlanDetail.controls['productCategoryControl'].touched">Không được để trống </span>
+                </div>
+          </div>
+        </div>
+        <div class="row padding-top-30" style="padding-top:30px">
+          <div class="col-md-6">
+            <label class="label-15px  col-md-3 no-padding-left ">Ngày tạo:</label>
+            {{BudgetRequest.CreatedDate | date:'dd-MM-yyyy'}}
+          </div>
+        </div>
+        <div class="row padding-top-30" style="padding-top:30px">
+          
+          <div class="col-md-6">
+            <label class="label-15px  col-md-3 no-padding-left ">Năm dự toán :</label>
+            {{BudgetRequest.ProcurementYear}}
+          </div>
+        </div>
+
+        <br>
+       
+        <!-- Tháng dự toán -->
+        <div class="row padding-top-30">
+          <div class="col-md-6">
+            <label class="label-15px  col-md-3 no-padding-left ">Tháng dự toán:</label>
+
+            {{BudgetRequest.ProcurementMonth}}
+
+          </div>
+        </div>
+        <div class="row padding-top-30">
+          <div class="col-md-6">
+            <label class="label-15px  col-md-3 no-padding-left">Nội dung:<span class="required">*</span></label>
+            <mat-form-field class=" bottom-20">
+              <textarea matInput rows="3" formControlName="ProcurementPlanContentControl"
+                        [(ngModel)]="BudgetRequest.ProcurementContent"></textarea>
+            </mat-form-field>
+
+            <span class=" form-error text-danger small" style="color: red;padding-right: 35px;"
+                  *ngIf="procurementPlanDetail.controls['ProcurementPlanContentControl'].errors?.required &&
+                  procurementPlanDetail.controls['ProcurementPlanContentControl'].touched">Không được để trống</span>
+
+          </div>
+        </div>
+        <div class="row padding-top-30">
+          <div class="col-md-6">
+            <label class="label-15px  no-padding-left col-md-3 ">Số tiền:<span class="required">*</span></label>
+
+            <mat-form-field class="col-md-3 bottom-20 no-padding-left">
+              <input matInput
+                     currencyMask formControlName="ProcurementPlanAmountControl"
+                     [(ngModel)]="BudgetRequest.ProcurementAmount" />
+
+            </mat-form-field>
+            <span class=" form-error text-danger small" style="color: red"
+                  *ngIf="procurementPlanDetail.controls['ProcurementPlanAmountControl'].errors?.required &&
+                procurementPlanDetail.controls['ProcurementPlanAmountControl'].touched">Không được để trống</span>
+
+            <div class="col-md-1 no-padding-left" style="bottom:10px;">
+              <div style="bottom:10px;right: 15px;">
+                <h5>VNĐ</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+          
+      </div>
+      
+    
+  </form>
+</section>

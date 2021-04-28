@@ -1,0 +1,43 @@
+.lead-edit-person-in-charge-dialog {
+    margin: -15px;
+    padding: 20px;
+}
+
+.lead-edit-person-in-charge-dialog .org-dialog-title {
+    background-color: #6D98E7;
+    color: #fff;
+    font-weight: bold;
+    margin: -29px -29px 0px -29px !important;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.lead-edit-person-in-charge-dialog .mt-15 {
+    margin-top: 15px !important;
+}
+
+.lead-edit-person-in-charge-dialog .clear {
+    float: right;
+    cursor: pointer;
+}
+
+.lead-edit-person-in-charge-dialog .org-dialog-buttons {
+    text-align: right;
+}
+
+.lead-edit-person-in-charge-dialog .form-control {
+    border-radius: 0.25rem;
+}
+
+.lead-edit-person-in-charge-dialog .w100 {
+    width: 100% !important;
+}
+
+.lead-edit-person-in-charge-dialog .error-border,
+.lead-edit-person-in-charge-dialog .error-border:focus {
+  border-color: #f44336;
+}
+
+.lead-edit-person-in-charge-dialog .mat-dialog-container {
+    padding: 25px !important;
+}

@@ -1,0 +1,245 @@
+
+.cash-payments-view {
+  font-family: 'Inter UI';
+}
+
+.cash-payments-view .cash-payments-view-content{
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.cash-payments-view .button-group{
+  width: 100% !important;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.cash-payments-view .header-box-icon {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.cash-payments-view .text-header{
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+.cash-payments-view .fixed{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+
+.cash-payments-view hr{
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.cash-payments-view .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.cash-payments-view .btn-cancel .text-cancel{
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.cash-payments-view .btn-create {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+
+.cash-payments-view .btn-create .text-save{
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff !important;
+}
+
+
+.cash-payments-view .bank-infop{
+  border-radius: 4px; 
+  border: solid 1px #dde1e6;
+  background-color: var(--sub-bg-1);
+  margin-left: 2%;
+}
+
+.borderless td, .borderless th {
+  border: none !important; 
+}
+
+.cash-payments-view .text-status{
+  color: red;
+}
+.cash-payments-view th{
+  font-weight: normal;
+}
+
+.cash-payments-view td{
+  font-weight: bold;
+}
+
+.cash-payments-view .bank-money{
+  height: 270px;
+  border: dashed 1px #fec163;
+  margin-left: 2%;
+  background-color: #fff9f0;
+}
+
+.cash-payments-view .require {
+  border-radius: 4px;
+  border: solid 1px #ff9500;
+  background-color: #fff9f0;
+}
+
+.cash-payments-view .mat-raised-button,
+.cash-payments-view button {
+  box-shadow: none !important;
+  height: 40px;
+  min-width: 124px;
+  border-radius: 0.25em;
+}
+
+.cash-payments-view .right-text {
+  padding: 0px 15px 0 30px;
+  border-left: 1px solid #999999;
+  padding-bottom: 100px;
+}
+
+.cash-payments-view .control-label label,
+.cash-payments-view .control-label {
+  font-weight: 400;
+}
+.cash-payments-view .mt-25{
+  margin-top: 25px;
+}
+
+input[type="text"]:disabled {
+  background: #e7dfdf;
+}
+
+.cash-payments-view p.form-control{
+  min-height: 34px ;
+  max-height: none !important;
+}
+
+.cash-payments-view .no-padding {
+  padding: 0 !important;
+}
+
+.cash-payments-view .no-padding-left {
+  padding-left: 0 !important
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .cash-payments-view .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+@media only screen and (max-width: 1423px) {
+  .cash-payments-view .ios-warning {
+      top: 0px;
+  }
+  .cash-payments-view .save {
+      margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media only screen and (max-width: 768px) {
+  .cash-payments-view .fixed {
+      width: 62% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (max-width: 414px) {
+  .cash-payments-view .fixed {
+      width: 85.3% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 375px) {
+  .cash-payments-view .fixed {
+      width: 83.7% !important;
+  }
+}
+
+
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .cash-payments-view .fixed {
+      width: 80.7% !important;
+  }
+}

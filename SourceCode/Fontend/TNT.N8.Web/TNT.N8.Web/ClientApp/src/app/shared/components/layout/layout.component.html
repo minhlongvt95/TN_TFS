@@ -1,0 +1,102 @@
+<div class="top-header">
+  <div class="space_tnm" (click)="goToHome()">
+    <span class="TNM">{{applicationName}}</span>
+  </div>
+  <div class="space_em" (click)="goToHome()">
+    <span class="EM">Enterprise Management</span>
+  </div>
+
+  <div #toggleUser id="user-content-button" class="space_config cursor" style="right:0px;width:59.5px">
+    <span><img style="height:36px;width:36px;top:7px;position:relative;left:10px"
+        class="small-user-avatar img-responsive"
+        [src]="(userAvatar!='' && userAvatar!=null && userAvatar!='null')?userAvatar:'../../../../assets/images/no-avatar.png'" /><i
+        class="fas fa-caret-down"></i></span>
+  </div>
+
+  <div #toggleNotifi class="space_config cursor" style="width:59.5px;right:59.5px" matTooltip="Thông báo">
+    <span class="notification-icon">{{notificationNumber}}</span>
+    <span><img src="../../assets/icons/header_top/ios-notifications.svg" class="ios-cog"></span>
+  </div>
+
+  <div #toggleConfig id="sysConfig-button" class="space_config cursor" style="width:59.5px;right:117.5px">
+    <span><img src="../../assets/icons/header_top/ios-cog.svg" class="ios-cog"></span>
+  </div>
+
+  <div #toggleCreateElement id="create-button" class="space_create cursor" style="width:112px;right:182px">
+    <img src="../../assets/icons/header_top/ios-add-circle.svg" class="ios-add-circle">
+    <span class="text">Tạo mới<i class="fa fa-caret-down" aria-hidden="true"></i></span>
+  </div>
+
+  <div *ngIf="isOpenNotifi" id="notification-content">
+    <div id="scroll-content">
+      <div class="row" *ngFor="let item of notificationList">
+        <div [ngClass]="!item.viewed ? 'not-viewed' : ''" class="notification-row"
+          (click)="goToNotiUrl(item, item.notificationId, item.objectId, item.objectType)">
+          {{item.content}}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div style="padding: 10px; margin: 0 15px; background: #fff; text-align: center">
+        <a style="cursor: pointer" (click)="goToNotification()">Xem tất cả</a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isOpenUser" id="user-content">
+    <div class="row no-margin" style="border-bottom: 1px solid #ccc">
+      <div class="col-md-4">
+        <img class="user-avatar img-responsive"
+          [src]="(userAvatar!='' && userAvatar!=null && userAvatar!='null') ? userAvatar : '../../../../assets/images/no-avatar.png'" />
+      </div>
+      <div class="col-md-8">
+        <a class="user-name" style="cursor: pointer;" (click)="goToViewProfile()"
+          matTooltip="Nhấn để thay đổi thông tin cá nhân">{{userFullName}}</a>
+        <div class="user-email">{{userEmail}}</div>
+        <br />
+        <div style="margin-top: 10px">
+          <button type="button" class="btn-reset-pass" mat-raised-button (click)="openChangePassword()">Đổi mật
+            khẩu</button>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin log-out">
+      <div class="col-md-12">
+        <button type="button" class="btn-log-out" mat-raised-button (click)="logout()">Đăng xuất</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isOpenConfig" id="sys-config">
+    <div id="scroll-content">
+      <div class="row" *ngFor="let item of lstSubmenuLevel3">
+        <div class="sys-config-row" (click)="goToUrlSysConfig(item.Path)">
+          <img *ngIf="item.nameIcon.includes('.png')||item.nameIcon.includes('.svg')" class="imgIconX"
+            src="../../assets/icons/Menu/menu_crm/{{item.nameIcon}}">
+          <i *ngIf="!item.nameIcon.includes('.png')&&!item.nameIcon.includes('.svg')"
+            style="font-size:16px !important;margin-right:6px" class="material-icons">{{item.nameIcon}}</i>
+          {{item.Name}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div #dropdownMenu *ngIf="isOpenCreateElement" id="create-config">
+    <div id="scroll-content">
+      <p-panelMenu [model]="items" [multiple]="false" [style]="{'width':'200px'}"></p-panelMenu>
+    </div>
+  </div>
+</div>
+<div class="wrapper" style="height: auto;">
+  <main-header (updateLeftMenu)="onUpdateLeftMenu($event)"></main-header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <app-menu></app-menu>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" style="height: auto; min-height: calc(100vh - 100px); background-color: #f3f4f8;">
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+  <!-- /.content-wrapper -->
+  <main-footer></main-footer>
+</div>

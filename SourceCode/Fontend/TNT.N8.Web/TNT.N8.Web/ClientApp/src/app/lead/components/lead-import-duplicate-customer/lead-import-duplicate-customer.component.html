@@ -1,0 +1,77 @@
+<ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+<div class="org-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;">
+    <div class="row org-dialog-title">
+      <span>
+        {{'lead.title_lead'| translate }}
+      </span>
+    </div>
+    <div class="row">
+      <div class="bg-white shadow org-dialog-buttons">
+        <h4 class="col-md-8" style="text-align: left">Đã tồn tại khách hàng có số điện thoại/email trong hệ thống</h4>
+        <button mat-raised-button class="btn-ok" (click)="onSaveClick()">Xuất excel</button>
+        <button mat-raised-button class="btn-ok" (click)="onCancelClick()">Đóng</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class=" bg-white shadow">
+        <mat-table #table class="mat-elevation-z8" id="customer-duplicate-table" [dataSource]="dataSource">
+
+          <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+              <mat-checkbox (change)="$event ? masterToggle() : null" color="primary"
+                            [checked]="selection?.hasValue() && isAllSelected()"
+                            [indeterminate]="selection?.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let rows">
+              <mat-checkbox (click)="$event.stopPropagation()" color="primary"
+                            (change)="$event ?rowCheckboxClick($event,rows): null"
+                            [checked]="selection?.isSelected(rows)">
+              </mat-checkbox>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>
+              <label class="label-column">{{'customer.customerduplicate.grid.name'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('createdDate')"></i>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.FirstName}} {{element.LastName}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>
+              <label class="label-column"> {{'customer.customerduplicate.grid.email'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('procurementPlanCode')"></i>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a class="link">{{element.Email}} </a>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="phone">
+            <mat-header-cell *matHeaderCellDef class="min-width-200">
+              <label class="label-column">{{'customer.customerduplicate.grid.phone'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('procurementContent')"></i>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="min-width-200">{{element.Phone}}  </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef>
+              <label class="label-column">{{'customer.customerduplicate.grid.address'| translate }}</label>
+              <i class="fas fa-sort" (click)="sort('procurementAmount')"></i>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Address}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+
+  </form>
+</div>

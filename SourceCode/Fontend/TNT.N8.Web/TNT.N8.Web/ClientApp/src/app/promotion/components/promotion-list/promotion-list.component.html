@@ -1,0 +1,310 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<p-toast position="bottom-right"></p-toast>
+
+<div class="promotion-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách Chương trình khuyến mãi</div>
+                  <div class="box-header-subtitle">
+                    {{SumRow}} bản ghi - Sắp xếp theo ngày hết hạn xa nhất
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" (click)="createPromotion()"><span
+                class="btn-create-text">Tạo mới</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Nhập Mã hoặc Tên CTKM"
+                [(ngModel)]="filterGlobal"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã CTKM</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="promotionCode" placeholder="Mã CTKM">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Tên CTKM</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="promotionName" placeholder="Tên CTKM">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày hết hạn từ</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+            [maxDate]="expirationDateTo"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999" 
+              [(ngModel)]="expirationDateFrom"
+              dateFormat="dd/mm/yy"
+              [showTime]="true"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+              [minDate]="expirationDateFrom" 
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+              [(ngModel)]="expirationDateTo"
+              dateFormat="dd/mm/yy"
+              [showTime]="true"></p-calendar>
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityOrder"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng báo giá</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityQuote"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityContract"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchListPromotion()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="(listPromotion.length > 0)" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="cols" [value]="listPromotion" [resizableColumns]="true"
+        (sortFunction)="customSort($event)" [customSort]="true" selectionMode="single" columnResizeMode="expand"
+        [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+        [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}"
+              [pSortableColumn]="col.field">
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column" [ngStyle]="{'text-align': col.textAlign }"
+              [ngSwitch]="col.field">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'promotionCode'"
+                (click)="goDetail(rowData['promotionId'])" class="link">
+                {{rowData[col.field]}}
+              </span>
+
+              <span *ngSwitchCase="'expirationDate'">
+                {{rowData['expirationDate'] | date:'dd/MM/yyyy HH:mm'}}
+              </span>
+
+              <span *ngSwitchCase="'active'">
+                <p-checkbox [(ngModel)]="rowData.active" [binary]="true" [readonly]="true">
+                </p-checkbox>
+              </span>
+
+              <span *ngSwitchCase="'quantityOrder'">
+                {{rowData['quantityOrder'] | number}}
+              </span>
+
+              <span *ngSwitchCase="'quantityQuote'">
+                {{rowData['quantityQuote'] | number}}
+              </span>
+
+              <span *ngSwitchCase="'quantityContract'">
+                {{rowData['quantityContract'] | number}}
+              </span>
+
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="!(listPromotion.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data-quote">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã CTKM</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="promotionCode" placeholder="Mã CTKM">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Tên CTKM</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="promotionName" placeholder="Tên CTKM">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày hết hạn từ</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+            [maxDate]="expirationDateTo"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999" 
+              [(ngModel)]="expirationDateFrom"
+              dateFormat="dd/mm/yy"
+              [showTime]="true"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+            [minDate]="expirationDateFrom"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+              [(ngModel)]="expirationDateTo"
+              dateFormat="dd/mm/yy"
+              [showTime]="true"></p-calendar>
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityOrder"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng báo giá</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityQuote"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div>
+
+        <!-- <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Số lượng hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="number-input" 
+              [(ngModel)]="quantityContract"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 0}"
+              (keydown.enter)="$event.preventDefault()">
+          </div>
+        </div> -->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5" style="text-align: right;">
+            <button type="button" class="btn-search" (click)="searchListPromotion()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

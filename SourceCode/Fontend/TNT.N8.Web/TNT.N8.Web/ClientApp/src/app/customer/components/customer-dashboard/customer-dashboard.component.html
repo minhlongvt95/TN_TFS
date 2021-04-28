@@ -1,0 +1,366 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="customer-dashboard">
+  <div class="row no-margin" style="padding-bottom: 10px;">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="title">Dashboard</span>
+        </div>
+        <div class="col-md-12">
+          <span>{{currentTimeString}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box-search">
+        <input class="text-search" type="text" placeholder="Nhập tên khách hàng" [(ngModel)]="customerName"
+          (keydown)="onKeydown($event)">
+        <i class="pi pi-search customize-icons-search" (click)="getDashBoardCustomer()"></i>
+        <button *ngIf="actionAdd" class="btn-create" type="button" (click)="gotoCreate()">
+          <span class="btn-create-text">Tạo khách hàng</span>
+        </button>
+        <div style="clear: both;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin">
+    <!-- Tỉ lệ khách hàng theo nhóm sản phẩm -->
+    <div class="col-md-4" style="margin-top: 10px;">
+      <div class="row no-margin box-chart">
+        <div class="col-md-12" style="text-align: center;">
+          <span class="chart-1-title">Tỉ lệ khách hàng theo nhóm sản phẩm</span>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="(listCusFollowProduct.length > 0)" class="row">
+            <div class="col-md-12 chart">
+              <canvas id="doughnutChart"></canvas>
+            </div>
+            <div class="col-md-12 chart-infor">
+              <div *ngFor="let data of doughnutData.labels; let i = index">
+                <div class="row" *ngIf="i%2 == 0">
+                  <div class="col-md-6">
+                    <span class="color-icon" [style.background]="doughnutData.datasets[0].backgroundColor[i]"></span>
+                    <span class="chart-infor-text">{{doughnutData.labels[i]}}</span>
+                  </div>
+                  <div class="col-md-6" *ngIf="i+1 < doughnutData.labels.length">
+                    <span class="color-icon" [style.background]="doughnutData.datasets[0].backgroundColor[i+1]"></span>
+                    <span class="chart-infor-text">{{doughnutData.labels[i+1]}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!(listCusFollowProduct.length > 0)" class="row">
+            <div class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Số lượng khách hàng theo người phụ trách -->
+    <div class="col-md-4" style="margin-top: 10px;">
+      <div class="row no-margin box-chart">
+        <div class="col-md-12" style="text-align: center;">
+          <span class="chart-1-title">Số lượng khách hàng theo người phụ trách</span>
+        </div>
+        <div class="col-md-12">
+
+          <div *ngIf="(listTopPic.length > 0)" class="row">
+            <div class="col-md-12 chart">
+              <canvas width="100%" height="80px" id="barChart1"></canvas>
+            </div>
+          </div>
+
+          <div *ngIf="!(listTopPic.length > 0)" class="row">
+            <div class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Số lượng khách hàng định danh được tạo trong năm -->
+    <div class="col-md-4" style="margin-top: 10px;">
+      <div class="row no-margin box-chart">
+        <div class="col-md-12" style="text-align: center;">
+          <span class="chart-1-title">Số lượng khách hàng định danh trong năm</span>
+        </div>
+        <div class="col-md-12">
+          <div *ngIf="(listCusCreatedInThisYear.length > 0)" class="row">
+            <div class="col-md-12 chart">
+              <canvas width="100%" height="80px" id="barChart2"></canvas>
+            </div>
+          </div>
+          <div *ngIf="!(listCusCreatedInThisYear.length > 0)" class="row">
+            <div class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Khách hàng định danh -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách khách hàng định danh mới nhất</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListCustomerIdentification()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listCusIdentification.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="colsCusIdentification" [value]="listCusIdentification"
+                [(selection)]="selectedTableCusIden" [resizableColumns]="true" columnResizeMode="expand"
+                [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 3em"></th>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td>
+                      <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                    </td>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'customerName'"
+                        (click)="onViewCustomerDetail(rowData['customerId'], rowData['contactId'])" class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'totalSaleValue'">
+                        {{rowData[col.field] | number:0}}
+                      </span>
+
+                      <span *ngSwitchCase="'picName'"
+                        (click)="onViewEmployeeDetail(rowData['personInChargeId'], rowData['picContactId'])"
+                        class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                        style="display: inline-block;
+                    padding: 3px 3px;
+                    color: white;
+                    width: 130px;
+                    text-align: center;
+                    border-radius: 3px;">{{ rowData[col.field] }}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="(listCusIdentification.length > 0 && selectedTableCusIden)" class="col-md-12"
+              style="text-align: right; margin-top: 10px;">
+              <button *ngIf="actionAdd" class="btn-create-order" type="button" (click)="gotoCreateOrderCusIden()">
+                <span class="btn-create-order-text">Tạo đơn hàng</span>
+              </button>
+            </div>
+            <div *ngIf="!(listCusIdentification.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Khách hàng tiềm năng -->
+  <!-- <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Danh sách Khách hàng tiềm năng mới nhất</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListCustomerFree()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listCusFree.length > 0)" class="col-md-12 no-padding" style="margin-top: 10px;">
+              <p-table [columns]="colsCusFree" [value]="listCusFree" [(selection)]="selectedTableCusFree"
+                [resizableColumns]="true" columnResizeMode="expand" [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 3em"></th>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td>
+                      <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                    </td>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span *ngSwitchCase="'customerName'"
+                        (click)="onViewCustomerDetail(rowData['customerId'], rowData['contactId'])" class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'totalSaleValue'">
+                        {{rowData[col.field] | number:0}}
+                      </span>
+                      <span *ngSwitchCase="'picName'"
+                        (click)="onViewEmployeeDetail(rowData['personInChargeId'], rowData['picContactId'])"
+                        class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                        style="display: inline-block;
+                      padding: 3px 3px;
+                      color: white;
+                      width: 130px;">{{ rowData[col.field] }}</span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="(listCusFree.length > 0 && selectedTableCusFree)" class="col-md-12"
+              style="text-align: right; margin-top: 10px;">
+              <button *ngIf="actionAdd" class="btn-create-order" type="button" (click)="gotoCreateLead()">
+                <span class="btn-create-order-text">Tạo cơ hội</span>
+              </button>
+            </div>
+            <div *ngIf="!(listCusFree.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Top 5 KH có doanh thu cao nhất trong tháng hiện tại -->
+  <div class="row no-margin" style="padding-top: 20px;">
+    <div class="col-md-12">
+      <div class="row no-margin box-table-2">
+        <div class="col-md-12">
+          <div class="row p-15">
+            <div class="col-md-8">
+              <span class="box-table-1-title">Top 5 KH có doanh thu cao nhất trong tháng hiện tại</span>
+            </div>
+            <div class="col-md-4">
+              <div class="box-table-1-handle" style="text-align: right;" (click)="goToListOrder()">
+                <img src="/assets/icons/components/Double-Arrow-Left-3.svg" class="Double-Arrow-Left-3">
+                <span>Xem tất cả</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="(listCusTopRevenueInMonth.length > 0)" class="col-md-12 no-padding">
+              <p-table [columns]="colsCusTopRevenue" [value]="listCusTopRevenueInMonth"
+                [(selection)]="selectedTableCusTopRevenue" [resizableColumns]="true" columnResizeMode="expand"
+                [responsive]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width: 3em"></th>
+                    <th *ngFor="let col of columns" pResizableColumn
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td>
+                      <p-tableRadioButton [value]="rowData"></p-tableRadioButton>
+                    </td>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'customerName'"
+                        (click)="onViewCustomerDetail(rowData['customerId'], rowData['contactId'])" class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchCase="'totalSaleValue'">
+                        {{rowData[col.field] | number:0}}
+                      </span>
+                      <span *ngSwitchCase="'picName'"
+                        (click)="onViewEmployeeDetail(rowData['personInChargeId'], rowData['picContactId'])"
+                        class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div *ngIf="(listCusTopRevenueInMonth.length > 0 && selectedTableCusTopRevenue)" class="col-md-12"
+              style="text-align: right; margin-top: 10px;">
+              <button *ngIf="actionAdd" class="btn-create-order" type="button" (click)="gotoCreateOrderTopRevenue()">
+                <span class="btn-create-order-text">Tạo đơn hàng</span>
+              </button>
+            </div>
+            <div *ngIf="!(listCusTopRevenueInMonth.length > 0)" class="col-md-12 no-padding no-data">
+              <div class="box-no-data">
+                <img src="/assets/icons/components/box.svg" class="box-icon">
+                <div>
+                  <span>Hiện tại không có dữ liệu</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

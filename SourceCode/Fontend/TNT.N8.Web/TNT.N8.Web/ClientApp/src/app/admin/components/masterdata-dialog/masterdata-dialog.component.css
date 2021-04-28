@@ -1,0 +1,28 @@
+.masterdata-dialog-content .row {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 20px;
+}
+
+.masterdata-dialog-content .no-margin {
+  margin: 0 !important;
+}
+
+.masterdata-dialog-content .form-control {
+  border-radius: 0.25em;
+}
+
+.masterdata-dialog-content .required {
+  color: red;
+}
+
+.masterdata-dialog-content .error-border, .masterdata-dialog-content .error-border:focus {
+  border-color: #f44336;
+}
+
+.masterdata-dialog-content .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.masterdata-dialog-content .masterdata-dialog-buttons {
+  text-align: right;
+}

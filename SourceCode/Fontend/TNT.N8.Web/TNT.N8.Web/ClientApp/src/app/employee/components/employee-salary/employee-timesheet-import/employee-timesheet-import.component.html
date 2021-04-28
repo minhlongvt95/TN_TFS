@@ -1,0 +1,43 @@
+<div class="org-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;">
+    <div class="row org-dialog-title">
+      <span>
+        {{ 'employeetimesheet.title' | translate }}
+      </span>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3">
+        <span class="required">*</span>{{ 'employeetimesheet.month' | translate }}
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-select (selectionChange)="changeMonth($event)">
+            <mat-option *ngFor="let month of arrayMonth" [value]="month.value">{{month.viewValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <span class="required">*</span>{{ 'employeetimesheet.file' | translate }}
+      </div>
+      <div class="col-md-6">
+        <div>
+          <!-- <ngfFormData [files]="files" postName="file"></ngfFormData>
+          <ngfUploadStatus></ngfUploadStatus>
+          <div class="inline-block" style="width: 99%;">
+            <input type="file" id="file" name="file" ngfSelect [(files)]="files" ngf-multiple="false" [accept]="accept" [maxSize]="maxSize">
+          </div> -->
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row org-dialog-buttons">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">LƯU</button>
+    </div>
+  </form>
+</div>

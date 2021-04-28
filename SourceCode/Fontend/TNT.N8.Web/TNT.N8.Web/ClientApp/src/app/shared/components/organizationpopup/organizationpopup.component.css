@@ -1,0 +1,138 @@
+.org-popup-content .row {
+  font-family: 'Open Sans', sans-serif;
+  padding: 10px 20px;
+}
+
+.org-popup-content .no-margin {
+  margin: 0 !important;
+}
+
+.org-popup-content .org-popup-title {
+  background-color: #6D98E7;
+  color: #fff;
+  font-weight: bold;
+  margin: -24px -24px 0 -24px !important;
+  padding: 20px;
+}
+
+.form-control {
+  border-radius: 0.25em;
+}
+
+.required {
+  color: red;
+}
+
+.error-border, .error-border:focus {
+  border-color: #f44336;
+}
+
+.error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.org-popup-content .org-popup-buttons{
+  text-align: right;
+}
+
+.org-popup-content .btn-cancel, .org-popup-content .btn-ok{
+  background-color: #fff;
+}
+
+.org-popup-content .btn-ok{
+  color: #6D98E7;
+}
+
+.org-popup-content .btn-ok:hover,
+.org-popup-content .btn-ok:focus,
+.org-popup-content .btn-cancel:hover, 
+.org-popup-content .btn-cancel:focus{
+  color: #fff;
+  background-color: #6D98E7
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: rgb(109, 152, 231) !important;
+}
+
+::ng-deep .mat-checkbox-inner-container {
+  height: 14px;
+  width: 14px;
+}
+
+::ng-deep .mat-ripple-element {
+  background: rgba(109, 152, 231, .4) !important;
+}
+
+.tree-content {
+  /*background-color: rgb(242, 242, 242);*/
+  height: 400px;
+  overflow-y: scroll;
+  padding: 20px 0;
+}
+
+  .tree-content::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  /* Handle */
+  .tree-content::-webkit-scrollbar-thumb {
+    background: rgb(153, 153, 153);
+    border-radius: 50px;
+  }
+
+
+/*Tree Grid*/
+.tree-view {
+  padding-left: 12px;
+}
+
+.tree-item {
+  /*padding: 2px 20px 3px 10px;*/
+  padding-right: 50px;
+  cursor: pointer;
+}
+
+  .tree-item table {
+    width: 100%;
+  }
+
+    .tree-item table tr td:first-child {
+      width: 7%;
+    }
+
+    .tree-item table tr td:last-child {
+      padding-left: 10px;
+    }
+
+  .tree-item.lvl-2 {
+    margin-left: 25px;
+  }
+
+  .tree-item.lvl-3 {
+    margin-left: 40px;
+  }
+
+  .tree-item.lvl-4 {
+    margin-left: 65px;
+  }
+
+.mat-dialog-container
+{
+  height:auto !important;
+}
+
+.selected-item {
+  background-color: #6d98e7;
+  color: #fff
+}
+
+.collapse.in {
+  visibility: visible !important;
+  display: block;
+}
+
+tr {
+  height: 34px !important;
+}

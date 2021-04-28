@@ -1,0 +1,7 @@
+section .content::after {
+  background-color: #fff !important;
+}
+
+.content-wrapper::after {
+  background-color: #fff !important;
+}

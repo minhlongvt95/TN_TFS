@@ -1,0 +1,930 @@
+<div class="employee-datail">
+  <ngx-loading [show]="loading" [config]="loadingConfig"></ngx-loading>
+  <section class="employee-detail-content">
+    <div class="row no-margin button-group">
+      <div class="col-md-6" style="padding: 15px">
+        <span style="cursor: pointer;color:#3c8dbc;" (click)="goToEmployee()">&lt;&lt; Quay lại danh sách nhân
+          viên</span>
+      </div>
+      <div class="col-md-6 header-botton" *ngIf="isAllowReset">
+        <div class="row" style="display: flex; justify-content: flex-end; margin-right: 0px;">
+          <div style="float: right;padding: 10px;">
+            <button #saveAndCreate class="btn-create-add" (click)="confirm()">
+              <span class="text-save-and-new">Đặt lại Mật khẩu</span>
+            </button>
+          </div>
+          <div style="clear: both;"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <!-- Thông tin cá nhân -->
+        <div class="bg-white personalEmpInfo content-block shadow">
+          <fieldset>
+            <form [formGroup]="personalEmpInfoFormGroup">
+              <div class="row">
+                <div class="col-md-12 triggerEditOrView" *ngIf="!editPersonalEmpInfo && actionEdit">
+                  <i class="material-icons" (click)="onEditPersonalEmpInfo(true)">edit</i>
+                </div>
+                <div class="col-md-12 triggerEditOrView" *ngIf="editPersonalEmpInfo && actionEdit">
+                  <i class="material-icons" (click)="onSaveUpdatePersonalEmpInfo('savePersonalEmpInfo')">save</i>
+                  <i class="material-icons" (click)="onEditPersonalEmpInfo(false)">clear</i>
+                </div>
+              </div>
+              <div class="text-center" style="position: relative;">
+                <img class="emp-avatar"
+                  [src]="(contactModel.AvatarUrl!='' && contactModel.AvatarUrl!=null)?contactModel.AvatarUrl:'../../../../assets/images/no-avatar.png'">
+                <div class="icon-edit-ava">
+                  <i *ngIf="editPersonalEmpInfo && actionEdit" (click)="openimageDialog()" role="button"
+                    class="material-icons">edit</i>
+                  <i class="material-icons" role="button"
+                    *ngIf="editPersonalEmpInfo && contactModel.AvatarUrl!='' && contactModel.AvatarUrl!=null && actionDelete"
+                    (click)="DeleteAvatarUrl()">delete</i>
+                </div>
+              </div>
+              <div class="emp-name text-center" *ngIf="!editPersonalEmpInfo">{{employeeModel.EmployeeCode}} -
+                {{employeeModel.EmployeeName}}</div>
+              <div class="emp-name-edit" *ngIf="editPersonalEmpInfo">
+                <div class="col-md-6">
+                  <mat-form-field class="w100">
+                    <input matInput type="text" required name="code" formControlName="code" placeholder="Mã nhân viên"
+                      [(ngModel)]="employeeModel.EmployeeCode" />
+                  </mat-form-field>
+                  <mat-error *ngIf="personalEmpInfoFormGroup.controls['code'].errors?.checkDuplicateIdentity" style="position: absolute;
+                  bottom: 0;">Mã này đã tồn tại.</mat-error>
+                </div>
+                <div class="col-md-6" *ngIf="editPersonalEmpInfo">
+                  <mat-form-field class="w100">
+                    <mat-select placeholder="Giới tính" required formControlName="gender" name="gender"
+                      [(ngModel)]="contactModel.Gender">
+                      <mat-option value="NAM">Nam</mat-option>
+                      <mat-option value="NU">Nữ</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w100">
+                    <input matInput type="text" required name="firstname" formControlName="firstName"
+                      placeholder="Họ tên đệm" [(ngModel)]="contactModel.FirstName" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                  <mat-form-field class="w100">
+                    <input matInput type="text" required name="lastname" formControlName="lastName" placeholder="Tên"
+                      [(ngModel)]="contactModel.LastName" />
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="emp-gender text-center" *ngIf="!editPersonalEmpInfo">({{contactModel.Gender == 'NU' ? 'Nữ' :
+                'Nam'}})</div>
+              <div class="col-md-12">
+                <mat-form-field class="w100">
+                  <i matPrefix class="material-icons">cake</i>
+                  <input matInput [matDatepicker]="pickerBirthDay" [(ngModel)]="contactModel.DateOfBirth"
+                    name="birthDay" formControlName="birthDay" placeholder="Ngày sinh">
+                  <mat-datepicker-toggle matSuffix [for]="pickerBirthDay"></mat-datepicker-toggle>
+                  <mat-datepicker #pickerBirthDay></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w100">
+                  <i matPrefix class="material-icons">phone</i>
+                  <input matInput type="text" [(ngModel)]="contactModel.Phone" name="phone" formControlName="phone"
+                    placeholder="Số điện thoại">
+                  <mat-error *ngIf="personalEmpInfoFormGroup.controls['phone'].hasError('pattern')">Sai định dạng số
+                    điện thoại</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w100">
+                  <i matPrefix class="material-icons">mail</i>
+                  <input matInput type="text" [(ngModel)]="contactModel.Email" name="email" formControlName="email"
+                    placeholder="Email">
+                </mat-form-field>
+                <div class="md-errors-spacer" [hidden]="email.untouched">
+                  <mat-error *ngIf="email.hasError('email')">{{ 'lead.messages.wrong_email' | translate }}</mat-error>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <mat-form-field class="w100">
+                  <i matPrefix class="material-icons">room</i>
+                  <input matInput type="text" [(ngModel)]="contactModel.Address" name="address"
+                    formControlName="address" placeholder="Địa chỉ">
+                </mat-form-field>
+              </div>
+            </form>
+          </fieldset>
+        </div>
+        <!-- Thông tin tình hình công việc -->
+        <div class="bg-white content-block shadow">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-12 block-title">Tình hình công việc</div>
+              <form class="col-md-12 actualWorking">
+                <!-- <p>Số giờ làm việc tiêu chuẩn: <span>{{employeeMonthySalaryModel.MonthlyWorkingDay*8}}</span></p>
+                <p>Số giờ làm việc thực tế: <span>{{employeeMonthySalaryModel.ActualWorkingDay*8}}</span></p>
+                <p>Số giờ tăng ca: <span>{{employeeMonthySalaryModel.Overtime*8}}</span></p> -->
+                <p>Số buổi nghỉ có phép: <span>{{amountAbsentWithPermission}}</span></p>
+                <p>Số buổi nghỉ không phép: <span>{{amountAbsentWithoutPermission}}</span></p>
+                <p>Số buổi phép năm: {{employeeAllowance.MaternityAllowance}}</p>
+                <p>Số buổi phép còn: {{employeeAllowance.MaternityAllowance - amountAbsentWithPermission > 0 ?
+                  employeeAllowance.MaternityAllowance - amountAbsentWithPermission : 0}}</p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <!-- Thông tin đơn vị + Thông tin nhân sự TABS -->
+        <mat-card class="bg-white content-block shadow" (click)="scrollWrapper()">
+          <mat-card-content>
+            <mat-tab-group (selectedTabChange)="resetAllInfoEmp($event)">
+              <mat-tab label="Thông tin đơn vị">
+                <div class="triggerEditOrView" *ngIf="!editWorkingEmpInfo && actionEdit">
+                  <i class="material-icons iconTrigger" (click)="onEditWorkingEmpInfo('work',true)">edit</i>
+                </div>
+                <div class="triggerEditOrView" *ngIf="editWorkingEmpInfo && actionEdit">
+                  <div class="iconTrigger">
+                    <i class="material-icons" (click)="onSaveUpdatePersonalEmpInfo('work')">save</i>
+                    <i class="material-icons" (click)="onEditWorkingEmpInfo('work',false)">clear</i>
+                  </div>
+                </div>
+                <form [formGroup]="workingEmpInfoFormGroup">
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <mat-select [(ngModel)]="employeeModel.PositionId" formControlName="position" name="position"
+                        placeholder="Cấp bậc">
+                        <!-- <mat-option value="">--Trống--</mat-option> -->
+                        <mat-option *ngFor="let role of listPosition" [value]="role.positionId">{{ role.positionName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input required matInput type="text" formControlName="organization" placeholder="Đơn vị"
+                        name="organization" [(ngModel)]="employeeModel.OrganizationName" readonly>
+                    </mat-form-field>
+                    <a class="linkOpenOrgDialog" href="javascript:;" *ngIf="editWorkingEmpInfo"
+                      (click)="openOrgDialog('edit')">Chọn đơn vị &gt;&gt;</a>
+                    <a class="linkOpenOrgDialog" href="javascript:;" *ngIf="!editWorkingEmpInfo"
+                      (click)="openOrgDialog('view')">Xem sơ đồ tổ chức &gt;&gt;</a>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput type="time" formControlName="workstarthour"
+                        [(ngModel)]="contactModel.WorkHourOfStart" name="position"
+                        placeholder="Thời gian bắt đầu mỗi ngày">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput type="time" formControlName="workendhour"
+                        placeholder="Thời gian kết thúc mỗi ngày" name="organization"
+                        [(ngModel)]="contactModel.WorkHourOfEnd">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <mat-select formControlName="contract" name="contract" placeholder="Loại hợp đồng"
+                        [(ngModel)]="employeeModel.ContractType">
+                        <!-- <mat-option value=null>--Trống--</mat-option> -->
+                        <mat-option *ngFor="let role of contractTypeList" [value]="role.categoryId">{{ role.categoryName
+                          }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6" [style.padding-bottom]="'0.25rem'">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerContractEndDate" name="contractEndDate"
+                        formControlName="contractEndDate" [(ngModel)]="employeeModel.ContractEndDate"
+                        placeholder="Ngày hết hạn hợp đồng">
+                      <mat-datepicker-toggle matSuffix [for]="pickerContractEndDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerContractEndDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerTrainingStartDate"
+                        [matDatepickerFilter]="filterTrainingStartDate" name="trainingStartDate"
+                        formControlName="trainingStartDate" [(ngModel)]="employeeModel.TrainingStartDate"
+                        placeholder="Ngày bắt đầu training">
+                      <mat-datepicker-toggle matSuffix [for]="pickerTrainingStartDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerTrainingStartDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerProbationStartDate"
+                        [matDatepickerFilter]="filterProbationStartDate" name="probationStartDate"
+                        formControlName="probationStartDate" [(ngModel)]="employeeModel.ProbationStartDate"
+                        placeholder="Ngày bắt đầu thử việc">
+                      <mat-datepicker-toggle matSuffix [for]="pickerProbationStartDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerProbationStartDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerProbationEndDate"
+                        [matDatepickerFilter]="filterProbationEndDate" name="probationEndDate"
+                        formControlName="probationEndDate" [(ngModel)]="employeeModel.ProbationEndDate"
+                        placeholder="Ngày kết thúc thử việc">
+                      <mat-datepicker-toggle matSuffix [for]="pickerProbationEndDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerProbationEndDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerStartedDate" [matDatepickerFilter]="filterStartedDate"
+                        name="startedDate" formControlName="startedDate" [(ngModel)]="employeeModel.StartedDate"
+                        placeholder="Ngày làm việc chính thức">
+                      <mat-datepicker-toggle matSuffix [for]="pickerStartedDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerStartedDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <mat-select id="formStatus" name="formStatus" placeholder="Trạng thái"
+                        formControlName="formStatus" [(ngModel)]="empStatus">
+                        <mat-option *ngFor="let trangthai of trangthais" [value]="trangthai.id">{{ trangthai.text }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field class="w100">
+                      <input matInput formControlName="username" [(ngModel)]="userModel.UserName"
+                        placeholder="Tên đăng nhập" />
+                    </mat-form-field>
+                    <div class="md-errors-spacer"
+                      [hidden]="workingEmpInfoFormGroup.controls['username'].valid || workingEmpInfoFormGroup.controls['username'].untouched">
+                      <mat-error *ngIf="workingEmpInfoFormGroup.controls['username']?.errors?.checkDuplicateIdentity">
+                        Đã tồn tại tên đăng nhập này.</mat-error>
+                      <mat-error *ngIf="workingEmpInfoFormGroup.controls['username'].hasError('required')">{{
+                        'lead.messages.required_field' | translate }}</mat-error>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-checkbox [(ngModel)]="employeeModel.IsTakeCare" formControlName="isTakeCareControl" class="example-margin">
+                      Nhân viên take care
+                    </mat-checkbox>
+                  </div>
+                </form>
+              </mat-tab>
+              <mat-tab label="Thông tin nhân sự">
+                <div class="triggerEditOrView" *ngIf="!editIdentityEmpInfo && actionEdit">
+                  <i class="material-icons iconTrigger" (click)="onEditWorkingEmpInfo('identity',true)">edit</i>
+                </div>
+                <div class="triggerEditOrView" *ngIf="editIdentityEmpInfo && actionEdit">
+                  <div class="iconTrigger">
+                    <i class="material-icons" (click)="onSaveUpdatePersonalEmpInfo('')">save</i>
+                    <i class="material-icons" (click)="onEditWorkingEmpInfo('identity',false)">clear</i>
+                  </div>
+                </div>
+                <form [formGroup]="identityEmpInfoFormGroup">
+                  <div class="col-md-3">
+                    <mat-form-field class="w100">
+                      <input matInput type="text" id="nationality" name="nationality" placeholder="Quốc tịch"
+                        formControlName="nationality" [matAutocomplete]="auto">
+                      <i *ngIf="editIdentityEmpInfo" class="material-icons clear cursor" matTooltip="Xóa"
+                        (click)="clearDataCountry()">clear</i>
+                      <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+                        (optionSelected)="selectCountry($event)">
+                        <mat-option *ngFor="let option of filteredOptionsCountry | async" [value]="option.countryId">
+                          {{option.countryName}}
+                        </mat-option>
+                      </mat-autocomplete>
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w100">
+                      <input matInput type="text" name="identityId" formControlName="identityId"
+                        [(ngModel)]="contactModel.IdentityID" placeholder="Số CMND/Hộ chiếu">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w100">
+                      <input matInput [matDatepicker]="pickerIdentityIDDateOfIssue" name="identityIddateOfIssue"
+                        id="identityIddateOfIssue" formControlName="identityIddateOfIssue"
+                        [(ngModel)]="contactModel.IdentityIDDateOfIssue" placeholder="Ngày cấp">
+                      <mat-datepicker-toggle matSuffix [for]="pickerIdentityIDDateOfIssue"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerIdentityIDDateOfIssue></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="w100">
+                      <input matInput type="text" name="identityIdplaceOfIssue" formControlName="identityIdplaceOfIssue"
+                        [(ngModel)]="contactModel.IdentityIDPlaceOfIssue" placeholder="Nơi cấp">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field class="w100">
+                      <input matInput type="text" name="workPermitNumber" formControlName="workPermitNumber"
+                        [(ngModel)]="contactModel.WorkPermitNumber" placeholder="Giấy phép lao động số">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class="w100">
+                      <input matInput type="text" name="visaNumber" formControlName="visaNumber"
+                        [(ngModel)]="contactModel.VisaNumber" placeholder="Số Visa">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerVisaDateOfIssue" name="visaDateOfIssue"
+                        formControlName="visaDateOfIssue" [(ngModel)]="contactModel.VisaDateOfIssue"
+                        placeholder="Ngày cấp">
+                      <mat-datepicker-toggle matSuffix [for]="pickerVisaDateOfIssue"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerVisaDateOfIssue></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerVisaExpirationDate" name="visaExpirationDate"
+                        formControlName="visaExpirationDate" [(ngModel)]="contactModel.VisaExpirationDate"
+                        placeholder="Ngày hết hạn">
+                      <mat-datepicker-toggle matSuffix [for]="pickerVisaExpirationDate"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerVisaExpirationDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput type="text" name="socialInsuranceNumber" formControlName="socialInsuranceNumber"
+                        [(ngModel)]="contactModel.SocialInsuranceNumber" placeholder="Số sổ BHXH">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerSocialInsuranceDateOfIssue"
+                        name="socialInsuranceDateOfIssue" formControlName="socialInsuranceDateOfIssue"
+                        [(ngModel)]="contactModel.SocialInsuranceDateOfIssue" placeholder="Ngày cấp">
+                      <mat-datepicker-toggle matSuffix [for]="pickerSocialInsuranceDateOfIssue"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerSocialInsuranceDateOfIssue></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerSocialInsuranceDateOfParticipation"
+                        name="socialInsuranceDateOfParticipation" formControlName="socialInsuranceDateOfParticipation"
+                        [(ngModel)]="contactModel.SocialInsuranceDateOfParticipation" placeholder="Ngày tham gia">
+                      <mat-datepicker-toggle matSuffix [for]="pickerSocialInsuranceDateOfParticipation">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #pickerSocialInsuranceDateOfParticipation></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput type="text" name="healthInsuranceNumber" formControlName="healthInsuranceNumber"
+                        [(ngModel)]="contactModel.HealthInsuranceNumber" placeholder="Số sổ BHYT">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerHealthInsuranceDateOfIssue"
+                        name="healthInsuranceDateOfIssue" formControlName="healthInsuranceDateOfIssue"
+                        [(ngModel)]="contactModel.HealthInsuranceDateOfIssue" placeholder="Ngày cấp">
+                      <mat-datepicker-toggle matSuffix [for]="pickerHealthInsuranceDateOfIssue"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerHealthInsuranceDateOfIssue></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field class=w100>
+                      <input matInput [matDatepicker]="pickerHealthInsuranceDateOfParticipation"
+                        name="healthInsuranceDateOfParticipation" formControlName="healthInsuranceDateOfParticipation"
+                        [(ngModel)]="contactModel.HealthInsuranceDateOfParticipation" placeholder="Ngày tham gia">
+                      <mat-datepicker-toggle matSuffix [for]="pickerHealthInsuranceDateOfParticipation">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #pickerHealthInsuranceDateOfParticipation></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class=w100>
+                      <mat-select name="paymentMethod" formControlName="paymentMethod"
+                        [(ngModel)]="contactModel.TypePaid" placeholder="Hình thức chi">
+                        <mat-option *ngFor="let pm of listPaymentMethod" [value]="pm.categoryId">{{pm.categoryName}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class=w100>
+                      <input matInput type="text" name="accountNumber" formControlName="accountNumber"
+                        [(ngModel)]="bankModel.AccountNumber" placeholder="Số tài khoản">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class=w100>
+                      <input matInput type="text" name="bankName" formControlName="bankName"
+                        [(ngModel)]="bankModel.BankName" placeholder="Ngân hàng">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class=w100>
+                      <input matInput type="text" name="branchName" formControlName="branchName"
+                        [(ngModel)]="bankModel.BranchName" placeholder="Chi nhánh">
+                    </mat-form-field>
+                  </div>
+                </form>
+              </mat-tab>
+              <mat-tab label="Lương và trợ cấp">
+                <div class="">
+                  <form [formGroup]="salaryAndAllowanceEmpInfoFormGroup">
+                    <div class="">
+                      <div class="triggerEditOrView" *ngIf="!editSalaryEmpInfo && actionEdit">
+                        <i class="material-icons iconTrigger" (click)="onEditSalaryAndAllowance(true)">edit</i>
+                      </div>
+                      <div class="triggerEditOrView" *ngIf="editSalaryEmpInfo && actionEdit">
+                        <div class="iconTrigger">
+                          <i class="material-icons" (click)="onSaveSalary()">save</i>
+                          <i class="material-icons" (click)="onEditSalaryAndAllowance(false)">clear</i>
+                        </div>
+                      </div>
+                      <div class="col-md-12 block-title">Lương</div>
+                      <div class="col-md-5">
+                        <mat-form-field class="w100">
+                          <input matInput required formControlName="basedSalary" placeholder="Lương cơ bản"
+                            name="basedSalary" [(ngModel)]="employeeSalaryBase" mask="separator.{{defaultNumberType}}"
+                            thousandSeparator="," (keypress)="onKeyPress($event)" />
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-5">
+                        <mat-form-field class="w100">
+                          <input matInput required formControlName="effecticeDateToSearch"
+                            [matDatepicker]="pickerEffecticeDay" [matDatepickerFilter]="myFilter"
+                            [(ngModel)]="effecticeDateToSearch" name="effecticeDay" placeholder="Ngày áp dụng">
+                          <mat-datepicker-toggle matSuffix [for]="pickerEffecticeDay"></mat-datepicker-toggle>
+                          <mat-datepicker #pickerEffecticeDay></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-2" style="padding: 15px 0;">
+                        <a href="javascript:;" (click)='toggleCollapseIcon($event)'
+                          matTooltip="Xem chi tiết lịch sử thay đổi lương" data-toggle="collapse"
+                          data-target="#historyChangedSalaryTable" data-control="historyChangedSalaryTable"
+                          aria-expanded="false">Chi tiết &gt;&gt;</a>
+                      </div>
+                      <div>
+                        <div class="col-md-12 collapse" id="historyChangedSalaryTable">
+                          <div class="table-list bg-white">
+                            <mat-table #table [dataSource]="dataTableSalary">
+                              <!-- BasedSalary Column -->
+                              <ng-container matColumnDef="basedSalary">
+                                <mat-header-cell class="text-center" *matHeaderCellDef> Lương cơ bản </mat-header-cell>
+                                <mat-cell class="text-center" *matCellDef="let element"> {{element.EmployeeSalaryBase |
+                                  number:0}} </mat-cell>
+                              </ng-container>
+                              <!-- AppliedDate Column -->
+                              <ng-container matColumnDef="appliedDate">
+                                <mat-header-cell class="text-center" *matHeaderCellDef> Ngày áp dụng </mat-header-cell>
+                                <mat-cell class="text-center" *matCellDef="let element"> {{element.EffectiveDate | date:
+                                  'dd/MM/yyyy'}} </mat-cell>
+                              </ng-container>
+                              <mat-header-row *matHeaderRowDef="displaySalaryCollumn"></mat-header-row>
+                              <mat-row *matRowDef="let row; columns: displaySalaryCollumn;"></mat-row>
+                            </mat-table>
+                            <mat-paginator #paginator [pageSize]="5" id="emp-paginator">
+                            </mat-paginator>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="">
+                      <div class="col-md-12 block-title">Chính sách lương</div>
+                      <div class="col-md-12" *ngIf="!editSalaryEmpInfo">
+                        <div class="table-list bg-white">
+                          <mat-table #table [dataSource]="dataTableAllowance">
+                            <ng-container matColumnDef="lunchAllowance">
+                              <mat-header-cell *matHeaderCellDef> Ăn trưa </mat-header-cell>
+                              <mat-cell *matCellDef="let element"> {{element.LunchAllowance | number:0}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="maternityAllowance">
+                              <mat-header-cell *matHeaderCellDef> Phép năm </mat-header-cell>
+                              <mat-cell *matCellDef="let element"> {{element.MaternityAllowance | number:0}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="fuelAllowance">
+                              <mat-header-cell *matHeaderCellDef> Xăng xe </mat-header-cell>
+                              <mat-cell *matCellDef="let element"> {{element.FuelAllowance | number:0}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="phoneAllowance">
+                              <mat-header-cell *matHeaderCellDef> Điện thoại </mat-header-cell>
+                              <mat-cell *matCellDef="let element"> {{element.PhoneAllowance | number:0}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="otherAllownce">
+                              <mat-header-cell *matHeaderCellDef> Trợ cấp khác </mat-header-cell>
+                              <mat-cell *matCellDef="let element"> {{element.OtherAllownce | number:0}} </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayAllowanceCollumn"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayAllowanceCollumn;"></mat-row>
+                          </mat-table>
+                        </div>
+                      </div>
+                      <div *ngIf="editSalaryEmpInfo">
+                        <div class="col-md-6">
+                          <mat-form-field class=w100>
+                            <input matInput formControlName="LunchAllowance" name="LunchAllowance"
+                              [(ngModel)]="employeeAllowance.LunchAllowance" placeholder="Ăn trưa"
+                              mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                              (keypress)="onKeyPress($event)" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class=w100>
+                            <input matInput formControlName="MaternityAllowance" name="MaternityAllowance"
+                              [(ngModel)]="employeeAllowance.MaternityAllowance" placeholder="Phép năm"
+                              mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                              (keypress)="onKeyPress($event)" />
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class=w100>
+                            <input matInput formControlName="FuelAllowance" name="FuelAllowance"
+                              [(ngModel)]="employeeAllowance.FuelAllowance" placeholder="Xăng xe"
+                              mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                              (keypress)="onKeyPress($event)">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class=w100>
+                            <input matInput formControlName="PhoneAllowance" name="PhoneAllowance"
+                              [(ngModel)]="employeeAllowance.PhoneAllowance" placeholder="Điện thoại"
+                              mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                              (keypress)="onKeyPress($event)">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field class=w100>
+                            <input matInput formControlName="OtherAllownce" name="OtherAllownce"
+                              [(ngModel)]="employeeAllowance.OtherAllownce" placeholder="Trợ cấp khác"
+                              mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                              (keypress)="onKeyPress($event)">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo" formControlName="SocialInsuranceSalary"
+                            name="SocialInsuranceSalary" [(ngModel)]="employeeInsuranceModel.SocialInsuranceSalary"
+                            placeholder="Lương đóng BHXH" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo"
+                            formControlName="SocialInsuranceSupportPercent" name="SocialInsuranceSupportPercent"
+                            [(ngModel)]="employeeInsuranceModel.SocialInsuranceSupportPercent"
+                            placeholder="Mức hỗ trợ BHXH" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo" formControlName="SocialInsurancePercent"
+                            name="SocialInsurancePercent" [(ngModel)]="employeeInsuranceModel.SocialInsurancePercent"
+                            placeholder="Mức hỗ trợ BHTN" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo"
+                            formControlName="HealthInsuranceSupportPercent" name="HealthInsuranceSupportPercent"
+                            [(ngModel)]="employeeInsuranceModel.HealthInsuranceSupportPercent"
+                            placeholder="Mức hỗ trợ BHYT" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo"
+                            formControlName="UnemploymentinsuranceSupportPercent"
+                            name="UnemploymentinsuranceSupportPercent"
+                            [(ngModel)]="employeeInsuranceModel.UnemploymentinsuranceSupportPercent"
+                            placeholder="Mức đóng BHXH" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo" formControlName="HealthInsurancePercent"
+                            name="HealthInsurancePercent" [(ngModel)]="employeeInsuranceModel.HealthInsurancePercent"
+                            placeholder="Mức đóng BHTN" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field class=w100>
+                          <input matInput [disabled]="!editSalaryEmpInfo" formControlName="UnemploymentinsurancePercent"
+                            name="UnemploymentinsurancePercent"
+                            [(ngModel)]="employeeInsuranceModel.UnemploymentinsurancePercent"
+                            placeholder="Mức đóng BHYT" mask="separator.{{defaultNumberType}}" thousandSeparator=","
+                            (keypress)="onKeyPress($event)">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </mat-tab>
+              <mat-tab label="Thông tin đánh giá">
+                <div>
+                  <form [formGroup]="assessmentEmpInforFormGroup">
+                    <div>
+                      <p class="col-md-12">Kết quả đánh giá</p>
+                      <div class="col-md-4">
+                        <mat-form-field class="w100">
+                          <mat-select name="yearToAssessment" formControlName="yearToAssessment" placeholder="Năm"
+                            (selectionChange)="getAssessmentInfo($event.value)">
+                            <mat-option *ngFor="let year of listYearToAssessment" [value]="year">
+                              {{year}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-12" *ngIf="!editAssessmentEmpInfo">
+                        <div class="bg-white">
+                          <table class="w100 table">
+                            <tr>
+                              <th *ngFor="let col of listEmployeeAssessmentModel">
+                                {{'Tháng ' + col.monthText}}
+                              </th>
+                            </tr>
+                            <tr>
+                              <td *ngFor="let cell of listEmployeeAssessmentModel">
+                                {{cell.evaluate}}
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="col-md-12" *ngIf="editAssessmentEmpInfo">
+                        <div class="bg-white">
+                          <table class="w100 table editAssessment">
+                            <tr>
+                              <th *ngFor="let col of listEmployeeAssessmentModel">
+                                {{'Tháng ' + col.monthText}}
+                              </th>
+                            </tr>
+                            <tr>
+                              <td *ngFor="let cell of listEmployeeAssessmentModel">
+                                <mat-form-field class="w100">
+                                  <mat-select [formControlName]="'assessment' + cell.monthText"
+                                    [(ngModel)]="cell.eveluateId">
+                                    <mat-option *ngFor="let assessment of evaluateList" [value]="assessment.categoryId">
+                                      {{assessment.categoryName}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </mat-card-content>
+        </mat-card>
+        <!-- Phân quyền dữ liệu-->
+        <div class="bg-white shadow" style="margin-bottom: 30px">
+          <div class="row">
+            <div class="bottom-content col-md-12">
+              <div class="col-md-12 collapse in left-middle-block" role="tablist">
+                <div class="row bottom-block-header" aria-expanded="false">
+                  <i class="material-icons collapse-icon" data-toggle="collapse" aria-controls="data_permission"
+                    href="#data_permission" role="button" (click)="toggleCollapseIcon($event)">expand_less</i>
+                  <span class="block-title">Phân quyền dữ liệu</span>
+                  <i class="material-icons edit-icon" role="button"
+                    style="float: right ; font-size: 20px;padding: 5px 15px;" (click)="editDatapermission('edit')"
+                    *ngIf="!isEditDatapermission && actionEdit" matTooltip="Sửa thông tin">edit</i>
+                  <div style="float: right; padding: 5px 15px;" *ngIf="isEditDatapermission && actionEdit">
+                    <i class="material-icons save-icon" role="button" (click)="saveDataPermission()"
+                      matTooltip="Lưu">save</i>
+                    <i class="material-icons cancel-icon" role="button" (click)="editDatapermission('cancel')"
+                      matTooltip="Hủy">clear</i>
+                  </div>
+                </div>
+                <div class="col-md-12 bottom-block collapse in" id="data_permission" role="tabpanel">
+                  <mat-radio-group (change)="changeradiobutton($event)">
+                    <div class="radio_button">
+                      <mat-radio-button value="1" [checked]="this.employeeModel.IsManager"
+                        [disabled]="!isEditDatapermission">Quản lí</mat-radio-button>
+                      <p class="radio_description">Người dùng có thể nhìn thấy tất cả dữ liệu do mình tạo ra, dữ liệu
+                        của các nhân viên khác cùng đơn vị và các nhân viên thuộc đơn vị cấp dưới</p>
+                    </div>
+                    <div class="radio_button">
+                      <mat-radio-button value="2" [checked]="!this.employeeModel.IsManager"
+                        [disabled]="!isEditDatapermission">Nhân viên thường</mat-radio-button>
+                      <p class="radio_description">Người dùng chỉ nhìn thấy các dữ liệu do mình tạo ra, không xem được
+                        dữ liệu của các nhân viên khác</p>
+                    </div>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Phân quyền chức năng -->
+        <div class="bg-white shadow" style="margin-bottom: 30px;">
+          <div class="row">
+            <div class="col-md-12 bottom-content ">
+              <div class="col-md-12 collapse in left-middle-block" role="tablist">
+                <div class="row bottom-block-header collapsed" aria-expanded="false">
+                  <i class="material-icons collapse-icon" data-toggle="collapse" aria-controls="function_permission"
+                    href="#function_permission" role="button" (click)="toggleCollapseIcon($event)">expand_less</i>
+                  <span class="block-title">Phân quyền chức năng</span>
+                  <i class="material-icons edit-icon" *ngIf="!isEditFunctionpermission && actionEdit"
+                    (click)="editFunctionpermission('edit')" role="button"
+                    style="float: right ; font-size: 18px;padding: 5px 15px;" matTooltip="Sửa thông tin">edit</i>
+                  <div style="float: right; padding: 5px 15px;" *ngIf="isEditFunctionpermission && actionEdit">
+                    <i class="material-icons save-icon" role="button" (click)="saveFunctionPermission()"
+                      matTooltip="Lưu">save</i>
+                    <i class="material-icons cancel-icon" role="button" (click)="editFunctionpermission('cancel')"
+                      matTooltip="Hủy">clear</i>
+                  </div>
+                </div>
+                <div class="col-md-12 bottom-block collapse in" id="function_permission" role="tabpanel"
+                  style="padding-bottom: 20px">
+                  <p class="no-margin" style="color: #4E6BA5">Nhóm quyền</p>
+                  <div class="col-md-4 row">
+                    <mat-form-field class="w100">
+                      <mat-select class="permission-set-select" [(ngModel)]="roleId"
+                        [disabled]="!isEditFunctionpermission">
+                        <mat-option *ngFor="let role of listRole" [value]="role.roleId">{{role.roleValue}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div *ngFor="let module of moduleNameList">
+                    <span>{{module.permissionName}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Node Employee -->
+        <div class="bg-white content-block shadow">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-12 block-title">Ghi chú</div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="editor">
+              <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"></p-editor>
+            </div>
+            <div>
+              <div class="col-md-12 button-save-note">
+                <div>
+                  <!-- <ngfFormData [files]="files" postName="file" [(FormData)]="sendableFormData"></ngfFormData>
+                  <ngfUploadStatus [(percent)]="progress"></ngfUploadStatus>
+                  <div class="inline-block" style="width: 99%; " *ngIf="actionImport">
+                    <div ngfDrop [(validDrag)]="baseDropValid" (fileOver)="hasBaseDropZoneOver=$event" [(files)]="files" [accept]="accept" [maxSize]="maxSize"
+                         [(dragFiles)]="dragFiles" [(lastInvalids)]="lastInvalids" class=" my-drop-zone" [class.invalid-drag]="baseDropValid===false"
+                         [class.valid-drag]="baseDropValid" >
+                      <button class="btn btn-b" ngfSelect multiple type="file" [(files)]="files" [accept]="accept" [maxSize]="maxSize" [(lastInvalids)]="lastInvalids"
+                               mat-raised-button color="primary">
+                        {{ 'lead.note.choose_from_computer' | translate }}
+                      </button>
+                      <span class="drag-file">{{ 'lead.note.or' | translate }} {{ 'lead.note.drag' | translate }}</span>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="file-upload-zone">
+                  <div *ngIf="files.length > 0" style="margin-top: 10px">
+                    <div class="row no-margin no-padding" *ngFor="let item of files;let i=index">
+                      <div class="row no-margin file-item" style=" padding: 5px 5px">
+                        <div class="col-md-5">
+                          <div class="col-md-1 no-padding">
+                            <i class="material-icons remove-file" (click)="onRemoveFile(i)" role="button"
+                              matTooltip="{{ 'lead.tooltip.delete_doc' | translate }}">clear</i>
+                          </div>
+                          <div class="col-md-7 no-padding">
+                            <div class="item-name">
+                              <span matTooltip="{{ item.name }}">
+                                {{ item.name }}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div>
+                              ({{ item.size/1024/1024 | number:'.2' }} MB)
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="button-row triggerEditOrView">
+                    <button *ngIf="noteContent != '' || files.length > 0" (click)="onCancelSaveNote()" mat-raised-button
+                      color="basic">{{ 'lead.buttons.cancel' | translate }}</button>
+                    <button *ngIf="(noteContent != '' || files.length > 0) && !isEditNote" (click)="btnSaveNoteClick()"
+                      mat-raised-button color="warn">{{ 'lead.buttons.save' | translate }}</button>
+                    <button *ngIf="(noteContent != '' || files.length > 0) && isEditNote" (click)="onEditNote()"
+                      mat-raised-button color="warn">{{ 'lead.buttons.save' | translate }}</button>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="row wrap-content-timeline">
+                  <div class="col-md-12 header-timeline">
+                    <div class="col-md-3 title-timeline">
+                      <i class="material-icons clock-timeline">schedule</i>
+                      <span>&nbsp;{{ 'lead.note.time_line' | translate }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="timeline col-md-12 timeline-content">
+                <ul class="timeline">
+                  <!-- timeline item -->
+                  <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                    <!-- timeline icon -->
+                    <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                    <div class="timeline-item" id="{{note.noteId}}">
+                      <span class="time onHover">
+                        <i hidden
+                          *ngIf="note.type === 'ADD' && ((note.description !== '' && note.description !== null) || note.noteDocList.length > 0) && actionEdit"
+                          role="button" (click)="onClickEditNote(note.noteId, note.description)"
+                          class="material-icons style-edit"
+                          matTooltip="{{ 'lead.tooltip.edit_note' | translate }}">edit</i>
+                        <i matTooltip="Xóa ghi chú" *ngIf="actionDelete" (click)="onDisableNote(note.noteId)"
+                          class="material-icons style-delete" role="button">delete</i>
+                      </span>
+                      <h3 class="timeline-header">
+                        <div>
+                          <img *ngIf="note"
+                            [src]="(note.responsibleAvatar!='' && note.responsibleAvatar!= NULL)?note.responsibleAvatar:defaultAvatar"
+                            height="30" width="30" alt="" class="timeline-user-avatar" />
+                        </div>
+                        <span class="responsibleName">{{note.responsibleName}}</span>
+                        <span class="note-title">
+                          <!--Title se duoc append vao day-->
+                        </span>
+                        <span>
+                          <i *ngIf="note.noteDocList.length > 0" style="position: absolute; font-size: 20px;"
+                            class="material-icons file-icon"
+                            matTooltip="{{'Đính kèm ' + note.noteDocList.length + ' tài liệu'}}">
+                            insert_drive_file
+                          </i>
+                        </span>
+                        <p class="time-note">Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' | translate }}
+                          {{note.createdDate | date:'dd/MM/yyyy'}}</p>
+                      </h3>
+                      <div class="timeline-body">
+                        <div class="note-content">
+                          <span class="short-content" style="word-wrap: break-word;">
+                            <!--Description se duoc append vao day-->
+                          </span>
+                        </div>
+
+                        <div class="row no-margin file-upload-zone"
+                          style="padding: 0 12px; margin-bottom: 20px !important" *ngIf="note.noteDocList.length > 0">
+                          <div class="col-md-4 full-content-file" *ngFor="let item of note.noteDocList;let i=index">
+                            <div class="row no-margin file-item"
+                              style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                              <div class="col-md-1">
+                                <i class="material-icons" style="font-size: 20px;">insert_drive_file</i>
+                              </div>
+                              <div class="col-md-11">
+                                <div class="item-name" matTooltip="{{ item.documentName }}">
+                                  <span>
+                                    <a class="preview-doc" role="button"
+                                      (click)="openItem(item.documentName, item.documentUrl)">
+                                      {{ item.documentName }}
+                                    </a>
+                                  </span>
+                                </div>
+                                <div style="font-size: 10px; padding: 0 !important">
+                                  {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <!-- END timeline item -->
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DIALOG -->
+
+<p-confirmDialog #cd header="Confirmation" icon="pi pi-exclamation-triangle">
+      <p-footer>
+        <button type="button" pButton icon="pi pi-times" label="Hủy" (click)="cd.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="Đồng ý" (click)="cd.accept()"></button>
+      </p-footer>
+</p-confirmDialog>

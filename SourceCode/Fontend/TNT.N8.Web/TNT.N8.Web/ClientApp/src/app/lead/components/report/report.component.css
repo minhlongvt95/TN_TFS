@@ -1,0 +1,142 @@
+.no-background{
+    background-color: #fff;
+}
+
+.report-content{
+    font-family: serif;
+    background-color: #fff;
+    margin: -15px;
+    padding: 20px;
+}
+
+.head-title{
+    font-size: 24px;
+    font-family: serif;
+}
+
+.head-content hr{
+    margin-top: 13px !important;
+    color: #cccccc;
+}
+
+::ng-deep .left-content .mat-form-field{
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background: #e4e4e4;
+    height: 30px;
+}
+
+::ng-deep .left-content .mat-form-field-infix{
+    top: -11px;
+    border: none;
+    font-family: serif;
+}
+
+::ng-deep .left-content .mat-form-field-underline, ::ng-deep .employee-select-area .mat-form-field-underline, ::ng-deep .row-selectedname .mat-form-field-underline{
+    display: none;
+}
+
+.main-button-row .btn-create,.main-button-row .btn-export{
+    border: 1px solid #f2f2f2;
+    border-radius: 5px;
+    float: right;
+    margin-left: 10px;
+}
+
+.no-padding{
+    padding: 0;
+}
+
+.left-content select {
+    padding: 6px;
+    width: 100%;
+}
+
+.left-content .tab-link {
+    padding: 11px;
+    border-block-end: 1px solid #cccccc;
+}
+
+.report-filter{
+    padding: 5px 0;
+}
+
+::ng-deep .mat-select-value{
+    font-family: serif;
+}
+
+::ng-deep .employee-select-area .mat-form-field{
+    height: 30px;
+    border: 1px solid #cccccc;
+}
+
+::ng-deep .employee-select-area .mat-form-field-infix{
+    top: -11px;
+    font-family: serif;
+}
+
+::ng-deep .dateandtime .mat-form-field{
+    width: 70%;
+}
+
+::ng-deep .mat-form-field-label-wrapper{
+    font-family: serif;
+}
+
+::ng-deep .mat-input-element{
+    font-family: serif;
+}
+
+::ng-deep .row-selectedname .mat-form-field{
+    width: 100%;
+}
+
+::ng-deep .row-selectedname .mat-form-field-infix{
+    border: none;
+}
+
+::ng-deep .employee-select-area .mat-option-text{
+    font-family: serif;
+}
+
+::ng-deep .row-selectedname .mat-chip{
+    padding: 3px 12px !important;
+    font-family: serif;
+}
+
+.btn-reset{
+    cursor: pointer;
+    opacity: 0.8;
+    font-size: 18px;
+    position: relative;
+    top: 5px;
+    margin: 5px 10px;
+    padding: 5px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+
+.table-content{
+    padding: 38px;
+    background: #f7f7f7;
+    font-family: serif;
+}
+
+.heading-report{
+    padding-top: 20px;
+    margin: 20px;
+    text-align: center;
+    font-weight: 700;
+}
+
+table{
+    width: 100%;
+}
+
+table, td, th {
+    border: 1px solid #797979;
+    padding: 9px;
+    text-align: center;
+}

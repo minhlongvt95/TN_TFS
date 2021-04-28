@@ -1,0 +1,1597 @@
+{
+  "login": {
+    "title": "Đăng nhập",
+    "username": "Tài khoản",
+    "password": "Mật khẩu",
+    "key_captcha": "6LfBuMEUAAAAAIVIGKJFOb715A_qwzoRaEWza_pR",
+    "capchar_check": "1234567890",
+    "buttons": {
+      "login": "Đăng nhập"
+    },
+    "messages": {
+      "password_required": "Cần nhập Mật khẩu",
+      "capchar_required": "Nhập sai captcha",
+      "username_required": "Cần nhập Tài khoản",
+      "captcha_required": "Cần nhập captcha",
+      "captcha_error": "Nhập sai captcha, vui lòng nhập lại",
+      "login_invalid": "Tài khoản hoặc Mật khẩu không đúng!",
+      "login_valid": "Đăng nhập thành công!"
+    }
+  },
+  "forgotPass": {
+    "title": "Quên mật khẩu",
+    "title_change": "Thay đổi mật khẩu",
+    "messages": {
+      "username_required": "Cần nhập tên đăng nhập",
+      "username_invalid": "Tên đăng nhập không đúng.",
+      "password_required": "Trường này là bắt buộc",
+      "check_pass_invalid": "Mật khẩu phải giống nhau",
+      "check_code_invalid": "Đường dẫn của bạn không chính xác. Vui lòng kiểm tra lại email."
+    },
+    "buttons": {
+      "send": "Lấy lại mật khẩu",
+      "re_send": "Gửi lại",
+      "send_change": "Thay đổi mật khẩu"
+    }
+  },
+  "common": {
+    "copyright": "License được cấp cho Trung tâm hỗ trợ doanh nghiệp vừa và nhỏ Hà Nội. Sản phẩm được phát triển bởi <a target='_blank' href='http://www.tringhiatech.vn/vi/'>Công ty TNHH Công nghệ, Thương mại và Dịch vụ TRÍ NGHĨA.</a>",
+    "version": "Phiên bản",
+    "messages": {
+      "search": "Tìm thấy {number} bản ghi",
+      "exception": "Đã có lỗi xảy ra. Vui lòng thử lại!",
+      "confirm": "XÁC NHẬN",
+      "cancel_save": "Bạn có chắc chắn huỷ? Các dữ liệu sẽ không được lưu.",
+      "delete_avatar": "Bạn có muốn xóa ảnh đại diện không?"
+    },
+    "menu": {
+      "lead": {
+        "list": "Danh sách",
+        "dashboard": "Dashboard",
+        "detail": "Chi tiết"
+      },
+      "employee": {
+        "list": "Quản lý nhân viên"
+      }
+    }
+  },
+  "permission": {
+    "info_permission": "Thông tin nhóm quyền",
+    "label": {
+      "name": "Tên",
+      "description": "Mô tả"
+    },
+    "function_permission": "Phân quyền chức năng"
+  },
+  "employee_2": {
+    "view_profile": "Xem chi tiết hồ sơ nhân viên ",
+    "work_info": "Thông tin làm việc",
+    "label": {
+      "code": "Mã nhân viên:",
+      "unit": "Đơn vị:",
+      "status": "Trạng thái:",
+      "note": "Ghi chú:",
+      "role": "Chức vụ:",
+      "date_intership": "Ngày bắt đầu thử việc:",
+      "date_official": "Ngày lên chính thức:",
+      "account": "Tên tài khoản:",
+      "select_unit": "Chọn đơn vị"
+    },
+    "tooltip": {
+      "edit_info": "Sửa thông tin",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "change_avatar": "Thay đổi ảnh đại diện",
+      "delete_avatar": "Xóa ảnh đại diện"
+    }
+  },
+  "lead": {
+    "no_record": "Không tìm thấy khách hàng tiềm năng!",
+    "select_no_item": "Không có dữ liệu nào được chọn.",
+    "pic_no_lead": "Không có khách hàng tiềm năng.",
+    "title": "Khách hàng tiềm năng",
+    "title_lead": "Danh sách khách hàng tiềm năng",
+    "create_title": "Tạo liên hệ",
+    "fullname": "Họ và Tên: ",
+    "email": "Email: ",
+    "phone": "Số điện thoại: ",
+    "address": "Địa chỉ: ",
+    "requirement": "Nhu cầu sản phẩm dịch vụ: ",
+    "requirement_detail": "Chi tiết yêu cầu: ",
+    "payment": "Phương thức thanh toán: ",
+    "potential": "Mức độ tiềm năng: ",
+    "incharge": "Người phụ trách: ",
+    "company": "Công ty: ",
+    "company_name": "Tên công ty: ",
+    "personal_info": "Thông tin cá nhân",
+    "package": "Gói thầu",
+    "status_label": "Trạng thái:",
+    "at": "tại",
+    "titleimportlead": "Import khách hàng tiềm năng",
+    "buttons": {
+      "save": "Lưu",
+      "importexcel": "Import Lead",
+      "downloadtemplate": "Tải file mẫu",
+      "save_doc": "Lưu tài liệu",
+      "save_add": "Lưu và thêm mới",
+      "create_com": "Tạo mới",
+      "cancel": "Hủy"
+    },
+    "note": {
+      "write_note": "Viết ghi chú",
+      "upload": "Tải tài liệu",
+      "drag": "Kéo và thả tệp",
+      "or": "Hoặc",
+      "choose_from_computer": "Chọn từ máy tính",
+      "time_line": "Dòng thời gian",
+      "add": "đã thêm ghi chú",
+      "edit": "đã chỉnh sửa",
+      "new": "đã tạo",
+      "up": "đã thêm tài liệu",
+      "day": "ngày"
+    },
+    "messages": {
+      "wrong_email": "Sai định dạng email.",
+      "exit_email": "Email đã được đăng ký.",
+      "exit_phone": "Số điện thoại đã được đăng ký.",
+      "wrong_phone": "Sai định dạng số điện thoại.",
+      "required_field": "Không được để trống.",
+      "wrong_identity": "Số CMND chỉ được nhập từ 0-9.",
+      "error_format_date": "Sai định dạng ngày/tháng/năm",
+      "error_object_receipter": "Đối tượng thu không tồn tại",
+      "error_object_payer": "Đối tượng chi không tồn tại"
+    },
+    "placeholder": {
+      "fullname": "Họ và tên đệm",
+      "name": "Tên",
+      "cityOrProvince": "Tỉnh/Thành phố",
+      "district": "Quận/Huyện",
+      "guild": "Phường/Xã",
+      "address": "Địa chỉ: Số nhà, đường, ...",
+      "requirement": "Yêu cầu ...",
+      "add_note": "Nhập ghi chú ...",
+      "search_keyword": "Tìm kiếm theo từ khóa",
+      "from": "Từ ngày",
+      "to": "Đến ngày"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ",
+      "pic": "Sửa người phụ trách",
+      "status": "Sửa trạng thái",
+      "edit": "Sửa",
+      "clear": "Hủy",
+      "save": "Lưu",
+      "create_package": "Tạo gói thầu",
+      "delete_doc": "Xóa tài liệu này",
+      "edit_note": "Sửa ghi chú"
+    },
+    "status": {
+      "new": "Mới",
+      "waiting": "Chờ phản hồi",
+      "inprogress": "Đang khảo sát",
+      "unfollow": "Ngừng theo dõi",
+      "quotation": "Đang báo giá",
+      "signed": "Ký hợp đồng"
+    },
+    "requirementRate": {
+      "ws": "Website",
+      "dv": "Thuê dịch vụ",
+      "pm": "Phần mềm"
+    },
+    "potentialRate": {
+      "high": "Cao",
+      "low": "Thấp",
+      "medium": "Trung bình"
+    },
+    "report": {
+      "title": "Thống kê",
+      "export": "Xuất Excel",
+      "print": "In thống kê",
+      "filter": "Điều kiện lọc: ",
+      "lead_statistics": "Thống kê khách hàng tiềm năng theo nhân viên",
+      "report_time": "Báo cáo doanh thu theo thời gian",
+      "report_product": "Báo cáo doanh thu theo sản phẩm",
+      "report_employee": "Báo cáo doanh thu theo nhân viên",
+      "compare": "So sánh kế hoạch và thực tế bán hàng",
+      "table": {
+        "title": "THỐNG KÊ KHÁCH HÀNG TIỀM NĂNG THEO NHÂN VIÊN",
+        "create_date": "Ngày lập",
+        "time": "Thời gian"
+      }
+    },
+    "topnew": "Danh sách khách hàng mới nhất",
+    "topwait": "Khách hàng đang chờ làm báo giá",
+    "convertrate": "Tỷ lệ khách hàng theo mức độ chuyển đổi",
+    "requirementrate": "Tỷ lệ khách hàng theo nhu cầu",
+    "potentialrate": "Tỷ lệ khách hàng theo mức độ tiềm năng",
+    "topstoptracking": "Danh sách khách hàng ngừng theo dõi chờ phê duyệt",
+    "view_all": "Xem tất cả",
+    "search_name": "Tìm kiếm tên ...",
+    "search_tooltip": "Tìm kiếm",
+    "pic": "Người phụ trách",
+    "approve": "Phê duyệt",
+    "reject": "Từ chối phê duyệt"
+  },
+  "contact": {
+    "customer": "Khách hàng tiềm năng",
+    "unfollow": "Danh sách chờ phê duyệt ngừng theo dõi",
+    "fullname": "Tên",
+    "search": "Bộ lọc",
+    "phone": "SĐT",
+    "email": "Email",
+    "potential": "Mức độ tiềm năng",
+    "status": "Trạng thái",
+    "group": "Nhóm dịch vụ",
+    "in_charge": "Người phụ trách",
+    "noPIC": "Chưa có người phụ trách",
+    "gender": "Giới tính:",
+    "identity": "Số CMND:",
+    "labletitledownload": "Tải mẫu excel",
+    "lableimportexcel": "Import khách hàng",
+    "customerType": "Loại khách hàng",
+    "personal_url": "Link cá nhân:",
+    "buttons": {
+      "create": "Tạo liên hệ",
+      "excel": "Import Excel",
+      "add": "Gán",
+      "stop_follow": "Ngừng theo dõi",
+      "export": "Xuất Excel",
+      "approve": "Phê duyệt",
+      "cancel": "Từ chối"
+    },
+    "grid": {
+      "name": "Tên",
+      "email": "Email",
+      "phone": "SĐT",
+      "in_charge": "Người phụ trách",
+      "status": "Trạng thái",
+      "tooltip": "Tạo báo giá"
+    },
+    "placeholder": {
+      "name": "Họ và Tên",
+      "firstname": "Họ và tên đệm",
+      "lastname": "Tên"
+    }
+  },
+  "toast": {
+    "lead": {
+      "create_success": "Tạo Lead thành công.",
+      "create_fail": "Tạo Lead thất bại.",
+      "edit_success": "Chỉnh sửa Lead thành công",
+      "edit_fail": "Chỉnh sửa Lead thất bại"
+    },
+    "employee": {
+      "create_success": "Tạo Nhân viên thành công.",
+      "create_fail": "Tạo Nhân viên thất bại.",
+      "edit_success": "Chỉnh sửa Nhân viên thành công",
+      "edit_fail": "Chỉnh sửa Nhân viên thất bại"
+    },
+    "note": {
+      "save_success": "Lưu ghi chú thành công",
+      "disable_success": "Xóa ghi chú thành công",
+      "disable_fail": "Xóa ghi chú thất bại"
+    },
+    "org": {
+      "create_success": "Tạo Tổ chức thành công.",
+      "create_fail": "Tạo Tổ chức thất bại.",
+      "edit_success": "Chỉnh sửa Tổ chức thành công.",
+      "edit_fail": "Chỉnh sửa Tổ chức thất bại.",
+      "get_fail": "Lấy thông tin Tổ chức thất bại.",
+      "delete_success": "Xóa Tổ chức thành công."
+    },
+    "master_data": {
+      "create_success": "Tạo Dữ liệu thành công.",
+      "create_fail": "Tạo Dữ liệu thất bại.",
+      "edit_success": "Chỉnh sửa Dữ liệu thành công.",
+      "edit_fail": "Chỉnh sửa Dữ liệu thất bại.",
+      "get_fail": "Lấy thông tin Dữ liệu thất bại.",
+      "delete_success": "Xóa Dữ liệu thành công."
+    },
+    "userprofile": {
+      "edit_success": "Chỉnh sửa Hồ sơ thành công.",
+      "edit_fail": "Chỉnh sửa Hồ sơ thất bại."
+    }
+  },
+  "employee": {
+    "create": {
+      "title": "Tạo nhân viên",
+      "fullname": "Họ và tên:",
+      "code": "Mã nhân viên:",
+      "role": "Chức vụ:",
+      "unit": "Đơn vị:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "is_access": "Người dùng này có được phép truy cập vào hệ thống hay không?",
+      "username": "Tên tài khoản:",
+      "permission": "Nhóm quyền:",
+      "yes": "Có",
+      "no": "Không",
+      "buttons": {
+        "create": "Lưu",
+        "create_add": "Lưu và thêm mới",
+        "cancel": "Hủy"
+      },
+      "placeholder": {
+        "fullname": "Họ và tên đệm",
+        "name": "Tên",
+        "organization": "Chọn đơn vị",
+        "position": "Chọn chức vụ"
+      }
+    },
+    "list": {
+      "title": "Quản lý nhân viên",
+      "search": "Bộ lọc",
+      "name": "Tên",
+      "username": "Tên tài khoản",
+      "code": "Mã",
+      "unit": "Đơn vị",
+      "unit_search": "Lọc theo đơn vị >>",
+      "buttons": {
+        "create": "Tạo nhân viên",
+        "delete": "Xóa",
+        "export": "Xuất Excel"
+      },
+      "no_record": "Không tìm thấy nhân viên!",
+      "placeholder": {
+        "first": "Họ và tên đệm",
+        "last": "Tên",
+        "from_contract_expiry_date": "Ngày hết hạn hợp đồng từ",
+        "to_contract_expiry_date": "Ngày hết hạn hợp đồng đến",
+        "from_birth_day": "Ngày sinh nhật từ",
+        "to_birth_day": "Ngày sinh nhật đến"
+      }
+    },
+    "request": {
+      "request_code": "Mã đề xuất",
+      "emp_offercode": "Mã NV được đề xuất",
+      "emp_offername": "Tên NV được đề xuất",
+      "emp_unit": "Đơn vị",
+      "branch": "Chi nhánh",
+      "emp_startdate": "Từ ngày",
+      "emp_enddate": "Đến ngày",
+      "emp_createdate": "Ngày tạo",
+      "emp_approver": "Người phê duyệt",
+      "emp_typerequest": "Loại đề xuất",
+      "emp_status": "Trạng thái"
+    },
+    "message": {
+      "wrong_email": "Sai định dạng email."
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ"
+    },
+    "quit-work": {
+      "title": "Danh sách nhân viên đã nghỉ việc",
+      "search": "Bộ lọc",
+      "nameAcc": "Mã nhân viên",
+      "name": "Tên",
+      "username": "Tên tài khoản",
+      "code": "Mã",
+      "unit": "Đơn vị",
+      "unit_search": "Lọc theo đơn vị >>",
+      "buttons": {
+        "create": "Tạo nhân viên",
+        "delete": "Xóa",
+        "export": "Xuất Excel"
+      },
+      "no_record": "Không tìm thấy nhân viên!",
+      "placeholder": {
+        "first": "Họ và tên đệm",
+        "last": "Tên"
+      }
+    }
+  },
+  "employeesalary": {
+    "list": {
+      "title": "Bảng lương nhân viên",
+      "titleTeacher": "Bảng lương giảng viên",
+      "titleAssistant": "Bảng lương trợ giảng",
+      "search": "Bộ lọc",
+      "name": "Tên",
+      "username": "Tên tài khoản",
+      "code": "Mã",
+      "branch": "Chi nhánh",
+      "unit": "Đơn vị",
+      "employeelevel": "Cấp bậc",
+      "salarydate": "",
+      "unit_search": "Lọc theo đơn vị >>",
+      "buttons": {
+        "create": "Tạo nhân viên",
+        "delete": "Xóa",
+        "export": "Xuất Excel",
+        "templateexcel": "Mẫu import excel",
+        "importexcel": "Import excel",
+        "sendapproval": "Gửi phê duyệt",
+        "refusedtoapprove": "Từ chối phê duyệt",
+        "approval": "Phê duyệt",
+        "sendpayslip": "Gửi Payslip",
+        "exportassistant": "Export trợ giảng"
+      },
+      "grid": {
+        "employeecode": "Mã nhân viên",
+        "employeename": "Tên nhân viên",
+        "employeepostionid": "Chức vụ",
+        "employeeunit": "Đơn vị",
+        "employeebranch": "Chi nhánh",
+        "basedsalary": "Lương cơ bản",
+        "monthlyworkingday": "Công chuẩn",
+        "unPaidLeaveDay": "Nghỉ không lương",
+        "vacationDay": "Nghỉ phép",
+        "overtime": "Làm thêm giờ",
+        "actualWorkingDay": "Công thực tế",
+        "actualOfSalary": "Lương công thực tế",
+        "overtimeOfSalary": "Lương làm thêm giờ",
+        "enrollmentSalary": "Lương giữ chân",
+        "retentionSalary": "Lương tuyển sinh",
+        "fuelAllowance": "PC Xăng xe",
+        "phoneAllowance": "PC Điện thoại",
+        "lunchAllowance": "PC Ăn trưa",
+        "otherAllowance": "Phụ cấp khác",
+        "socialInsuranceSalary": "Lương đóng BHXH",
+        "socialInsuranceCompanyPaid": "Hỗ trợ BHXH",
+        "healthInsuranceCompanyPaid": "Hỗ trợ BHYT",
+        "unemploymentinsuranceCompanyPaid": "Hỗ trợ BHTN",
+        "totalInsuranceCompanyPaid": "Hỗ trợ BH",
+        "socialInsuranceEmployeePaid": "Đóng BHXH",
+        "healthInsuranceEmployeePaid": "Đóng BHYT",
+        "unemploymentinsuranceEmployeePaid": "Đóng BHTN",
+        "totalInsuranceEmployeePaid": "Trích nộp BH",
+        "desciplineAmount": "Phạt",
+        "reductionAmount": "Trừ tạm ứng/trừ khác",
+        "additionalAmount": "Các khoản thêm khác",
+        "bankAccountCode": "Số TK",
+        "bankAccountName": "Ngân hàng",
+        "branchOfBank": "Chi Nhánh",
+        "totalIncome": "Tổng thu nhập",
+        "actualPaid": "Thực lĩnh",
+        "description": "Diễn giải"
+      },
+      "no_record": "Không tìm thấy nhân viên!",
+      "placeholder": {
+        "first": "Họ và tên đệm",
+        "last": "Tên"
+      }
+    },
+    "message": {
+      "wrong_email": "Sai định dạng email."
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ"
+    }
+  },
+  "employeetimesheet": {
+    "title": "Dữ liệu chấm công",
+    "month": "Tháng",
+    "file": "File dữ liệu",
+    "buttons": {
+      "choosefile": "Chọn file",
+      "import": "Import"
+    },
+    "placeholder": {
+      "first": "Họ và tên đệm",
+      "last": "Tên"
+    }
+  },
+  "organization": {
+    "title": "Quản lý tổ chức",
+    "tree": "SƠ ĐỒ TỔ CHỨC CÔNG TY",
+    "info": "THÔNG TIN ĐƠN VỊ",
+    "org_name": "Tên đơn vị: ",
+    "org_code": "Mã đơn vị: ",
+    "org_parent": "Trực thuộc: ",
+    "org_phone": "Số điện thoại: ",
+    "org_address": "Địa chỉ: ",
+    "tooltip": {
+      "create": "Tạo tổ chức mới",
+      "delete": "Xóa tổ chức",
+      "edit": "Sửa thông tin",
+      "save": "Lưu thông tin",
+      "cancel": "Hủy"
+    },
+    "messages": {
+      "duplicate_code": "Mã đơn vị đã tồn tại."
+    }
+  },
+  "vendor": {
+    "create": {
+      "title": "Tạo nhà cung cấp",
+      "name": "Tên nhà cung cấp:",
+      "code": "Mã nhà cung cấp:",
+      "group": "Nhóm nhà cung cấp:",
+      "info_name": "Tên cá nhân/Tên công ty:",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "address": "Địa chỉ:",
+      "payment": "Phương thức thanh toán:",
+      "bank_account": "Số tài khoản",
+      "bank_name": "Tên ngân hàng",
+      "branch": "Chi nhánh",
+      "bank_use": "Tên người thụ hưởng",
+      "invoice": "Hóa đơn",
+      "contact": "Người liên hệ",
+      "position": "Chức vụ:",
+      "gender": "Giới tính:",
+      "fullname": "Tên:",
+      "buttons": {
+        "create": "Lưu",
+        "create_add": "Lưu và thêm mới",
+        "cancel": "Hủy",
+        "edit": "Sửa"
+      },
+      "placeholder": {
+        "payment": "Chọn phương thức thanh toán",
+        "group": "Chọn nhóm dịch vụ"
+      }
+    },
+    "list": {
+      "title": "Quản lý nhà cung cấp",
+      "search": "Bộ lọc",
+      "name": "Tên",
+      "code": "Mã",
+      "group": "Nhóm",
+      "money": "Số tiền phải thanh toán",
+      "buttons": {
+        "create": "Tạo nhà cung cấp",
+        "export": "Xuất Excel"
+      },
+      "no_record": "Không tìm thấy nhà cung cấp!",
+      "placeholder": {
+        "first": "Họ và tên đệm",
+        "last": "Tên"
+      }
+    },
+    "detail": {
+
+    },
+    "message": {
+      "wrong_email": "Sai định dạng email.",
+      "delete_vendor_bank": "Bạn có chắc chắn muốn xóa thông tin thanh toán này?",
+      "delete_vendor_contact": "Bạn có chắc chắn muốn xóa người liên hệ này?"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ",
+      "edit": "Sửa",
+      "save": "Lưu",
+      "delete": "Xóa",
+      "from": "Từ ngày",
+      "to": "Đến ngày"
+    },
+    "order-list": {
+      "title": "Quản lý phiếu đặt SP/DV",
+      "vendor": "Nhà cung cấp",
+      "code": "Mã phiếu",
+      "created_date": "Ngày tạo",
+      "status": "Trạng thái",
+      "_code": "Mã",
+      "des": "Diễn giải",
+      "seller": "Người tạo",
+      "amount": "Tổng giá trị"
+    }
+  },
+  "productcategory": {
+    "title": "Quản lý danh mục sản phẩm và dịch vụ",
+    "tree": "SƠ ĐỒ TỔ CHỨC CÔNG TY",
+    "info": "THÔNG TIN DANH MỤC",
+    "productcategory_name": "Tên danh mục",
+    "productcategory_code": "Mã",
+    "productcategory_description": "Mô tả",
+    "productcategory_parentid": "Trực thuộc",
+    "productcategory_event": "Thao tác",
+    "org_address": "Địa chỉ: ",
+    "tooltip": {
+      "create": "Thêm danh mục cha",
+      "delete": "Xóa tổ chức",
+      "edit": "Sửa thông tin",
+      "save": "Lưu thông tin",
+      "add": "Thêm danh mục con",
+      "cancel": "Hủy"
+    },
+    "messages": {
+      "duplicate_code": "Mã đơn vị đã tồn tại."
+    }
+  },
+  "order": {
+    "title": "Danh sách đơn hàng",
+    "search": "Bộ lọc",
+    "code": "Mã đơn hàng",
+    "name": "Tên khách hàng",
+    "date": "Ngày đặt",
+    "status": "Trạng thái",
+    "VAT": "Hóa đơn VAT",
+    "quantity": "Số lượng tồn kho",
+    "exportPdf": "Xuất PDF",
+    "buttons": {
+      "search": "Tìm kiếm",
+      "refresh_search": "Làm mới",
+      "create": "Tạo mới",
+      "import": "Import Excel",
+      "export": "Xuất Excel",
+      "accept": "Chấp nhận",
+      "reject": "Không"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc"
+    },
+    "list": {
+      "code": "Mã",
+      "name": "Khách hàng",
+      "orderdate": "Ngày đặt hàng",
+      "status": "Trạng thái",
+      "value": "Tổng giá trị",
+      "empname": "Nhân viên bán hàng"
+    },
+    "create": {
+      "title": "TẠO ĐƠN HÀNG",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "exit": "Thoát",
+      "clone": "Nhân bản",
+      "delete": "Xoá",
+      "choose_file": "Chọn file",
+      "cancel_file": "Hủy toàn bộ file",
+      "send_approval": "Gửi phê duyệt",
+      "approval": "Duyệt",
+      "reject": "Từ chối",
+      "create_bill": "Tạo hóa đơn bán hàng",
+      "create_pay_order": "Tạo yêu cầu mua hàng",
+      "edit_new": "Đặt về mới",
+      "export_file": "Xuất đơn hàng",
+      "back": "Quay lại",
+      "create_add": "Lưu và thêm mới",
+      "info_order": "Thông tin đơn hàng",
+      "info_customer": "Thông tin khách hàng",
+      "info_delivery": "Thông tin giao hàng",
+      "info_bill": "Thông tin hóa đơn",
+      "info_product": "Chi tiết sản phẩm dịch vụ",
+      "order_detail": "Chi tiết đơn hàng",
+      "info_cost": "Chi phí",
+      "code": "Mã đơn hàng:",
+      "hidden": " Sẽ được hệ thống tạo sau khi lưu",
+      "createdate": "Ngày tạo:",
+      "orderDate": "Ngày đặt hàng:",
+      "status": "Tình trạng:",
+      "employee": "Nhân viên bán hàng:",
+      "select_employee": "Chọn nhân viên bán hàng:",
+      "description": "Diễn giải:",
+      "note": "Ghi chú",
+      "create_note": "Thêm ghi chú",
+      "edit_note": "Cập nhật ghi chú",
+      "customer": "Khách hàng:",
+      "customerCode": "Mã khách hàng:",
+      "customerName": "Tên khách hàng:",
+      "require": "*",
+      "email": "Email:",
+      "phone": "Điện thoại:",
+      "address": "Địa chỉ:",
+      "taxCode": "Mã số thuế:",
+      "warehouse": "Mã kho:",
+      "history_note": "Dòng thời gian",
+      "select_warehouse": "Chọn kho:",
+      "contacter": "Người liên hệ:",
+      "paying": "Phương thức thanh toán:",
+      "account_paying": "Tài khoản thanh toán:",
+      "select_account_paying": "Chọn tài khoản thanh toán:",
+      "select_paying": "Chọn phương thức thanh toán",
+      "select_customer": "Chọn khách hàng",
+      "day_in_debt": "Số ngày được nợ:",
+      "max_in_debt": "Số nợ tối đa:",
+      "quote": "Số báo giá:",
+      "select_quote": "Chọn báo giá",
+      "contract": "Số hợp đồng:",
+      "select_contract": "Chọn hợp đồng",
+      "select_product": "Chọn hàng hóa",
+      "delivery_date": "Ngày nhận:",
+      "delivery_hour": "Giờ nhận:",
+      "confirm_info": "Thông tin người nhận trùng với thông tin khách hàng",
+      "recipient_name": "Người nhận hàng:",
+      "export_place": "Địa điểm xuất hàng:",
+      "delivery_place": "Địa chỉ giao hàng:",
+      "list_product": "Danh sách sản phẩm, dịch vụ",
+      "sum_after_vat": "Tổng tiền hàng trước thuế:",
+      "create_product": "Thêm sản phẩm, dịch vụ",
+      "create_cost": "Thêm thông tin chi phí",
+      "total_cost": "Tổng chi phí:",
+      "total_vat": "Tổng thuế VAT:",
+      "discount_order": "Chiết khấu theo tổng đơn hàng",
+      "total_discount_order": "Tổng tiền chiết khấu (VND):",
+      "total_pay_order": "Tổng thanh toán:",
+      "total_price_initial": "Tổng tiền vốn:",
+      "title_pay_order": "Tổng hợp đơn hàng",
+      "total_price_profit": "Lợi nhuận tạm tính:",
+      "total_price_profit_rate": "% lợi nhuận tạm tính:",
+      "select_col": "Chọn cột",
+      "select_count_col": " cột được chọn",
+      "saveandcreate": "Lưu và tạo mới",
+      "total_order": "Tổng hợp đơn hàng"
+    },
+    "edit": {
+      "Edit": "Sửa",
+      "Save": "Lưu",
+      "List": "Danh sách đơn hàng",
+      "View": "CHI TIẾT ĐƠN HÀNG"
+    },
+    "messages_title": {
+      "title_info": "Thông báo: ",
+      "title_confirm": "Xác nhận",
+      "title_info_reject": "Lý do",
+      "title_warning": "CẢNH BÁO"
+    },
+    "messages_confirm": {
+      "delete_confirm": "Bạn chắc chắn muốn xóa?",
+      "delete_confirm_order": "Bạn chắc chắn muốn xóa đơn hàng này? Đơn hàng bị xóa sẽ không thể khôi phục.",
+      "cancel_confirm_note": "Bạn chắc chắn muốn hủy ghi chú này?",
+      "delete_confirm_note": "Bạn chắc chắn muốn xóa ghi chú này?",
+      "confirm_pay_change_status": "Số tiền đã thanh toán vượt quá giá trị đơn hàng, Bạn có muốn cập nhật đơn hàng thành trạng thái “Đã thanh toán?",
+      "confirm_send_approval": "Bạn chắc chắn muốn gửi phê duyệt đơn hàng?",
+      "confirm_approval": "Bạn chắc chắn muốn phê duyệt đơn hàng?",
+      "confirm_reject": "Bạn chắc chắn muốn từ chối đơn hàng?",
+      "confirm_cancel": "Bạn chắc chắn muốn hủy đơn hàng?",
+      "confirm_edit_new": "Bạn chắc chắn muốn đặt về mới đơn hàng?",
+      "confirm_check": "Khách hàng này đã vượt quá số tiền nợ tối đa! Bạn có chắc chắn tiếp tục?",
+      "confirm_cancel_approval": "Bạn có chắc chắn muốn hủy yêu cầu phê duyệt đơn hàng này?"
+    },
+    "messages_error": {
+      "errormin": "Cần lớn hơn 0",
+      "no_date_ndh": "Chưa chọn Ngày đặt hàng",
+      "no_personInChange": "Chưa chọn Nhân viên bán hàng",
+      "no_customer": "Chưa chọn Khách hàng",
+      "no_customerGroup": "Chưa chọn Nhóm khách hàng",
+      "no_customerCode": "Mã khách hàng không được để trống",
+      "no_customerName": "Tên khách hàng không được để trống",
+      "no_receivedDate": "Ngày nhận hàng không được để trống",
+      "duplicate_customerCode": "Trùng mã khách hàng",
+      "error_phone": "Sai định dạng Số điện thoại",
+      "error_email": "Sai định dạng Email",
+      "no_text": "Không được để trống",
+      "send_approval_error": "Gửi phê duyệt thất bại",
+      "no_warehouse": "Kho không được để trống",
+      "maxDebt_hight": "Khách hàng này đã vượt quá số tiền nợ tối đa! Bạn có chắc chắn tiếp tục?"
+    }
+  },
+  "product": {
+    "code": "Mã sản phẩm",
+    "create": {
+      "title": "Tạo sản phẩm, dịch vụ:",
+      "productcategory": "Nhóm sản phẩm/dịch vụ:",
+      "productcode": "Mã sản phẩm:",
+      "productname": "Tên :",
+      "vendor": "Nhà cung cấp:",
+      "unit": "Đơn vị tính:",
+      "unitprice": "Đơn giá:",
+      "unitmoney": "Đơn vị tiền:",
+      "exchange": "Tỷ giá:",
+      "price": "Đơn giá:",
+      "tax": "Thuế GTGT (%):",
+      "taxprice": "Thành tiền thuế GTGT ",
+      "productdescription": "Mô tả",
+      "informationattribute": "Thông tin thuộc tính",
+      "nameattribute": "Tên thuộc tính:",
+      "valueattribute": "Giá trị:",
+      "minamount": "Số lượng tồn kho tối thiểu:",
+      "amount": "Số lượng:",
+      "describe": "Mô tả:",
+      "vat": "Thuế GTGT (%):",
+      "guaranteeTime": "TG bảo hành (Tháng):",
+      "guaranteeDatetime": "Ngày hết hạn bảo hành:",
+      "gridview": {
+        "nameattribute": "Tên thuộc tính:",
+        "valueattribute": "Giá trị:",
+        "namecustomer": "Tên khách hàng",
+        "customerordercode": "Mã đơn hàng",
+        "date": "Ngày mua"
+      },
+      "buttons": {
+        "create": "Lưu",
+        "create_add": "Lưu và thêm mới",
+        "cancel": "Hủy",
+        "edit": "Sửa",
+        "delete": "Xoá",
+        "addvalueattribute": "",
+        "addattribute": "Thêm thuộc tính",
+        "golist": "Quản lý sản phẩm, dịch vụ"
+      },
+      "placeholder": {
+        "payment": "Chọn phương thức thanh toán",
+        "group": "Chọn nhóm dịch vụ"
+      }
+    },
+    "list": {
+      "title": "Quản lý sản phẩm, dịch vụ",
+      "search": "Bộ lọc",
+      "productname": "Tên sản phẩm",
+      "productcategoryid": "Nhóm",
+      "productcode": "Mã",
+      "unit": "Đơn vị",
+      "unit_search": "Lọc theo đơn vị >>",
+      "listvendor": "Nhà cung cấp",
+      "inventorynumber": "Số lượng tồn kho",
+      "buttons": {
+        "create": "Tạo sản phẩm",
+        "delete": "Xóa",
+        "export": "Xuất Excel",
+        "import": "Import Excel"
+      },
+      "no_record": "Không tìm thấy sản phẩm,dịch vụ!",
+      "placeholder": {
+        "productname": "Tên sản phẩm,dịch vụ",
+        "productcode": "Mã sản phẩm,dịch vụ",
+        "productcategory": "Danh mục sản phẩm,dịch vụ"
+      }
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ",
+      "pic": "Sửa người phụ trách",
+      "status": "Sửa trạng thái",
+      "edit": "Sửa",
+      "clear": "Hủy",
+      "save": "Lưu",
+      "delete": "Xoá",
+      "create_package": "Tạo gói thầu",
+      "delete_doc": "Xóa tài liệu này",
+      "edit_note": "Sửa ghi chú"
+    },
+    "detail": {
+      "title": "Chi tiết sản phẩm,dịch vụ:"
+    },
+    "quickcreatevendor": {
+      "title": "TẠO NHANH NHÀ CUNG CẤP",
+      "groupvendor": "Nhóm nhà cung cấp",
+      "namevendor": "Tên:",
+      "vendorcode": "Mã:",
+      "payment": "Phương thức thanh toán",
+      "save": "LƯU",
+      "cancel": "HUỶ"
+    }
+  },
+  "customer": {
+    "create": {
+      "title": "Tạo khách hàng",
+      "industry": "KH doanh nghiệp",
+      "personal": "KH cá nhân",
+      "group": "Nhóm khách hàng:",
+      "code": "Mã KH:",
+      "name": "Tên khách hàng:",
+      "email": "Email",
+      "phone": "Số điện thoại:",
+      "IsGraduated": "Đã tốt nghiệp",
+      "IsGraduatedNot": "Đang ươm tạo",
+      "companyinformationwork": "Thông tin công ty làm việc:",
+      "identity": "CMND/Hộ chiếu",
+      "address": "Địa chỉ",
+      "inland": "Trong nước",
+      "foreign": "Nước ngoài",
+      "pic": "Chọn nhân viên bán hàng",
+      "ccs": "Chọn nhân viên chăm sóc khách hàng",
+      "mainbusinesssector": "Ngành nghề kinh doanh chính(hoặc có doanh thu cao nhất)",
+      "note": "Ghi chú",
+      "contact_info": "Thông tin liên hệ",
+      "fullname": "Người liên hệ: ",
+      "other": "Thông tin khác",
+      "position": "Chức vụ",
+      "birthday": "Ngày sinh",
+      "gender": "Giới tính",
+      "buttons": {
+        "create": "Lưu",
+        "create_add": "Lưu và thêm mới",
+        "cancel": "Hủy"
+      }
+    },
+    "list": {
+      "title": "Danh sách khách hàng",
+      "serviceLevel": "Hạng",
+      "group": "Nhóm khách hàng",
+      "pic": "Người phụ trách",
+      "noPic": "Chưa có người phụ trách",
+      "hkd": "Hộ kinh doanh",
+      "business": "Khách hàng doanh nghiệp",
+      "personal": "Khách hàng cá nhân",
+      "name": "Tên",
+      "email": "Email",
+      "phone": "Điện thoại",
+      "search": "Bộ lọc",
+      "buttons": {
+        "search": "Tìm kiếm",
+        "refresh_search": "Làm mới",
+        "create": "Thêm mới",
+        "import": "Import excel",
+        "assign": "Gán người phụ trách",
+        "downloadtemplate": "Tải mẫu excel",
+        "export": "Xuất Excel"
+      }
+    },
+    "detail": {
+      "product": "Sản phẩm/dịch vụ",
+      "order": "Mã đơn hàng",
+      "createdDate": "Ngày đặt hàng",
+      "status": "Trạng thái",
+      "price": "Giá trị",
+      "seller": "Nhân viên bán hàng"
+    },
+    "placeholder": {
+      "group": "Chọn nhóm khách hàng",
+      "max_code": "Tối đa 20 kí tự",
+      "pic": "Người phụ trách",
+      "personal_email": "Cá nhân",
+      "other_email": "Khác",
+      "work_email": "Công việc",
+      "personal_phone": "Cá nhân",
+      "work_phone": "Công việc",
+      "other_phone": "Khác",
+      "create_quotation": "Tạo báo giá",
+      "payment": "Chọn phương thức thanh toán",
+      "country": "Chọn quốc tịch",
+      "marital_status": "Chọn tình trạng hôn nhân",
+      "field": "Chọn lĩnh vực",
+      "scale": "Chọn quy mô",
+      "companyName": "Tên công ty",
+      "companyAddress": "Địa chỉ",
+      "customerPosition": "Chức vụ"
+    },
+    "bank": {
+      "bank_account": "Số tài khoản",
+      "bank_name": "Tên ngân hàng",
+      "bank_detail": "Tên diễn giải",
+      "branch": "Chi nhánh",
+      "bank_use": "Chủ tài khoản"
+    },
+    "grid": {
+      "customerName": "Tên nhân viên",
+      "email": "Email",
+      "Phone": "SĐT",
+      "address": "Địa chỉ"
+    },
+    "customerduplicate": {
+      "titleform": "GHI ĐÈ DỮ LIỆU",
+      "grid": {
+        "customerName": "Tên nhân viên",
+        "name": "Tên",
+        "email": "Email",
+        "phone": "SĐT",
+        "address": "Địa chỉ"
+      }
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ",
+      "pic": "Sửa người phụ trách",
+      "status": "Sửa trạng thái",
+      "edit": "Sửa",
+      "clear": "Hủy",
+      "save": "Lưu",
+      "create_package": "Tạo gói thầu",
+      "delete_doc": "Xóa tài liệu này",
+      "edit_note": "Sửa ghi chú",
+      "delete": "Xóa"
+    },
+    "quote-dashboard": {
+      "title": "Dashboard báo giá",
+      "out-of-date": "Báo giá quá hạn",
+      "in-week": "Báo giá phải hoàn thành trong tuần",
+      "employ": "Khách hàng tiềm năng mới",
+      "view-all": "Xem tất cả",
+      "potentialrate": "Tỷ lệ báo giá theo trạng thái tháng ",
+      "total-quote": "Doanh thu theo báo giá tháng ",
+      "new": "Mới",
+      "waiting": "Đã duyệt",
+      "inprogress": "Chờ duyệt",
+      "unfollow": "Huỷ",
+      "quotation": "Báo giá", 
+      "signed": "Đóng-Không trúng"
+    }
+  },
+  "configLevelCustomer": {
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "configLevelTitle": "Cấu hình phân hạng khách hàng",
+    "valueRevenue": "Giá trị doanh thu mua hàng",
+    "levelName": "Tên hạng",
+    "addLevel": "Thêm mới thang đo"
+  },
+  "accounting": {
+    "list": {
+      "search": "Tìm kiếm",
+      "code": "Mã chứng từ",
+      "reason_re": "Lý do chi",
+      "detail_re": "Nội dung chi",
+      "amount": "Số tiền(VNĐ)",
+      "createddate": "Ngày tạo",
+      "createdby": "Người tạo",
+      "status": "Trạng thái"
+    },
+    "listReceipt": {
+      "search": "Tìm kiếm",
+      "code": "Mã chứng từ",
+      "reason_re": "Lý do thu",
+      "detail_re": "Nội dung thu",
+      "amount": "Số tiền(VNĐ)",
+      "createddate": "Ngày tạo",
+      "createdby": "Người tạo",
+      "status": "Trạng thái",
+      "objectReceipt": "Đối tượng thu",
+      "no_record": "Không tồn tại bản ghi nào"
+    },
+    "gridReceipt": {
+      "search": "Tìm kiếm",
+      "code": "Mã chứng từ",
+      "reason_re": "Lý do thu",
+      "objectReceipt": "Đối tượng thu",
+      "detail_re": "Nội dung thu",
+      "amount": "Số tiền(VNĐ)",
+      "createddate": "Ngày tạo",
+      "createdby": "Người tạo",
+      "status": "Trạng thái"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc",
+      "switch": "Xem dạng thẻ"
+    },
+    "buttons": {
+      "importexcell": "Import Excel"
+    },
+    "receivable": {
+      "codeNameVendor": "Mã - Tên NCC",
+      "codeNameCustomer": "Mã - Tên khách hàng",
+      "transactionNearest": "Giao dịch gần nhất",
+      "totalSales": "Tổng đặt hàng(VND)",
+      "totalPaid": "Tổng đã thanh toán(VND)",
+      "totalUnpaid": "Số tiền còn phải trả(VND)",
+      "totalUnreceipt": "Số tiền còn phải thu(VND)",
+      "createdDate": "Ngày tạo",
+      "createdDateReceipt": "Ngày hạch toán",
+      "codeReceipt": "Mã phiếu",
+      "product": "Sản phẩm, dịch vụ",
+      "createdBy": "Người tạo",
+      "totalAmount": "Tổng giá trị",
+      "description": "Diễn giải"
+    }
+  },
+  "CompanyConfiguration": {
+    "create": {
+      "title": "Cấu hình hệ thống",
+      "info_company": "Thông tin công ty",
+      "companyName": "Tên công ty:",
+      "require": "*",
+      "TaxCode": "Mã số thuế",
+      "CompanyAddress": "Địa chỉ:",
+      "Phone": "Số điện thoại:",
+      "Email": "Email",
+      "ContactName": "Người đại diện:",
+      "ContactRole": "Chức vụ",
+      "ListBank": "Tài khoản ngân hàng",
+      "AddBank": "Thêm",
+      "buttons": {
+        "save": "Lưu",
+        "create_add": "Lưu và thêm mới",
+        "cancel": "Hủy",
+        "edit": "Sửa"
+      }
+    }
+  },
+  "budget": {
+    "list": {
+      "title": "Quản lý dự toán hàng tháng",
+      "buttons": {
+        "create": "Tạo dự toán",
+        "search": "Tìm kiếm"
+      },
+      "info-label": "Thông tin dự toán",
+      "EstimateYear": "Năm dự toán",
+      "EstimateMonth": "Tháng dự toán",
+      "DateCreate": "Ngày tạo",
+      "EstimateCode": "Mã dự toán",
+      "Content": "Nội dung",
+      "AmountMoney": "Số tiền",
+      "MonthEstimate": "Tháng"
+    }
+  },
+  "teachersalary": {
+    "list": {
+      "title": "Quản lý dự toán hàng tháng",
+      "buttons": {
+        "getsis": "Lấy thông tin từ SIS",
+        "search": "Tìm kiếm"
+      },
+      "info-label": "Thông tin dự toán",
+      "EstimateYear": "Năm dự toán",
+      "EstimateMonth": "Tháng dự toán",
+      "DateCreate": "Ngày tạo",
+      "EstimateCode": "Mã dự toán",
+      "Content": "Nội dung",
+      "AmountMoney": "Số tiền",
+      "MonthEstimate": "Tháng"
+    }
+  },
+  "sales": {
+    "title": "Dashboard bán hàng",
+    "start_date": "Từ ngày:",
+    "end_date": "Đến ngày:",
+    "department": "Phòng ban:",
+    "total_sales": "Tổng số doanh thu bán hàng theo kỳ đã chọn: ",
+    "table": {
+      "code_number": "Số đơn hàng",
+      "total_value": "Tổng giá trị",
+      "customer": "Khách hàng",
+      "name": "Tên nhân viên",
+      "total_revenue": "Tổng doanh thu",
+      "department": "Phòng",
+      "code_employee": "Tài khoản đăng nhập",
+      "revenue": "Doanh thu"
+    },
+    "view_all": "Xem tất cả",
+    "detail_order": "Chi tiết đơn hàng trong kỳ",
+    "revenue": "Doanh thu trong kỳ",
+    "percent_product_group": "Tỉ lệ doanh thu theo nhóm sản phẩm",
+    "top_employee": "Top nhân viên có doanh thu cao",
+    "chart_top_employee": "Biểu đồ top doanh thu theo nhân viên",
+    "statistic": {
+      "employee_top_revenue": {
+        "title": "Thống kê doanh thu theo nhân viên",
+        "employee": "Nhân viên: "
+      }
+    },
+    "no_data": {
+      "table_order": "Không có đơn hàng nào phát sinh trong kỳ",
+      "chart": "Không có doanh thu phát sinh trong kỳ"
+    },
+    "level": "Cấp độ nhóm"
+  },
+  "quote": {
+    "title": "Báo giá",
+    "search": "Bộ lọc",
+    "code": "Mã báo giá",
+    "name": "Tên khách hàng",
+    "date": "Ngày đặt",
+    "status": "Trạng thái",
+    "quantity": "Số lượng tồn kho",
+    "exportPdf": "Xuất PDF",
+    "buttons": {
+      "create": "Tạo mới",
+      "import": "Import Excel",
+      "export": "Xuất Excel"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc"
+    },
+    "list": {
+      "code": "Mã",
+      "name": "Đối tượng",
+      "orderdate": "Ngày đặt hàng",
+      "status": "Trạng thái",
+      "value": "Tổng giá trị",
+      "empname": "Nhân viên bán hàng"
+    },
+    "create": {
+      "title": "TẠO BÁO GIÁ",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "back": "Quay lại",
+      "create_add": "Lưu và thêm mới",
+      "info_order": "Thông tin đơn hàng",
+      "info_customer": "Thông tin khách hàng",
+      "info_delivery": "Thông tin giao hàng",
+      "code": "Mã đơn hàng:",
+      "hidden": " Sẽ được hệ thống tạo sau khi lưu",
+      "createdate": "Ngày tạo:",
+      "status": "Tình trạng:",
+      "employee": "Nhân viên bán hàng:",
+      "description": "Diễn giải:",
+      "note": "Ghi chú:",
+      "customer": "Khách hàng:",
+      "require": "*",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "address": "Địa chỉ:",
+      "contacter": "Người liên hệ:",
+      "paying": "Phương thức thanh toán:",
+      "day_in_debt": "Số ngày được nợ:",
+      "max_in_debt": "Số nợ tối đa:",
+      "delivery_date": "Ngày nhận:",
+      "delivery_hour": "Giờ nhận:",
+      "confirm_info": "Thông tin người nhận trùng với thông tin khách hàng",
+      "recipient_name": "Tên người nhận:",
+      "export_place": "Địa điểm xuất hàng:",
+      "delivery_place": "Địa điểm giao hàng:",
+      "list_product": "Danh sách sản phẩm, dịch vụ",
+      "create_product": "+ Thêm sản phẩm, dịch vụ",
+      "saveandcreate": "Lưu và tạo mới"
+    },
+    "edit": {
+      "Edit": "Sửa",
+      "Save": "Lưu",
+      "List": "Danh sách báo giá",
+      "View": "CHI TIẾT BÁO GIÁ"
+    },
+    "messages_error": {
+      "errormin": "Cần lớn hơn 0"
+    }
+  },
+  "customercare": {
+    "list": {
+      "title": "Theo dõi chương trình chăm sóc khách hàng",
+      "filtertitle": "Bộ lọc",
+      "btnCreate": "Tạo chương trình chăm sóc",
+      "labelfromdate": "Từ ngày",
+      "labeltodate": "Đến ngày",
+      "labelcustomercaretitle": "Tiêu đề",
+      "labelPic": "Người phụ trách",
+      "labelCustomercareStatus": "Trạng thái",
+      "labelCustomercareContent": "Nội dung chương trình",
+      "labelProgramType": "Loại chương trình",
+      "grid": {
+        "colCustomercareCode": "Mã CTCS",
+        "colCustomercareTitle": "Tiêu đề",
+        "colProgramType": "Loại chương trình",
+        "colCustomercareType": "Hình thức",
+        "colCustomercareStatus": "Trạng thái",
+        "colPic": "Người phụ trách",
+        "colFromdate": "Ngày bắt đầu",
+        "colTodate":"Ngày kết thúc"
+      }
+    }
+  },
+  "inventory_delivery_voucher":{
+    "create": {
+      "radioXHB": "Xuất bán hàng",
+      "radioXTLNCC": "Xuất trả lại nhà cung cấp",
+      "radioXBT": "Xuất hàng biếu tặng",
+      "radioXHKD": "Xuất hàng kiểm định",
+      "radioK": "Khác"
+    }
+  },
+  "module_system":{
+    "title": {
+      "sys": "Quản lý hệ thống",
+      "crm": "Quản trị QHKH (CRM)",
+      "sal": "Quản lý bán hàng",
+      "pay": "Quản lý mua hàng",
+      "acc": "Quản lý tài chính",
+      "emp": "Quản lý nhân sự",
+      "war": "Quản lý kho",
+      "pro": "Quản trị dự án"
+    }
+  },
+  "contract":{
+    "title":{
+      "add_contract": "Thêm mới hợp đồng",
+      "detail_contract": "Chi tiết hợp đồng",
+      "list_contract": "Danh sách hợp đồng"
+    },
+    "button":{
+      "save" : "Lưu",
+      "saveAndNew": "Lưu và Thêm mới",
+      "destroy": "Hủy",
+      "delete": "Xóa"
+    },
+    "create":{
+      "cus_information" : "Thông tin khách hàng",
+      "cus": "Khách hàng",
+      "email": "Email: ",
+      "phone": "Số điện thoại: ",
+      "address": "Địa chỉ: ",
+      "tax_code": "Mã số thuế: ",
+      "payment_method": "Phương thức thanh toán",
+      "account_paying": "Tài khoản thanh toán",
+      "bank_name": "Ngân hàng: ",
+      "bank_use":"Chủ tài khoản: ",
+      "bank_account": "Số tài khoản: ",
+      "branch": "Chi nhánh: ",
+      "contract_information": "Thông tin hợp đồng",
+      "contract_number": "Số hợp đồng: ",
+      "contract_num_content": " Sẽ được hệ thống tạo sau khi lưu",
+      "date_create": "Ngày tạo: ",
+      "emp_saler": "Nhân viên bán hàng",
+      "effective_date": "Ngày hiệu lực",
+      "type_contract": "Loại hợp đồng",
+      "quote": "Báo giá",
+      "sale_bidding": "Hồ sơ thầu: ",
+      "lead": "Cơ hội: ",
+      "main_contract": "Hợp đồng chính",
+      "value_contracy": "Giá trị hợp đồng",
+      "description": "Diễn giải",
+      "note":"Ghi chú", 
+      "product_detail": "Chi tiết sản phẩm, dịch vụ",
+      "add_product": "Thêm sản phẩm dịch vụ",
+      "terms_and_condition": "Điều khoản và điều kiện",
+      "title": "Tiêu đề",
+      "content": "Nội dung"
+    },
+    "error":{
+      "error_choose_cus" : "Chưa chọn khách hàng",
+      "error_choose_emp": "Chưa chọn nhân viên bán hàng",
+      "error_choose_effective_date": "Chưa chọn ngày hiệu lực",
+      "error_choose_type_contract": "Chưa chọn loại hợp đồng",
+      "error_choose_quote": "Chưa chọn báo giá",
+      "error_choose_main_contract": "Chưa chọn hợp đồng chính",
+      "error_choose_product": "Phải có ít nhất một sản phẩm dịch vụ được chọn"
+    }
+  },
+  "bill": {
+    "title": "Hóa đơn",
+    "search": "Bộ lọc",
+    "code": "Mã hóa đơn",
+    "buttons": {
+      "create": "Tạo mới",
+      "import": "Import Excel",
+      "export": "Xuất Excel"
+    },
+    "tooltip": {
+      "search": "Lọc",
+      "refresh": "Làm mới bộ lọc"
+    },
+    "list": {
+    },
+    "create": {
+      "title": "Tạo hóa đơn",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "back": "Quay lại",
+      "pay": "Thanh toán",
+      "list_order": "Danh sách hóa đơn",
+      "bill_date": "Ngày hóa đơn",
+      "end_date": "Ngày đến hạn",
+      "terms_of_payment": "Điều khoản thanh toán",
+      "create_add": "Lưu và thêm mới",
+      "info_bill": "Thông tin hóa đơn",
+      "detail_bill": "Chi tiết hóa đơn",
+      "code": "Số hóa đơn:",
+      "code_customer": "Mã khách hàng:",
+      "hidden": "sẽ được hệ thống tạo sau khi lưu",
+      "code_order": "Số đơn hàng:",
+      "status": "Trạng thái:",
+      "employee": "Nhân viên bán hàng:",
+      "description": "Diễn giải:",
+      "note": "Ghi chú:",
+      "bank_name": "Ngân hàng: ",
+      "account_name": "Chủ tài khoản: ",
+      "number_account": "Số tài khoản: ",
+      "branch_name": "Chi nhánh: ",
+      "invoice_symbol": "Kí hiệu mẫu hóa đơn",
+      "debt_account": "Tài khoản nợ:",
+      "customer_name": "Tên khách hàng",
+      "payment_methods": "Phương thức thanh toán",
+      "account_bank": "Tài khoản thanh toán",
+      "mst": "MST",
+      "create_cost": "Thêm thông tin chi phí",
+      "info_product": "Chi tiết sản phẩm dịch vụ",
+      "require": "*",
+      "info_cost":"Chi phí",
+      "info_order":"Thông tin đơn hàng",
+      "info_delivery":"Thông tin giao hàng",
+      "email": "Email:",
+      "phone": "Số điện thoại:",
+      "address": "Địa chỉ:",
+      "contacter": "Người liên hệ:",
+      "paying": "Phương thức thanh toán:",
+      "day_in_debt": "Số ngày được nợ:",
+      "max_in_debt": "Số nợ tối đa:",
+      "delivery_date": "Ngày nhận:",
+      "delivery_hour": "Giờ nhận:",
+      "confirm_info": "Thông tin người nhận trùng với thông tin khách hàng",
+      "recipient_name": "Tên người nhận:",
+      "export_place": "Địa điểm xuất hàng:",
+      "delivery_place": "Địa điểm giao hàng:",
+      "list_product": "Danh sách sản phẩm, dịch vụ",
+      "create_product": "+ Thêm sản phẩm, dịch vụ",
+      "saveandcreate": "Lưu và tạo mới",
+      "select_col": "Chọn cột",
+      "select_count_col": " cột được chọn",
+      "sum_after_vat": "Tổng tiền hàng trước thuế:",
+      "total_cost": "Tổng chi phí:",
+      "total_vat": "Tổng thuế VAT:",
+      "discount_order": "Chiết khấu theo tổng đơn hàng",
+      "total_discount_order": "Tổng tiền chiết khấu (VND):",
+      "total_pay_order": "Tổng thanh toán:",
+      "total_price_initial": "Tổng tiền vốn:",
+      "title_pay_order": "Tổng hợp đơn hàng",
+      "total_price_profit": "Lợi nhuận tạm tính:"
+    },
+    "edit": {
+      "Edit": "Sửa",
+      "Save": "Lưu",
+      "List": "Danh sách hóa đơn",
+      "View": "CHI TIẾT HÓA ĐƠN"
+    },
+    "messages_error": {
+      "errormin": "Cần lớn hơn 0",
+      "order":"Bạn chưa chọn đơn hàng",
+      "invoiceSymbol":"Bạn chưa nhập kí hiệu hóa đơn",
+      "customer":"Bạn chưa chọn khách hàng",
+      "customer_address":"Bạn chưa nhập địa chỉ khách hàng",
+      "customer_name":"Bạn chưa nhập tên khách hàng",
+      "employee":"Bạn chưa chọn nhân viên bán hàng",
+      "billDate":"Bạn chưa chọn ngày hóa đơn",
+      "bankAccount":"Bạn chưa chọn tài khoản thanh toán",
+      "paymentMethod":"Bạn chưa chọn phương thức thanh toán",
+      "customerMST":"Bạn chưa nhập mst của khách hàng"
+    }
+  },
+  "vendor-price-product":{
+    "list":{
+      "title": "Bảng giá nhà cung cấp",
+      "order_follow": "sắp xếp theo ngày tạo mới nhất",
+      "update_time": "bản ghi cập nhật ngày",
+      "create": "Tạo mới",
+      "filter": "Bộ lọc",
+      "product_name": "Tên sản phẩm",
+      "vendor_name": "Tên nhà cung cấp",
+      "enter_vendor_name": "Nhập tên nhà cung cấp",
+      "enter_product_name": "Nhập tên sản phẩm",
+      "search": "Tìm kiếm",
+      "manipulation": "Thao tác"
+    }
+  },
+  "procurement-request": { 
+    "create": {
+      "save": "Lưu",
+      "exit": "Thoát",
+      "send_approval": "Gửi phê duyệt",
+      "approval": "Phê duyệt",
+      "reject": "Từ chối",
+      "delete": "Xóa",
+      "new": "Đặt về nháp",
+      "cancel": "Hủy",
+      "create_order_pay": "Tạo đơn hàng mua",
+      "note": "Ghi chú",
+      "create_note": "Thêm ghi chú",
+      "edit_note": "Cập nhật ghi chú",
+      "create_order_vendor": "Tạo đề nghị báo giá NCC",
+      "description": "Diễn giải:",
+      "file_choose": "Chọn file",
+      "file_cancel": "Hủy toàn bộ file",
+      "unit_choose": "Chọn đơn vị",
+      "position": "Chức vụ:",
+      "unit": "Đơn vị:",
+      "status": "Trạng thái:",
+      "action": "Thao tác",
+      "map_order": "Tham chiếu:",
+      "content-request": "Nội dung yêu cầu:",
+      "procurement-request-code": "Mã đề xuất:",
+      "create-date": "Ngày tạo:",      
+      "person_request": "Người yêu cầu:",      
+      "person_approval": "Người phê duyệt:",      
+      "phone": "Số điện thoại:",      
+      "create_product": "Thêm sản phẩm, dịch vụ",
+      "total_amount_text": "Thành tiền (VND): ",
+      "code-create-text": "Sẽ được hệ thống tạo sau khi lưu",
+      "title-create": "Tạo đề xuất mua hàng mới",
+      "title-infor-procurement": "Thông tin đề xuất",
+      "file_max": "file kích cỡ quá lớn",
+      "file_max_value": "kích cỡ lớn nhất có thể lưu là",
+      "file_no_format": "định dạng file bị cấm",
+      "file_choose_format": "bạn chỉ có thể lưu các file có định dạng như:",
+      "info_list_product": "Danh sách sản phẩm, dịch vụ đề xuất",
+      "column_choosed": "cột được chọn",
+      "column_choose": "Chọn cột",
+      "search_code_MDT": "Tra cứu mã dự toán",
+      "history": "Dòng thời gian",
+      "delete_note": "Xóa ghi chú",
+      "hiden": "Thu gọn",
+      "show": "Mở rộng",
+      "info_title_detail": "Chi tiết đề xuất mua hàng",
+      "table": {
+        "productName": "Tên sản phẩm",
+        "productCode": "Mã sản phẩm",
+        "vendorName": "Nhà cung cấp",
+        "procurementPlanCode": "Mã dự toán",
+        "productUnit": "Đơn vị tính",
+        "quantity": "Số lượng",
+        "unitPrice": "Đơn giá",
+        "exchangeRate": "Tỷ giá",
+        "amount": "Thành tiền(VND)"
+      },
+      "edit_success": "Sửa đề xuất đặt hàng thành công",
+      "add_file_success": "Thêm file thành công",
+      "add_note_success": "Lưu ghi chú thành công",
+      "del_note_success": "Xóa ghi chú thành công",
+      "send_approval_success": "Gửi phê duyệt thành công",
+      "approval_success": "Phê duyệt thành công",
+      "reject_success": "Từ chối phê duyệt thành công",
+      "new_success": "Đặt về nháp thành công",
+      "cancel_success": "Hủy đề xuất thành công",
+      "cancel_approval_success": "Hủy yêu cầu phê duyệt thành công",
+      "text_add_note": "đã thêm ghi chú",
+      "product": "Sản phẩm",
+      "product_choose": "Chọn sản phẩm",
+      "vendor": "Nhà cung cấp",
+      "vendor_choose": "Chọn nhà cung cấp",
+      "product_unit": "Đơn vị tính",
+      "code_MDT": "Mã dự toán",
+      "code_MDT_choose": "Chọn mã dự toán",
+      "money_type": "Loại tiền",
+      "exchange_rate": "Tỷ giá",
+      "price": "Đơn giá",
+      "product_code": "Mã sản phẩm",
+      "quantity": "Số lượng",
+      "cancel_approval": "Hủy yêu cầu phê duyệt"
+    },   
+    "list": {
+      "title_content": "Danh sách đề xuất mua hàng",
+      "title_content_report": "Báo cáo tình trạng đề xuất mua hàng",
+      "title_note": "đầu mục - Sắp xếp theo ngày gần nhất - Cập nhật ",
+      "create": "Tạo mới",
+      "filler": "Bộ lọc",
+      "filler_up": "Bộ lọc nâng cao",
+      "place_text_search": "Tìm kiếm trong danh sách",
+      "code": "Mã phiếu",
+      "product": "Sản phẩm dịch vụ",
+      "vendor": "Nhà cung cấp",
+      "vendor_choose": "Chọn nhà cung cấp",
+      "vendor_choosed": "nhà cung cấp được chọn",
+      "content_request": "Nội dung yêu cầu",
+      "product_choose": "Chọn sản phẩm dịch vụ",
+      "product_choosed": "sản phẩm được chọn",
+      "person_request": "Người yêu cầu",
+      "person_request_choose": "Chọn người yêu cầu",
+      "person_request_choosed": "người tạo được chọn",
+      "person_approval": "Người phê duyệt",
+      "person_approval_choose": "Chọn người phê duyệt",
+      "person_approval_choosed": "người duyệt được chọn",
+      "mdt": "Mã dự toán",
+      "mdt_choose": "Chọn mã dự toán",
+      "mdt_choosed": "mã dự toán được chọn",
+      "from_date": "Từ ngày",
+      "to_date": "Đến ngày",
+      "status": "Trạng thái",
+      "status_choose": "Chọn trạng thái",
+      "status_choosed": "trạng thái được chọn",
+      "unit": "Chọn bộ phận",
+      "tree_unit": "(Xem sơ đồ tổ chức)",
+      "search": "Tìm kiếm",
+      "no_data": "Hiện tại không có dữ liệu",
+      "no_search_data": "Không tìm thấy đề xuất mua hàng nào!"
+    },
+    "messages_title": {
+      "title_info": "Thông báo: ",
+      "title_confirm": "Xác nhận",
+      "title_confirm_OK": "Chấp nhận",
+      "title_confirm_NO": "Không",
+      "title_info_reject": "Lý do",
+      "title_warning": "CẢNH BÁO"
+    },
+    "messages_confirm": {
+      "delete_confirm": "Bạn chắc chắn muốn xóa?",
+      "delete_confirm_order": "Bạn chắc chắn muốn xóa đề xuất này?",
+      "cancel_confirm_note": "Bạn chắc chắn muốn hủy ghi chú này?",
+      "delete_confirm_note": "Bạn chắc chắn muốn xóa ghi chú này?",
+      "confirm_send_approval": "Bạn chắc chắn muốn gửi phê duyệt đề xuất này?",
+      "confirm_approval": "Bạn chắc chắn muốn phê duyệt đề xuất này?",
+      "confirm_reject": "Bạn chắc chắn muốn từ chối đề xuất này?",
+      "confirm_cancel": "Bạn chắc chắn muốn hủy đề xuất này?",
+      "confirm_edit_new": "Bạn chắc chắn muốn đặt về mới đề xuất này?",
+      "confirm_cancel_approval": "Bạn có chắc chắn muốn hủy yêu cầu phê duyệt cho đề xuất này?"
+    },    
+    "messages_error": {
+      "no_input": "Không được để trống",
+      "error_format_phone": "Sai định dạng điện thoại",
+      "no_input_content": "Chưa nhập nội dung yêu cầu",
+      "no_product": "Chưa có sản phẩm, dịch vụ đề xuất",
+      "no_prduct": "Không có sản phẩm dịch vụ",
+      "no_MDT": "Không có mã dự toán phù hợp",
+      "quatity_min0": "Số lượng cần lớn hơn 0",
+      "exchange_min0": "Tỷ giá cần lớn hơn 0"
+    }
+  },
+  "vendor-order": {
+    "create": {
+      "button": {
+        "cancel": "Hủy",
+        "save_and_new": "Lưu và Thêm mới",
+        "save": "Lưu"
+      }
+    }
+  }
+}

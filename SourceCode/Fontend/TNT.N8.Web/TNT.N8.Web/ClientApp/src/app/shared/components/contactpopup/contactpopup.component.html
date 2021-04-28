@@ -1,0 +1,174 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="cus-contact-popup">
+  <form [formGroup]="createContactForm">
+  <div class="row no-margin">
+    <div class="col-md-12" style="margin-top: 5px;">
+      <div class="row">
+        <div class="col-md-4" style="margin-top: 20px;">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Giới tính</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown [options]="listGenders" formControlName="genderControl"
+                          placeholder="Chọn giới tính" [showClear]="true"
+                          optionLabel="name" [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4" style="margin-top: 20px;">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Họ và Tên đệm</span><span style="color: red;">*</span>
+            </div>
+            <div class="col-md-12">
+              <span class="ui-float-label">
+                <input id="firstName" class="w100" type="text" formControlName="firstNameControl" pInputText style="height: 34px;"
+                      [ngClass]="(firstNameControl.invalid && (firstNameControl.dirty || firstNameControl.touched)) ? 'error-border': ''"> 
+              </span>
+            </div>
+            <div class="col-md-12" [hidden]="firstNameControl.valid || firstNameControl.untouched">
+              <span *ngIf="firstNameControl.hasError('required')" class="error-message-span">Không được để trống</span>
+              <span *ngIf="firstNameControl?.errors?.maxlength" class="error-message-span">Tối đa 100 ký tự</span>
+              <span *ngIf="firstNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để trắng</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4" style="margin-top: 20px;">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Tên</span><span style="color: red;">*</span>
+            </div>
+            <div class="col-md-12">
+              <span class="ui-float-label">
+                <input id="lastName" class="w100" type="text" formControlName="lastNameControl" pInputText style="height: 34px;"
+                      [ngClass]="(lastNameControl.invalid && (lastNameControl.dirty || lastNameControl.touched)) ? 'error-border': ''"> 
+              </span>
+            </div>
+            <div class="col-md-12" [hidden]="lastNameControl.valid || lastNameControl.untouched">
+              <span *ngIf="lastNameControl.hasError('required')" class="error-message-span">Không được để trống</span>
+              <span *ngIf="lastNameControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký tự</span>
+              <span *ngIf="lastNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để trắng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Ngày sinh</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar id="dateOfBirth" formControlName="dateOfBirthControl" [yearNavigator]="true" yearRange="1960:2020"
+                dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                [baseZIndex]="999" showButtonBar="true"></p-calendar>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Email</span>
+            </div>
+            <div class="col-md-12">
+              <span class="ui-float-label">
+                <input class="w100" type="text" formControlName="emailContactControl" pInputText style="height: 34px;"
+                      [ngClass]="(emailContactControl.invalid && (emailContactControl.dirty || emailContactControl.touched)) ? 'error-border': ''"> 
+              </span>
+            </div>
+            <div class="col-md-12" [hidden]="emailContactControl.valid || emailContactControl.untouched">
+              <span *ngIf="emailContactControl.hasError('pattern')" class="error-message-span">Sai định dạng. </span>
+              <span *ngIf="emailContactControl?.errors?.maxlength" class="error-message-span">Tối đa 100 ký tự</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Phone</span><span style="color: red;">*</span>
+            </div>
+            <div class="col-md-12">
+              <span class="ui-float-label">
+                <input id="phone" class="w100" type="text" formControlName="phoneContactControl" pInputText style="height: 34px;"
+                      [ngClass]="(phoneContactControl.invalid && (phoneContactControl.dirty || phoneContactControl.touched)) ? 'error-border': ''"> 
+              </span>
+            </div>
+            <div class="col-md-12" [hidden]="phoneContactControl.valid || phoneContactControl.untouched">
+              <span *ngIf="phoneContactControl.hasError('required')" class="error-message-span">Không được để trống</span>
+              <span *ngIf="phoneContactControl.hasError('pattern')" class="error-message-span">Sai định dạng. </span>
+              <span *ngIf="phoneContactControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký tự</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-md-4">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Chức vụ</span>
+            </div>
+            <div class="col-md-12">
+              <span class="ui-float-label">
+                <input id="role" class="w100" type="text" formControlName="roleControl" pInputText style="height: 34px;"
+                      [ngClass]="(roleControl.invalid && (roleControl.dirty || roleControl.touched)) ? 'error-border': ''"> 
+              </span>
+            </div>
+            <div class="col-md-12" [hidden]="roleControl.valid || roleControl.untouched">
+              <span *ngIf="roleControl?.errors?.maxlength" class="error-message-span">Tối đa 100 ký tự</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-md-8">
+          <div class="row">
+            <div class="col-md-12">
+              <span>Địa chỉ</span>
+            </div>
+            <div class="col-md-12">
+              <input class="w100" type="text" formControlName="addressControl" pInputText style="height: 34px;">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 20px;">
+        <div class="col-md-12">
+          <span>Thông tin khác</span>
+        </div>
+        <div class="col-md-12">
+          <span class="ui-float-label">
+            <input id="other" class="w100" type="text" formControlName="otherControl" pInputText style="height: 34px;"
+                  [ngClass]="(otherControl.invalid && (otherControl.dirty || otherControl.touched)) ? 'error-border': ''"> 
+          </span>
+        </div>
+        <div class="col-md-12" [hidden]="otherControl.valid || otherControl.untouched">
+          <span *ngIf="otherControl?.errors?.maxlength" class="error-message-span">Tối đa 500 ký tự</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 25px;">
+        <div class="col-md-12">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="save()" [disabled]="awaitResponse"><span class="save-label">Lưu</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>

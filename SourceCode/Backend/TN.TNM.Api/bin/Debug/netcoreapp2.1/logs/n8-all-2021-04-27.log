@@ -1,0 +1,9 @@
+2021-04-27 10:21:01.4822||INFO|Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager|User profile is available. Using 'C:\Users\TriNghia-PC22\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest. 
+2021-04-27 10:21:02.4986|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5001/   
+2021-04-27 10:21:02.4986|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 DEBUG http://localhost:5001/  0 
+2021-04-27 10:21:02.5510|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 52.9138ms 200  
+2021-04-27 10:21:02.9800|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 482.1583ms 404  
+2021-04-27 10:21:34.4443|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5001/api/bankAccount/createBankAccount   
+2021-04-27 10:21:34.4643|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 19.9651ms 404  
+2021-04-27 10:22:24.6419|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5001/api/bankAccount/createBankAccount   
+2021-04-27 10:22:24.6539|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 12.0349ms 404  

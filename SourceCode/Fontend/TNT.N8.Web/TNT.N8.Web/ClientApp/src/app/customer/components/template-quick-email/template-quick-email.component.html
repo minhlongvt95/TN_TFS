@@ -1,0 +1,87 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="template-quick-email">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form class="form-group" [formGroup]="formQuickEmail">
+        <div class="row">
+          <div class="col-md-2">Email người nhận</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <input type="text" class="w100" pInputText formControlName="emailControl"
+                  [ngClass]="(emailControl.invalid && (emailControl.dirty || emailControl.touched)) ? 'error-border': ''" />
+              </div>
+              <div class="col-md-12" [hidden]="emailControl.valid || emailControl.untouched">
+                <span *ngIf="emailControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                <span *ngIf="emailControl.hasError('email')" class="error-message-span">Sai định dạng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-2">Tiêu đề</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <input #autofocus type="text" class="w100" pInputText formControlName="titleControl"
+                  [ngClass]="(titleControl.invalid && (titleControl.dirty || titleControl.touched)) ? 'error-border': ''" />
+              </div>
+              <div class="col-md-12" [hidden]="titleControl.valid || titleControl.untouched">
+                <span *ngIf="titleControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                <span *ngIf="titleControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để
+                  trắng</span>
+                <span *ngIf="titleControl?.errors?.maxlength" class="error-message-span">Tối đa 200 ký tự</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-2">Nội dung</div>
+          <div class="col-md-7">
+            <div class="row">
+              <div class="col-md-12">
+                <p-editor formControlName="contentControl" [style]="{'height':'180px', 'width': '100%'}"
+                  (onTextChange)="changeNoteContent($event)"
+                  [styleClass]="(contentControl.invalid  && (contentControl.dirty || contentControl.touched)) ? 'error-border': ''">
+                </p-editor>
+              </div>
+              <div class="col-md-12" [hidden]="contentControl.valid || contentControl.untouched">
+                <span *ngIf="contentControl.hasError('required')" class="error-message-span">Nội dung không được để
+                  trống</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <!-- <span class="color-link" (click)="selectEmailTemplate()">Chọn email mẫu</span> -->
+            <div class="note">
+              <p>Chú thích:</p>
+              <p class="color-link" (click)="replate_token(name)">- {{name}}: Tên khách hàng</p>
+              <p class="color-link" (click)="replate_token(hotline)">- {{hotline}}: Số hotline</p>
+              <p class="color-link" (click)="replate_token(address)">- {{address}}: Địa chỉ công ty</p>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendEmail()" [disabled]="awaitResult"><span
+                class="save-label">Gửi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

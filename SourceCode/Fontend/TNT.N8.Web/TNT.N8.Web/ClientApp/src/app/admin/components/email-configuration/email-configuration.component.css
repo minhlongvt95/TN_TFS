@@ -1,0 +1,59 @@
+.email-config .required, 
+.email-config .error-message-span {
+    color:red
+}
+
+.email-config .buffer-top {
+    margin-top: 1.2rem !important;
+}
+
+.email-config .buffer-bottom {
+    margin-bottom: 1.2rem !important;
+}
+
+.email-config .full-width {
+    width: 100% !important; 
+}
+
+.email-config .text-label {
+  line-height: 2.3rem;
+}
+
+.email-config .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/*Begin: Customize Accordion */
+::ng-deep .email-config .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+  }
+  
+  ::ng-deep .email-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .email-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .email-config .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .email-config .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+  }
+  
+  ::ng-deep .email-config .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+  }
+  
+  /*End: Customize Accordion */

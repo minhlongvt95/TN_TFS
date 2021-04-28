@@ -1,0 +1,1286 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="create-customer col-md-12">
+  <div class="header-top">
+    <div class="row bottom-buffer" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+            <div class="header">Thêm khách hàng</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 header-botton">
+        <div class="row" style="display: flex; justify-content: flex-end; margin-right: 0px;">
+          <div style="padding-right: 10px;" *ngIf="customerType == 1">
+            <span *ngIf="!isInvalidForm">
+              <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+            </span>
+            <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+              <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+            </div>
+            <div class="notification" #notifi *ngIf="isOpenNotifiError">
+              <div
+                *ngIf="((companyCustomerForm.get('CustomerCode').hasError('required') || companyCustomerForm.get('CustomerCode').hasError('blankString')))"
+                class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập mã khách hàng</span>
+              </div>
+              <div
+                *ngIf="((companyCustomerForm.get('CompanyName').hasError('required') || companyCustomerForm.get('CompanyName').hasError('blankString')))"
+                class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập tên công ty</span>
+              </div>
+              <div *ngIf="((companyCustomerForm.get('Phone').hasError('required')))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập số điện thoại</span>
+              </div>
+              <div
+                *ngIf="((companyCustomerForm.get('CustomerTax').hasError('required') || companyCustomerForm.get('CustomerTax').hasError('blankString')))"
+                class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập số mã số thuế</span>
+              </div>
+              <div *ngIf="(((companyCustomerForm.get('provinceControl').invalid && (companyCustomerForm.get('provinceControl').dirty || companyCustomerForm.get('provinceControl').touched)) ||
+                            (companyCustomerForm.get('districtControl').invalid && (companyCustomerForm.get('districtControl').dirty || companyCustomerForm.get('districtControl').touched)) ||
+                            (companyCustomerForm.get('wardControl').invalid && (companyCustomerForm.get('wardControl').dirty || companyCustomerForm.get('wardControl').touched)) ||
+                            (companyCustomerForm.get('addressControl').invalid && (companyCustomerForm.get('addressControl').dirty || companyCustomerForm.get('addressControl').touched))
+                            ))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập thông tin địa chỉ</span>
+              </div>
+              <div *ngIf="(companyCustomerForm.get('CustomerCode').hasError('duplicateCode'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Trùng mã khách hàng</span>
+              </div>
+              <div *ngIf="(companyCustomerForm.get('Email').hasError('pattern'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Sai định dạng email</span>
+              </div>
+              <div *ngIf="(companyCustomerForm.get('Phone').hasError('pattern'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Sai định dạng số điện thoại</span>
+              </div>
+              <div *ngIf="(companyCustomerForm.get('CustomerTax').hasError('duplicateCode'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Trùng mã số thuế</span>
+              </div>
+              <div *ngIf="(companyCustomerForm.get('SaleEmployee').hasError('required'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa chọn Nhân viên bán hàng</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding-right: 10px;" *ngIf="customerType == 2">
+            <span *ngIf="!isInvalidFormCN">
+              <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+            </span>
+            <div class="box-waring" *ngIf="isInvalidFormCN" #toggleButton (click)="toggleNotifiErrorCN()">
+              <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+            </div>
+            <div class="notification" #notifi *ngIf="isOpenNotifiErrorCN">
+              <div
+                *ngIf="((personalCustomerForm.get('FirstName').hasError('required') || personalCustomerForm.get('FirstName').hasError('blankString') ||
+                            personalCustomerForm.get('LastName').hasError('required') || personalCustomerForm.get('LastName').hasError('blankString')))"
+                class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập họ tên khách hàng</span>
+              </div>
+              <div
+                *ngIf="((personalCustomerForm.get('PersonalPhone').hasError('required') ||
+                            personalCustomerForm.get('PersonalPhoneWork').hasError('required') || personalCustomerForm.get('PersonalPhoneOther').hasError('required')))"
+                class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập số điện thoại</span>
+              </div>
+              <div *ngIf="(((personalCustomerForm.get('provinceControl').invalid && (personalCustomerForm.get('provinceControl').dirty || personalCustomerForm.get('provinceControl').touched)) ||
+                            (personalCustomerForm.get('districtControl').invalid && (personalCustomerForm.get('districtControl').dirty || personalCustomerForm.get('districtControl').touched)) ||
+                            (personalCustomerForm.get('wardControl').invalid && (personalCustomerForm.get('wardControl').dirty || personalCustomerForm.get('wardControl').touched)) ||
+                            (personalCustomerForm.get('addressControl').invalid && (personalCustomerForm.get('addressControl').dirty || personalCustomerForm.get('addressControl').touched))
+                            ))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa nhập thông tin địa chỉ</span>
+              </div>
+
+              <div *ngIf="(personalCustomerForm.get('PersonalPhone').hasError('pattern') || personalCustomerForm.get('PersonalPhoneWork').hasError('pattern') ||
+                            personalCustomerForm.get('PersonalPhoneOther').hasError('pattern'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Sai định dạng số điện thoại</span>
+              </div>
+              <div *ngIf="(personalCustomerForm.get('PersonalEmail').hasError('pattern') || personalCustomerForm.get('PersonalEmailWork').hasError('pattern')
+                            || personalCustomerForm.get('PersonalEmailOther').hasError('pattern'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Sai định dạng email</span>
+              </div>
+              <div *ngIf="(personalCustomerForm.get('SaleEmployee').hasError('required'))" class="notifi-row">
+                <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                <span class="notifi-text">Chưa chọn Nhân viên bán hàng</span>
+              </div>
+            </div>
+          </div>
+          <button (click)="onCancel()" pButton type="button" class="cancel-cus-btn" style="margin-right: 1rem;"><span
+              class="cancel-cus-btn-text">Hủy</span></button>
+          <button *ngIf="actionAdd" #saveAndCreate (click)="onSaveCustomer('save_new')" pButton type="button"
+            class="save-create-cus-btn" style="margin-right: 1rem;"><span class="save-create-cus-btn-text">Lưu và tạo
+              mới</span></button>
+          <button *ngIf="actionAdd" #save (click)="onSaveCustomer('save')" pButton type="button"
+            class="save-cus-btn"><span class="save-cus-btn-text">Lưu</span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row header-line">
+  </div>
+  <div class="row no-margin body-wrapper col-md-12" id="parent" *ngIf="customerType == 1">
+    <div class="col-md-12 no-marginleft">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down"
+        *ngIf="customerType == 1">
+        <p-accordionTab header="Thông tin khách hàng" [selected]="true">
+          <div class="col-md-12 select-box bottom-buffer">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row bottom-buffer">
+                  <div class="col-md-6">
+                    <p-radioButton name="CustomerTypeCompanyForm" value="1" [(ngModel)]="customerType"
+                      label="Doanh nghiệp">
+                    </p-radioButton>
+                  </div>
+                  <div class="col-md-6">
+                    <p-radioButton name="CustomerTypeCompanyForm" value="2" [(ngModel)]="customerType" label="Cá nhân">
+                    </p-radioButton>
+                  </div>
+                </div>
+                <div class="row">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span style="font-weight: bold; font-size: 14px;">Thông tin người liên hệ</span>
+                  </div>
+                  <div class="col-md-6" style="text-align: right;">
+                    <button pButton type="button" label="Thêm người liên hệ" (click)="addCustomerContact()"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- khach hang doanh nghiep -->
+          <div *ngIf="customerType == 1" class="col-md-6">
+            <form [formGroup]="companyCustomerForm">
+              <div class="row top-buffer bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-5 buffer-bottom-label">
+                      Nhóm khách hàng
+                    </div>
+                    <div class="col-md-7">
+                      <p-dropdown class="customer-dropdown" formControlName="CustomerGroup"
+                        [options]="listCustomerGroup" optionLabel="categoryName" [autoDisplayFirst]="false"
+                        placeholder="" [showClear]="true">
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="companyCustomerForm.get('CustomerGroup').valid || companyCustomerForm.get('CustomerGroup').untouched">
+                      <span *ngIf="companyCustomerForm.get('CustomerGroup').hasError('required')"
+                        class="error-message-span">Chưa chọn nhóm khách hàng</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                      <p-checkbox name="chooseCustomer" formControlName="chooseCustomer" value="CUS" label="Khách hàng"
+                        [(ngModel)]="chooseCusVenEmp" inputId="CUS"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                      <p-checkbox name="chooseCustomer" formControlName="chooseVendor" value="VEN" label="Nhà cung cấp"
+                        [(ngModel)]="chooseCusVenEmp" inputId="VEN"></p-checkbox>
+                    </div>
+                    <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                      <p-checkbox name="chooseCustomer" formControlName="chooseEmployee" value="EMP" label="Nhân viên"
+                        [(ngModel)]="chooseCusVenEmp" inputId="EMP"></p-checkbox>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      <span style="padding-right: 15px;">Mã khách hàng<span class="required">*</span></span>
+                      <p-checkbox [(ngModel)]="isCustomerCodeLikeTaxCode" (onChange)="changeMKH()" [binary]="true"
+                        formControlName="isCustomerCodeLikeTaxCodeControl" label="Mã khách hàng là MST"></p-checkbox>
+                      <!-- <mat-checkbox style="margin-left: 15px" id="isCustomerCodeLikeTaxCodeControl"
+                                                formControlName="isCustomerCodeLikeTaxCodeControl"
+                                                name="isCustomerCodeLikeTaxCodeControl" [checked]=true
+                                                [(ngModel)]="isCustomerCodeLikeTaxCodeControl"><span style="font-size:14px;font-weight:normal">Mã khách hàng là MST</span></mat-checkbox> -->
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="20" formControlName="CustomerCode" type="text" pInputText placeholder=""
+                        [ngClass]="(companyCustomerForm.get('CustomerCode').invalid && (companyCustomerForm.get('CustomerCode').dirty || companyCustomerForm.get('CustomerCode').touched)) ? 'error-border' : ''"
+                        (keypress)="customerCodePattern($event)" (change)="changeMKH()" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="companyCustomerForm.get('CustomerCode').valid || companyCustomerForm.get('CustomerCode').untouched">
+                      <span
+                        *ngIf="companyCustomerForm.get('CustomerCode').hasError('required') || companyCustomerForm.get('CustomerCode').hasError('blankString')"
+                        class="error-message-span">Không được để trống</span>
+                      <span *ngIf="companyCustomerForm.get('CustomerCode').hasError('duplicateCode')"
+                        class="error-message-span">Trùng mã khách hàng</span>
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Tên công ty<span class="required">*</span>
+                    </div>
+                    <div class="col-md-12">
+                      <p-autoComplete maxlength="100" formControlName="CompanyName" [suggestions]="filteredCustomer"
+                        (completeMethod)="filterCustomerName($event)" field="customerName"
+                        [styleClass]="(companyCustomerForm.get('CompanyName').invalid && (companyCustomerForm.get('CompanyName').dirty || companyCustomerForm.get('CompanyName').touched)) ? 'error-border' : ''">
+                        <ng-template let-customer pTemplate="item">
+                          <div class="customer-item">
+                            <div (click)="goToDetail(customer.customerId)">{{customer.customerName}}</div>
+                          </div>
+                        </ng-template>
+                      </p-autoComplete>
+                      <!-- <input maxlength="100" formControlName="CompanyName" type="text" pInputText placeholder=""
+                        [ngClass]="(companyCustomerForm.get('CompanyName').invalid && (companyCustomerForm.get('CompanyName').dirty || companyCustomerForm.get('CompanyName').touched)) ? 'error-border' : ''" /> -->
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="companyCustomerForm.get('CompanyName').valid || companyCustomerForm.get('CompanyName').untouched">
+                      <span
+                        *ngIf="companyCustomerForm.get('CompanyName').hasError('required') || companyCustomerForm.get('CompanyName').hasError('blankString')"
+                        class="error-message-span">Không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Email
+                      <!-- <span class="required">*</span> -->
+                    </div>
+                    <div class="col-md-12">
+                      <!-- (change)="onCheckDuplicateCustomer('checkByEmail', 'Email',companyCustomerForm.get('Email'), 1)" -->
+                      <input
+                        (change)="checkDuplicateInforCustomer(1, companyCustomerForm.get('Email'))"
+                        maxlength="100" formControlName="Email" type="text" pInputText placeholder=""
+                        [ngClass]="(companyCustomerForm.get('Email').invalid && (companyCustomerForm.get('Email').dirty || companyCustomerForm.get('Email').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="companyCustomerForm.get('Email').valid || companyCustomerForm.get('Email').untouched">
+                      <span *ngIf="companyCustomerForm.get('Email').hasError('required')"
+                        class="error-message-span">Nhập
+                        Email</span>
+                      <span *ngIf="companyCustomerForm.get('Email').hasError('pattern')" class="error-message-span">Sai
+                        định
+                        dạng Email</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Số điện thoại<span class="required">*</span>
+                    </div>
+                    <div class="col-md-12">
+                      <!-- (change)="onCheckDuplicateCustomer('checkByPhone', 'Phone',companyCustomerForm.get('Phone'), 1)" -->
+                      <input
+                        (change)="checkDuplicateInforCustomer(2,  companyCustomerForm.get('Phone'))"
+                        (keypress)="PhonePattern($event)" maxlength="32" formControlName="Phone" type="text" pInputText
+                        placeholder=""
+                        [ngClass]="(companyCustomerForm.get('Phone').invalid && (companyCustomerForm.get('Phone').dirty || companyCustomerForm.get('Phone').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="companyCustomerForm.get('Phone').valid || companyCustomerForm.get('Phone').untouched">
+                      <span *ngIf="companyCustomerForm.get('Phone').hasError('required')"
+                        class="error-message-span">Nhập
+                        Số
+                        điện thoại</span>
+                      <span *ngIf="companyCustomerForm.get('Phone').hasError('pattern')" class="error-message-span">Sai
+                        định
+                        dạng Số điện thoại</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Mã số thuế
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="20" formControlName="CustomerTax" type="text" pInputText placeholder=""
+                        (keypress)="customerCodePattern($event)" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label" style="padding-top: 3px;">
+                      <label class="col-md-4 no-marginleft">Địa chỉ</label>
+                      <div class="col-md-4" style="padding-left: 25px;">
+                        <p-radioButton name="isIsLandCompanyForm" (onClick)="isInlandOnChange()" [(ngModel)]="isInland"
+                          formControlName="isInlandControl" value="1" label="Trong nước">
+                        </p-radioButton>
+                      </div>
+                      <div class="col-md-4" style="padding-left: 35px;">
+                        <p-radioButton name="isIsLandCompanyForm" (onClick)="isInlandOnChange()" [(ngModel)]="isInland"
+                          formControlName="isInlandControl" value="2" label="Ngoài nước">
+                        </p-radioButton>
+                      </div>
+                    </div>
+                    <div class="col-md-4" *ngIf="isInland == 1">
+                      <p-dropdown class="customer-dropdown" (onChange)="changeProvince($event)"
+                        formControlName="provinceControl" [options]="listProvince"
+                        [styleClass]="(companyCustomerForm.get('provinceControl').invalid && (companyCustomerForm.get('provinceControl').dirty || companyCustomerForm.get('provinceControl').touched)) ? 'error-border' : ''"
+                        optionLabel="provinceName" [autoDisplayFirst]="false" placeholder="Tỉnh/Thành phố"
+                        [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-4" *ngIf="isInland == 1">
+                      <p-dropdown class="customer-dropdown" (onChange)="changeDistrict($event)"
+                        formControlName="districtControl"
+                        [styleClass]="(companyCustomerForm.get('districtControl').invalid && (companyCustomerForm.get('districtControl').dirty || companyCustomerForm.get('districtControl').touched)) ? 'error-border' : ''"
+                        [options]="listDistrict" optionLabel="districtName" [autoDisplayFirst]="false"
+                        placeholder="Quận/huyện" [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-4" *ngIf="isInland == 1">
+                      <p-dropdown class="customer-dropdown" formControlName="wardControl" [options]="listWard"
+                        optionLabel="wardName"
+                        [styleClass]="(companyCustomerForm.get('wardControl').invalid && (companyCustomerForm.get('wardControl').dirty || companyCustomerForm.get('wardControl').touched)) ? 'error-border' : ''"
+                        [autoDisplayFirst]="false" placeholder="Xã/phường" [showClear]="true" [filter]="true"
+                        [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12" style="margin-top: 10px;">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-4">
+                      <p-dropdown class="customer-dropdown" formControlName="areaControl" [options]="listArea"
+                        optionLabel="geographicalAreaName" [autoDisplayFirst]="false" placeholder="Khu vực"
+                        [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                    <div class="col-md-8">
+                      <input maxlength="100" formControlName="addressControl" type="text" pInputText placeholder=""
+                        [ngClass]="(companyCustomerForm.get('addressControl').invalid && (companyCustomerForm.get('addressControl').dirty || companyCustomerForm.get('addressControl').touched)) ? 'error-border' : ''" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Nhân viên bán hàng
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown class="customer-dropdown" formControlName="SaleEmployee" [options]="listEmployee"
+                        [styleClass]="(companyCustomerForm.get('SaleEmployee').invalid && (companyCustomerForm.get('SaleEmployee').dirty || companyCustomerForm.get('SaleEmployee').touched)) ? 'error-border' : ''"
+                        optionLabel="employeeName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                        [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Nhân viên chăm sóc khách hàng
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown class="customer-dropdown" formControlName="SupportEmployee" [options]="listEmployee"
+                        optionLabel="employeeName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                        [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <!-- <div class="row bottom-buffer">
+                                        <div class="col-md-12 buffer-bottom-label">
+                                            Ghi chú
+                                        </div>
+                                        <div class="col-md-12">
+                                            <textarea style="height: 102px;" rows="4" cols="30" pInputTextarea formControlName="Note"></textarea>
+                                        </div>
+                                    </div> -->
+                </div>
+              </div>
+              <div class="row" style="margin-top: 1.2rem;">
+              </div>
+            </form>
+
+            <div class="col-md-12 no-marginleft" style="margin-left: -45px;">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header=" Thông tin thanh toán" [selected]="false">
+                  <div *ngIf="customerType == 1" class="col-md-12">
+                    <form [formGroup]="companyCustomerForm">
+                      <div class="row top-buffer bottom-buffer">
+                        <div class="col-md-12">
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Tài khoản công nợ ngầm định
+                            </div>
+                            <div class="col-md-6">
+                              <p-dropdown class="customer-dropdown" formControlName="DefaultAccount"
+                                [options]="listDefaultAccount" optionLabel="DefaultAccountName"
+                                [autoDisplayFirst]="false" placeholder="" [showClear]="true" [filter]="true"
+                                [resetFilterOnHide]="true">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Điều khoản thanh toán
+                            </div>
+                            <div class="col-md-6">
+                              <p-dropdown class="customer-dropdown" formControlName="TermsPayment"
+                                [options]="listTermsPayment" optionLabel="TermsPaymentName" [autoDisplayFirst]="false"
+                                placeholder="" [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                              </p-dropdown>
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Giới hạn tiền nợ
+                            </div>
+                            <div class="col-md-6">
+                              <input maxlength="100" formControlName="MoneyLimit" type="text" pInputText placeholder=""
+                                class="number-input"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}" />
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Tài khoản ngân hàng
+                            </div>
+                            <div class="col-md-6">
+                              <input maxlength="100" formControlName="BankCode" type="text" pInputText placeholder="" />
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Tên ngân hàng
+                            </div>
+                            <div class="col-md-6">
+                              <input maxlength="100" formControlName="BankName" type="text" pInputText placeholder="" />
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Chủ tài khoản
+                            </div>
+                            <div class="col-md-6">
+                              <input maxlength="100" formControlName="BankUserName" type="text" pInputText
+                                placeholder="" />
+                            </div>
+                          </div>
+                          <div class="row bottom-buffer">
+                            <div class="col-md-6">
+                              Chi nhánh
+                            </div>
+                            <div class="col-md-6">
+                              <input maxlength="100" formControlName="BankAdress" type="text" pInputText
+                                placeholder="" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top: 1.2rem;">
+                      </div>
+                    </form>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <form [formGroup]="contactCustomerForm">
+              <div class="row top-buffer bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12" style="padding-bottom: -10px;">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label">
+                          Người liên hệ<span class="required">*</span>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-4">
+                              <p-dropdown class="customer-dropdown" formControlName="Gender" [options]="listGenders"
+                                optionLabel="name" [autoDisplayFirst]="true" placeholder="">
+                              </p-dropdown>
+                            </div>
+                            <div class="col-md-4">
+                              <input maxlength="100" formControlName="FirstName" type="text" pInputText
+                                placeholder="Họ và tên đệm"
+                                [ngClass]="(contactCustomerForm.get('FirstName').invalid && (contactCustomerForm.get('FirstName').dirty || contactCustomerForm.get('FirstName').touched)) ? 'error-border' : ''" />
+                            </div>
+                            <div class="col-md-4">
+                              <input maxlength="32" formControlName="LastName" type="text" pInputText placeholder="Tên"
+                                [ngClass]="(contactCustomerForm.get('LastName').invalid && (contactCustomerForm.get('LastName').dirty || contactCustomerForm.get('LastName').touched)) ? 'error-border' : ''" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-4"
+                              [hidden]="contactCustomerForm.get('FirstName').valid || contactCustomerForm.get('FirstName').untouched || contactCustomerForm.get('LastName').valid || contactCustomerForm.get('LastName').untouched">
+                              <span>&nbsp;</span>
+                            </div>
+                            <div class="col-md-4"
+                              [hidden]="contactCustomerForm.get('FirstName').valid || contactCustomerForm.get('FirstName').untouched">
+                              <span
+                                *ngIf="contactCustomerForm.get('FirstName').hasError('required') || contactCustomerForm.get('FirstName').hasError('blankString')"
+                                class="error-message-span">Không được để trống</span>
+                            </div>
+                            <div class="col-md-4"
+                              [hidden]="contactCustomerForm.get('LastName').valid || contactCustomerForm.get('LastName').untouched">
+                              <span
+                                *ngIf="contactCustomerForm.get('LastName').hasError('required') || contactCustomerForm.get('LastName').hasError('blankString')"
+                                class="error-message-span">Không được để trống</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label" style="padding-top: 3px;">
+                          <label class="col-md-4 no-marginleft">Địa chỉ</label>
+                          <div class="col-md-4" style="padding-left: 25px;">
+                            <p-radioButton name="isIsLandLHPersonalForm" (onClick)="isInlandOnChange()"
+                              formControlName="isInlandLHControl" value="1" [(ngModel)]="isInlandLH"
+                              label="Trong nước">
+                            </p-radioButton>
+                          </div>
+                          <div class="col-md-4" style="padding-left: 35px;">
+                            <p-radioButton name="isIsLandLHPersonalForm" (onClick)="isInlandOnChange()"
+                              formControlName="isInlandLHControl" value="2" [(ngModel)]="isInlandLH" label="Ngoài nước">
+                            </p-radioButton>
+                          </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="isInlandLH == 1">
+                          <p-dropdown class="customer-dropdown" (onChange)="changeProvinceContact($event)"
+                            formControlName="provinceControl" [options]="listProvincePersonalCustomer"
+                            optionLabel="provinceName" [autoDisplayFirst]="false" placeholder="Tỉnh/Thành phố"
+                            [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-4" *ngIf="isInlandLH == 1">
+                          <p-dropdown class="customer-dropdown" (onChange)="changeDistrictContact($event)"
+                            formControlName="districtControl"
+                            [options]="listDistrictPersonalCustomer" optionLabel="districtName"
+                            [autoDisplayFirst]="false" placeholder="Quận/huyện" [showClear]="true" [filter]="true"
+                            [resetFilterOnHide]="true">
+                          </p-dropdown>
+                        </div>
+                        <div class="col-md-4" *ngIf="isInlandLH == 1">
+                          <p-dropdown class="customer-dropdown" formControlName="wardControl"
+                            [options]="listWardPersonalCustomer" optionLabel="wardName"
+                            [autoDisplayFirst]="false" placeholder="Xã/phường" [showClear]="true" [filter]="true"
+                            [resetFilterOnHide]="true">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top: 10px;">
+                      <div class="row bottom-buffer">
+
+                        <div class="col-md-12">
+                          <input maxlength="100" formControlName="addressControl" type="text" pInputText placeholder=""
+                            [ngClass]="(contactCustomerForm.get('addressControl').invalid && (contactCustomerForm.get('addressControl').dirty || contactCustomerForm.get('addressControl').touched)) ? 'error-border' : ''" />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-12">
+                                            <div class="row bottom-buffer">
+                                                <div class="col-md-12 buffer-bottom-label">
+                                                    Thông tin khác
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input formControlName="OtherInfor" type="text" pInputText placeholder="" />
+                                                </div>
+                                            </div>
+                                        </div> -->
+                    <div class="col-md-4">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label">
+                          Email
+                        </div>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input maxlength="100" formControlName="Email" type="text" pInputText placeholder=""
+                                [ngClass]="(contactCustomerForm.get('Email').invalid && (contactCustomerForm.get('Email').dirty || contactCustomerForm.get('Email').touched)) ? 'error-border' : ''" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12"
+                              [hidden]="contactCustomerForm.get('Email').valid || contactCustomerForm.get('Email').untouched">
+                              <span *ngIf="contactCustomerForm.get('Email').hasError('pattern')"
+                                class="error-message-span">Sai
+                                định dạng Email</span>
+                              <span *ngIf="contactCustomerForm.get('Email').hasError('duplicateCode')"
+                                class="error-message-span">Trùng Email</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label">
+                          Số điện thoại<span class="required">*</span>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input maxlength="32" formControlName="Phone" (keypress)="PhonePattern($event)"
+                                type="text" pInputText placeholder=""
+                                [ngClass]="(contactCustomerForm.get('Phone').invalid && (contactCustomerForm.get('Phone').dirty || contactCustomerForm.get('Phone').touched)) ? 'error-border' : ''" />
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-12"
+                              [hidden]="contactCustomerForm.get('Phone').valid || contactCustomerForm.get('Phone').untouched">
+                              <span *ngIf="contactCustomerForm.get('Phone').hasError('required')"
+                                class="error-message-span">Nhập
+                                Số điện thoại</span>
+                              <span *ngIf="contactCustomerForm.get('Phone').hasError('pattern')"
+                                class="error-message-span">Sai
+                                định dạng Số điện thoại</span>
+                              <span *ngIf="contactCustomerForm.get('Phone').hasError('duplicateCode')"
+                                class="error-message-span">Trùng số điện thoại</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label">
+                          Chức vụ
+                        </div>
+                        <div class="col-md-12">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <input maxlength="32" formControlName="Position" type="text" pInputText placeholder="" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12 buffer-bottom-label">
+                          Ngày sinh
+                        </div>
+                        <div class="col-md-4">
+                          <p-calendar formControlName="DateOfBirth" [yearNavigator]="true" yearRange="1960:2020"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                            [baseZIndex]="999" showButtonBar="true"></p-calendar>
+                        </div>
+                      </div>
+                      <div class="row bottom-buffer">
+                        <div class="col-md-12">
+                          <!-- <span (click)="addCustomerContact()" class="link">
+                            <span>
+                              <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                class="ios-add-circle-outline">
+                            </span>
+                            <span class="add-contact-text">
+                              Thêm người liên hệ
+                            </span>
+                          </span> -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="col-md-4">
+                                            <div class="row bottom-buffer">
+                                                <div class="col-md-12 buffer-bottom-label">
+                                                    Email
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input maxlength="100" formControlName="Email" type="text" pInputText placeholder="" [ngClass]="(contactCustomerForm.get('Email').invalid && (contactCustomerForm.get('Email').dirty || contactCustomerForm.get('Email').touched)) ? 'error-border' : ''" />
+                                                </div>
+                                                <div class="col-md-12" [hidden]="contactCustomerForm.get('Email').valid || contactCustomerForm.get('Email').untouched">
+                                                    <span *ngIf="contactCustomerForm.get('Email').hasError('pattern')" class="error-message-span">Sai
+                                                    định dạng Email</span>
+                                                </div>
+                                            </div>
+                                            <div class="row bottom-buffer">
+                                                <div class="col-md-12 buffer-bottom-label">
+                                                    Điện thoại<span class="required">*</span>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input maxlength="32" formControlName="Phone" type="text" pInputText placeholder="" [ngClass]="(contactCustomerForm.get('Phone').invalid && (contactCustomerForm.get('Phone').dirty || contactCustomerForm.get('Phone').touched)) ? 'error-border' : ''" />
+                                                </div>
+                                                <div class="col-md-12" [hidden]="contactCustomerForm.get('Phone').valid || contactCustomerForm.get('Phone').untouched">
+                                                    <span *ngIf="contactCustomerForm.get('Phone').hasError('required')" class="error-message-span">Nhập
+                                                    Số điện thoại</span>
+                                                    <span *ngIf="contactCustomerForm.get('Phone').hasError('pattern')" class="error-message-span">Sai
+                                                    định dạng Số điện thoại</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="row bottom-buffer">
+                                                <div class="col-md-12 buffer-bottom-label">
+                                                    Chức vụ
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input maxlength="32" formControlName="Position" type="text" pInputText placeholder="" />
+                                                </div>
+                                            </div>
+                                            <div class="row bottom-buffer">
+                                                <div class="col-md-12 buffer-bottom-label">
+                                                    Thông tin khác
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <input formControlName="OtherInfor" type="text" pInputText placeholder="" />
+                                                </div>
+                                            </div>
+                                        </div> -->
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedColumns" [value]="listContact" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10, 20, 30]"
+                        [responsive]="true" [(selection)]="selectedContact">
+                        <ng-template pTemplate="caption">
+                          <div style="text-align: left;">
+                            <p-multiSelect [options]="columns" optionLabel="header" [(ngModel)]="selectedColumns"
+                              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                            <th style="text-align: center;">
+                              <span>Chức năng</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                            <td style="text-align: center;">
+                              <button pButton icon="pi pi-trash" (click)="onDeleteContact(rowData)"
+                                class="ui-button-danger"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+
+  <div class="row no-margin body-wrapper col-md-12" id="parent" *ngIf="customerType == 2">
+    <div class="col-md-12 no-marginleft">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Thông tin khách hàng" [selected]="true">
+          <div class="col-md-6 no-marginleft">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      <p-radioButton name="CustomerTypePersonalForm" value="1" [(ngModel)]="customerType"
+                        label="Doanh nghiệp">
+                      </p-radioButton>
+                    </div>
+                    <div class="col-md-6">
+                      <p-radioButton name="CustomerTypePersonalForm" value="2" [(ngModel)]="customerType"
+                        label="Cá nhân">
+                      </p-radioButton>
+                    </div>
+                  </div>
+                  <div class="row">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- khach hang ca nhan -->
+            <div *ngIf="customerType == 2" class="col-md-12">
+              <form [formGroup]="personalCustomerForm">
+                <div class="row top-buffer bottom-buffer">
+                  <div class="col-md-12 bottom-buffer">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-5 buffer-bottom-label">
+                        Nhóm khách hàng
+                      </div>
+                      <div class="col-md-7">
+                        <p-dropdown class="customer-dropdown" formControlName="CustomerGroup"
+                          [options]="listCustomerGroup" optionLabel="categoryName" [autoDisplayFirst]="false"
+                          placeholder="" [showClear]="true"
+                          [styleClass]="(personalCustomerForm.get('CustomerGroup').invalid && (personalCustomerForm.get('CustomerGroup').dirty || personalCustomerForm.get('CustomerGroup').touched)) ? 'error-border' : ''">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="personalCustomerForm.get('CustomerGroup').valid || personalCustomerForm.get('CustomerGroup').untouched">
+                        <span *ngIf="personalCustomerForm.get('CustomerGroup').hasError('required')"
+                          class="error-message-span">Chưa chọn nhóm khách hàng</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 bottom-buffer">
+                    <div class="row bottom-buffer">
+                      <!-- <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                        <p-checkbox name="chooseCustomer" formControlName="chooseCustomer" value="CUS"
+                          label="Khách hàng" [(ngModel)]="chooseCusVenEmp" inputId="CUS"></p-checkbox>
+                      </div>
+                      <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                        <p-checkbox name="chooseCustomer" formControlName="chooseVendor" value="VEN"
+                          label="Nhà cung cấp" [(ngModel)]="chooseCusVenEmp" inputId="VEN"></p-checkbox>
+                      </div>
+                      <div class="ui-g-12" style="padding: 0px; padding-bottom: 4px;">
+                        <p-checkbox name="chooseCustomer" formControlName="chooseEmployee" value="EMP" label="Nhân viên"
+                          [(ngModel)]="chooseCusVenEmp" inputId="EMP"></p-checkbox>
+                      </div> -->
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span style="padding-right: 15px;">Mã khách hàng</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input maxlength="20" formControlName="CustomerCode" type="text" pInputText placeholder=""
+                          [ngClass]="(personalCustomerForm.get('CustomerCode').invalid && (personalCustomerForm.get('CustomerCode').dirty || personalCustomerForm.get('CustomerCode').touched)) ? 'error-border' : ''"
+                          (keypress)="customerCodePattern($event)" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="personalCustomerForm.get('CustomerCode').valid || personalCustomerForm.get('CustomerCode').untouched">
+                        <span
+                          *ngIf="personalCustomerForm.get('CustomerCode').hasError('required') || personalCustomerForm.get('CustomerCode').hasError('blankString')"
+                          class="error-message-span">Không được để trống</span>
+                        <span *ngIf="personalCustomerForm.get('CustomerCode').hasError('duplicateCode')"
+                          class="error-message-span">Trùng mã khách hàng</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Họ và tên
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown class="customer-dropdown" formControlName="Gender" [options]="listGenders"
+                          optionLabel="name" [autoDisplayFirst]="true" placeholder="">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        &nbsp;
+                      </div>
+                      <div class="col-md-12">
+                        <input maxlength="100" formControlName="FirstName" type="text" pInputText
+                          placeholder="Họ và tên đệm"
+                          [ngClass]="(personalCustomerForm.get('FirstName').invalid && (personalCustomerForm.get('FirstName').dirty || personalCustomerForm.get('FirstName').touched)) ? 'error-border' : ''" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="personalCustomerForm.get('FirstName').valid || personalCustomerForm.get('FirstName').untouched">
+                        <span
+                          *ngIf="personalCustomerForm.get('FirstName').hasError('required') || personalCustomerForm.get('FirstName').hasError('blankString')"
+                          class="error-message-span">Không được để trống</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        &nbsp;
+                      </div>
+                      <div class="col-md-12">
+                        <input maxlength="32" formControlName="LastName" type="text" pInputText placeholder="Tên"
+                          [ngClass]="(personalCustomerForm.get('LastName').invalid && (personalCustomerForm.get('LastName').dirty || personalCustomerForm.get('LastName').touched)) ? 'error-border' : ''" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="personalCustomerForm.get('LastName').valid || personalCustomerForm.get('LastName').untouched">
+                        <span
+                          *ngIf="personalCustomerForm.get('LastName').hasError('required') || personalCustomerForm.get('LastName').hasError('blankString')"
+                          class="error-message-span">Không được để trống</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span style="padding-right: 15px;">CMND/Hộ chiếu</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input maxlength="20" formControlName="IdentityId" type="text" pInputText placeholder="" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label" style="padding-top: 3px;">
+                        <label class="col-md-4 no-marginleft">Địa chỉ</label>
+                        <div class="col-md-4" style="padding-left: 25px;">
+                          <p-radioButton name="isInLandPersonalForm" (onClick)="isInlandOnChange()"
+                            formControlName="isInlandControl" value="1" [(ngModel)]="isInland" label="Trong nước">
+                          </p-radioButton>
+                        </div>
+                        <div class="col-md-4" style="padding-left: 35px;">
+                          <p-radioButton name="isInLandPersonalForm" (onClick)="isInlandOnChange()"
+                            formControlName="isInlandControl" value="2" [(ngModel)]="isInland" label="Ngoài nước">
+                          </p-radioButton>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="isInland == 1">
+                        <p-dropdown class="customer-dropdown" (onChange)="changeProvince($event)"
+                          formControlName="provinceControl" [options]="listProvince"
+                          [styleClass]="(personalCustomerForm.get('provinceControl').invalid && (personalCustomerForm.get('provinceControl').dirty || personalCustomerForm.get('provinceControl').touched)) ? 'error-border' : ''"
+                          optionLabel="provinceName" [autoDisplayFirst]="false" placeholder="Tỉnh/Thành phố"
+                          [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-4" *ngIf="isInland == 1">
+                        <p-dropdown class="customer-dropdown" (onChange)="changeDistrict($event)"
+                          formControlName="districtControl"
+                          [styleClass]="(personalCustomerForm.get('districtControl').invalid && (personalCustomerForm.get('districtControl').dirty || personalCustomerForm.get('districtControl').touched)) ? 'error-border' : ''"
+                          [options]="listDistrict" optionLabel="districtName" [autoDisplayFirst]="false"
+                          placeholder="Quận/huyện" [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-4" *ngIf="isInland == 1">
+                        <p-dropdown class="customer-dropdown" formControlName="wardControl" [options]="listWard"
+                          optionLabel="wardName"
+                          [styleClass]="(personalCustomerForm.get('wardControl').invalid && (personalCustomerForm.get('wardControl').dirty || personalCustomerForm.get('wardControl').touched)) ? 'error-border' : ''"
+                          [autoDisplayFirst]="false" placeholder="Xã/phường" [showClear]="true" [filter]="true"
+                          [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12" style="margin-top: 10px;">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-4">
+                        <p-dropdown class="customer-dropdown" formControlName="areaControl" [options]="listArea"
+                          optionLabel="geographicalAreaName" [autoDisplayFirst]="false" placeholder="Khu vực"
+                          [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-8">
+                        <input maxlength="100" formControlName="addressControl" type="text" pInputText placeholder=""
+                          [ngClass]="(personalCustomerForm.get('addressControl').invalid && (personalCustomerForm.get('addressControl').dirty || personalCustomerForm.get('addressControl').touched)) ? 'error-border' : ''" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Nhân viên bán hàng
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown class="customer-dropdown" formControlName="SaleEmployee" [options]="listEmployee"
+                          [styleClass]="(personalCustomerForm.get('SaleEmployee').invalid && (personalCustomerForm.get('SaleEmployee').dirty || personalCustomerForm.get('SaleEmployee').touched)) ? 'error-border' : ''"
+                          optionLabel="employeeName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                          [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row bottom-buffer">
+                      <div class="col-md-12 buffer-bottom-label">
+                        Nhân viên chăm sóc khách hàng
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown class="customer-dropdown" formControlName="SupportEmployee" [options]="listEmployee"
+                          optionLabel="employeeName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                          [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                        </p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <form [formGroup]="personalCustomerForm">
+              <div class="row top-buffer bottom-buffer">
+                <div class="col-md-8">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Thông tin công ty làm việc:
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="100" formControlName="CompanyName" type="text" pInputText
+                        placeholder="Tên công ty" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Chức vụ:
+                    </div>
+                    <div class="col-md-12">
+                      <!-- <input maxlength="100" formControlName="Position" type="text" pInputText placeholder="Chức vụ"
+                                            />                                         -->
+                      <p-dropdown class="customer-dropdown" formControlName="Position" [options]="listPosition"
+                        optionLabel="categoryName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                        [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Số điện thoại<span class="required">*</span>
+                    </div>
+                    <div class="col-md-12">
+                      <!-- (change)="onCheckDuplicateCustomer('checkByPhone', 'Phone', personalCustomerForm.get('PersonalPhone'), 2)" -->
+                      <input
+                        (change)="checkDuplicateInforCustomer(2,  personalCustomerForm.get('PersonalPhone'))"
+                        maxlength="32" formControlName="PersonalPhone" type="text" pInputText placeholder="Cá nhân"
+                        (focusout)="onCheckInvail(personalCustomerForm.get('PersonalPhone'))"
+                        (keypress)="PhonePattern($event)"
+                        [ngClass]="(personalCustomerForm.get('PersonalPhone').invalid && (personalCustomerForm.get('PersonalPhone').dirty || personalCustomerForm.get('PersonalPhone').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalPhone').valid || personalCustomerForm.get('PersonalPhone').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalPhone').hasError('required')"
+                        class="error-message-span">Nhập Số điện thoại</span>
+                      <span *ngIf="personalCustomerForm.get('PersonalPhone').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Số điện thoại</span>
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="!personalCustomerForm.get('PersonalPhone').valid && !personalCustomerForm.get('PersonalPhone').untouched">
+                      &nbsp;
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      &nbsp;
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="32" formControlName="PersonalPhoneWork" type="text" pInputText
+                        placeholder="Công việc"
+                        (keypress)="PhonePattern($event)"
+                        [ngClass]="(personalCustomerForm.get('PersonalPhoneWork').invalid && (personalCustomerForm.get('PersonalPhoneWork').dirty || personalCustomerForm.get('PersonalPhoneWork').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalPhoneWork').valid || personalCustomerForm.get('PersonalPhoneWork').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalPhoneWork').hasError('required')"
+                        class="error-message-span">Nhập Số điện thoại</span>
+                      <span *ngIf="personalCustomerForm.get('PersonalPhoneWork').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Số điện thoại</span>
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="!personalCustomerForm.get('PersonalPhoneWork').valid && !personalCustomerForm.get('PersonalPhoneWork').untouched">
+                      &nbsp;
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      &nbsp;
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="32" formControlName="PersonalPhoneOther" type="text" pInputText
+                        placeholder="Khác" (keypress)="PhonePattern($event)"
+                        [ngClass]="(personalCustomerForm.get('PersonalPhoneOther').invalid && (personalCustomerForm.get('PersonalPhoneOther').dirty || personalCustomerForm.get('PersonalPhoneOther').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalPhoneOther').valid || personalCustomerForm.get('PersonalPhoneOther').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalPhoneOther').hasError('required')"
+                        class="error-message-span">Nhập Số điện thoại</span>
+                      <span *ngIf="personalCustomerForm.get('PersonalPhoneOther').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Số điện thoại</span>
+                    </div>
+                  </div>
+                  <div class="col-md-12"
+                    [hidden]="!personalCustomerForm.get('PersonalPhoneOther').valid && !personalCustomerForm.get('PersonalPhoneOther').untouched">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      Email
+                    </div>
+                    <div class="col-md-12">
+                      <!-- (change)="onCheckDuplicateCustomer('checkByEmail', 'Email', personalCustomerForm.get('PersonalEmail'), 2)" -->
+                      <input
+                        (change)="checkDuplicateInforCustomer(1,  personalCustomerForm.get('PersonalEmail'))"
+                        maxlength="100" formControlName="PersonalEmail" type="text" pInputText placeholder="Cá nhân"
+                        [ngClass]="(personalCustomerForm.get('PersonalEmail').invalid && (personalCustomerForm.get('PersonalEmail').dirty || personalCustomerForm.get('PersonalEmail').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalEmail').valid || personalCustomerForm.get('PersonalEmail').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalEmail').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Email</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      &nbsp;
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="100" formControlName="PersonalEmailWork" type="text" pInputText
+                        placeholder="Công việc"
+                        [ngClass]="(personalCustomerForm.get('PersonalEmailWork').invalid && (personalCustomerForm.get('PersonalEmailWork').dirty || personalCustomerForm.get('PersonalEmailWork').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalEmailWork').valid || personalCustomerForm.get('PersonalEmailWork').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalEmailWork').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Email</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      &nbsp;
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="100" formControlName="PersonalEmailOther" type="text" pInputText
+                        placeholder="Khác"
+                        [ngClass]="(personalCustomerForm.get('PersonalEmailOther').invalid && (personalCustomerForm.get('PersonalEmailOther').dirty || personalCustomerForm.get('PersonalEmailOther').touched)) ? 'error-border' : ''" />
+                    </div>
+                    <div class="col-md-12"
+                      [hidden]="personalCustomerForm.get('PersonalEmailOther').valid || personalCustomerForm.get('PersonalEmailOther').untouched">
+                      <span *ngIf="personalCustomerForm.get('PersonalEmailOther').hasError('pattern')"
+                        class="error-message-span">Sai định dạng Email</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-12 buffer-bottom-label">
+                      <label class="col-md-4 no-marginleft">Địa chỉ</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input maxlength="100" formControlName="addressCompanyControl" type="text" pInputText
+                        placeholder="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div class="col-md-12 no-marginleft">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header=" Thông tin thanh toán" [selected]="false">
+          <div *ngIf="customerType == 2" class="col-md-6">
+            <form [formGroup]="personalCustomerForm">
+              <div class="row top-buffer bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Tài khoản công nợ ngầm định
+                    </div>
+                    <div class="col-md-6">
+                      <p-dropdown class="customer-dropdown" formControlName="DefaultAccount"
+                        [options]="listDefaultAccount" optionLabel="DefaultAccountName" [autoDisplayFirst]="false"
+                        placeholder="" [showClear]="true" [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Điều khoản thanh toán
+                    </div>
+                    <div class="col-md-6">
+                      <p-dropdown class="customer-dropdown" formControlName="TermsPayment" [options]="listTermsPayment"
+                        optionLabel="TermsPaymentName" [autoDisplayFirst]="false" placeholder="" [showClear]="true"
+                        [filter]="true" [resetFilterOnHide]="true">
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Giới hạn tiền nợ
+                    </div>
+                    <div class="col-md-6">
+                      <input maxlength="100" formControlName="MoneyLimit" type="text" pInputText placeholder=""
+                        class="number-input"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}" />
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Tài khoản ngân hàng
+                    </div>
+                    <div class="col-md-6">
+                      <input maxlength="100" formControlName="BankCode" type="text" pInputText placeholder="" />
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Tên ngân hàng
+                    </div>
+                    <div class="col-md-6">
+                      <input maxlength="100" formControlName="BankName" type="text" pInputText placeholder="" />
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Chủ tài khoản
+                    </div>
+                    <div class="col-md-6">
+                      <input maxlength="100" formControlName="BankUserName" type="text" pInputText placeholder="" />
+                    </div>
+                  </div>
+                  <div class="row bottom-buffer">
+                    <div class="col-md-6">
+                      Chi nhánh
+                    </div>
+                    <div class="col-md-6">
+                      <input maxlength="100" formControlName="BankAdress" type="text" pInputText placeholder="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 1.2rem;">
+              </div>
+            </form>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+  <!-- <div class="row header-line">
+    </div> -->
+</div>

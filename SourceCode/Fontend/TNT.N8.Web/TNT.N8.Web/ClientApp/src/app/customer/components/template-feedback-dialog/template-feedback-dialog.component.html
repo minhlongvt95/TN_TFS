@@ -1,0 +1,81 @@
+<div class="template-feedback-dialog">
+  <div class="org-dialog-title">
+    <span>
+      Phản hồi của khách hàng
+    </span>
+    <i class="material-icons clear" (click)="onCancelClick()">
+      clear
+    </i>
+  </div>
+  <div class="row mt-15">
+    <form class="form-group" [formGroup]="formFeedBack">
+        <div class="col-md-3">
+          <span class="title">Tên chương trình: </span>
+        </div>
+        <div class="col-md-9">
+          <span>{{customerCareTitle}}</span>
+        </div>
+
+        <div class="col-md-3 mt-15">
+          <span class="title">Bắt đầu: </span>
+        </div>
+        <div class="col-md-2 mt-15">
+          <span>{{customerCareFeedBackModel.FeedBackFromDate | date:'dd/MM/yyyy'}}</span>
+        </div>
+        <div class="col-md-7 mt-15">
+          <span class="title">- Kết thúc: </span>
+          <span>{{customerCareFeedBackModel.FeedBackToDate | date:'dd/MM/yyyy'}}</span>
+        </div>
+
+        <div class="col-md-3 mt-15">
+          <span class="title">Hình thức: </span>
+        </div>
+        <div class="col-md-9 mt-15">
+          <span>{{customerCareContactTypeName}}</span>
+        </div>
+
+        <div class="col-md-3 mt-15">
+          <span class="require">{{ 'order.create.require' | translate }}</span><span class="title">Mã phản hồi: </span>
+        </div>
+        <div class="col-md-9 mt-15">
+          <mat-form-field class="form-control w100"
+            [ngClass]="feedBackCodeControl.touched && feedBackCodeControl.hasError('required') ? 'error-border' : ''"
+          >
+            <mat-select id="feedBackCode" name="feedBackCode"
+              formControlName="feedBackCodeControl"
+              [(ngModel)]="customerCareFeedBackModel.FeedBackCode"
+            >
+              <mat-option *ngFor="let option of listFeedBackCode" [value]="option.categoryId">
+                {{option.categoryName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="md-errors-spacer" [hidden]="feedBackCodeControl.untouched">
+            <mat-error *ngIf="feedBackCodeControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          </div>
+        </div>
+
+        <div class="col-md-3 mt-15">
+          <span class="require">{{ 'order.create.require' | translate }}</span><span class="title">Ghi chú: </span>
+        </div>
+        <div class="col-md-9 mt-15 config-padding">
+          <mat-form-field class="w100" style="height: 90px;">
+            <textarea matInput class="textarea-border"
+              id="feedBackContentControl" name="feedBackContentControl"
+              formControlName="feedBackContentControl"
+              [(ngModel)]="customerCareFeedBackModel.FeedBackContent"
+              [ngClass]="feedBackContentControl.touched && feedBackContentControl.hasError('required') ? 'error-border-textarea' : ''"
+              rows="5"
+            ></textarea>
+          </mat-form-field>
+          <div class="md-errors-spacer" [hidden]="feedBackContentControl.untouched">
+            <mat-error *ngIf="feedBackContentControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          </div>
+        </div>
+    </form>
+  </div>
+
+  <div class="row org-dialog-buttons">
+    <button mat-raised-button color="primary" (click)="saveFeedBack()">LƯU</button>
+  </div>
+</div>

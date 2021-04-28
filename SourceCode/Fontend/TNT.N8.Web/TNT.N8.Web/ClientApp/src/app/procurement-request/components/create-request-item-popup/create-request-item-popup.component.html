@@ -1,0 +1,580 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'procurement-request.messages_title.title_confirm' | translate }}"
+  icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'procurement-request.messages_title.title_confirm_OK' | translate }}"
+  rejectLabel="{{ 'procurement-request.messages_title.title_confirm_NO' | translate }}">
+</p-confirmDialog>
+
+<div class="pr-item-create">
+  <div class="row no-margin">
+    <div class="row col-md-12" style="margin-bottom: 10px;margin-top: 10px;">
+      <div *ngIf="isShowRadioProduct" class="col-md-6">
+        <p-radioButton name="group1" value="0" label="Sản phẩm, hàng hóa" [(ngModel)]="selectedOrderDetailType"
+          [ngModelOptions]="{standalone: true}" (onClick)="changeOrderDetailType(0)">
+        </p-radioButton>
+      </div>
+      <div *ngIf="isShowRadioOC" class="col-md-6">
+        <p-radioButton name="group1" value="1" label="Dịch vụ" [(ngModel)]="selectedOrderDetailType"
+          [ngModelOptions]="{standalone: true}" (onClick)="changeOrderDetailType(1)">
+        </p-radioButton>
+      </div>
+    </div>
+    <div class="row col-md-12">
+      <form *ngIf="selectedOrderDetailType == 0" [formGroup]="createPRItemForm">
+        <div class="row no-margin">
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-10 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.product' | translate }}</span><span class="required">*</span>
+              </div>
+              <div class="col-md-2" style="text-align: right;">
+                <div pTooltip="Tạo nhanh sản phẩm dịch vụ" tooltipZIndex="10000" (click)="openQuickCreProductDialog()">
+                  <i class="pi pi-plus" style="color: #0000FF"></i>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <p-dropdown formControlName="Product" [options]="listProduct" optionLabel="productCodeName"
+                  [virtualScroll]="true" itemSize="30"
+                  [styleClass]="(createPRItemForm.get('Product').invalid && (createPRItemForm.get('Product').dirty || createPRItemForm.get('Product').touched)) ? 'error-border' : ''"
+                  placeholder="{{ 'procurement-request.create.product_choose' | translate }}"
+                  (onChange)="changeProduct($event)" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                  [style]="{'width': '100%'}"></p-dropdown>
+              </div>
+              <div class="col-md-12">
+                <span [hidden]="createPRItemForm.get('Product').valid || createPRItemForm.get('Product').untouched"
+                  *ngIf="createPRItemForm.get('Product').hasError('required')" class="error-message-span">
+                  {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <div class="row">
+                  <div class="col-md-6">
+                    <span>{{ 'procurement-request.create.vendor' | translate }}</span>
+                  </div>
+                  <div class="col-md-6" style="text-align: right;">
+                    <span pTooltip="Tạo nhanh nhà cung cấp" tooltipPosition="top" tooltipZIndex="100000"
+                      style="cursor: pointer;" (click)="openQuickCreVendorModal()">
+                      <i class="pi pi-plus" style="color: #0000FF"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <p-dropdown formControlName="Vendor" [options]="listVendor" optionLabel="vendorName"
+                  [styleClass]="(createPRItemForm.get('Vendor').invalid && (createPRItemForm.get('Vendor').dirty || createPRItemForm.get('Vendor').touched)) ? 'error-border' : ''"
+                  placeholder="{{ 'procurement-request.create.vendor_choose' | translate }}"
+                  (onChange)="changeVendor($event)" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                  [style]="{'width': '100%'}"></p-dropdown>
+              </div>
+              <div class="col-md-12">
+                <span [hidden]="createPRItemForm.get('Vendor').valid || createPRItemForm.get('Vendor').untouched"
+                  *ngIf="createPRItemForm.get('Vendor').hasError('required')" class="error-message-span">
+                  {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.product_unit' | translate }}</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="ProductUnit"
+                  [ngClass]="(createPRItemForm.get('ProductUnit').invalid && (createPRItemForm.get('ProductUnit').dirty || createPRItemForm.get('ProductUnit').touched)) ? 'error-border' : ''"
+                  type="text" class="w100" pInputText placeholder="" />
+              </div>
+              <div class="col-md-12">
+                <span
+                  [hidden]="createPRItemForm.get('ProductUnit').valid || createPRItemForm.get('ProductUnit').untouched"
+                  *ngIf="createPRItemForm.get('ProductUnit').hasError('required') || createPRItemForm.get('ProductUnit').hasError('blankString')"
+                  class="error-message-span">
+                  {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.code_MDT' | translate }}</span>
+              </div>
+              <div class="col-md-12">
+                <p-dropdown formControlName="ProcurementPlan" [options]="listCurrentProcurementPlan"
+                  optionLabel="procurementPlanCode"
+                  placeholder="{{ 'procurement-request.create.code_MDT_choose' | translate }}" [filter]="true"
+                  [showClear]="true"
+                  [styleClass]="(createPRItemForm.get('ProcurementPlan').invalid && (createPRItemForm.get('ProcurementPlan').dirty || createPRItemForm.get('ProcurementPlan').touched)) ? 'error-border' : ''"
+                  [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                </p-dropdown>
+              </div>
+              <div class="col-md-12" hidden>
+                <span
+                  [hidden]="createPRItemForm.get('ProcurementPlan').valid || createPRItemForm.get('ProcurementPlan').untouched"
+                  *ngIf="createPRItemForm.get('ProcurementPlan').hasError('required')" class="error-message-span">
+                  {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.note' | translate }}</span>
+              </div>
+              <div class="col-md-12">
+                <!-- <input formControlName="Description" type="text" class="w100" pInputText placeholder="" /> -->
+                <textarea formControlName="Description" pInputTextarea rows="5" style="width: 100%; "></textarea>
+              </div>
+            </div>
+            <div class="row buffer-bottom" hidden>
+              <div class="col-md-12 buffer-bottom-label">
+                <div class="row">
+                  <div class="col-md-4">
+                    <span>{{ 'procurement-request.create.money_type' | translate }}</span><span
+                      class="required">*</span>
+                  </div>
+                  <div *ngIf="isVND == false" class="col-md-8">
+                    {{ 'procurement-request.create.exchange_rate' | translate }}<span class="required">*</span>
+                  </div>
+                  <div *ngIf="isVND == true" class="col-md-8">
+                    {{ 'procurement-request.create.price' | translate }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <!-- <div class="col-md-4">
+                      <p-dropdown formControlName="PriceUnit" [options]="listMoneyUnit" optionLabel="categoryName"
+                        placeholder="" (onChange)="changePriceUnit($event)" [autoDisplayFirst]="false"
+                        [style]="{'width': '100%'}"></p-dropdown>
+                    </div> -->
+                  <!-- <div *ngIf="isVND == false" class="col-md-8">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <input formControlName="ExchangeRate" type="text" class="number-input"
+                            (change)="changeExchangeRate()" [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                        </div>
+                      </div>
+                    </div> -->
+                  <div *ngIf="isVND == true" class="col-md-8">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input formControlName="Price"
+                          [ngClass]="(createPRItemForm.get('Price').invalid && (createPRItemForm.get('Price').dirty || createPRItemForm.get('Price').touched)) ? 'error-border' : ''"
+                          type="text" class="number-input" (change)="changeUnitPrice()"
+                          [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                      </div>
+                      <div class="col-md-12">
+                        <span [hidden]="createPRItemForm.get('Price').valid || createPRItemForm.get('Price').untouched"
+                          *ngIf="createPRItemForm.get('Price').hasError('required') || createPRItemForm.get('Price').hasError('blankString')"
+                          class="error-message-span">
+                          {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="isVND == false" hidden class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.price' | translate }}</span>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    <input formControlName="Price"
+                      [ngClass]="(createPRItemForm.get('Price').invalid && (createPRItemForm.get('Price').dirty || createPRItemForm.get('Price').touched)) ? 'error-border' : ''"
+                      type="text" class="number-input" (change)="changeUnitPrice()"
+                      [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createPRItemForm.get('Price').valid || createPRItemForm.get('Price').untouched"
+                      *ngIf="createPRItemForm.get('Price').hasError('required') || createPRItemForm.get('Price').hasError('blankString')"
+                      class="error-message-span">
+                      {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6" hidden>
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.code_MDT' | translate }}</span>
+              </div>
+              <div class="col-md-12">
+                <p-dropdown formControlName="ProcurementPlan" [options]="listCurrentProcurementPlan"
+                  optionLabel="procurementPlanCode"
+                  placeholder="{{ 'procurement-request.create.code_MDT_choose' | translate }}" [filter]="true"
+                  [showClear]="true"
+                  [styleClass]="(createPRItemForm.get('ProcurementPlan').invalid && (createPRItemForm.get('ProcurementPlan').dirty || createPRItemForm.get('ProcurementPlan').touched)) ? 'error-border' : ''"
+                  [resetFilterOnHide]="true" [style]="{'width': '100%'}">
+                </p-dropdown>
+              </div>
+              <!-- <div class="col-md-12">
+                  <span
+                    [hidden]="createPRItemForm.get('ProcurementPlan').valid || createPRItemForm.get('ProcurementPlan').untouched"
+                    *ngIf="createPRItemForm.get('ProcurementPlan').hasError('required')" class="error-message-span">
+                    {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.product_code' | translate }}</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="ProductCode" type="text" class="w100" pInputText placeholder="" />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <div class="row">
+                  <div class="col-md-4">
+                    <span>{{ 'procurement-request.create.money_type' | translate }}</span><span
+                      class="required">*</span>
+                  </div>
+                  <div *ngIf="isVND == false" class="col-md-8">
+                    {{ 'procurement-request.create.exchange_rate' | translate }}<span class="required">*</span>
+                  </div>
+                  <div *ngIf="isVND == true" class="col-md-8">
+                    {{ 'procurement-request.create.price' | translate }}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <p-dropdown formControlName="PriceUnit" [options]="listMoneyUnit" optionLabel="categoryName"
+                      placeholder="" (onChange)="changePriceUnit($event)" [autoDisplayFirst]="false"
+                      [style]="{'width': '100%'}"></p-dropdown>
+                  </div>
+                  <div *ngIf="isVND == false" class="col-md-8">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input formControlName="ExchangeRate" type="text" class="number-input"
+                          (change)="changeExchangeRate()" [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="isVND == true" class="col-md-8">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <input formControlName="Price"
+                          [ngClass]="(createPRItemForm.get('Price').invalid && (createPRItemForm.get('Price').dirty || createPRItemForm.get('Price').touched)) ? 'error-border' : ''"
+                          type="text" class="number-input" (change)="changeUnitPrice()"
+                          [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                      </div>
+                      <div class="col-md-12">
+                        <span [hidden]="createPRItemForm.get('Price').valid || createPRItemForm.get('Price').untouched"
+                          *ngIf="createPRItemForm.get('Price').hasError('required') || createPRItemForm.get('Price').hasError('blankString')"
+                          class="error-message-span">
+                          {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div *ngIf="isVND == false" class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.price' | translate }}</span>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-12">
+                    <input formControlName="Price"
+                      [ngClass]="(createPRItemForm.get('Price').invalid && (createPRItemForm.get('Price').dirty || createPRItemForm.get('Price').touched)) ? 'error-border' : ''"
+                      type="text" class="number-input" (change)="changeUnitPrice()"
+                      [cleave]="{numeral: true, numeralPositiveOnly: true}">
+                  </div>
+                  <div class="col-md-12">
+                    <span [hidden]="createPRItemForm.get('Price').valid || createPRItemForm.get('Price').untouched"
+                      *ngIf="createPRItemForm.get('Price').hasError('required') || createPRItemForm.get('Price').hasError('blankString')"
+                      class="error-message-span">
+                      {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.quantity' | translate }}</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12">
+                <input formControlName="Quantity" type="text" class="number-input" (change)="changeQuantity()"
+                  [ngClass]="(createPRItemForm.get('Quantity').invalid && createPRItemForm.get('Quantity').touched) ? 'error-border' : ''"
+                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+              </div>
+              <div class="col-md-12">
+                <span [hidden]="createPRItemForm.get('Quantity').valid || createPRItemForm.get('Quantity').untouched"
+                  *ngIf="createPRItemForm.get('Quantity').hasError('required') || createPRItemForm.get('Quantity').hasError('blankString')"
+                  class="error-message-span">
+                  {{ 'procurement-request.messages_error.no_input' | translate }}</span>
+                <span [hidden]="createPRItemForm.get('Quantity').valid || createPRItemForm.get('Quantity').untouched"
+                  *ngIf="createPRItemForm.get('Quantity').errors?.min" class="error-message-span">
+                  {{ 'procurement-request.messages_error.quatity_min0' | translate }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row buffer-bottom">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>{{ 'procurement-request.create.total_amount_text' | translate }} </span>
+                <span>{{createPRItemForm.get("AmountNumber").value | number}}</span>
+              </div>
+              <div class="col-md-12">
+                <textarea class="amount-text-area" formControlName="AmountText" pInputTextarea rows="3"
+                  style="width: 100%;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+      <form *ngIf="selectedOrderDetailType == 1" [formGroup]="otherCostsForm" style="height: 100%;">
+        <div class="col-md-12 mt-10">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <!-- Hàng 1 -->
+                <div class="col-md-12">
+                  <div class="row" style="padding-bottom: 20px;">
+
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Diễn giải<span style="color: #F94E4E;">*</span></label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="w100" pInputText
+                            [ngClass]="(descriptionOCControl.invalid  && (descriptionOCControl.dirty ||  descriptionOCControl.touched)) ? 'error-border': ''"
+                            formControlName="descriptionOCControl" />
+                        </div>
+                        <div class="col-md-12" [hidden]="descriptionOCControl.valid || descriptionOCControl.untouched">
+                          <span *ngIf="descriptionOCControl.hasError('required')" class="error-message-span">Chưa điền
+                            diễn giải</span>
+                          <span *ngIf="descriptionOCControl?.errors?.forbiddenSpaceText" class="error-message-span">Diễn
+                            giải không được để trắng</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Đơn vị tính<span style="color: #F94E4E;">*</span></label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="w100" pInputText formControlName="unitOCControl"
+                            [ngClass]="(unitOCControl.invalid  && (unitOCControl.dirty ||  unitOCControl.touched)) ? 'error-border': ''" />
+                        </div>
+                        <div class="col-md-12" [hidden]="unitOCControl.valid || unitOCControl.untouched">
+                          <span *ngIf="unitOCControl.hasError('required')" class="error-message-span">Không được để
+                            trống</span>
+                          <span *ngIf="unitOCControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được
+                            để
+                            trống</span>
+                          <span *ngIf="unitOCControl?.errors?.maxlength" class="error-message-span">Không điền quá 50 ký
+                            tự</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hàng 2 -->
+                <div class="col-md-12 mt-5">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Số lượng</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="number-input" formControlName="quantityOCControl"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                            (change)="changeQuantityOC()">
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Đơn giá</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="number-input" formControlName="priceOCControl"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                            (change)="changePriceOC()">
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+
+                <!-- Hàng 3 -->
+                <div class="col-md-12 mt-5">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Đơn vị tiền</label>
+                        </div>
+                        <div class="col-md-12">
+                          <p-dropdown [options]="listMoneyUnit" formControlName="unitMoneyOCControl" placeholder="Chọn đơn vị tiền"
+                            optionLabel="categoryName" [style]="{'width': '100%'}" (onChange)="changeUnitMoneyOC($event.value)">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Thành tiền (VND)</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountOC | number:0}}"
+                            disabled="true" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hàng 4 -->
+                <div class="col-md-12 mt-5">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6" *ngIf="(unitMoneyOCLabel != 'VND')">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Tỷ giá<span class="require">*</span></label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="number-input" formControlName="exchangeRateOCControl"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                            (change)="changeExchangeRateOC()">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <!-- Hàng 1 -->
+                <div class="col-md-12">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Thuế GTGT (%)</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="number-input" formControlName="vatOCControl"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                            (change)="changeVatOC()">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Thành tiền thuế GTGT (VND)</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="w100" style="text-align: right;" pInputText
+                            value="{{amountVatOC | number:0}}" disabled="true" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hàng 2 -->
+                <div class="col-md-12 mt-5">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Chiết khấu theo SP/DV</label>
+                        </div>
+                        <div class="col-md-12">
+                          <p-dropdown [options]="discountTypeList" formControlName="discountTypeOCControl"
+                            optionLabel="name" [style]="{'width': '100%'}"
+                            (onChange)="changeDiscountTypeOC($event.value)"></p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Thành tiền chiết khấu (VND)</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="w100" style="text-align: right;" pInputText
+                            value="{{amountDiscountOC | number:0}}" disabled="true" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Hàng 3 -->
+                <div class="col-md-12 mt-5">
+                  <div class="row" style="padding-bottom: 20px;">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label>Chiết khấu</label>
+                        </div>
+                        <div class="col-md-12">
+                          <input type="text" class="number-input" formControlName="discountValueOCControl"
+                            [ngClass]="(discountValueOCControl.invalid && (discountValueOCControl.dirty || discountValueOCControl.touched)) ? 'error-border': ''"
+                            [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                            (change)="changeDiscountValueOC()">
+                        </div>
+                        <div class="col-md-12"
+                          [hidden]="discountValueOCControl.valid || discountValueOCControl.untouched">
+                          <span *ngIf="discountValueOCControl?.errors?.numberInvalid" class="error-message-span">Chiết
+                            khấu
+                            không được lớn hơn tiền sản phẩm</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row no-margin">
+        <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 5px;">
+          <button type="button" class="btn-remove" (click)="cancel()">
+            <span class="btn-remove-text">{{ 'procurement-request.create.cancel' | translate }}</span>
+          </button>
+          <button type="button" class="btn-save" (click)="save()">
+            <span class="btn-save-text">{{ 'procurement-request.create.save' | translate }}</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

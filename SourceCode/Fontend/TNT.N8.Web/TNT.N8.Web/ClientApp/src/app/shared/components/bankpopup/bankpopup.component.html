@@ -1,0 +1,106 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="bank-popup">
+  <form [formGroup]="bankForm">
+    <div class="row no-margin">
+      <div class="col-md-12" style="margin-top: 5px;">
+        <!-- Hàng 1 -->
+        <div class="row">
+          <div class="col-md-12">
+            <span>Tên ngân hàng<span class="require">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" formControlName="bankNameControl" pInputText
+              [ngClass]="(bankNameControl.invalid && (bankNameControl.dirty || bankNameControl.touched)) ? 'error-border': ''">
+          </div>
+          <div class="col-md-12" [hidden]="bankNameControl.valid || bankNameControl.untouched">
+            <span *ngIf="bankNameControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="bankNameControl?.errors?.maxlength" class="error-message-span">Tối đa 250 ký tự</span>
+            <span *ngIf="bankNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để
+              trắng</span>
+          </div>
+        </div>
+
+        <!-- Hàng 2 -->
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-12">
+            <span>Số tài khoản<span class="require">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" formControlName="accountNumberControl" pInputText
+              [ngClass]="(accountNumberControl.invalid && (accountNumberControl.dirty || accountNumberControl.touched)) ? 'error-border': ''">
+          </div>
+          <div class="col-md-12" [hidden]="accountNumberControl.valid || accountNumberControl.untouched">
+            <span *ngIf="accountNumberControl.hasError('required')" class="error-message-span">Không được để
+              trống</span>
+            <span *ngIf="accountNumberControl?.errors?.maxlength" class="error-message-span">Tối đa 50 ký tự</span>
+            <span *ngIf="accountNumberControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để
+              trắng</span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-12">
+            <span>Chủ tài khoản<span class="require">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" formControlName="accountNameControl" pInputText
+              [ngClass]="(accountNameControl.invalid && (accountNameControl.dirty || accountNameControl.touched)) ? 'error-border': ''">
+          </div>
+          <div class="col-md-12" [hidden]="accountNameControl.valid || accountNameControl.untouched">
+            <span *ngIf="accountNameControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="accountNameControl?.errors?.maxlength" class="error-message-span">Tối đa 250 ký tự</span>
+            <span *ngIf="accountNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để
+              trắng</span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-12">
+            <span>Chi nhánh<span class="require">*</span></span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" formControlName="branchNameControl" pInputText
+              [ngClass]="(branchNameControl.invalid && (branchNameControl.dirty || branchNameControl.touched)) ? 'error-border': ''">
+          </div>
+          <div class="col-md-12" [hidden]="branchNameControl.valid || branchNameControl.untouched">
+            <span *ngIf="branchNameControl.hasError('required')" class="error-message-span">Không được để trống</span>
+            <span *ngIf="branchNameControl?.errors?.maxlength" class="error-message-span">Tối đa 250 ký tự</span>
+            <span *ngIf="branchNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để
+              trắng</span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px;">
+          <div class="col-md-12">
+            <span>Diễn giải</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" formControlName="bankDetailControl" pInputText
+              [ngClass]="(bankDetailControl.invalid && (bankDetailControl.dirty || bankDetailControl.touched)) ? 'error-border': ''">
+          </div>
+          <div class="col-md-12" [hidden]="bankDetailControl.valid || bankDetailControl.untouched">
+            <span *ngIf="bankDetailControl?.errors?.maxlength" class="error-message-span">Tối đa 250 ký tự</span>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 25px;">
+          <div class="col-md-12">
+            <div class="group-button-footer">
+              <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+              <button type="button" class="save" (click)="save()" [disabled]="awaitResponse"><span
+                  class="save-label">Lưu</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

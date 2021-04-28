@@ -1,0 +1,738 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="detail-vendor">
+  <div class="row no-margin" id="parent">
+    <div class="col-md-12 header" style="padding: 6px;" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+      <div class="row">
+        <div class="col-md-6 no-padding">
+          <div class="row no-margin">
+            <div class="col-md-1 col-sm-1 col-xs-3">
+              <div class="header-box-icon">
+                <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+              </div>
+            </div>
+            <div class="col-md-11 col-sm-10 col-xs-9">
+              <div style="display: flex; flex-direction: column; margin-top: -6px;">
+                <span class="vendor-name">{{vendorModel.vendorName}}</span>
+                <span class="vendor-group-name">{{vendorModel.vendorGroupName}}</span>
+              </div>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12 display-item" style="  justify-content: flex-end; margin-top: 5px;">
+              <button type="button" class="btn-remove">
+                <span (click)="goBackToList()" class="btn-remove-text">Hủy</span>
+              </button>
+              <button (click)="goToVendorOrder()" type="button" class="btn-save">
+                <span class="btn-save-text">Đặt sản phẩm/dịch vụ</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 15px;padding-bottom: 10px;">
+    <div class="col-md-12">
+      <div class="row display-item">
+        <div class="col-md-4 number-header-wrapper" style="margin-right: 10px;">
+          <div class="row display-item">
+            <div class="col-md-12 select-month">
+              <div class="total-product-label">Tổng đặt SP/DV</div>
+              <div>
+                <p-dropdown class="custome-drop-down" [options]="listMonth" [(ngModel)]="selectedMonth"
+                  optionLabel="label" [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event)"></p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 total-product-number-wrapper">
+              <span class="total-product-number">{{vendorOrderByMonth.amount | number}}</span>
+            </div>
+          </div>
+          <div class="row display-item">
+            <div class="col-md-12 last-month-wrapper">
+              <div class="last-month-value">Tháng trước: {{preVendorOrderByMonth.amount | number}}</div>
+              <div class="comparition"
+                [ngStyle]="{'color': (vendorOrderByMonth.amount - preVendorOrderByMonth.amount) < 0 ? '#ff3b30' : '#34c759' }">
+                <span *ngIf="(vendorOrderByMonth.amount - preVendorOrderByMonth.amount) < 0">
+                  <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                </span>
+                <span *ngIf="(vendorOrderByMonth.amount - preVendorOrderByMonth.amount) > 0">
+                  <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                </span>
+                {{vendorOrderByMonth.amount - preVendorOrderByMonth.amount | number}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 number-header-wrapper" style="margin-right: 10px;">
+          <div class="row display-item">
+            <div class="col-md-12 select-month">
+              <div class="total-product-label">Nợ phải trả</div>
+              <div>
+                <p-dropdown class="custome-drop-down" [options]="listMonth" [(ngModel)]="selectedMonth"
+                  optionLabel="label" [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event)"></p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 total-product-number-wrapper">
+              <span class="total-product-number">{{receivableByMonth.amount | number}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 last-month-wrapper">
+              <div class="last-month-value">Tháng trước: {{preReceivableByMonth.amount | number}}</div>
+              <div class="comparition"
+                [ngStyle]="{'color': (receivableByMonth.amount - preReceivableByMonth.amount) < 0 ? '#ff3b30' : '#34c759' }">
+                <span *ngIf="(receivableByMonth.amount - preReceivableByMonth.amount) < 0">
+                  <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                </span>
+                <span *ngIf="(receivableByMonth.amount - preReceivableByMonth.amount) > 0">
+                  <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                </span>
+                {{receivableByMonth.amount - preReceivableByMonth.amount | number}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 number-header-wrapper">
+          <div class="row">
+            <div class="col-md-12 select-month">
+              <div class="total-product-label">Đang xử lý</div>
+              <div>
+                <p-dropdown class="custome-drop-down" [options]="listMonth" [(ngModel)]="selectedMonth"
+                  optionLabel="label" [autoDisplayFirst]="false" (onChange)="changeChooseMonth($event)"></p-dropdown>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 total-product-number-wrapper">
+              <span class="total-product-number">{{vendorOrderInProcessByMonth.amount | number}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 last-month-wrapper">
+              <div class="last-month-value">Tháng trước: {{preVendorOrderInProcessByMonth.amount | number}}</div>
+              <div class="comparition"
+                [ngStyle]="{'color': (vendorOrderInProcessByMonth.amount - preVendorOrderInProcessByMonth.amount) < 0 ? '#ff3b30' : '#34c759' }">
+                <span *ngIf="(vendorOrderInProcessByMonth.amount - preVendorOrderInProcessByMonth.amount) < 0">
+                  <i class="pi pi-arrow-down" style="font-size: 0.7em;"></i>
+                </span>
+                <span *ngIf="(vendorOrderInProcessByMonth.amount - preVendorOrderInProcessByMonth.amount) > 0">
+                  <i class="pi pi-arrow-up" style="font-size: 0.7em;"></i>
+                </span>
+                {{vendorOrderInProcessByMonth.amount - preVendorOrderInProcessByMonth.amount | number}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin infor-vendor-wrapper">
+    <div class="col-md-12">
+      <div class="row display-item">
+        <div class="col-md-6 no-padding">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Thông tin nhà cung cấp" [selected]="true">
+              <div *ngIf="isViewVendorInfor" class="row display-item">
+                <div class="col-md-12 card-visit-wrapper">
+                  <div class="bnt-group">
+                    <i (click)="toggleViewVisitCard()" class="pi pi-pencil" style="font-size: 2em"></i>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Tên nhà cung cấp:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{vendorModel.vendorName}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Mã nhà cung cấp:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{vendorModel.vendorCode}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Số điện thoại:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{contactModel.phone}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Email:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{contactModel.email}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Địa chỉ:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{contactModel.fullAddress}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Phương thức thanh toán:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{vendorModel.paymentName}}
+                    </div>
+                  </div>
+                  <div class="row buffer-bottom">
+                    <div class="col-md-4 pr-0">
+                      Link:
+                    </div>
+                    <div class="col-md-8 pl-0 card-visit-value">
+                      {{contactModel.socialUrl}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              <div *ngIf="!isViewVendorInfor" class="row" style="display: flex;">
+                <form [formGroup]="editVendorForm">
+                  <div class="col-md-12 card-visit-wrapper">
+                    <div class="bnt-group">
+                      <i (click)="editVendorInfor()" class="pi pi-save" style="font-size: 2em"></i>
+                      <i (click)="toggleViewVisitCard()" class="pi pi-times" style="font-size: 2em"></i>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Nhóm nhà cung cấp</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="VendorGroup"
+                          [styleClass]="(editVendorForm.get('VendorGroup').invalid && (editVendorForm.get('VendorGroup').dirty || editVendorForm.get('VendorGroup').touched)) ? 'error-border' : ''"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listVendorGroup"
+                          optionLabel="categoryName" placeholder="Chọn nhóm nhà cung cấp" [showClear]="true"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="editVendorForm.get('VendorGroup').valid || editVendorForm.get('VendorGroup').untouched"
+                          *ngIf="editVendorForm.get('VendorGroup').hasError('required')" class="error-message-span">
+                          Chọn nhóm nhà cung cấp</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Mã nhà cung cấp</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="VendorCode" type="text" maxlength="10"
+                          [ngClass]="(editVendorForm.get('VendorCode').invalid && (editVendorForm.get('VendorCode').dirty || editVendorForm.get('VendorCode').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="Tối đa 10 ký tự" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('VendorCode').valid || editVendorForm.get('VendorCode').untouched">
+                        <span
+                          *ngIf="editVendorForm.get('VendorCode').hasError('required') || editVendorForm.get('VendorCode').hasError('blankString') "
+                          class="error-message-span">Không được
+                          để trống</span>
+                        <span *ngIf="editVendorForm.get('VendorCode').hasError('duplicateCode')"
+                          class="error-message-span">Mã nhà cung cấp đã tồn tại trong hệ thống</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tên nhà cung cấp</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="VendorName" type="text" maxlength="32"
+                          [ngClass]="(editVendorForm.get('VendorName').invalid && (editVendorForm.get('VendorName').dirty || editVendorForm.get('VendorName').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('VendorName').valid || editVendorForm.get('VendorName').untouched">
+                        <span
+                          *ngIf="editVendorForm.get('VendorName').hasError('required') || editVendorForm.get('VendorName').hasError('blankString') "
+                          class="error-message-span">
+                          Nhập tên nhà cung cấp</span>
+                      </div>
+                    </div>
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Email</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Email" type="text" maxlength="100"
+                          [ngClass]="(editVendorForm.get('Email').invalid && (editVendorForm.get('Email').dirty || editVendorForm.get('Email').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('Email').valid || editVendorForm.get('Email').untouched">
+                        <span *ngIf="editVendorForm.get('Email').hasError('pattern')" class="error-message-span">
+                          Sai định dạng Email</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Số điện thoại</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Phone" type="text" maxlength="32"
+                          [ngClass]="(editVendorForm.get('Phone').invalid && (editVendorForm.get('Phone').dirty || editVendorForm.get('Phone').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('Phone').valid || editVendorForm.get('Phone').untouched">
+                        <span *ngIf="editVendorForm.get('Phone').hasError('pattern')" class="error-message-span">
+                          Sai định dạng số điện thoại</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Phương thức thanh toán</span><span class="required">*</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="PaymentMethod"
+                          [styleClass]="(editVendorForm.get('PaymentMethod').invalid && (editVendorForm.get('PaymentMethod').dirty || editVendorForm.get('PaymentMethod').touched)) ? 'error-border' : ''"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listPaymentMethod"
+                          optionLabel="categoryName" placeholder="Chọn phương thức thanh toán" [showClear]="true"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="editVendorForm.get('PaymentMethod').valid || editVendorForm.get('PaymentMethod').untouched"
+                          *ngIf="editVendorForm.get('PaymentMethod').hasError('required')" class="error-message-span">
+                          Chọn phương thức thanh toán</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Tỉnh/Thành phố</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Province" (onChange)="changeProvince($event)"
+                          [styleClass]="(editVendorForm.get('Province').invalid && (editVendorForm.get('Province').dirty || editVendorForm.get('Province').touched)) ? 'error-border' : ''"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listProvince"
+                          optionLabel="provinceName" placeholder="Chọn tỉnh/thành phố" [showClear]="true"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="editVendorForm.get('Province').valid || editVendorForm.get('Province').untouched"
+                          *ngIf="editVendorForm.get('Province').hasError('required')" class="error-message-span">
+                          Chọn tỉnh/thành phố</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Quận/Huyện</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="District" (onChange)="changeDistrict($event)"
+                          [styleClass]="(editVendorForm.get('District').invalid && (editVendorForm.get('District').dirty || editVendorForm.get('District').touched)) ? 'error-border' : ''"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listCurrentDistrict"
+                          optionLabel="districtName" placeholder="Chọn quận/huyện" [showClear]="true"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span
+                          [hidden]="editVendorForm.get('District').valid || editVendorForm.get('District').untouched"
+                          *ngIf="editVendorForm.get('District').hasError('required')" class="error-message-span">
+                          Chọn quận/huyện</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Phường/Xã</span>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown formControlName="Ward"
+                          [styleClass]="(editVendorForm.get('Ward').invalid && (editVendorForm.get('Ward').dirty || editVendorForm.get('Ward').touched)) ? 'error-border' : ''"
+                          [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [options]="listCurrentWard"
+                          optionLabel="wardName" placeholder="Chọn phường/xã" [showClear]="true"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12">
+                        <span [hidden]="editVendorForm.get('Ward').valid || editVendorForm.get('Ward').untouched"
+                          *ngIf="editVendorForm.get('Ward').hasError('required')" class="error-message-span">
+                          Chọn phường/xã</span>
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Địa chỉ</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Address" type="text" maxlength="250"
+                          [ngClass]="(editVendorForm.get('Address').invalid && (editVendorForm.get('Address').dirty || editVendorForm.get('Address').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="Số nhà, đường..." />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('Address').valid || editVendorForm.get('Address').untouched">
+                      </div>
+                    </div>
+
+                    <div class="row buffer-bottom">
+                      <div class="col-md-12 buffer-bottom-label">
+                        <span>Link</span>
+                      </div>
+                      <div class="col-md-12">
+                        <input formControlName="Link" type="text" maxlength="250"
+                          [ngClass]="(editVendorForm.get('Link').invalid && (editVendorForm.get('Link').dirty || editVendorForm.get('Link').touched)) ? 'error-border' : ''"
+                          class="w100" pInputText placeholder="" />
+                      </div>
+                      <div class="col-md-12"
+                        [hidden]="editVendorForm.get('Link').valid || editVendorForm.get('Link').untouched">
+                      </div>
+                    </div>
+
+                  </div>
+
+                </form>
+              </div>
+
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+        <div class="col-md-6 no-padding">
+          <p-chart type="line" [data]="data" [options]="optionsLine" width="90%" [responsive]="true"></p-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 15px;padding-bottom: 10px;">
+    <div class="col-md-12" style="border-radius: 4px;border: solid 1px #cccccc; background-color: #ffffff;">
+      <div class="row display-item">
+        <div class="col-md-6 no-padding">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Người liên hệ" [selected]="true">
+              <div class="row bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedColumns" [value]="listContact" [resizableColumns]="true"
+                        columnResizeMode="expand" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 15]"
+                        selectionMode="single" [(selection)]="selectedContact" (onRowSelect)="editContact($event.data)"
+                        [responsive]="true">
+                        <ng-template pTemplate="caption">
+                          <div class="row">
+                            <div class="col-md-6" style="display: flex;">
+                              <p-multiSelect [options]="columns" optionLabel="header" [(ngModel)]="selectedColumns"
+                                [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6"
+                              style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                              <span (click)="addVendorContact()" class="link">
+                                <span>
+                                  <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                    class="ios-add-circle-outline">
+                                </span>
+                                <span class="add-contact-text">
+                                  Thêm người liên hệ
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                            <th style="text-align: center; width: 100px;">
+                              <span>Thao tác</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                            <td style="text-align: center; width: 100px;">
+                              <!-- <button pButton icon="pi pi-pencil" style="margin-right: 1px;" (click)="editContact(rowData)" ></button> -->
+                              <button pButton icon="pi pi-trash" (click)="deleteContact(rowData)"
+                                class="ui-button-danger"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+        <div class="col-md-6 no-padding">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Thông tin thanh toán" [selected]="true">
+              <div class="row bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedBankColumns" [value]="listBankAccount"
+                        [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 15]" selectionMode="single" [(selection)]="selectedBankAccount"
+                        (onRowSelect)="openCreateBankDialog('edit' ,$event.data)" [responsive]="true">
+                        <ng-template pTemplate="caption">
+                          <div class="row">
+                            <div class="col-md-6" style="display: flex;">
+                              <p-multiSelect [options]="bankAccountColumns" optionLabel="header"
+                                [(ngModel)]="selectedBankColumns" [ngModelOptions]="{ standalone: true }"
+                                selectedItemsLabel="{0} cột được chọn" [style]="{ minWidth: '200px' }"
+                                defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6"
+                              style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                              <span (click)="openCreateBankDialog('create', '')" class="link">
+                                <span>
+                                  <img src="/assets/icons/components/ios-add-circle-outline.svg"
+                                    class="ios-add-circle-outline">
+                                </span>
+                                <span class="add-contact-text">
+                                  Thêm thông tin thanh toán
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display , 'width' : col.width}">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                            <th style="text-align: center;">
+                              <span>Thao tác</span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr [pSelectableRow]="rowData">
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, 'width' : col.width }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                            <td style="text-align: center;">
+                              <!-- <button pButton icon="pi pi-pencil" (click)="openCreateBankDialog('edit', rowData)"
+                                style="margin-right: 5px;"></button> -->
+                              <button pButton icon="pi pi-trash" (click)="deleteBankById(rowData)"
+                                class="ui-button-danger"></button>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="padding-top: 15px;padding-bottom: 10px;">
+    <div class="col-md-12" style="border-radius: 4px;border: solid 1px #cccccc; background-color: #ffffff;">
+      <div class="row display-item">
+        <div class="col-md-6 no-padding">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Danh sách đặt sản phẩm, dịch vụ" [selected]="true">
+              <div class="row bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedOrderColumns" [value]="listVendorOrder"
+                        [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 15]" [responsive]="true" [(selection)]="selectedExchange">
+                        <ng-template pTemplate="caption">
+                          <div class="row">
+                            <div class="col-md-6" style="display: flex;">
+                              <p-multiSelect [options]="orderColumns" optionLabel="header"
+                                [(ngModel)]="selectedOrderColumns" [ngModelOptions]="{ standalone: true }"
+                                selectedItemsLabel="{0} cột được chọn" [style]="{ minWidth: '200px' }"
+                                defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6"
+                              style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                              <span (click)="goToListVendorOrder()" class="link">
+                                <span>
+                                  <img src="/assets/icons/components/Double-Arrow-Left-3.svg"
+                                    class="ios-add-circle-outline">
+                                </span>
+                                <span class="add-contact-text">
+                                  Xem tất cả
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, 'width': col.width, display: col.display }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+
+                              <span *ngSwitchCase="'vendorOrderCode'" class="link"
+                                (click)="goToVenderOrderDetail(rowData)">
+                                {{rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'vendorOrderDate'">
+                                {{rowData[col.field] | date: 'dd/MM/yyyy'}}
+                              </span>
+                              <span *ngSwitchCase="'statusName'"
+                                [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}" style="display: inline-block;
+                                padding: 3px 7px;
+                                width: 100px;
+                                color: white;">
+                                {{rowData[col.field]}}
+                              </span>
+                              <span *ngSwitchCase="'amount'">
+                                {{rowData[col.field] | number}}
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+        <div class="col-md-6 no-padding">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Giao dịch thanh toán" [selected]="true">
+              <div class="row bottom-buffer">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table #table [columns]="selectedExchangeColumns" [value]="listExchange"
+                        [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="5"
+                        [rowsPerPageOptions]="[5, 10, 15]" [responsive]="true" [(selection)]="selectedExchange">
+                        <ng-template pTemplate="caption">
+                          <div class="row">
+                            <div class="col-md-6" style="display: flex;">
+                              <p-multiSelect [options]="exchangeColumns" optionLabel="header"
+                                [(ngModel)]="selectedExchangeColumns" [ngModelOptions]="{ standalone: true }"
+                                selectedItemsLabel="{0} cột được chọn" [style]="{ minWidth: '200px' }"
+                                defaultLabel="Chọn cột"></p-multiSelect>
+                            </div>
+                            <div class="col-md-6"
+                              style="display: flex; justify-content: flex-end; padding-right: 15px; padding-top:5px">
+                              <span (click)="goToListExchange()" class="link">
+                                <span>
+                                  <img src="/assets/icons/components/Double-Arrow-Left-3.svg"
+                                    class="ios-add-circle-outline">
+                                </span>
+                                <span class="add-contact-text">
+                                  Xem tất cả
+                                </span>
+                              </span>
+                            </div>
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header" let-columns>
+                          <tr>
+                            <th *ngFor="let col of columns" pResizableColumn
+                              [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                              <span>
+                                {{ col.header }}
+                              </span>
+                            </th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns">
+                          <tr>
+                            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                              <span class="ui-column-title">{{ col.header }}</span>
+                              <span *ngSwitchCase="'exchangeCode'" class="link" (click)="goToExchangeDetail(rowData)">
+                                {{rowData[col.field] }}
+                              </span>
+                              <span *ngSwitchCase="'statusName'"
+                                [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}" style="display: inline-block;
+                              padding: 3px 7px;
+                              width: 100px;
+                              color: white;">
+                                {{rowData[col.field]}}
+                              </span>
+
+                              <span *ngSwitchCase="'exchangeDate'">
+                                {{rowData[col.field] | date: 'dd/MM/yyyy'}}
+                              </span>
+                              <span *ngSwitchCase="'exchangeValue'">
+                                {{rowData[col.field] | number}}
+                              </span>
+                              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

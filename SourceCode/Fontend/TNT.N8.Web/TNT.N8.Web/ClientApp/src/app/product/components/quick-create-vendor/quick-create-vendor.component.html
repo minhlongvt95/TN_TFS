@@ -1,0 +1,78 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+<div class="quick-create-vendor-pop-up">
+  <form [formGroup]="createVendorForm">
+    <div class="row top-buffer bottom-buffer">
+      <div class="col-md-12">
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Nhóm nhà cung cấp<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown
+              [styleClass]="(createVendorForm.get('VendorGroup').invalid && (createVendorForm.get('VendorGroup').dirty || createVendorForm.get('VendorGroup').touched)) ? 'error-border' : ''"
+              formControlName="VendorGroup" [options]="listVendorCategory" optionLabel="categoryName"
+              [autoDisplayFirst]="false" [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorForm.get('VendorGroup').valid || createVendorForm.get('VendorGroup').untouched">
+            <span *ngIf="createVendorForm.get('VendorGroup').hasError('required')" class="error-message-span">Không được
+              để trống</span>
+          </div>
+        </div>
+        <div class="row bottom-buffer">
+          <div class="col-md-12 buffer-bottom-label">
+            Tên<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <input maxlength="200"
+              [ngClass]="(createVendorForm.get('VendorName').invalid && (createVendorForm.get('VendorName').dirty || createVendorForm.get('VendorName').touched)) ? 'error-border' : ''"
+              formControlName="VendorName" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorForm.get('VendorName').valid || createVendorForm.get('VendorName').untouched">
+            <span
+              *ngIf="createVendorForm.get('VendorName').hasError('required') || createVendorForm.get('VendorName').hasError('blankString')"
+              class="error-message-span">Không được
+              để trống</span>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-12 buffer-bottom-label">
+            Mã<span class="required">*</span>
+          </div>
+          <div class="col-md-12">
+            <input maxlength="10"
+              [ngClass]="(createVendorForm.get('VendorCode').invalid && (createVendorForm.get('VendorCode').dirty || createVendorForm.get('VendorCode').touched)) ? 'error-border' : ''"
+              formControlName="VendorCode" type="text" class="full-width" pInputText />
+          </div>
+          <div class="col-md-12"
+            [hidden]="createVendorForm.get('VendorCode').valid || createVendorForm.get('VendorCode').untouched">
+            <span
+              *ngIf="createVendorForm.get('VendorCode').hasError('required') || createVendorForm.get('VendorCode').hasError('blankString')"
+              class="error-message-span">Không được
+              để trống</span>
+            <span *ngIf="createVendorForm.get('VendorCode').hasError('duplicateCode')" class="error-message-span">Đã tồn
+              tại mã nhà cung cấp</span>
+            <span *ngIf="createVendorForm.get('VendorCode').hasError('pattern')" class="error-message-span">
+              Mã nhà cung cấp không cho phép chứa khoảng trắng và ký tự đặc biệt</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+        <button (click)="onCancel()" pButton type="button" label="Hủy" style="margin-right: 1.2rem;"></button>
+        <button (click)="onSave()" pButton type="button" label="Lưu"></button>
+      </div>
+    </div>
+  </form>
+</div>

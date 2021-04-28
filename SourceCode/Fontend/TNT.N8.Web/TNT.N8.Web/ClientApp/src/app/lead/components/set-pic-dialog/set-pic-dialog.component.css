@@ -1,0 +1,57 @@
+.set-pic .buffer-bottom {
+    margin-bottom: 1.2rem;
+}
+
+.set-pic .buffer-bottom-label {
+    margin-bottom: 3px;
+}
+
+.set-pic .error-message-span {
+    color: red
+}
+
+.set-pic .btn-remove {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.set-pic .btn-remove-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.set-pic .btn-save {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+}
+
+.set-pic .btn-save-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}

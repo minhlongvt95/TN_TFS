@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style type="text/css">
+        body{
+      padding: 30px;
+      font-family: Arial;
+    }
+        td, span, div, h3 {
+            
+        }
+
+        td, span, div {
+            font-size: 17px;
+        }
+
+        table.table-bordered tr td:nth-child(2){
+            border-bottom: dotted 1px black;
+        }
+    </style>
+</head>
+<body style="font-family: Arial">
+  <div style="width:100%; padding: 0 !important">
+    <table style="width: 100%; font-size: 20px">
+      <tr>
+          <td>[CompanyName]</td>
+          <td style="font-weight: 600; text-align: right">Số phiếu: <b>[Code]</b></td>
+      </tr>
+      <tr>
+          <td colspan="2">[CompanyAddress]</td>
+      </tr>
+    </table>
+    <div class="col-md-12" style="padding: 0; margin:0; text-align: center">
+      <div class="col-md-12">
+        <div style="width: 100% !important; font-size: 20px;"><h2>BÁO CÓ</h2></div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div style="text-align: right"><h5 style="font-style:italic;font-size: 13px">Ngày [CreateDateDay] Tháng [CreateMonth] Năm [CreateYear]</h5></div>
+    </div>
+    <div style="padding-top: -30px">
+      <table class="table table-bordered" cellpadding='5px' cellspacing='0' style="padding-left: 5px; width: 100%">
+        <tbody>
+          <tr>
+            <td style="width: 20%"><span style="font-weight: bold">&nbsp;Người tạo:</span></td>
+            <td>&nbsp;<b>[CreatedBy]</b></td>
+          </tr>
+          <tr>
+            <td><span style="">&nbsp;Lí do thu:</span></td>
+            <td>&nbsp;[Reason]</td>
+          </tr>
+          <tr>
+            <td><span style="">&nbsp;Đối tượng thu:</span></td>
+            <td>&nbsp;[Object]</td>
+          </tr>
+          <tr>
+            <td>&nbsp;Nội dung thu:</td>
+            <td>&nbsp;[Content]</td>
+          </tr>
+          <tr>
+            <td>&nbsp;<b>Số tiền:</b></td>
+            <td>&nbsp;<b>[Price] &#32; VNĐ</b></td>
+          </tr>
+          <tr>
+            <td>&nbsp;<b>Bằng chữ:</b></td>
+            <td>&nbsp;<b>[PriceString]</b></td>
+          </tr>
+          <tr>
+            <td>&nbsp;<i>Ghi chú:</i></td>
+            <td>&nbsp;[Note]</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="col-md-12" style="padding-right: 0;padding-top: 5px;margin-top: 30px">
+        <table style="width: 100%; text-align: center;" cellpadding="5" cellspacing="3">
+          <tr>
+            <td><b>Người lập phiếu</b></td>
+            <td><b>Người nộp tiền</b></td>
+            <td><b>Thủ quỹ</b></td>
+            <td><b>Giám đốc</b></td>
+          </tr>
+          <tr>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+            <td><i>(Ký và ghi rõ họ tên)</i></td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <br>
+      <!--<div class="col-md-12" style="padding-top: 10px;font-size: 13px"><h4 style="font-size: 13px">Thực thu:</h4></div>-->
+    </div>
+  </div>
+</body>

@@ -1,0 +1,611 @@
+.price-list {
+  font-family: "Inter UI";
+}
+.price-list i.pi.pi-search {
+  position: relative;
+
+  z-index: 1;
+  float: right;
+  top: 5px;
+  right: 5px;
+}
+.price-list input.search {
+  left: 20px;
+  z-index: 0;
+  position: relative;
+}
+.price-list .price-list-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.price-list .button-group {
+  width: 100% !important;
+  height: "auto";
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.price-list .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+
+.price-list .button-group .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+.price-list .button-group .btn-cancel .text-cancel {
+  width: 24px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.price-list .button-group .btn-create-add {
+  width: 90px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #0f62fe;
+  background-color: #ffffff;
+  margin-left: 5px;
+}
+
+.price-list .button-group .btn-create-add .text-save-and-new {
+  width: 102px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0f62fe;
+}
+
+.price-list .button-group .btn-create {
+  width: 90px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.price-list .button-group .btn-create .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.price-list .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.price-list .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: "Inter UI";
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.price-list .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.price-list .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.price-list .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.price-list input[name="moneyToLetter"] {
+  font-weight: 600;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.price-list .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.price-list .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.price-list .notification {
+  position: absolute;
+  top: 38px;
+  width: 400px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.price-list .excel {
+  float: right;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+}
+.price-list .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.price-list .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.price-list .cash-create hr {
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.price-list .require {
+  color: #f94e4e;
+}
+
+.price-list .opaque {
+  color: #999999;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.price-list .right-text {
+  padding: 0px 15px 0 30px;
+  border-left: 1px solid #999999;
+  padding-bottom: 100px;
+}
+
+.price-list .control-label label,
+.price-list .control-label {
+  font-weight: 400;
+}
+
+.price-list .form-control {
+  border-radius: 0.25rem;
+}
+
+.price-list .form-control,
+.price-list select.form-control {
+  height: auto;
+  max-height: 34px;
+  margin-bottom: 18px;
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.price-list p.form-control {
+  min-height: 34px;
+  max-height: none !important;
+}
+
+.price-list .no-padding {
+  padding: 0 !important;
+}
+
+.price-list .no-margin {
+  margin: 0 !important;
+}
+
+.price-list .error-message-span {
+  color: red !important;
+}
+
+.price-list .no-padding-left {
+  padding-left: 0 !important;
+}
+
+::ng-deep .price-list .mat-form-field-underline {
+  border: none !important;
+}
+
+::ng-deep .price-list .mat-form-field-wrapper {
+  bottom: 5px;
+}
+
+::ng-deep .price-list .mat-form-field-infix {
+  border: 2px solid transparent !important;
+  height: 34px;
+}
+
+::ng-deep .price-list .mat-select-value {
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+}
+
+::ng-deep .price-list .mat-select-trigger {
+  bottom: 1px;
+}
+
+::ng-deep .price-list .mat-option-text {
+  font-size: 14px !important;
+}
+
+.price-list .error-border,
+.price-list .error-border:focus {
+  border-color: #f44336;
+}
+
+.price-list .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.price-list .help-block {
+  color: red;
+  margin: 0 !important;
+}
+
+.price-list .mat-raised-button {
+  font-family: "Open Sans", sans-serif;
+}
+
+.price-list .mat-table {
+  font-family: "Open Sans", sans-serif;
+}
+
+.price-list .mat-paginator {
+  font-family: "Open Sans", sans-serif;
+}
+
+.price-list .clear {
+  position: relative;
+  float: right;
+  bottom: 16px;
+  left: 22px;
+  font-size: 18px !important;
+}
+
+.price-list .cursor {
+  cursor: pointer;
+}
+
+.price-list .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.price-list .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.price-list .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.price-list .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.price-list .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .price-list .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep
+  .price-list
+  .ui-accordion
+  .ui-accordion-header:not(.ui-state-disabled).ui-state-active
+  a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep
+  .price-list
+  .ui-accordion
+  .ui-accordion-header:not(.ui-state-disabled).ui-state-active
+  a
+  .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep
+  .price-list
+  .ui-accordion
+  .ui-accordion-header
+  a
+  .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep
+  .price-list
+  .ui-accordion
+  .ui-accordion-header:not(.ui-state-disabled).ui-state-active
+  a {
+  color: #121619 !important;
+}
+
+::ng-deep .price-list .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+/* ::ng-deep .price-list .row{
+    margin-left: 0px;
+    margin-right: 0px;
+  } */
+
+.price-list .w100 {
+  width: 100% !important;
+}
+
+.price-list .mt-10 {
+  margin-top: 10px;
+}
+
+.price-list .box-text-money {
+  height: "auto";
+  background-color: #0f62fe;
+}
+
+.price-list .box-text-money .text-money-title {
+  height: 14px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.price-list .box-text-money .text-money-number {
+  float: right;
+  height: 13px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.price-list .box-text-money .text-money-text {
+  width: 100%;
+  height: 14px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: right;
+  color: #ffffff;
+}
+
+.price-list .border-right-color {
+  border-right: 1px solid #999999;
+}
+
+.mt-25{
+  margin-top: 25px;
+}
+.import-file{
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  color: black;
+  border: solid 1px #c1c7cd;
+}
+.text-import{
+  color: white;
+}
+
+::ng-deep .price-list .ui-datepicker {
+  top: 31px !important;
+}
+.price-list span.ui-column-title {
+  /* min-width: 90px; */
+  width: 130px;
+}
+/*End: Customize Accordion */
+@media only screen and (max-width: 1423px) {
+  .price-list .ios-warning {
+    top: 0px;
+  }
+  .price-list .save {
+    margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media only screen and (max-width: 769px) {
+  .price-list .fixed {
+    width: 62% !important;
+  }
+  .price-list input.search {
+    margin-bottom: 8px;
+  }
+}
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (max-width: 415px) {
+  .price-list .fixed {
+    width: 85.3% !important;
+  }
+  .price-list input.search {
+    left: 0px;
+    top: -10px;
+    z-index: 0;
+    position: relative;
+    width: 100%;
+  }
+  .price-list i.pi.pi-search {
+    position: relative;
+    z-index: 1;
+    float: right;
+    top: 11px;
+    right: 5px;
+  }
+}
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 376px) {
+  .price-list .fixed {
+    width: 83.7% !important;
+  }
+  .price-list input.search {
+    left: 0px;
+    top: -10px;
+    z-index: 0;
+    position: relative;
+    width: 100%;
+  }
+  .price-list i.pi.pi-search {
+    position: relative;
+    z-index: 1;
+    float: right;
+    top: 11px;
+    right: 5px;
+  }
+}
+
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .price-list .fixed {
+    width: 80.7% !important;
+  }
+}

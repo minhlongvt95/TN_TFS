@@ -1,0 +1,79 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="convert-dialog-body">
+  <div class="row no-margin">
+    <div class="row buffer-bottom no-margin">
+      <div class="col-md-12">
+        Tạo liên hệ mới: {{potentialCustomerModel.customerName}}
+      </div>
+    </div>
+    <div class="row buffer-bottom no-margin ">
+      <div class="col-md-12 mt-10">
+        <p-checkbox [(ngModel)]="converdialog_isCreateCustomer" (onChange)="changeCreateCustomerCheckBox($event)"
+          binary="true" label="Tạo khách hàng">
+        </p-checkbox>
+      </div>
+    </div>
+
+    <form [formGroup]="convertToCustomerForm" *ngIf="converdialog_isCreateCustomer">
+      <div class="row no-margin" style="padding-top: 10px;padding-bottom: 10px;">
+        <div class="col-md-12 customer-infor">
+          <div class="row buffer-bottom">
+            <div class="col-md-12 buffer-bottom-label">
+              <span>Người phụ trách</span><span class="required">*</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown formControlName="Pic"
+                [styleClass]="(convertToCustomerForm.get('Pic').invalid && (convertToCustomerForm.get('Pic').dirty || convertToCustomerForm.get('Pic').touched)) ? 'error-border' : ''"
+                [options]="listPersonalInChange" optionLabel="employeeName" placeholder="Chọn người phụ trách"
+                [filter]="true" [showClear]="true" [resetFilterOnHide]="true" [style]="{'width': '100%'}"
+                [style]="{'width':'100%', 'appendTo': 'body', 'top': '0px !important'}" [baseZIndex]="9999"
+                [virtualScroll]="true" itemSize="30" (keydown.enter)="$event.preventDefault()">
+              </p-dropdown>
+              <span [hidden]="convertToCustomerForm.get('Pic').valid || convertToCustomerForm.get('Pic').untouched"
+                *ngIf="convertToCustomerForm.get('Pic').hasError('required')" class="error-message-span">
+                Chọn người phụ trách</span>
+            </div>
+          </div>
+
+          <div class="row buffer-bottom">
+            <div class="col-md-12 buffer-bottom-label">
+              <p-checkbox formControlName="IsCreatedLead" (onChange)="changeCreateLeadDialog($event)" binary="true"
+                label="Tạo cơ hội">
+              </p-checkbox>
+            </div>
+            <div class="row no-margin" *ngIf="convertToCustomerForm.get('IsCreatedLead')?.value">
+              <div class="col-md-12 buffer-bottom-label">
+                <span>Tên cơ hội</span><span class="required">*</span>
+              </div>
+              <div class="col-md-12 buffer-bottom-label">
+                <input formControlName="LeadName"
+                  [ngClass]="(convertToCustomerForm.get('LeadName').invalid && (convertToCustomerForm.get('LeadName').dirty || convertToCustomerForm.get('LeadName').touched)) ? 'error-border' : ''"
+                  type="text" class="w100" pInputText placeholder="" (keydown.enter)="$event.preventDefault()" />
+                <span
+                  [hidden]="convertToCustomerForm.get('LeadName').valid || convertToCustomerForm.get('LeadName').untouched"
+                  *ngIf="convertToCustomerForm.get('LeadName').hasError('required')" class="error-message-span">
+                  Nhập tên cơ hội</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="col-md-12 mt-10">
+      <div class="group-button-footer">
+        <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+        <button type="button" class="save" (click)="save()"><span class="save-label">Lưu</span></button>
+      </div>
+    </div>
+  </div>
+
+</div>

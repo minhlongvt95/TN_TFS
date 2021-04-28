@@ -1,0 +1,158 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<p-toast position="bottom-right"></p-toast>
+
+<div class="cost-create">
+  <div class="row no-margin">
+    <form [formGroup]="costForm" style="height: 100%;">
+      <div class="col-md-12"  >
+        <div class="row cost-create-content" >
+          <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}"[ngStyle]="{'width':withFiexd}"  >
+            <div class="col-md-12">
+              <span *ngIf="!isInvalidForm">
+                <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+              </span>
+              <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+              </div>
+              <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                <div *ngIf="(costCodeControl.invalid && (costCodeControl.dirty || costCodeControl.touched))"
+                  class="notifi-row" (click)="scroll(boxCostCode)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="costCodeControl.hasError('required')" class="notifi-text">Chưa điền mã phí</span>
+                  <span *ngIf="costCodeControl?.errors?.forbiddenSpaceText" class="notifi-text">Mã phí không được để
+                    trắng</span>
+                </div>
+                <div *ngIf="(costNameControl.invalid && (costNameControl.dirty || costNameControl.touched))"
+                  class="notifi-row" (click)="scroll(boxCostName)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="costNameControl.hasError('required')" class="notifi-text">Chưa điền tên phí</span>
+                  <span *ngIf="costNameControl?.errors?.forbiddenSpaceText" class="notifi-text">Tên phí không được để
+                    trắng</span>
+                </div>
+              </div>
+                <div  style="float: right;"  >
+                  <button class="btn-cancel" type="button" (click)="cancel()"><span
+                      class="text-cancel">Hủy</span></button>
+                  <button #save class="btn-create" *ngIf="actionAdd && !isUpdate" type="button" (click)="createCost()"
+                    [disabled]="awaitResult"><span class="text-save">Lưu</span></button>
+                  <button #save class="btn-create" *ngIf="actionAdd && isUpdate" type="button" (click)="updateCost()"
+                    [disabled]="awaitResult"><span class="text-save">Cập nhật</span></button>
+                </div>
+              
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+          <div class="row no-margin" style="background-color: #ffffff; padding: 10px 0px"  id="parent">
+            <div class="col-md-8" style="margin-top: 20px;">
+              <p-table [columns]="selectedColumns" [value]="listCost" [responsive]="true" [resizableColumns]="true"
+                selectionMode="single" (onRowSelect)="reShowNote($event)" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[10,30,100]">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [ngStyle]="{'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                    <th style="width:4em"></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr [pSelectableRow]="rowData">
+                    <td *ngFor="let col of columns" [ngSwitch]="col.field" class="ui-resizable-column"
+                      [ngStyle]="{'text-align': col.textAlign}">
+                      <!-- <span *ngSwitchCase="'createdDate'">{{rowData[col.field] | date: 'dd/MM/yyyy'}}</span> -->
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span>{{rowData[col.field]}}</span>
+                    </td>
+                    <td>
+                      <span class="ui-column-title">Thao tác</span>
+                      <button *ngIf="actionDelete" pButton icon="pi pi-trash" class="ui-button-danger"></button>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="col-md-4 no-padding">
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Thêm chi phí" [selected]="true">
+                    <div class="col-md-12">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Mã phí<span class="require">*</span></label>
+                        </div>
+                        <div #boxCostCode class="col-md-12 no-padding">
+                          <!-- <input type="text" pInputText pKeyFilter="alphanum" placeholder="Alphanumberic"> -->
+                          <input class="w100" type="text" placeholder="Nhập mã phí" pKeyFilter="alphanum" pInputText 
+                            formControlName="costCodeControl" maxlength="50"
+                            [ngClass]="(costCodeControl.invalid  && (costCodeControl.dirty ||  costCodeControl.touched)) ? 'error-border': ''">
+                        </div>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="costCodeControl.valid || costCodeControl.untouched">
+                        <span *ngIf="costCodeControl.hasError('required')" class="error-message-span">Chưa điền mã
+                          phí</span>
+                        <span *ngIf="costCodeControl?.errors?.forbiddenSpaceText" class="error-message-span">Mã phí
+                          không được để trắng</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Tên phí<span class="require">*</span></label>
+                        </div>
+                        <div #boxCostName class="col-md-12 no-padding">
+                          <input class="w100 input-text" placeholder="Nhập tên phí" type="text" pInputText
+                            formControlName="costNameControl"
+                            [ngClass]="(costNameControl.invalid  && (costNameControl.dirty ||  costNameControl.touched)) ? 'error-border': ''">
+                        </div>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="costNameControl.valid || costNameControl.untouched">
+                        <span *ngIf="costNameControl.hasError('required')" class="error-message-span">Chưa điền tên
+                          phí</span>
+                        <span *ngIf="costNameControl?.errors?.forbiddenSpaceText" class="error-message-span">Tên phí
+                          không được để trắng</span>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>
+                            Bộ phận <a href="javascript:(0)" (click)="openOrgPopup()"> <u>(Xem sơ đồ tổ chức)</u></a>
+                          </label>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                          <input class="w100" type="text" placeholder="Chọn bộ phận"
+                            formControlName="costOrganizationControl" pInputText readonly>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-12 mt-10">
+                      <div class="row no-margin">
+                        <div class="col-md-12 no-padding">
+                          <label>Trạng thái</label>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                          <p-dropdown [options]="listStatus" placeholder="Chọn trạng thái"
+                            formControlName="costStatusControl" optionLabel="categoryName" [style]="{'width': '100%'}">
+                          </p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

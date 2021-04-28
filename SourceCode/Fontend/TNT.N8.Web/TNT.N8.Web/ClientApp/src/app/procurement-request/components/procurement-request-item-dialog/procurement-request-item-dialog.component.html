@@ -1,0 +1,99 @@
+<section class="add-content popup">
+  <div class="row">
+      <div class="title-popup">
+        <h4>THÊM SẢN PHẨM/DỊCH VỤ</h4>
+      </div>
+  </div>
+  <div class="form-content">
+    <form [formGroup]='createPRItemForm' class="my-4 w100">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input placeholder="Nhà cung cấp" required id="vendorControl" formControlName="vendorControl" matInput [matAutocomplete]="autoVendor">
+            <mat-autocomplete autoActiveFirstOption #autoVendor="matAutocomplete" (optionSelected)="selectedVendorFn($event)">
+              <mat-option *ngFor="let option of filteredVendorOptions | async" [value]="option.vendorId" matTooltip="{{option.vendorCode}}-{{option.vendorName}}">
+                {{option.vendorCode}}-{{option.vendorName}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input matInput placeholder="Mã dự toán" name="procurementPlanControl" formControlName="procurementPlanControl" required [matAutocomplete]="autoProPlan"/>
+            <mat-autocomplete autoActiveFirstOption #autoProPlan="matAutocomplete" (optionSelected)="selectedPRPlan($event)">
+              <mat-option *ngFor="let option of filteredProcurementPlanOptions | async" [value]="option.procurementPlanId" matTooltip="{{option.procurementPlanCode}}">
+                {{option.procurementPlanCode}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input id="productNameControl" formControlName="productNameControl" matInput placeholder="Chọn sản phẩm" [matAutocomplete]="autoProduct">
+            <mat-autocomplete autoActiveFirstOption #autoProduct="matAutocomplete" (optionSelected)="selectedProductFn($event)">
+              <mat-option *ngFor="let product of filteredProductOptions  | async" [value]="product.productId" matTooltip="{{product.productName}}">
+                {{product.productName}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input matInput placeholder="Mã sản phẩm" id="productCodeControl" formControlName="productCodeControl" [(ngModel)]='prItemModel.productCode'>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <mat-select placeholder="Đơn vị tính" [(ngModel)]='prItemModel.unit' disabled
+            name="unitControl" formControlName="unitControl" (selectionChange)='selectedUnit($event)'>
+              <mat-option *ngFor="let option of listunit" [value]="option.categoryId">
+                {{option.categoryName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input matInput placeholder="Số lượng" (blur)='onPriceOrQuantityChange()'
+                   mask="separator.{{defaultNumberType}}"
+	                 thousandSeparator=","
+	                 (keypress)="onKeyPress($event)"
+                   required id="quantityControl" formControlName="quantityControl" [(ngModel)]='prItemModel.quantity'>      
+            <mat-error *ngIf="createPRItemForm.controls['quantityControl'].touched && createPRItemForm.controls['quantityControl'].hasError('min')">Cần lớn hơn 0</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input matInput
+                   mask="separator.{{defaultNumberType}}"
+	                 thousandSeparator=","
+	                 (keypress)="onKeyPress($event)"
+                   placeholder="Đơn giá"
+                   (blur)='onPriceOrQuantityChange()'
+                   required id="unitPriceControl"
+                   formControlName="unitPriceControl"
+                   [(ngModel)]='prItemModel.unitPrice'>         
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="w100">
+            <input matInput placeholder="Thành tiền(VNĐ)"
+            required id="totalControl" currencyMask formControlName="totalControl" [(ngModel)]='this.prItemModel.totalPrice'>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 button-action">
+          <button mat-raised-button class="btn-bordered" color="primary" (click)="saveItem()">Lưu</button>
+          <button mat-raised-button class="btn-bordered" (click)="cancel()">Hủy</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

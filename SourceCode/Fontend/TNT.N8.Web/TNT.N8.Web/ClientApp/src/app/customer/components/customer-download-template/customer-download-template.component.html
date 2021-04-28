@@ -1,0 +1,37 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner  [style]="{width: '50px', height: '50px'}" 
+                      strokeWidth="8" 
+                      fill="#EEEEEE" 
+                      animationDuration=".5s"></p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+<div class="customer-download-templete">
+  <form [formGroup]="downloadTemplateForm">
+    <div class="row" style="padding-bottom: 6rem">
+      <div class="col-md-3">
+        Loại khách hàng
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12" style="padding-bottom: 2rem"> 
+            <p-radioButton name="customertype" value="1" formControlName="typeControl" label="Doanh nghiệp"></p-radioButton>
+          </div>
+          <div class="col-md-12"> 
+            <p-radioButton name="customertype" value="2" formControlName="typeControl" label="Khách hàng cá nhân"></p-radioButton>
+          </div>         
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row buttons">
+    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+      <button type="button" class="btn-remove">
+        <span class="btn-remove-text" (click)="onCancelClick()">Hủy</span>
+      </button>
+      <button type="button" class="btn-save">
+        <span class="btn-save-text" (click)="onSaveClick()">Lưu</span>
+      </button>
+    </div>  
+  </div>
+</div>
+

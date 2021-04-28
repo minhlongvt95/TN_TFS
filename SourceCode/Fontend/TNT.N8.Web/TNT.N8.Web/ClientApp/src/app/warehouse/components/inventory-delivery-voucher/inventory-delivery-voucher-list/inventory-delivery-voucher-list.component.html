@@ -1,0 +1,410 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}"
+                     strokeWidth="8"
+                     fill="#EEEEEE"
+                     animationDuration=".5s"></p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="inventory-delivery-voucher-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách phiếu xuất kho</div>
+                  <div class="box-header-subtitle">
+                    {{SumRow}} phiếu xuất kho - Sắp xếp theo ngày tạo - Cập nhật {{currentDate|date:'dd/MM/yyyy HH:mm'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" (click)="createOrUpdateInventoryVoucher()"><span class="btn-create-text">Tạo mới</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách"
+                     (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã phiếu xuất kho</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="voucherCode" placeholder="Mã phiếu xuất kho">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày lập phiếu</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+                        #inventoryCreateDate
+                        (onSelect)="onDatesRangeinventoryCreateDateCalendar($event)"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                        [(ngModel)]="listCreateDate"
+                        selectionMode="range"
+                        [readonlyInput]="true" placeholder="Ngày lập phiếu" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày xuất kho</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+                        #inventoryReceivingDate
+                        (onSelect)="onDatesRangeinventoryReceivingDate($event)"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                        [(ngModel)]="listInventoryReceivingDate"
+                        selectionMode="range" [readonlyInput]="true" placeholder="Ngày xuất kho" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" inputId="statusid"
+                           defaultLabel="Trạng thái"
+                           [style]="{'width': '100%'}"
+                           [(ngModel)]="listStatusSelected"
+                           [virtualScroll]="true"
+                           (onPanelHide)="closePanelStatus()"
+                           optionLabel="categoryName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Chọn kho xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listWarehouse" inputId="warhouseId"
+                           defaultLabel="Chọn kho nhập"
+                           [style]="{'width': '100%'}"
+                           [virtualScroll]="true"
+                           [(ngModel)]="listWarehouseSelected"
+                           (onPanelHide)="closePanelWarehouse()"
+                           optionLabel="warehouseName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người lập phiếu</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listCreateVoucher" inputId="createVoucherId"
+                           [(ngModel)]="listCreateVoucherSelected"
+                           [style]="{'width': '100%'}"
+                           [virtualScroll]="true"
+                           defaultLabel="Người lập phiếu" optionLabel="employeeName"
+                           (onPanelHide)="closePanelCreateVoucher()">
+            </p-multiSelect>
+          </div>
+        </div>
+
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Khách hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listCustomer" inputId="customerId"
+                           [(ngModel)]="listVendorSelected"
+                           [style]="{'width': '100%'}"
+                           defaultLabel="Nhà cung cấp"
+                           [virtualScroll]="true"
+                           (onPanelHide)="closePanelVendor()"
+                           styleClass="cusPmultiSelect" optionLabel="customerName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProduct" inputId="productid"
+                           [(ngModel)]="listProductSelected"
+                           [style]="{'width': '100%'}"
+                           defaultLabel="Sản phẩm" [virtualScroll]="true"
+                           (onPanelHide)="closePanelProduct()"
+                           styleClass="cusPmultiSelect" optionLabel="productName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Serial</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="serial" placeholder="Serial">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="filterInventoryVoucher()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="(listInventoryReceivingVoucher.length > 0)" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="cols" [value]="listInventoryReceivingVoucher" [resizableColumns]="true" selectionMode="single"
+               (sortFunction)="customSort($event)" [customSort]="true"
+               columnResizeMode="expand" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]" (onPage)="pageChange($event)"
+               [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn
+                [ngStyle]="{'text-align': col.textAlign}"
+                [pSortableColumn]="col.field">
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column"
+                [ngStyle]="{'text-align': col.textAlign }"
+                [ngSwitch]="col.field">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'inventoryDeliveryVoucherCode'" (click)="goDetails(rowData['inventoryDeliveryVoucherId'])" class="link">
+                {{rowData[col.field]}}
+              </span>
+              <span *ngSwitchCase="'vedorName'" (click)="goToDetailObject(rowData)" class="link">
+                <a class="link-name" style="vertical-align:middle;width:100%;display:inline">
+                  {{rowData['vedorName']}}
+                </a>
+              </span>
+
+              <span *ngSwitchCase="'nameObject'" class="link">
+                <a class="link-name" (click)="goOrder(rowData)" style="vertical-align:middle;width:100%;display:inline">
+                  {{rowData['nameObject']}}
+                </a>
+              </span>
+
+              <span *ngSwitchCase="'createdDate'">
+                {{rowData['createdDate'] | date:'dd/MM/yyyy'}}
+              </span>
+
+              <span *ngSwitchCase="'inventoryDeliveryVoucherDate'">
+                {{rowData['inventoryDeliveryVoucherDate'] | date:'dd/MM/yyyy'}}
+              </span>
+
+              <span *ngSwitchCase="'inventoryDeliveryVoucherTypeName'">
+                {{rowData['inventoryDeliveryVoucherTypeName']}}
+              </span>
+
+
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="!(listInventoryReceivingVoucher.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data-quote">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <span>Mã phiếu xuất kho</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="voucherCode" placeholder="Mã phiếu xuất kho">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày lập phiếu</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+                        #inventoryCreateDate
+                        (onSelect)="onDatesRangeinventoryCreateDateCalendar($event)"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                        [(ngModel)]="listCreateDate"
+                        selectionMode="range"
+                        [readonlyInput]="true" placeholder="Ngày lập phiếu" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Ngày xuất kho</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [style]="{width:'100%'}"
+                        #inventoryReceivingDate
+                        (onSelect)="onDatesRangeinventoryReceivingDate($event)"
+                        [inputStyle]="{'width':'100%'}" [baseZIndex]="999"
+                        [(ngModel)]="listInventoryReceivingDate"
+                        selectionMode="range" [readonlyInput]="true" placeholder="Ngày xuất kho" dateFormat="dd/mm/yy"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" inputId="statusid"
+                           defaultLabel="Trạng thái"
+                           [style]="{'width': '100%'}"
+                           [(ngModel)]="listStatusSelected"
+                           [virtualScroll]="true"
+                           (onPanelHide)="closePanelStatus()"
+                           optionLabel="categoryName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Chọn kho xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listWarehouse" inputId="warhouseId"
+                           defaultLabel="Chọn kho xuất"
+                           [style]="{'width': '100%'}"
+                           [virtualScroll]="true"
+                           [(ngModel)]="listWarehouseSelected"
+                           (onPanelHide)="closePanelWarehouse()"
+                           optionLabel="warehouseName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người lập phiếu</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listCreateVoucher" inputId="createVoucherId"
+                           [(ngModel)]="listCreateVoucherSelected"
+                           [style]="{'width': '100%'}"
+                           [virtualScroll]="true"
+                           defaultLabel="Người lập phiếu" optionLabel="employeeName"
+                           (onPanelHide)="closePanelCreateVoucher()">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <!--<div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người nhập kho</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStorekeeper" inputId="Storekeeperid"
+                           [(ngModel)]="listStorekeeperSelected"
+                           [style]="{'width': '100%'}"
+                           [virtualScroll]="true"
+                           defaultLabel="Người nhập kho"
+                           (onPanelHide)="closePanelStorekeeper()"
+                           optionLabel="employeeName"></p-multiSelect>
+          </div>
+        </div>-->
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Khách hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listCustomer" inputId="vendorid"
+                           [(ngModel)]="listVendorSelected"
+                           [style]="{'width': '100%'}"
+                           defaultLabel="Nhà cung cấp"
+                           [virtualScroll]="true"
+                           (onPanelHide)="closePanelVendor()"
+                           styleClass="cusPmultiSelect" optionLabel="customerName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProduct" inputId="productid"
+                           [(ngModel)]="listProductSelected"
+                           [style]="{'width': '100%'}"
+                           defaultLabel="Sản phẩm" [virtualScroll]="true"
+                           (onPanelHide)="closePanelProduct()"
+                           styleClass="cusPmultiSelect" optionLabel="productName"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Serial</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="quote-code-text" [(ngModel)]="serial" placeholder="Serial">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5" style="text-align: right;">
+            <button type="button" class="btn-search" (click)="filterInventoryVoucher()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-toast position="bottom-right" key="success"></p-toast>
+<p-toast position="bottom-right" key="info"></p-toast>
+<p-toast position="bottom-right" key="error"></p-toast>

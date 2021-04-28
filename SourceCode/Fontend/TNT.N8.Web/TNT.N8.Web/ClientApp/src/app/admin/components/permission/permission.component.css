@@ -1,0 +1,82 @@
+.permission_content{
+  margin: -15px;
+  background: #fff;
+  padding: 15px;
+}
+
+.permission-container.mat-elevation-z8 {
+  box-shadow: none !important;
+  border: solid 1px #cccccc;
+  border-bottom: none;
+}
+
+.no-padding {
+  padding: 0
+}
+
+.title{
+  padding: 8px 0;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 24px;
+  opacity: 0.8;
+}
+
+.row_button{
+  text-align: right;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.btn-edit{
+  background :#6d98e7;
+  color: #fff;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.devider{
+  margin: 15px;
+  width: 98%;
+}
+
+hr{
+  border-top: 1px solid #cccccc !important;
+}
+
+.form-group{
+  padding: 0px 30px;
+}
+
+::ng-deep .mat-cell, ::ng-deep .mat-header-cell {
+  font-family: 'Open Sans', sans-serif
+}
+
+::ng-deep .mat-header-cell{
+  font-weight: 700 !important;
+  color: rgba(14, 14, 14, 0.78);
+  font-size: 14px;
+}
+
+::ng-deep .mat-header-row{
+  background: #f2f2f2;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.selected-row, .selected-row:hover {
+  background-color: #C9E2FE;
+  color: #fff;
+}
+
+.sort-icon {
+  cursor: pointer;
+}
+
+mat-paginator{
+  border: 1px solid #cccccc;
+  border-top: none;
+}
+
+.mat-paginator {
+  font-family: 'Open Sans', sans-serif
+}

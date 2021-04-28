@@ -1,0 +1,26 @@
+<section class="create-empSalary">
+  <div class="row">
+    <div class="col-md-12 text-center">THÔNG TIN LƯƠNG NHÂN VIÊN</div>
+    <form [formGroup]="createSalaryPopupFormGroup">
+      <div class="col-md-12">
+        <mat-form-field class="w100">
+          <input matInput type="text" name="empName" formControlName="empName" [(ngModel)]="data.empName" disabled placeholder="Nhân viên"/>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field class="w100">
+          <input matInput currencyMask name="empSalary" formControlName="empSalary" [(ngModel)]="empSalaryModel.EmployeeSalaryBase" placeholder="Lương cơ bản"/>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field class="w100">
+          <input matInput currencyMask name="responsibilitySalary" [(ngModel)]="empSalaryModel.ResponsibilitySalary" formControlName="responsibilitySalary" placeholder="Responsibility"/>
+        </mat-form-field>
+      </div>
+    </form>
+    <div class="col-md-12">
+      <button (click)="onCreateEmployeeSalary()">Lưu</button>
+      <button (click)="onCancel()">Hủy</button>
+    </div>
+  </div>
+</section>

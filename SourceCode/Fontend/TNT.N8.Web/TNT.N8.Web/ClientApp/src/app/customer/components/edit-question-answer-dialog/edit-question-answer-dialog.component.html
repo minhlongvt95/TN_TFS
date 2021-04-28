@@ -1,0 +1,56 @@
+<div class="edit-question-answer-dialog">
+  <div class="org-dialog-title">
+    <span>
+      Sửa thông tin
+    </span>
+    <i class="material-icons clear" (click)="onCancelClick()">
+      clear
+    </i>
+  </div>
+  <div class="row mt-15">
+    <form class="form-group" [formGroup]="formAdditional">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-15">
+            <span class="title">Câu hỏi<span class="require">{{ 'order.create.require' | translate }}</span></span>
+          </div>
+          <div class="col-md-12">
+            <input
+              id="question"
+              name="question"
+              class="form-control w100"
+              [ngClass]="questionControl.touched && questionControl.hasError('required') ? 'error-border' : ''"
+              formControlName="questionControl"
+              [(ngModel)]="question"
+            >
+            <div class="md-errors-spacer" [hidden]="questionControl.untouched">
+              <mat-error *ngIf="questionControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-15">
+            <span class="title">Câu trả lời:</span>
+          </div>
+          <div class="col-md-12">
+            <input
+              id="answer"
+              name="answer"
+              class="form-control w100"
+              [ngClass]="answerControl.touched && answerControl.hasError('required') ? 'error-border' : ''"
+              formControlName="answerControl"
+              [(ngModel)]="answer"
+            >
+            <div class="md-errors-spacer" [hidden]="answerControl.untouched">
+              <mat-error *ngIf="answerControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+            </div>
+          </div>
+        </div>
+        
+    </form>
+  </div>
+
+  <div class="row org-dialog-buttons">
+    <button mat-raised-button color="primary" (click)="sendAddtional()">SỬA</button>
+  </div>
+</div>

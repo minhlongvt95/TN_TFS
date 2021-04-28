@@ -1,0 +1,394 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="bank-receipts-create">
+  <div class="row no-margin">
+    <form [formGroup]="createReceiptForm" style="height: 100%;">
+      <div class="col-md-9">
+        <div class="row bank-receipts-content" id="parent">
+          <div class="row no-margin button-group">
+            <div class="col-md-12">
+              <span *ngIf="!isInvalidForm">
+                <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+              </span>
+              <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+              </div>
+              <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                <div *ngIf="(repper.invalid && (repper.dirty || repper.touched))" class="notifi-row"
+                  (click)="scroll(boxRepper)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">Chưa chọn đối tượng thu</span>
+                </div>
+                <div *ngIf="(content.invalid && (content.dirty || content.touched))" class="notifi-row"
+                  (click)="scroll(boxContent)">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span *ngIf="content.hasError('required')" class="notifi-text">Chưa điền nội dung thu</span>
+                  <span *ngIf="content?.errors?.maxlength" class="notifi-text">Nội dung thu tối đa 250 ký tự</span>
+                  <span *ngIf="content?.errors?.forbiddenSpaceText" class="notifi-text">Nội dung không được để
+                    trắng</span>
+                </div>
+                <!-- <div class="notifi-row-footer">
+                    <span class="notifi-text-footer">1 lỗi nhập liệu</span>
+                  </div> -->
+              </div>
+              <div style="float: right;">
+                <button class="cancel" type="button" (click)="cancel()">
+                  <span class="text-cancel">Hủy</span>
+                </button>
+                <button #saveAndCreate class="save-and-new" type="button" *ngIf="actionAdd" [disabled]="awaitResult"
+                  (click)="createReceipt(true)">
+                  <span class="text-save-and-new">Lưu và Thêm mới</span>
+                </button>
+                <button #save class="save" type="button" *ngIf="actionAdd" [disabled]="awaitResult"
+                  (click)="createReceipt(false)">
+                  <span class="text-save">Lưu</span>
+                </button>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Thông tin báo có" [selected]="true">
+                  <label class="col-md-12">Mã báo có: <span class="opaque">Sẽ được hệ thống tạo khi lưu</span></label>
+                  <label class="col-md-12">Ngày tạo: <span>{{currentDate | date:'dd/MM/yyyy'}}</span></label>
+                  <label class="col-md-12" style="margin-bottom: 11px;">Người tạo:
+                    <span>{{currentUserName}}</span></label>
+                  <div style="clear: both;"></div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-6 no-padding border-right-color">
+                <div class="row no-margin">
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>Lý do thu</label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <p-dropdown [options]="reasonOfReceipt" formControlName="reasonControl"
+                          optionLabel="categoryName" [style]="{'width': '100%'}"
+                          (onChange)="changeReasonPay($event.value)"></p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>Tài khoản thu</label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <p-dropdown [options]="typesOfReceipt" formControlName="bankAccountControl"
+                          placeholder="Chọn tài khoản" [showClear]="true" optionLabel="bankName"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label *ngIf="reper == 'TTA' || reper == 'THA' || reper == 'TVI'">Đối tượng thu<span
+                            class="require">*</span></label>
+                      </div>
+                      <div #boxRepper class="col-md-12 no-padding">
+                        <p-dropdown *ngIf="reper == 'THA'" [options]="reperList" [virtualScroll]="true" itemSize="30"
+                          formControlName="repper"
+                          [styleClass]="(repper.invalid && (repper.dirty || repper.touched)) ? 'error-border' : ''"
+                          [filter]="true" placeholder="Chọn đối tượng thu" [showClear]="true" [resetFilterOnHide]="true"
+                          optionLabel="customerName" [style]="{'width': '100%'}"
+                          (onChange)="changeCustomer($event.value)"></p-dropdown>
+
+                        <p-dropdown *ngIf="reper == 'TTA'" [options]="reperList" [virtualScroll]="true" itemSize="30"
+                          formControlName="repper"
+                          [styleClass]="(repper.invalid && (repper.dirty || repper.touched)) ? 'error-border' : ''"
+                          [filter]="true" placeholder="Chọn đối tượng thu" [showClear]="true" [resetFilterOnHide]="true"
+                          optionLabel="vendorName" [style]="{'width': '100%'}"></p-dropdown>
+
+                        <p-dropdown *ngIf="reper == 'TVI'" [options]="reperList" [virtualScroll]="true" itemSize="30"
+                          formControlName="repper"
+                          [styleClass]="(repper.invalid && (repper.dirty || repper.touched)) ? 'error-border' : ''"
+                          [filter]="true" placeholder="Chọn đối tượng thu" [showClear]="true" [resetFilterOnHide]="true"
+                          optionLabel="employeeName" [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="repper.valid || repper.untouched">
+                        <span *ngIf="repper.hasError('required')" class="error-message-span">Chưa chọn đối tượng
+                          thu</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>
+                          Nơi thu
+                          <span class="require">*</span>
+                          <a href="javascript:(0)" (click)="openOrgPopup()"> <u>(Xem sơ đồ tổ chức)</u></a>
+                        </label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <input class="w100" type="text" formControlName="organizationName" pInputText
+                          [ngClass]="(organizationName.invalid  && (organizationName.dirty ||  organizationName.touched)) ? 'error-border': ''"
+                          readonly>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="organizationName.valid || organizationName.untouched">
+                        <span *ngIf="organizationName.hasError('required')" class="error-message-span">Không được để
+                          trống</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>Trạng thái<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <p-dropdown [options]="statusOfReceipt" formControlName="status" optionLabel="categoryName"
+                          [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="status.valid || status.untouched">
+                        <span *ngIf="status.hasError('required')" class="error-message-span">Không được để trống</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>Ngày hạch toán<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <p-calendar formControlName="paidDate"
+                          [styleClass]="(paidDate.invalid  && (paidDate.dirty ||  paidDate.touched)) ? 'error-pcalendar': ''"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="maxPaidDate"
+                          (onSelect)="selectPaidDate()" (onBlur)="selectPaidDate()" [inputStyle]="{'width':'100%'}"
+                          [baseZIndex]="999"></p-calendar>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="paidDate.valid || paidDate.untouched">
+                        <span *ngIf="paidDate.hasError('required')" class="error-message-span">Không được để
+                          trống</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 mt-10">
+                    <div class="row no-margin">
+                      <div class="col-md-12 no-padding">
+                        <label>Ngày chứng từ<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12 no-padding">
+                        <p-calendar formControlName="vouchersDate"
+                          [styleClass]="(vouchersDate.invalid  && (vouchersDate.dirty ||  vouchersDate.touched)) ? 'error-pcalendar': ''"
+                          dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                          [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+                      </div>
+                      <div class="col-md-12 no-padding" [hidden]="vouchersDate.valid || vouchersDate.untouched">
+                        <span *ngIf="vouchersDate.hasError('required')" class="error-message-span">Không được để
+                          trống</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12 mt-10">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Nội dung thu<span class="require">*</span></label>
+                      </div>
+                      <div #boxContent class="col-md-12">
+                        <input class="w100" type="text" formControlName="content" pInputText
+                          [ngClass]="(content.invalid  && (content.dirty ||  content.touched)) ? 'error-border': ''">
+                      </div>
+                      <div class="col-md-12" [hidden]="content.valid || content.untouched">
+                        <span *ngIf="content.hasError('required')" class="error-message-span">Chưa điền nội dung
+                          thu</span>
+                        <span *ngIf="content?.errors?.maxlength" class="error-message-span">Nội dung thu tối đa 250 ký
+                          tự</span>
+                        <span *ngIf="content?.errors?.forbiddenSpaceText" class="error-message-span">Nội dung không được
+                          để trắng</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12 mt-10">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>Ghi chú</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100" type="text" formControlName="noteControl" pInputText>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bảng đơn hàng cần thanh toán -->
+              <div class="col-md-12 mt-10" *ngIf="reper == 'THA' && listOrder.length > 0">
+                <p-table [columns]="selectedColumns" [value]="listOrder" dataKey="orderId" [resizableColumns]="true"
+                  [scrollable]="true" scrollHeight="335px">
+                  <ng-template pTemplate="caption">
+                    <div style="text-align:left">
+                      <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns"
+                        [ngModelOptions]="{standalone: true}" optionLabel="header"
+                        selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}" defaultLabel="Chọn cột">
+                      </p-multiSelect>
+                    </div>
+                  </ng-template>
+
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [pSortableColumn]="col.field == 'orderDate' ? 'orderDate' : null"
+                        pResizableColumn [ngStyle]="{'width': col.width, 'text-align': col.textAlign}"
+                        [ngSwitch]="col.field">
+                        <span *ngSwitchCase="'orderDate'">
+                          {{col.header}}
+                          <p-sortIcon [field]="col.field"></p-sortIcon>
+                        </span>
+                        <span *ngSwitchDefault>
+                          {{col.header}}
+                        </span>
+                      </th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                      <td *ngFor="let col of columns" class="ui-resizable-column" pEditableColumn [ngSwitch]="col.field"
+                        [ngStyle]="{'width': col.width, 'text-align': col.textAlign, 'color': rowData.error == true ? col.color : ''}">
+                        <span *ngSwitchCase="'amountCollected'">
+                          <p-cellEditor>
+                            <ng-template pTemplate="input">
+                              <input type="text" class="number-input"
+                                [cleave]="{numeral: true, numeralPositiveOnly: true}"
+                                [(ngModel)]="rowData.amountCollected" [ngModelOptions]="{standalone: true}"
+                                (change)="handleMoney()">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                              {{rowData.amountCollected}}
+                            </ng-template>
+                          </p-cellEditor>
+                        </span>
+                        <span *ngSwitchCase="'amountReceivable'">
+                          {{rowData[col.field] | number:0}}
+                        </span>
+                        <span *ngSwitchCase="'total'">
+                          {{rowData[col.field] | number:0}}
+                        </span>
+                        <span *ngSwitchCase="'orderDate'">
+                          {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                        </span>
+                        <span *ngSwitchDefault>
+                          {{rowData[col.field]}}
+                        </span>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="row no-margin overview">
+          <div class="row no-margin button-group">
+            <div class="col-md-12">
+              <span class="text-title">Tổng hợp phiếu thu</span>
+              <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+            </div>
+          </div>
+          <div class="row no-margin" style="background: #ffffff;">
+            <div class="col-md-12 mt-10">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Số tiền<span class="require">*</span></label>
+                </div>
+                <div class="col-md-5" style="padding-right: 0;">
+                  <p-splitButton label="{{currencyLabel}}" [model]="listCurrency" [style]="{'width': '100%'}">
+                  </p-splitButton>
+                </div>
+                <div class="col-md-7">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <input type="text" class="number-input" formControlName="unitPrice"
+                        [ngClass]="(unitPrice.invalid && (unitPrice.dirty || unitPrice.touched)) ? 'error-border' : ''"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true}" (change)="calculatorMoney()">
+                    </div>
+                    <div class="col-md-12" [hidden]="unitPrice.valid || unitPrice.untouched">
+                      <span *ngIf="unitPrice.hasError('required')" class="error-message-span">Không được để trống</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10" *ngIf="currencyLabel != 'VND'">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Tỉ giá<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="number-input" formControlName="exchangeRate"
+                    [ngClass]="(exchangeRate.invalid && (exchangeRate.dirty || exchangeRate.touched)) ? 'error-border' : ''"
+                    [cleave]="{numeral: true, numeralPositiveOnly: true}" (change)="calculatorMoney()">
+                </div>
+                <div class="col-md-12" [hidden]="exchangeRate.valid || exchangeRate.untouched">
+                  <span *ngIf="exchangeRate.hasError('required')" class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12 mt-10 box-text-money">
+              <div class="row" style="padding: 10px 0px;">
+                <div class="col-md-12 mt-10" *ngIf="reper == 'THA' && listOrder.length > 0">
+                  <label class="text-money-title">Số tiền phải thanh toán (VND):</label>
+                </div>
+
+                <div class="col-md-12 mt-10" *ngIf="reper == 'THA' && listOrder.length > 0">
+                  <label class="text-money-number">{{totalAmountReceivable | number:0}}</label>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="col-md-12">
+                  <label class="text-money-title">Thành tiền (VND):</label>
+                </div>
+
+                <div class="col-md-12 mt-10">
+                  <label class="text-money-number">{{bankReceiptModel.BankReceiptInvoiceAmount | number:0}}</label>
+                  <div style="clear: both;"></div>
+                </div>
+
+                <div class="col-md-12 mt-10" style="text-align: right;">
+                  <label
+                    class="text-money-text">{{bankReceiptModel.BankReceiptInvoiceAmount > 0 ? ('(' + (bankReceiptModel.BankReceiptInvoiceAmount | numbertostring:defaultNumberType) + './)') : ''}}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

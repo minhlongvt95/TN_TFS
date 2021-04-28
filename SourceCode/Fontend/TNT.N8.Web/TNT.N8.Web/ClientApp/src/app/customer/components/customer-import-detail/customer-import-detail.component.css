@@ -1,0 +1,53 @@
+.customer-import-detail .required {
+  color: red;
+}
+
+.customer-import-detail .btn-remove {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.customer-import-detail .btn-remove-text {
+  width: 24px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+.customer-import-detail .btn-save {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  border: solid 1px #cccccc;
+  margin-left: 5px;
+}
+
+.customer-import-detail .btn-save-text {
+  width: 24px;
+  height: 16px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.customer-import-detail ul {
+  padding: 10px;
+}

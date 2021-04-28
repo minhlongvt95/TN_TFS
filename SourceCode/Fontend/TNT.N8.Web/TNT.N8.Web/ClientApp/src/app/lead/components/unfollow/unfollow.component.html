@@ -1,0 +1,276 @@
+<div class="unfollow-content">
+  <div class="row">
+    <div class="col-md-6">
+      <h3 style="font-family: serif">{{ 'contact.unfollow' | translate }}</h3>
+    </div>
+  </div>
+
+  <hr />
+
+  <div class="row">
+    <!--Left content-->
+    <div class="col-md-3" style="padding-right: 10px;font-family: 'Open Sans', sans-serif !important;">
+      <div class="row" style="margin-bottom: 12px">
+        <div class="col-md-6 left-header">
+          <span>{{ 'contact.search' | translate }}</span>
+        </div>
+        <div class="col-md-6" style="padding-right: 15px">
+          <button matTooltip="Lọc" class="btn-search" (click)="searchLeadByParameter()"><i class="fa fa-search"></i></button>
+        </div>
+      </div>
+
+      <div class="unfollow-list left-column">
+        <div class="row">
+          <div class="col-md-12 control-label">
+            <label>{{ 'contact.fullname' | translate }}</label>
+            <i matTooltip="Làm mới bộ lọc" class="material-icons refresh-icon" (click)="refreshParameter()">
+              cached
+            </i>
+          </div>
+          <div class="form-group col-md-6" style="padding-right: 5px">
+            <input type="text" class="form-control create-control" name="FirstName" placeholder="{{ 'contact.placeholder.firstname' | translate }}" [(ngModel)]="contactModel.FirstName">
+          </div>
+          <div class="form-group col-md-6" style="padding-left: 5px">
+            <input type="text" class="form-control create-control" name="LastName" placeholder="{{ 'contact.placeholder.lastname' | translate }}" [(ngModel)]="contactModel.LastName">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 control-label">
+            <label>{{ 'contact.phone' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <input type="text" class="form-control create-control" name="Phone" [(ngModel)]="contactModel.Phone">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12 control-label">
+            <label>{{ 'contact.email' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <input type="text" class="form-control create-control" name="Email" [(ngModel)]="contactModel.Email">
+          </div>
+        </div>
+
+        <div class="row" id="potentialUnfollow">
+          <div class="col-md-12 control-label">
+            <label>{{ 'contact.potential' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <mat-form-field class="full-width">
+              <mat-chip-list #potentialList>
+                <mat-chip *ngFor="let item of selectedPotential"
+                          [selectable]="selectable"
+                          [removable]="removable"
+                          (removed)="removePotential(item)"
+                          [value]="item.categoryId">
+                  {{item.categoryName}}
+                  <i class="material-icons" matChipRemove *ngIf="removable">clear</i>
+                </mat-chip>
+                <input #ViewChild
+                       [formControl]="potentialCtrl"
+                       [matAutocomplete]="autoPotential"
+                       [matChipInputFor]="potentialList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addPotential($event)"
+                       multiple
+                       name="Potential"
+                       [(ngModel)]="leadModel.PotentialId">
+              </mat-chip-list>
+              <mat-autocomplete #autoPotential="matAutocomplete" (optionSelected)="selectedPotentialFn($event)">
+                <mat-option *ngFor="let item of filteredPotential | async" [value]="item">
+                  {{item.categoryName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" id="statusUnfollow">
+          <div class="col-md-12">
+            <label>{{ 'contact.status' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <mat-form-field class="full-width">
+              <mat-chip-list #statusList>
+                <mat-chip *ngFor="let item of selectedStatus"
+                          [selectable]="selectable"
+                          [removable]="removable"
+                          (removed)="remove(item)"
+                          [value]="item.categoryId">
+                  {{item.categoryName}}
+                  <i class="material-icons" matChipRemove *ngIf="removable">clear</i>
+                </mat-chip>
+                <input #statusInput
+                       [formControl]="statusCtrl"
+                       [matAutocomplete]="autoStatus"
+                       [matChipInputFor]="statusList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="add($event)"
+                       multiple
+                       name="Status"
+                       [(ngModel)]="leadModel.StatusId">
+              </mat-chip-list>
+              <mat-autocomplete #autoStatus="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let item of filteredStatus | async" [value]="item">
+                  {{item.categoryName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" id="requirementUnfollow">
+          <div class="col-md-12">
+            <label>{{ 'contact.group' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <mat-form-field class="full-width">
+              <mat-chip-list #requirementList>
+                <mat-chip *ngFor="let item of selectedRequirement"
+                          [selectable]="selectable"
+                          [removable]="removable"
+                          (removed)="removeRequirement(item)"
+                          [value]="item.categoryId">
+                  {{item.categoryName}}
+                  <i class="material-icons" matChipRemove *ngIf="removable">clear</i>
+                </mat-chip>
+                <input #statusInput
+                       [formControl]="requirementCtrl"
+                       [matAutocomplete]="autoRequirement"
+                       [matChipInputFor]="requirementList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addRequirement($event)"
+                       multiple
+                       name="Requirement"
+                       [(ngModel)]="leadModel.InterestedGroupId">
+              </mat-chip-list>
+              <mat-autocomplete #autoRequirement="matAutocomplete" (optionSelected)="selectedRequirementFn($event)">
+                <mat-option *ngFor="let item of filteredRequirement | async" [value]="item">
+                  {{item.categoryName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="row" id="picUnfollow">
+          <div class="col-md-12">
+            <label>{{ 'contact.in_charge' | translate }}</label>
+          </div>
+          <div class="form-group col-md-12">
+            <mat-form-field class="full-width">
+              <mat-chip-list #picList>
+                <mat-chip *ngFor="let item of selectedPic"
+                          [selectable]="selectable"
+                          [removable]="removable"
+                          (removed)="removePic(item)"
+                          [value]="item.employeeId">
+                  {{item.employeeName}}
+                  <i class="material-icons" matChipRemove *ngIf="removable">clear</i>
+                </mat-chip>
+                <input #statusInput
+                       [formControl]="picCtrl"
+                       [matAutocomplete]="autoPic"
+                       [matChipInputFor]="picList"
+                       [matChipInputAddOnBlur]="addOnBlur"
+                       (matChipInputTokenEnd)="addPic($event)"
+                       multiple
+                       name="PersonInCharge"
+                       [(ngModel)]="leadModel.PersonInChargeId">
+              </mat-chip-list>
+              <mat-autocomplete #autoPic="matAutocomplete" (optionSelected)="selectedPicFn($event)">
+                <mat-option *ngFor="let employee of filteredPic | async" [value]="employee">
+                  {{employee.employeeName}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Right content-->
+    <div class="col-md-9" style="padding-left: 10px">
+      <div class="row" style="margin-bottom: 3px">
+        <div class="form-group col-md-6" style="margin-bottom: 0">
+          <i class="material-icons switch-view" style="margin-top:10px">dashboard</i>
+        </div>
+        <div class="form-group col-md-6" style="margin-bottom: 0">
+          <table class="table-buttons">
+            <tr>
+              <td style="padding-right: 10px">
+                <button mat-raised-button class="approve-button" *ngIf="isManager" (click)="approveOrReject(true)">{{ 'contact.buttons.approve' | translate }}</button>
+              </td>
+              <td>
+                <button mat-raised-button class="cancel-button" *ngIf="isManager" (click)="approveOrReject(false)">{{ 'contact.buttons.cancel' | translate }}</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group col-md-12">
+          <div class="example-container mat-elevation-z8">
+            <mat-table #table [dataSource]="dataSource" id="unfollow-table">
+              <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                  <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection?.hasValue() && isAllSelected()"
+                                [indeterminate]="selection?.hasValue() && !isAllSelected()">
+                  </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let rows">
+                  <mat-checkbox (change)="rowCheckboxClick($event, rows)"
+                                [checked]="selection?.isSelected(rows)">
+                  </mat-checkbox>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="fullName">
+                <mat-header-cell *matHeaderCellDef> {{ 'contact.grid.name' | translate }} <i class="fas fa-sort" (click)="sort('fullName')"></i> </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <img class="img-icon" [src]="element.avatarUrl!=''?element.avatarUrl:'../../../../assets/images/no-avatar.png'" />
+                  <a class="link-name" (click)="onViewDetail(element.leadId, element.contactId)">{{element.fullName}}</a>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef> {{ 'contact.grid.email' | translate }} <i class="fas fa-sort" (click)="sort('email')"></i> </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="phonenumber">
+                <mat-header-cell *matHeaderCellDef> {{ 'contact.grid.phone' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="personInChargeFullName">
+                <mat-header-cell *matHeaderCellDef> {{ 'contact.grid.in_charge' | translate }} <i class="fas fa-sort" (click)="sort('personInChargeFullName')"></i> </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <img *ngIf="checkPersonInCharge(element.personInChargeFullName)" class="img-icon" [src]="element.personInChargeAvatarUrl!=''?element.personInChargeAvatarUrl:'../../../../assets/images/no-avatar.png'" /> {{element.personInChargeFullName}}
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="statusName">
+                <mat-header-cell *matHeaderCellDef> {{ 'contact.grid.status' | translate }} <i class="fas fa-sort" (click)="sort('statusName')"></i> </mat-header-cell>
+                <mat-cell *matCellDef="let element"><div [ngClass]="checkColor(element.statusCode)"></div> {{element.statusName}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="displayedColumns">
+              </mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"
+                       (click)="highlight(row)"
+                       [ngClass]="{ 'selected-row': selectedRowIndex == row.leadId}">
+              </mat-row>
+            </mat-table>
+          </div>
+          <mat-paginator id="unfollow-paginator" #paginator [pageSize]="10">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

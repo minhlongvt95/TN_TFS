@@ -1,0 +1,409 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="vendor-order-report">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="\assets\icons\components\noun_product.svg" class="noun-product">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10 order-status-report">
+                  <div class="box-header-title">Báo cáo tình trạng đơn hàng mua</div>
+                  <div class="box-header-subtitle">
+                    {{listVendorOrderReport.length}} - Sắp xếp theo ngày gần nhất - Cập nhật
+                    {{nowDate | date:'dd/MM/yyyy'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-export-excel" (click)="exportExcel()">
+                <!-- <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel"> -->
+                <i class="fa fa-file-excel-o" aria-hidden="true" style="color: #ffff; margin-right: 5px;"></i>
+                <span class="btn-filter-text">Xuất Excel</span>
+              </button>
+              <button type="button" class="btn-export-pdf" (click)="exportPdf()">
+                <!-- <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel"> -->
+                <i class="fa fa-file-pdf-o" aria-hidden="true" style="color: #ffff; margin-right: 5px;"></i>
+                <span class="btn-filter-text">Xuất PDF</span>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">{{ 'procurement-request.list.filler' | translate }}</span>
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilterUp()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">{{ 'procurement-request.list.filler_up' | translate }}</span>
+              </button>
+              <input type="text" [(ngModel)]="filterGlobal" class="iput-text"
+                placeholder="{{ 'procurement-request.list.place_text_search' | translate }}"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="vendorOrderCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Nhà cung cấp</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listVendor" [(ngModel)]="listSelectedVendor"
+              itemSize="30" [virtualScroll]="true" optionLabel="vendorName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" defaultLabel="Chọn nhà cung cấp"
+              selectedItemsLabel="{0} Nhà cung cấp được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="productCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.status' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="listSelectedStatus"
+              defaultLabel="Chọn trạng thái" optionLabel="description"
+              [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} {{ 'procurement-request.list.status_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchVendorOrderReport()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterUpTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Phiếu đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProcurementRequest" [(ngModel)]="listSelectedProcurementRequest"
+              defaultLabel="Chọn phiếu đề xuất" itemSize="30"
+              [virtualScroll]="true" optionLabel="procurementCode" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} Phiếu đề xuất được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="purchaseContractName">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Diễn giải</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="description">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người tạo</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployee" [(ngModel)]="listSelectedEmployee"
+              defaultLabel="Chọn người tạo" itemSize="30"
+              [virtualScroll]="true" optionLabel="employeeName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} Người được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchVendorOrderReport()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="listVendorOrderReport.length > 0" class="col-md-{{leftColNumber}}">
+      <p-table #myTable [columns]="selectedColumns" [value]="listVendorOrderReport"
+        (sortFunction)="sortColumnInList($event)" [customSort]="true" [resizableColumns]="true"
+        columnResizeMode="expand" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]" [responsive]="true" class="table-border">
+        <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="colsList" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, 'display': col.display, 'width': col.width }">
+              {{col.header}}
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, 'display': col.display, 'width': col.width }">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'vendorOrderCode'" (click)="goToDetail(rowData)" class="link"
+                style="display: inline-block; padding: 2px 2px;">
+                {{ rowData[col.field] }}
+              </span>
+              <span *ngSwitchCase="'description'" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchCase="'productName'" pTooltip="{{rowData[col.field]}}" tooltipPosition="bottom">
+                {{rowData[col.field].trim().length > 20 ? rowData[col.field].trim().slice(0,20)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchCase="'quantity'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroundColorForStatus']}"
+                style="display: inline-block;
+                      padding: 2px 2px;
+                      color: white;
+                      width: 130px;"
+              >
+                {{rowData[col.field].trim().length > 18 ? rowData[col.field].trim().slice(0,18)+'...' : rowData[col.field].trim()}}
+              </span>
+              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="!(listVendorOrderReport.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>{{ 'procurement-request.list.no_data' | translate }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã đơn hàng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="vendorOrderCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Nhà cung cấp</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listVendor" [(ngModel)]="listSelectedVendor"
+              itemSize="30" [virtualScroll]="true" optionLabel="vendorName" [style]="{'width': '100%'}"
+              [resetFilterOnHide]="true" defaultLabel="Chọn nhà cung cấp"
+              selectedItemsLabel="{0} Nhà cung cấp được chọn"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" [maxDate]="maxEndDate"
+              placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Mã sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="productCode">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>{{ 'procurement-request.list.status' | translate }}</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="listSelectedStatus"
+              defaultLabel="Chọn trạng thái" optionLabel="description"
+              [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} {{ 'procurement-request.list.status_choosed' | translate }}"></p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchVendorOrderReport()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isShowFilterUpLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Phiếu đề xuất</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listProcurementRequest" [(ngModel)]="listSelectedProcurementRequest"
+              defaultLabel="Chọn phiếu đề xuất" itemSize="30"
+              [virtualScroll]="true" optionLabel="procurementCode" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} Phiếu đề xuất được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Hợp đồng</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="purchaseContractName">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Diễn giải</span>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="bank-payments-code-text"
+              placeholder="" [(ngModel)]="description">
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Người tạo</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployee" [(ngModel)]="listSelectedEmployee"
+              defaultLabel="Chọn người tạo" itemSize="30"
+              [virtualScroll]="true" optionLabel="employeeName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} Người được chọn">
+            </p-multiSelect>
+          </div>
+        </div>
+
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5" style="text-align: right">
+            <button type="button" class="btn-search" (click)="searchVendorOrderReport()">
+              <span class="btn-search-text">{{ 'procurement-request.list.search' | translate }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

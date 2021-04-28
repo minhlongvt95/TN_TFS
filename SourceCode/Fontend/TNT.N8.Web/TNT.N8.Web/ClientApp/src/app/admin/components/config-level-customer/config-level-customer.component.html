@@ -1,0 +1,50 @@
+<div class="config-level-customer">
+  <div class="row">
+    <div class="col-md-6">
+      <span style="font-size: 24px">{{ 'configLevelCustomer.configLevelTitle' | translate }}</span>
+    </div>
+    <div class="col-md-6 main-button-row" *ngIf="isShow">
+      <button type="button" (click)="cancel()" class="btn-cancel" mat-raised-button tabindex="0">{{
+        'configLevelCustomer.cancel' |
+        translate }}</button>
+      <button type="button" (click)="save()" *ngIf="actionAdd" class="btn-create" mat-raised-button>{{ 'configLevelCustomer.save' |
+        translate }}</button>
+    </div>
+  </div>
+  <hr />
+</div>
+<div class="text-center containerConfig table-responsive">
+  <table class="table table-bordered">
+    <thead>
+        <tr class="backgroundHeader">
+            <th class="noBorderRight">Giá trị doanh thu mua hàng (DT)</th>
+            <th class="noBorder">Tên hạng</th>
+            <th class="noBorderLeft"></th>
+        </tr>
+    </thead>
+    <tbody class="backgroundBody">
+        <tr *ngFor="let field of customerServiceLevelModel; let i = index">
+            <td>
+                <input disabled [(ngModel)]="field.MinimumSaleValue" class="form-control" currencyMask name="{{field.name}}" />
+            </td>
+            <td>
+                <input disabled [(ngModel)]="field.CustomerServiceLevelName" class="form-control" type="text" name="{{field.price}}" />
+            </td>
+            <td>
+                <button class="btn btn-default" *ngIf="actionDelete" type="button" (click)="removeLevel(i, field.CustomerServiceLevelId)">Xóa</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input class="form-control" id="newAttributeName" currencyMask [(ngModel)]="newAttribute.MinimumSaleValue" name="newAttributeName" />
+            </td>
+            <td>
+                <input class="form-control" type="text" id="newAttributePrice" [(ngModel)]="newAttribute.CustomerServiceLevelName" name="newAttributePrice" />
+            </td>
+            <td>
+                <button class="btn btn-default" *ngIf="actionAdd" type="button" (click)="addLevel()">Thêm mới</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>

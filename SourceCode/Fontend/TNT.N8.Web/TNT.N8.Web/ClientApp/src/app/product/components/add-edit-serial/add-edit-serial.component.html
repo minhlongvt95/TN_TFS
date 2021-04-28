@@ -1,0 +1,100 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<!-- <p-toast position="bottom-right"></p-toast> -->
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="add-edit-serial">
+  <div class="row no-margin">
+    <div class="col-md-6 bottom-buffer">
+      Vị trí
+    </div>
+    <div class="col-md-6 bottom-buffer">
+      {{selectedInventoryReport.warehouseNameByLevel}}
+    </div>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-6">
+      SL Serial/ SL đầu kỳ
+    </div>
+    <div class="col-md-6">
+      {{listSerial.length}}/{{selectedInventoryReport.startQuantity}}
+    </div>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+      <!-- <button pButton type="button" label="Tải mẫu excel" style="margin-right: 1rem;"></button>
+      <button pButton type="button" label="Nhập từ file exel"></button> -->
+    </div>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-12 bottom-buffer" style="display: flex; justify-content: flex-end;">
+      <button (click)="onAddSerial()" pButton type="button" label="Thêm serial"></button>
+    </div>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-12 bottom-buffer">
+      <p-table [columns]="cols" [value]="listSerial" 
+      [scrollable]="true" scrollHeight="200px"
+      [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10, 20, 30]" [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+              <span>
+                {{ col.header }}
+              </span>
+            </th>
+            <th style="text-align: center; width: 4rem !important;">
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr [style.color]="rowData.status == false ? 'red' : 'black' ">
+            <td pEditableColumn [ngSwitch]="col.field" *ngFor="let col of columns" class="ui-resizable-column"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+              <span class="ui-column-title">{{ col.header }}</span>
+              <span *ngSwitchCase="'serialCode'">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <input
+                      (change)="checkStatus()"
+                      type="text" pInputText [(ngModel)]="rowData.serialCode"
+                      [ngModelOptions]="{standalone: true}" />
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{rowData.serialCode}}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchCase="'createdDate'">
+                {{rowData.createdDate | date: 'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'status'">
+                {{ rowData[col.field] ===  false ? "Không hợp lệ" : "Hợp lệ" }}
+              </span>
+              <span *ngSwitchCase="'note'">
+                <div *ngFor="let note of rowData['listNote']">{{note}}</div>
+              </span>
+              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+            <td style="text-align: center; width: 4rem !important;">
+              <button pButton icon="pi pi-trash" (click)="deleteSerial(rowData)" class="ui-button-danger"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row no-margin">
+    <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+      <button (click)="onCancel()" pButton type="button" label="Hủy" style="margin-right: 1rem;"></button>
+      <button (click)="onSave()" pButton type="button" label="Lưu"></button>
+    </div>
+  </div>
+</div>

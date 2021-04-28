@@ -1,0 +1,387 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loadingComponent">
+    <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+    </p-progressSpinner>
+  </div>
+  <!-- Message Response... -->
+  <p-toast position="bottom-right"></p-toast>
+  <!-- Confirm... -->
+  <p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+  </p-confirmDialog>
+
+  <section class="customer-list">
+    <div class="row no-margin">
+      <div class="box-header">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box-header-group">
+                <div class="row">
+                  <div class="col-md-1 col-xs-2">
+                    <div class="box-header-icon">
+                      <img src="/assets/icons/components/customer-list.svg" class="Money-2" />
+                    </div>
+                  </div>
+                  <div class="col-md-11 col-xs-10">
+                    <div class="box-header-title">Danh sách phê duyệt khách hàng</div>
+                    <div class="box-header-subtitle">
+                      {{ newListCustomer.length }} bản ghi - Sắp xếp theo ngày tạo
+                      gần nhất
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 no-padding">
+          <div class="row no-margin no-padding">
+            <!-- <div class="col-md-12 no-padding header-button" style="text-align: right;">
+              <button type="button" class="export-exel" *ngIf="actionDownload">
+                <span class="export-exel-text">Xuất Excel</span>
+              </button>
+              <button type="button" class="import-exel" *ngIf="actionImport" (click)="importCustomer()">
+                <span class="import-exel-text">Nhập từ Excel</span>
+              </button>
+              <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreate()">
+                <span class="btn-create-text">Tạo mới</span>
+              </button>
+              <div style="clear: both;"></div>
+            </div> -->
+            <div class="col-md-12 no-padding">
+              <div class="box-header-group-btn">
+                <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                  <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh" />
+                </button>
+                <button type="button" class="btn-filter" (click)="showFilter()">
+                  <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel" />
+                  <span class="btn-filter-text">Bộ lọc</span>
+                </button>
+                <input
+                 [(ngModel)]="filterGlobal" type="text" class="iput-text global-filter" placeholder="Tìm kiếm trong danh sách"
+                  (input)="
+                    table.filterGlobal($event.target.value.trim(), 'contains')
+                  " />
+                <div style="clear: both;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-margin" style="background-color: #f2f4f8;">
+      <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+        <div class="box-filter">
+          <form [formGroup]="filterForm">
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                BỘ LỌC DỮ LIỆU
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Name" type="text" class="quote-code-text" placeholder="Họ tên" />
+              </div>
+            </div>
+            <!-- <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Phone" type="text" class="quote-code-text" placeholder="Số điện thoại" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Email" type="text" class="quote-code-text" placeholder="Email" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Level" class="customer-dropdown"
+                   [options]="serviceLevels"
+                   optionLabel="customerServiceLevelName"
+                   [autoDisplayFirst]="false"
+                   placeholder="Hạng"
+                   ></p-dropdown>
+              </div>
+            </div> -->
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Group" class="customer-dropdown"
+                [options]="customerGroups"
+                  optionLabel="categoryName"
+                  [autoDisplayFirst]="false"
+                  placeholder="Nhóm khách hàng"
+                  ></p-dropdown>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Pic" class="customer-dropdown"
+                 [options]="employees"
+                  optionLabel="employeeName"
+                  [filter]="true"
+                  [autoDisplayFirst]="false"
+                  placeholder="Người phụ trách"></p-dropdown>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="CustomerCode" type="text" class="quote-code-text" placeholder="Mã khách hàng" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="TaxCode" type="text" class="quote-code-text" placeholder="Mã số thuế" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5">
+                <p-checkbox formControlName="HavePic" binary="true" label="Chưa có người phụ trách"></p-checkbox>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5">
+                <p-checkbox formControlName="IsCompanyCustomer" binary="true" label="Khách hàng doanh nghiệp">
+                </p-checkbox>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5">
+                <p-checkbox formControlName="IsPersonalCustomer" binary="true" label="Khách hàng cá nhân"></p-checkbox>
+              </div>
+            </div>
+            <!-- <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5">
+                <p-checkbox formControlName="IsHouseCustomer" binary="true" label="Hộ kinh doanh"></p-checkbox>
+              </div>
+            </div> -->
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5" style="text-align: right;">
+                <button type="button" class="btn-search" (click)="searchCustomer()">
+                  <span class="btn-search-text">Tìm kiếm</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-md-12 action-wrapper buttons-header">
+        <div class="row no-padding no-margin">
+          <div class="col-md-12 no-padding" style="text-align: right;">
+            <button *ngIf="actionReject && isFreeCustomer" (click)="approveOrReject(false, null)" type="button" class="btn-reject">
+              <span class="btn-reject-text">Từ chối</span>
+            </button>
+            <button *ngIf="actionApproval && isFreeCustomer" (click)="approveOrReject(true, null)" type="button" class="btn-approval">
+              <span class="btn-approval-text">Chuyển định danh</span>
+            </button>
+            <button *ngIf="actionApproval && !isFreeCustomer" (click)="approveOrReject(null, null)" type="button" class="btn-approval">
+              <span class="btn-approval-text">Chuyển tiềm năng</span>
+            </button>
+            <!-- <button *ngIf="actionAdd" type="button" class="pic-button">
+              <span class="pic-button-text">Gán người phụ trách</span>
+            </button>
+            <button *ngIf="actionDownload" (click)="downloadTemplate()" type="button" class="download-template">
+              <span class="download-templete-text">Tải file mẫu</span>
+            </button>
+            <button *ngIf="actionAdd" (click)="goToNewCustomerOrder()" type="button" class="add-order">
+              <span class="add-order-text">Thêm đơn hàng</span>
+            </button>
+            <button *ngIf="actionAdd" (click)="goToNewCustomerQuote()" type="button" class="add-quote">
+              <span class="add-quote-text">Tạo báo giá</span>
+            </button> -->
+            <div style="clear: both;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-{{ leftColNumber }} no-padding">
+        <p-table dataKey="customerId" #table [columns]="selectedColumns" [value]="newListCustomer"
+          [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+          [rowsPerPageOptions]="[10, 20, 30]" [responsive]="true" (onPage)="pageChange($event)"
+          [(selection)]="selectedCustomers">
+          <ng-template pTemplate="caption">
+            <div style="text-align: left;">
+              <p-multiSelect [options]="colsCustomer" optionLabel="header" [(ngModel)]="selectedColumns"
+                [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+                [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <th style="width: 3.5em; text-align: center;">
+                #
+              </th>
+              <th style="width: 3em;">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+              <th *ngFor="let col of columns" pResizableColumn
+                [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                <span>
+                  {{ col.header }}
+                </span>
+              </th>
+              <th style="text-align: center;">
+                <span>Thao tác</span>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td style="text-align: center;">
+              {{rowData.index}}
+              </td>
+              <td>
+                <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+              </td>
+              <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                [ngStyle]="{ 'text-align': col.textAlign, display: col.display }">
+                <span class="ui-column-title">{{ col.header }}</span>
+                <span *ngSwitchCase="'customerName'" (click)="goToDetail(rowData)" class="link">
+                  {{ rowData[col.field] }}
+                </span>
+                <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroupStatus']}"
+                style="display: inline-block;
+              padding: 3px 3px;
+              color: white;
+              width: 130px;">{{ rowData[col.field] }}</span>
+                <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+              </td>
+              <td style="text-align: center;">
+                <!-- <p-splitButton label="Thao tác" icon="" (onDropdownClick)="onChangeAction(rowData)" [model]="actions"
+                  appendTo="body" styleClass="ui-button-secondary"></p-splitButton> -->
+                  <button *ngIf="actionReject && isFreeCustomer" (click)="approveOrReject(false, rowData)" type="button" class="btn-reject">
+                    <span class="btn-reject-text">Từ chối</span>
+                  </button>
+                  <button *ngIf="actionApproval && isFreeCustomer" (click)="approveOrReject(true, rowData)" type="button" class="btn-approval">
+                    <span class="btn-approval-text">Định danh</span>
+                  </button>
+                  <button *ngIf="actionApproval && !isFreeCustomer" (click)="approveOrReject(null, rowData)" type="button" class="btn-approval">
+                    <span class="btn-approval-text">Chuyển tiềm năng</span>
+                  </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <div *ngIf="isShowFilterLeft" class="col-md-{{ rightColNumber }} no-padding">
+        <div class="box-filter">
+          <form [formGroup]="filterForm">
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                BỘ LỌC DỮ LIỆU
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Name" type="text" class="quote-code-text" placeholder="Họ tên" />
+              </div>
+            </div>
+            <!-- <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Phone" type="text" class="quote-code-text" placeholder="Số điện thoại" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="Email" type="text" class="quote-code-text" placeholder="Email" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Level" class="customer-dropdown" [options]="serviceLevels"
+                  optionLabel="customerServiceLevelName" [autoDisplayFirst]="false"
+                  placeholder="Hạng"></p-dropdown>
+              </div>
+            </div> -->
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Group"
+                 class="customer-dropdown"
+                  [options]="customerGroups"
+                  optionLabel="categoryName"
+                  [autoDisplayFirst]="false"
+                  placeholder="Nhóm khách hàng"></p-dropdown>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <p-dropdown formControlName="Pic"
+                 class="customer-dropdown"
+                  [options]="employees"
+                  optionLabel="employeeName"
+                   [filter]="true"
+                   [autoDisplayFirst]="false"
+                   placeholder="Người phụ trách"></p-dropdown>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="CustomerCode" type="text" class="quote-code-text" placeholder="Mã khách hàng" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12">
+                <input
+                (keypress)="checkEnterPress($event)"
+                formControlName="TaxCode" type="text" class="quote-code-text" placeholder="Mã số thuế" />
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-6 mt-5">
+                <p-checkbox formControlName="HavePic" binary="true" label="Chưa có người phụ trách"></p-checkbox>
+              </div>
+              <div class="col-md-6 mt-5">
+                <!-- <p-checkbox binary="true" label="Khách hàng định danh"></p-checkbox> -->
+                <p-radioButton name="CustomerType" value="1" formControlName="IsIdentificationCustomer" [(ngModel)]="customerType" label="Khách hàng định danh">
+                </p-radioButton>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-6 mt-5">
+                <p-checkbox formControlName="IsCompanyCustomer" binary="true" label="Khách hàng doanh nghiệp">
+                </p-checkbox>
+              </div>
+              <div class="col-md-6 mt-5">
+                <!-- <p-checkbox formControlName="IsFreeCustomer" binary="true" label="Khách hàng tiềm năng">
+                </p-checkbox>                 -->
+                <p-radioButton name="CustomerType" value="2" formControlName="IsFreeCustomer" [(ngModel)]="customerType" label="Khách hàng tiềm năng">
+                </p-radioButton>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5">
+                <p-checkbox formControlName="IsPersonalCustomer" binary="true" label="Khách hàng cá nhân"></p-checkbox>
+              </div>
+            </div>
+            <div class="row no-margin pb-1">
+              <div class="col-md-12 mt-5" style="text-align: right;">
+                <button type="button" class="btn-search" (click)="searchCustomer()">
+                  <span class="btn-search-text">Tìm kiếm</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>

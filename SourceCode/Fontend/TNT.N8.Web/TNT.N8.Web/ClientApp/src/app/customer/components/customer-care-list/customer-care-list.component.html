@@ -1,0 +1,339 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="customer-care-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/customer-list.svg" class="Money-2" />
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">{{ 'customercare.list.title' | translate }}</div>
+                  <div class="box-header-subtitle">
+                    {{ lstCustomerCare.length }} bản ghi - Sắp xếp theo ngày tạo
+                    gần nhất
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 no-padding">
+        <div class="row no-margin no-padding">
+          <div class="col-md-12 no-padding">
+            <div class="box-header-group-btn mode-section">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+          <div class="col-md-12 no-padding header-button" style="text-align: right;">
+            <button type="button" class="export-exel" *ngIf="actionDownload" (click)="exportExcel()">
+              <span class="export-exel-text">Xuất Excel</span>
+            </button>
+
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreate()">
+              <span class="btn-create-text">Tạo chương trình chăm sóc</span>
+            </button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12 no-padding">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh" />
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel" />
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input [(ngModel)]="filterGlobal" type="text" class="iput-text global-filter"
+                placeholder="Tìm kiếm trong danh sách"
+                (input)="table.filterGlobal($event.target.value.trim(), 'contains')" />
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin pb-1">
+          <div class="col-md-12">
+            BỘ LỌC DỮ LIỆU
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Mã CSKH</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="customerCareCode" type="text" class="quote-code-text"
+              placeholder="Nhập mã CSKH" />
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Tiêu đề</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="title" type="text" class="quote-code-text"
+              placeholder="Nhập tiêu đề" />
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Hình thức</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listTypeCusCare" [(ngModel)]="lstTypeCusCare" defaultLabel="Chọn hình thức"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} hình thức được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Người phụ trách</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployeeCharge" [(ngModel)]="lstPic" defaultLabel="Chọn người phụ trách"
+              optionLabel="employeeName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} người phụ trách được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="lstStatus" defaultLabel="Chọn trạng thái"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} trạng thái được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Nội dung chương trình</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="content" type="text" class="quote-code-text"
+              placeholder="Nhập nội dung chương trình" />
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchCustomerCare()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-{{ leftColNumber }} no-padding">
+      <p-table #table dataKey="customerCareId" [columns]="selectedColumns" [value]="lstCustomerCare"
+        [resizableColumns]="true" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+        [rowsPerPageOptions]="[10, 20, 30]" [responsive]="true" (sortFunction)="sortColumnInList($event)"
+        [customSort]="true" [(selection)]="selectedCustomerCare">
+        <ng-template pTemplate="caption">
+          <div style="text-align: left;">
+            <p-multiSelect [options]="cols" optionLabel="header" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{ standalone: true }" selectedItemsLabel="{0} cột được chọn"
+              [style]="{ minWidth: '200px' }" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th style="width: 3.5em; text-align: center;">
+              #
+            </th>
+            <th style="width: 3em;">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+              <span>
+                {{ col.header }}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center; width: 80px;">
+              <!-- <span>Thao tác</span> -->
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td style="text-align: center;">
+              {{rowData.index}}
+            </td>
+            <td>
+              <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+            </td>
+            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field" pEditableColumn
+              [ngStyle]="{ 'text-align': col.textAlign, display: col.display, width: col.width }">
+              <span class="ui-column-title">{{ col.header }}</span>
+              <span *ngSwitchCase="'customerCareCode'" (click)="onViewDetail(rowData.customerCareId)" class="link">
+                {{ rowData[col.field] }}
+              </span>
+              <span *ngSwitchCase="'effecttiveFromDate'">
+                {{ rowData[col.field] | date: 'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'effecttiveToDate'">
+                {{ rowData[col.field] | date: 'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'statusName'" [ngStyle]="{'background-color': rowData['backgroupStatus']}" style="display: inline-block;
+                  padding: 3px 3px;
+                  width: 130px;">
+                <p-cellEditor>
+                  <ng-template pTemplate="input">
+                    <p-dropdown [options]="rowData.listStatus" optionLabel="categoryName" placeholder="Chọn trạng thái"
+                      (keydown.enter)="$event.preventDefault()" [autoDisplayFirst]="false" filter="true"
+                      resetFilterOnHide="true" [virtualScroll]="true" itemSize="30" [(ngModel)]="rowData.status"
+                      [ngModelOptions]="{standalone: true}" [style]="{'width':'100%'}" appendTo="body"
+                      (onChange)="confirmChangeCustomerCareStatus($event.value, rowData)">
+                    </p-dropdown>
+                  </ng-template>
+                  <ng-template pTemplate="output">
+                    {{ rowData[col.field] }}
+                  </ng-template>
+                </p-cellEditor>
+              </span>
+              <span *ngSwitchDefault>{{ rowData[col.field] }}</span>
+            </td>
+            <td style="text-align: center; width: 80px;">
+              <!-- <p-splitButton label="Thao tác" icon="" (onDropdownClick)="onChangeAction(rowData)" [model]="actions"
+                appendTo="body" styleClass="ui-button-secondary"></p-splitButton> -->
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{ rightColNumber }} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin pb-1">
+          <div class="col-md-12">
+            BỘ LỌC DỮ LIỆU
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Mã CSKH</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="customerCareCode" type="text" class="quote-code-text"
+              placeholder="Nhập mã CSKH" />
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Tiêu đề</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="title" type="text" class="quote-code-text"
+              placeholder="Nhập tiêu đề" />
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Hình thức</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listTypeCusCare" [(ngModel)]="lstTypeCusCare" defaultLabel="Chọn hình thức"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} hình thức được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Người phụ trách</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listEmployeeCharge" [(ngModel)]="lstPic" defaultLabel="Chọn người phụ trách"
+              optionLabel="employeeName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} người phụ trách được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Trạng thái</span>
+          </div>
+          <div class="col-md-12">
+            <p-multiSelect [options]="listStatus" [(ngModel)]="lstStatus" defaultLabel="Chọn trạng thái"
+              optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+              selectedItemsLabel="{0} trạng thái được chọn"></p-multiSelect>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <span>Nội dung chương trình</span>
+          </div>
+          <div class="col-md-12">
+            <input [(ngModel)]="content" type="text" class="quote-code-text"
+              placeholder="Nhập nội dung chương trình" />
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Từ ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="fromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [maxDate]="toDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12 mt-5">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="toDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="fromDate" placeholder="dd/mm/yy"
+              showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+          </div>
+        </div>
+        <div class="row no-margin pb-1">
+          <div class="col-md-12 mt-5">
+            <button type="button" class="btn-search" (click)="searchCustomerCare()">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

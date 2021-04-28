@@ -1,0 +1,581 @@
+ .potential-customer-list {
+   width: 100%;
+   box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+   border: solid 1px #c1c7cd;
+   background-color: #ffffff;
+ }
+
+ .potential-customer-list .pb-1 {
+   padding-bottom: 0.75rem;
+ }
+
+ .potential-customer-list .box-header {
+   width: 100%;
+   background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+ }
+
+ .potential-customer-list .btn-create {
+   float: right;
+   width: 98px;
+   height: 31px;
+   border-radius: 4px;
+   border: 1px solid #cccccc;
+   box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+   background-color: #007aff;
+ }
+
+ .potential-customer-list .mode-section {
+   display: flex;
+   justify-content: flex-end;
+   text-align: center;
+   align-items: center;
+ }
+
+ .potential-customer-list .export-exel {
+   width: 112px;
+   height: 30px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #ffffff;
+   margin-right: 5px;
+ }
+
+ .potential-customer-list .header-button {
+   margin-top: 5px;
+ }
+
+ .potential-customer-list .buttons-header {
+   padding-top: 13px;
+   padding-right: 10px;
+   border-top: 1px solid #cccccc;
+   background-color: #fff;
+   padding-bottom: 13px;
+ }
+
+ .potential-customer-list .export-exel .export-exel-text {
+   width: 64px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #121619;
+ }
+
+ .potential-customer-list .import-exel {
+   padding-top: 3px;
+   width: 134px;
+   height: 30px;
+   border-radius: 4px;
+   border: solid 1px #0f62fe;
+   background-color: #ffffff;
+   margin-right: 5px;
+ }
+
+ .potential-customer-list .import-exel-text {
+   width: 86px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: nomal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #0f62fe;
+ }
+
+ .potential-customer-list .btn-create-text {
+   width: 50px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #ffffff;
+ }
+
+ .potential-customer-list .pic-button {
+   width: 160px;
+   height: 30px;
+   border-radius: 4px;
+   margin-right: 5px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+ }
+
+ .potential-customer-list .pic-button-text {
+   width: 126px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #121619;
+ }
+
+ .potential-customer-list .global-filter {
+   width: 237px !important;
+ }
+
+ .potential-customer-list .download-template {
+   width: 109px;
+   height: 30px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+   margin-right: 5px;
+ }
+
+ .potential-customer-list .download-templete-text {
+   width: 90px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #121619;
+ }
+
+ .potential-customer-list .add-order {
+   width: 136px;
+   height: 30px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+   margin-right: 5px;
+ }
+
+ .potential-customer-list .add-order-text {
+   width: 96px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #121619;
+ }
+
+ .potential-customer-list .add-quote {
+   width: 95px;
+   height: 30px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+ }
+
+ .potential-customer-list .add-quote-text {
+   width: 72px;
+   height: 16px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.15;
+   letter-spacing: normal;
+   text-align: center;
+   color: #121619;
+ }
+
+ .potential-customer-list .box-header-group {
+   margin-top: 10px;
+ }
+
+ .potential-customer-list .box-header-icon {
+   border-radius: 50%;
+   width: 40px;
+   height: 40px;
+   background-color: #0f62fe;
+   text-align: center;
+ }
+
+ .potential-customer-list .Money-2 {
+   width: 20.4px;
+   height: 18.5px;
+   object-fit: contain;
+   margin-top: 10px;
+ }
+
+ .potential-customer-list .box-header-title {
+   /* width: 177px; */
+   height: 24px;
+   font-family: "Inter UI";
+   font-size: 20px;
+   font-weight: 600;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1;
+   letter-spacing: normal;
+   text-align: left;
+   color: #121619;
+ }
+
+ .potential-customer-list .box-header-subtitle {
+   font-family: "Inter UI";
+   font-size: 11px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.36;
+   letter-spacing: normal;
+   text-align: left;
+   color: #4d5358;
+ }
+
+ .potential-customer-list .box-header-group-btn {
+   text-align: right;
+   padding-top: 5px;
+ }
+
+ .potential-customer-list .btn-refresh {
+   width: 32px;
+   height: 32px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #ffffff;
+ }
+
+ .potential-customer-list .ios-refresh {
+   width: 12px;
+   height: 14px;
+   object-fit: contain;
+ }
+
+ .potential-customer-list .btn-filter {
+   width: 110px;
+   height: 32px;
+   border-radius: 4px;
+   border: solid 1px #007aff;
+   background-color: #007aff;
+   margin-left: 5px;
+ }
+
+ .potential-customer-list .ios-funnel {
+   width: 12.3px;
+   height: 11.3px;
+   object-fit: contain;
+   margin-right: 5px;
+ }
+
+ .potential-customer-list .btn-filter-text {
+   width: 36px;
+   height: 13px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.46;
+   letter-spacing: normal;
+   text-align: left;
+   color: #ffffff;
+ }
+
+ .potential-customer-list .iput-text {
+   width: 248px;
+   height: 32px;
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+   padding-left: 5px;
+   margin-left: 5px;
+ }
+
+ .potential-customer-list .box-filter {
+   border: solid 1px #c1c7cd;
+   background-color: #f2f4f8;
+   padding: 10px 0px;
+ }
+
+ .potential-customer-list .quote-code-text {
+   width: 100%;
+   height: 32px;
+   font-family: "Inter UI";
+   border-radius: 4px;
+   border: solid 1px #c1c7cd;
+   background-color: #ffffff;
+   padding-left: 5px;
+ }
+
+ .potential-customer-list .quote-code-text:focus {
+   border-color: #007ad9;
+   outline: 0 none;
+ }
+
+ .potential-customer-list .mt-5 {
+   margin-top: 5px;
+ }
+
+ .potential-customer-list .btn-search {
+   width: 72px;
+   height: 32px;
+   border: solid 1px #cccccc;
+   border-radius: 4px;
+   box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+   background-color: #0f62fe;
+ }
+
+ .potential-customer-list .btn-search:focus {
+   border-color: #007ad9;
+   outline: 0 none;
+ }
+
+ .potential-customer-list .btn-search-text {
+   width: 36px;
+   height: 13px;
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.46;
+   letter-spacing: normal;
+   text-align: left;
+   color: #ffffff;
+ }
+
+ .potential-customer-list .buffer-bottom {
+   margin-bottom: 1.2rem;
+ }
+
+ .potential-customer-list .buffer-bottom-label {
+   margin-bottom: 3px;
+ }
+
+ .potential-customer-list .w100 {
+   width: 100%;
+ }
+
+ .potential-customer-list .mt-25 {
+  margin-top: 25px;
+}
+
+.potential-customer-list .import-file {
+  width: 170px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #007aff;
+}
+
+.potential-customer-list .text-import-file {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.potential-customer-list .choose-file {
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+}
+
+.potential-customer-list .text-choose-file {
+  /* width: 170px; */
+  height: 32px;
+  font-family: "Inter UI";
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #121619;
+}
+
+
+ ::ng-deep .potential-customer-list .ui-dropdown-label {
+   font-family: "Inter UI";
+   font-size: 13px;
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   line-height: 1.46;
+   letter-spacing: normal;
+   text-align: left;
+ }
+
+ /* Config rows Per Page Options */
+
+ ::ng-deep .potential-customer-list .ui-inputtext {
+   padding: 0.3em;
+ }
+
+ .potential-customer-list .link {
+   font-family: "Inter UI";
+   color: #007ad9;
+   cursor: pointer;
+   font-size: 13px;
+ }
+
+ .ui-button-text-empty {
+   display: none;
+ }
+
+ :ng-deep .potential-customer-list .ui-widget-header {
+   background-color: #fff !important;
+ }
+
+ :ng-deep .potential-customer-list .ui-table.ui-table-tbody>tr {
+   background-color: #fff !important;
+ }
+
+ ::ng-deep .potential-customer-list .customer-dropdown>.ui-dropdown {
+   width: 100%;
+ }
+
+ ::ng-deep .potential-customer-list .ui-button-text-only {
+   display: none;
+ }
+
+ ::ng-deep .potential-customer-list .ui-buttonset.ui-button-secondary>.ui-button.ui-state-default {
+   border-radius: 50% !important;
+   height: 35px !important;
+   width: 35px !important;
+   background-color: #d7dbe0;
+ }
+
+ /* ui-dialog-content ui-widget-content */
+
+ ::ng-deep .potential-customer-list .ui-dialog-content.ui-widget-content {
+   overflow: hidden !important;
+ }
+
+ ::ng-deep .potential-customer-list .ui-inputswitch:not(.ui-inputswitch-checked) .ui-inputswitch-slider {
+   background-color: #4ad2a6 !important;
+ }
+
+ /* Máy để bàn */
+
+ @media only screen and (min-width: 1025px) and (max-width: 1423px) {
+   /* .potential-customer-list .action-wrapper{
+		padding-right: 10px !important;
+	} */
+ }
+
+ /* Ipad Pro */
+
+ @media only screen and (min-width: 768px) and (max-width: 1024px) {
+   .potential-customer-list .box-header-icon {
+     width: 27px;
+     height: 27px;
+   }
+   .potential-customer-list .Money-2 {
+     width: 15.4px;
+     height: 11.5px;
+     margin-top: 7px;
+   }
+   .potential-customer-list .iput-text {
+     margin-top: 5px;
+   }
+   .potential-customer-list .download-template {
+     margin-right: 0px !important;
+   }
+   .potential-customer-list .add-quote {
+     margin-right: 0px !important;
+   }
+ }
+
+ /* Ipad */
+
+ @media only screen and (max-width: 767px) {
+   /* .potential-customer-list .btn-create {
+    margin-top: 5px;
+  } */
+    .potential-customer-list .iput-text {
+      margin-top: 5px;
+    }
+   .potential-customer-list .add-order {
+     margin-right: 0px !important;
+   }
+   .potential-customer-list .add-quote {
+     margin-right: 0px !important;
+   }
+   .potential-customer-list .download-template {
+     margin-right: 0px !important;
+     margin-bottom: 5px;
+   }
+   .potential-customer-list .box-header-title {
+    /* width: 177px; */
+    height: auto;
+   }
+   .potential-customer-list .export-exel, 
+   .potential-customer-list .import-exel, 
+   .potential-customer-list .btn-create{
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+   }
+
+ }
+
+ /* Iphone 6/7/8 Plus */
+
+ /* @media only screen and (min-width: 375px) and (max-width: 414px) {
+   .potential-customer-list .iput-text {
+     margin-top: 5px;
+   }
+   .potential-customer-list .download-template {
+     margin-right: 0px !important;
+     margin-bottom: 5px;
+   }
+   .potential-customer-list .add-quote {
+     margin-right: 0px !important;
+   }
+ } */
+
+ /* Iphone 6/7/8/X */
+
+ /* @media only screen and (max-width: 375px) {
+   .potential-customer-list .iput-text {
+     margin-top: 5px;
+   }
+   .potential-customer-list .btn-create {
+     margin-top: 5px;
+   }
+   .potential-customer-list .download-template {
+     margin-right: 0px !important;
+     margin-bottom: 5px;
+   }
+   .potential-customer-list .add-quote {
+     margin-right: 0px !important;
+   }
+   .potential-customer-list .add-order {
+     margin-right: 5px;
+   }
+ } */

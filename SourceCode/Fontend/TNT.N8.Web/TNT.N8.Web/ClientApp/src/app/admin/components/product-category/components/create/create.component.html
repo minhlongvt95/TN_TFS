@@ -1,0 +1,73 @@
+<div class="org-dialog-content">
+  <form style="font-family: 'Open Sans', sans-serif;" [formGroup]="productCategoryForm" *ngIf="productCategoryForm">
+    <div class="row org-dialog-title">
+      <span>
+        {{ 'productcategory.info' | translate }}
+      </span>
+    </div>
+
+    <div class="row">
+      <label>{{ 'productcategory.productcategory_parentid' | translate }}<span>:</span></label>
+
+      <div>
+        <label *ngIf="!(this.data.mode == 'edit' && this.data.level == 0)">{{this.data.selectedproductcategoryname}}</label>
+      </div>
+
+    </div>
+    <div class="row">
+      <label>{{ 'productcategory.productcategory_name' | translate }} <span class="required">*</span></label>
+      <div>
+        <input type="text"
+               id="productCategoryName"
+               class="form-control"
+               name="productCategoryName"
+               formControlName="productCategoryName"
+               [ngClass]="productCategoryName.hasError('required') && !productCategoryName.valid && !productCategoryName.untouched ? 'error-border' : ''"
+               [(ngModel)]="productCategoryModel.Name"
+               maxlength="500">
+        <div class="md-errors-spacer" [hidden]="productCategoryName.valid || productCategoryName.untouched">
+          <mat-error *ngIf="productCategoryName.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>{{ 'productcategory.productcategory_code' | translate }}<span class="required">*</span></label>
+      <div>
+        <input type="text"
+               id="productCategoryCode"
+               class="form-control"
+               name="productCategoryCode"
+               formControlName="productCategoryCode"
+               [ngClass]="(productCategoryCode?.errors?.checkDuplicateCode || productCategoryCode.hasError('required')) && !productCategoryCode.valid && !productCategoryCode.untouched ? 'error-border' : ''"
+               [(ngModel)]="productCategoryModel.ProductCategoryCode"
+               maxlength="500">
+        <div class="md-errors-spacer" [hidden]="productCategoryCode.valid || productCategoryCode.untouched">
+          <mat-error *ngIf="productCategoryCode.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          <mat-error *ngIf="productCategoryCode?.errors?.checkDuplicateCode">Đã tồn tại mã.</mat-error>
+          <mat-error *ngIf="productCategoryCode.hasError('pattern')">Không sử dụng chữ có dấu</mat-error>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label>{{ 'productcategory.productcategory_description' | translate }}</label>
+      <div>
+        <input type="text"
+               id="productCategoryDescription"
+               class="form-control"
+               name="productCategoryDescription"
+               formControlName="productCategoryDescription"
+               [(ngModel)]="productCategoryModel.Description"
+               maxlength="255">
+
+        <!--[ngClass]="(productCategoryDescription.hasError('required')) && !productCategoryDescription.valid && !productCategoryDescription.untouched ? 'error-border' : ''"-->
+        <!--<div class="md-errors-spacer" [hidden]="productCategoryDescription.valid || productCategoryDescription.untouched">
+          <mat-error *ngIf="productCategoryDescription.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+        </div>-->
+      </div>
+    </div>
+    <div class="row org-dialog-buttons">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">HỦY</button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">LƯU</button>
+    </div>
+  </form>
+</div>

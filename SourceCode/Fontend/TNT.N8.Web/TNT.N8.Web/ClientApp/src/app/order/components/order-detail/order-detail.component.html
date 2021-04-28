@@ -1,0 +1,1518 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'order.messages_title.title_confirm' | translate }}" icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'order.buttons.accept' | translate }}" rejectLabel="{{ 'order.buttons.reject' | translate }}">
+</p-confirmDialog>
+
+<!-- Confirm... -->
+<p-confirmDialog key="checkMaxDebt" header="{{ 'order.messages_title.title_confirm' | translate }}" icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'order.buttons.accept' | translate }}" rejectLabel="{{ 'order.buttons.reject' | translate }}">
+</p-confirmDialog>
+
+<p-dialog header="{{ 'order.messages_title.title_info_reject' | translate }}" [(visible)]="display" [modal]="true"
+  [style]="{width: '400px', minWidth: '200px'}">
+  <div class="col-md-3">
+    <span> {{ 'order.create.description' | translate }} </span>
+  </div>
+  <div class="col-md-9">
+    <!-- <input class="w100 input-text"  type="text" (keydown.enter)="$event.preventDefault()" pInputText  [(ngModel)]="descriptionReject"/> -->
+    <textarea rows="4" cols="30" pInputTextarea [(ngModel)]="descriptionReject" class="w100 input-text"></textarea>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="pi pi-check" (click)="rejectOrder()"
+      label="{{ 'order.create.save' | translate }}"></button>
+  </p-footer>
+</p-dialog>
+
+<div class="order-detail">
+  <div class="row no-margin">
+    <form [formGroup]="createOrderForm" style="height: 100%;">
+      <div class="col-md-{{colLeft}}">
+        <div class="row order-detail-content" id="parent">
+          <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+            <div class="col-md-12">
+              <span *ngIf="!isInvalidForm">
+                <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+              </span>
+              <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+              </div>
+              <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                <div *ngIf="(orderDateControl.invalid && (orderDateControl.dirty || orderDateControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_date_ndh' | translate }}</span>
+                </div>
+                <div *ngIf="(sellerControl.invalid && (sellerControl.dirty || sellerControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_personInChange' | translate }}</span>
+                </div>
+                <div *ngIf="(customerControl.invalid && (customerControl.dirty || customerControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_customer' | translate }}</span>
+                </div>
+                <div
+                  *ngIf="(customerGroupControl.invalid && (customerGroupControl.dirty || customerGroupControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_customerGroup' | translate }}</span>
+                </div>
+                <div *ngIf="(customerCodeControl.invalid && (customerCodeControl.dirty || customerCodeControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span
+                    *ngIf="customerCodeControl.hasError('required') || customerCodeControl?.errors?.forbiddenSpaceText"
+                    class="notifi-text">{{ 'order.messages_error.no_customerCode' | translate }}</span>
+                  <span *ngIf="customerCodeControl.hasError('duplicateCode')" class="notifi-text">{{
+                    'order.messages_error.duplicate_customerCode' | translate }}</span>
+                </div>
+                <div *ngIf="(cusNameControl.invalid && (cusNameControl.dirty || cusNameControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_customerName' | translate }}</span>
+                </div>
+                <div *ngIf="(receivedDateControl.invalid && (receivedDateControl.dirty || receivedDateControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_receivedDate' | translate }}</span>
+                </div>
+                <div *ngIf="(wareHouseControl.invalid && (wareHouseControl.dirty || wareHouseControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_warehouse' | translate }}</span>
+                </div>
+                <!-- <div
+                  *ngIf="(recipientNameControl.invalid && (recipientNameControl.dirty || recipientNameControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.no_personInChange' | translate  }}Tên người nhận không được để trống</span>
+                </div> -->
+                <div
+                  *ngIf="(customerPhoneControl.invalid && (customerPhoneControl.dirty || customerPhoneControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.error_phone' | translate }}</span>
+                </div>
+                <div
+                  *ngIf="(recipientEmailControl.invalid && (recipientEmailControl.dirty || recipientEmailControl.touched))"
+                  class="notifi-row">
+                  <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                  <span class="notifi-text">{{ 'order.messages_error.error_email' | translate }}</span>
+                </div>
+              </div>
+              <div style="float: right; text-align: right;">
+                <button class="cancel" type="button" (click)="cancel()">
+                  <span class="text-cancel">{{ 'order.create.exit' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionDelete && isDraft" type="button" (click)="deleteOrder()">
+                  <span class="text-cancel">{{ 'order.create.delete' | translate }}</span>
+                </button>
+
+                <!-- <button class="cancel" *ngIf="actionEdit && isDraft" type="button" (click)="cloneOrder()">
+                  <span class="text-cancel">{{ 'order.create.clone' | translate  }}</span>
+                </button> -->
+
+                <button class="cancel" *ngIf="actionEdit && isStatusNew" type="button"
+                  (click)="updateStatusOrder('SEND_APPROVAL')">
+                  <span class="text-cancel">{{ 'order.create.send_approval' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && isStatusIP && isManager" type="button"
+                  (click)="updateStatusOrder('APPROVAL')">
+                  <span class="text-cancel">{{ 'order.create.approval' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && isStatusIP && isManager" type="button"
+                  (click)="updateStatusOrder('REJECT')">
+                  <span class="text-cancel">{{ 'order.create.reject' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && isStatusIP && isUserSendAproval " type="button"
+                  (click)="updateStatusOrder('CANCEL_APPROVAL')">
+                  <span class="text-cancel">Hủy yêu cầu phê duyệt</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && isStatusDLV" type="button" (click)="gotoCreateBill()">
+                  <span class="text-cancel">{{ 'order.create.create_bill' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && (isStatusIP || isStatusDLV)" type="button"
+                  (click)="updateStatusOrder('PAY_ORDER')">
+                  <span class="text-cancel">{{ 'order.create.create_pay_order' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && isStatusRTN" type="button"
+                  (click)="updateStatusOrder('CANCEL')">
+                  <span class="text-cancel">{{ 'order.create.cancel' | translate }}</span>
+                </button>
+
+                <button class="cancel" *ngIf="actionEdit && (isStatusCAN || isStatusRTN)" type="button"
+                  (click)="updateStatusOrder('EDIT_NEW')">
+                  <span class="text-cancel">{{ 'order.create.edit_new' | translate }}</span>
+                </button>
+
+                <p-splitButton label="{{ 'order.create.export_file' | translate  }}" [model]="listAction"
+                  styleClass="ui-button-info" [style]="{'margin-left': '5px'}"></p-splitButton>
+
+                <!-- <button class="export" type="button" (click)="exportPFD()">
+                  <span class="text-export">Xuất PDF</span>
+                </button> -->
+                <button #save class="save" [disabled]="awaitResult" *ngIf="actionEdit && isStatusNew" type="button" (click)="updateOrder()">
+                  <span class="text-save">{{ 'order.create.save' | translate }}</span>
+                </button>
+                <button class="cancel" type="button" (click)="showTotalOrder()" *ngIf="!isShow">
+                  <span class="text-cancel"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; {{
+                    'order.create.total_order' | translate }}</span>
+                </button>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+
+          <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <p-steps [model]="workFollowOrder" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+              </div>
+            </div>
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{ 'order.create.info_customer' | translate }}" [selected]="true">
+                  <!-- <div *ngIf="isShowOptionCustomer" class="col-md-12 option-customer">
+                    <div class="row" style="margin-top: 22px;">
+                      <div class="col-md-4">
+                        <p-radioButton name="groupname" value="1" label="Khách lẻ" [(ngModel)]="optionCustomer"
+                          [ngModelOptions]="{standalone: true}" (onClick)="chooseOptionCustomer()"></p-radioButton>
+                      </div>
+                      <div class="col-md-4">
+                        <p-radioButton name="groupname" value="2" label="Chọn khách hàng" [(ngModel)]="optionCustomer"
+                          [ngModelOptions]="{standalone: true}" (onClick)="chooseOptionCustomer()"></p-radioButton>
+                      </div>
+                      <div class="col-md-4">
+                        <p-radioButton name="groupname" value="3" label="Thêm khách hàng mới"
+                          [(ngModel)]="optionCustomer" [ngModelOptions]="{standalone: true}"
+                          (onClick)="chooseOptionCustomer()"></p-radioButton>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div *ngIf="optionCustomer == '1'" class="col-md-12">
+                  </div>
+                  <div *ngIf="optionCustomer == '2'" class="col-md-12 border-customer-infor">
+                    <div class="row" style="margin-top: 10px;">
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div #boxCustomer class="col-md-12">
+                                <label>{{ 'order.create.customerCode' | translate }}<span
+                                    class="require">*</span></label>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown [options]="listCustomer" [virtualScroll]="true" itemSize="30"
+                                  formControlName="customerControl"
+                                  [styleClass]="(customerControl.invalid && (customerControl.dirty || customerControl.touched)) ? 'error-border' : ''"
+                                  [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                  (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew"
+                                  placeholder="{{ 'order.create.select_customer' | translate }}"
+                                  optionLabel="customerCodeName" [style]="{'width': '100%'}"
+                                  (onChange)="changeCustomer($event.value, 'clear')"></p-dropdown>
+                              </div>
+                              <div class="col-md-12" [hidden]="customerControl.valid || customerControl.untouched">
+                                <span *ngIf="customerControl.hasError('required')" class="error-message-span">{{
+                                  'order.messages_error.no_text' | translate }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.customerName' | translate }}<span
+                                    class="require">*</span></label>
+                              </div>
+                              <div class="col-md-12">
+                                <input class="w100 input-text" type="text" formControlName="cusNameControl"
+                                  *ngIf="isStatusNew"
+                                  [ngClass]="(cusNameControl.invalid  && (cusNameControl.dirty || cusNameControl.touched)) ? 'error-border': ''"
+                                  (keydown.enter)="$event.preventDefault()" pInputText />
+                                <input class="w100 input-text" type="text" formControlName="cusNameControl"
+                                  *ngIf="!isStatusNew" disabled (keydown.enter)="$event.preventDefault()" pInputText />
+                              </div>
+                              <div class="col-md-12" [hidden]="cusNameControl.valid || cusNameControl.untouched">
+                                <span *ngIf="cusNameControl.hasError('required')" class="error-message-span">{{
+                                  'order.messages_error.no_text' | translate }}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.address' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input class="w100 input-text" type="text" formControlName="customerAddressControl"
+                                  *ngIf="isStatusNew" (keydown.enter)="$event.preventDefault()" pInputText />
+                                <input class="w100 input-text" type="text" formControlName="customerAddressControl"
+                                  *ngIf="!isStatusNew" disabled (keydown.enter)="$event.preventDefault()" pInputText />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.taxCode' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input class="w100 input-text" type="text" disabled formControlName="customerMSTControl"
+                                  (keydown.enter)="$event.preventDefault()" pInputText />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.phone' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input class="w100 input-text" type="text" formControlName="customerPhoneControl"
+                                  [ngClass]="(customerPhoneControl.invalid && (customerPhoneControl.dirty || customerPhoneControl.touched)) ? 'error-border' : ''"
+                                  *ngIf="isStatusNew" (keydown.enter)="$event.preventDefault()" pInputText />
+                                <input class="w100 input-text" type="text" formControlName="customerPhoneControl"
+                                  *ngIf="!isStatusNew" disabled (keydown.enter)="$event.preventDefault()" pInputText />
+                              </div>
+                              <div class="col-md-12">
+                                <span *ngIf="customerPhoneControl.hasError('pattern')" class="error-message-span">
+                                  Sai định dạng Số điện thoại</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-12">
+                              <div class="row mt-5">
+                                <div class="col-md-3">
+                                  <label>Email:</label>
+                                </div>
+                                <div class="col-md-9"><span style="font-weight: bold;">{{customerEmail}}</span></div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div class="row mt-5">
+                                <div class="col-md-3">
+                                  <label>Điện thoại:</label>
+                                </div>
+                                <div class="col-md-9"><span style="font-weight: bold;">{{customerPhone}}</span></div>
+                              </div>
+                            </div>
+
+                            <div class="col-md-12">
+                              <div class="row mt-5">
+                                <div class="col-md-3">
+                                  <label>Địa chỉ:</label>
+                                </div>
+                                <div class="col-md-9"><span style="font-weight: bold;">{{fullAddress}}</span></div>
+                              </div>
+                            </div>
+                          </div> -->
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.recipient_name' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                  *ngIf="isStatusNew" formControlName="recipientNameControl" pInputText />
+                                <input class="w100 input-text" type="text" (keydown.enter)="$event.preventDefault()"
+                                  *ngIf="!isStatusNew" disabled formControlName="recipientNameControl" pInputText />
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.day_in_debt' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input type="text" class="number-input" formControlName="daysAreOwedControl"
+                                  (keydown.enter)="$event.preventDefault()" *ngIf="isStatusNew" pInputText
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                                <input type="text" class="number-input" formControlName="daysAreOwedControl"
+                                  (keydown.enter)="$event.preventDefault()" *ngIf="!isStatusNew" pInputText disabled
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.max_in_debt' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <input type="text" class="number-input" formControlName="maxDebtControl"
+                                  (keydown.enter)="$event.preventDefault()" pInputText disabled
+                                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.paying' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown [options]="listPaymentMethod" formControlName="paymentMethodControl"
+                                  (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew"
+                                  placeholder="{{ 'order.create.select_paying' | translate }}" [showClear]="true"
+                                  optionLabel="categoryName" [style]="{'width': '100%'}"
+                                  (onChange)="changeMethodControl($event.value)"></p-dropdown>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="col-md-12" *ngIf="isShowBankAccount">
+                            <div class="row mt-5">
+                              <div class="col-md-12">
+                                <label>{{ 'order.create.account_paying' | translate }}</label>
+                              </div>
+                              <div class="col-md-12">
+                                <p-dropdown [options]="listBankAccount" formControlName="bankAccountControl"
+                                  (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew"
+                                  placeholder="{{ 'order.create.select_account_paying' | translate }}"
+                                  [showClear]="true" optionLabel="accountNumber" [style]="{'width': '100%'}">
+                                </p-dropdown>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="optionCustomer == '3'" class="col-md-12 border-customer-infor">
+                    <div class="row" style="margin-top: 10px;">
+                      <div class="col-md-6">
+                        <div #boxCustomerGroup class="row mt-5">
+                          <div class="col-md-12">
+                            <label>Nhóm khách hàng<span class="require">*</span></label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listCustomerGroup" formControlName="customerGroupControl"
+                              [styleClass]="(customerGroupControl.invalid && (customerGroupControl.dirty || customerGroupControl.touched)) ? 'error-border' : ''"
+                              placeholder="Chọn nhóm khách hàng" [showClear]="true" optionLabel="categoryName"
+                              [style]="{'width': '100%'}"></p-dropdown>
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="customerGroupControl.valid || customerGroupControl.untouched">
+                            <span *ngIf="customerGroupControl.hasError('required')" class="error-message-span">Không
+                              được để trống</span>
+                          </div>
+                        </div>
+
+                        <div #boxCustomerCode class="row mt-5">
+                          <div class="col-md-12">
+                            <label>Mã khách hàng<span class="require">*</span></label>
+                          </div>
+                          <div class="col-md-12">
+                            <input class="w100 input-text" type="text"
+                              [ngClass]="(customerCodeControl.invalid && (customerCodeControl.dirty || customerCodeControl.touched)) ? 'error-border' : ''"
+                              formControlName="customerCodeControl" pInputText />
+                          </div>
+                          <div class="col-md-12" [hidden]="customerCodeControl.valid || customerCodeControl.untouched">
+                            <span
+                              *ngIf="customerCodeControl.hasError('required') || customerCodeControl?.errors?.forbiddenSpaceText"
+                              class="error-message-span">Không được để trống</span>
+                            <span *ngIf="customerCodeControl.hasError('duplicateCode')" class="error-message-span">Trùng
+                              mã khách hàng</span>
+                          </div>
+                        </div>
+
+                        <div #boxCustomerName class="row mt-5">
+                          <div class="col-md-12">
+                            <label>Tên khách hàng<span class="require">*</span></label>
+                          </div>
+                          <div class="col-md-12">
+                            <input class="w100 input-text" type="text"
+                              [ngClass]="(customerNameControl.invalid && (customerNameControl.dirty || customerNameControl.touched)) ? 'error-border' : ''"
+                              formControlName="customerNameControl" pInputText (keyup)="changeCustomerName()" />
+                          </div>
+                          <div class="col-md-12" [hidden]="customerNameControl.valid || customerNameControl.untouched">
+                            <span
+                              *ngIf="customerNameControl.hasError('required') || customerNameControl?.errors?.forbiddenSpaceText"
+                              class="error-message-span">Không được
+                              để trống</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row mt-5">
+                          <div class="col-md-12">
+                            <label>Loại khách hàng</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listCustomerType" formControlName="customerTypeControl"
+                              [styleClass]="(customerTypeControl.invalid && (customerTypeControl.dirty || customerTypeControl.touched)) ? 'error-border' : ''"
+                              optionLabel="typeName" [style]="{'width': '100%'}"></p-dropdown>
+                          </div>
+                        </div>
+
+                        <div class="row mt-5">
+                          <div class="col-md-12">
+                            <label>Phương thức thanh toán</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-dropdown [options]="listPaymentMethod" formControlName="newCusPaymentMethodControl"
+                              placeholder="Chọn phương thức thanh toán" [showClear]="true" optionLabel="categoryName"
+                              [style]="{'width': '100%'}"></p-dropdown>
+                          </div>
+                        </div>
+
+                        <div class="row mt-5">
+                          <div class="col-md-12">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <label>Số ngày được nợ</label>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input type="text" class="number-input" formControlName="newCusDaysAreOwedControl"
+                                      [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <label>Số nợ tối đa</label>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <input type="text" class="number-input" formControlName="newCusMaxDebtControl"
+                                      pInputText disabled
+                                      [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{ 'order.create.info_order' | translate }}" [selected]="true">
+                  <div class="col-md-12 text-order-code">
+                    <label>{{ 'order.create.code' | translate }}
+                      <span style="font-weight: bold;">{{customerOrderModel.OrderCode}}</span>
+                    </label>
+                  </div>
+                  <div class="col-md-6">
+                    <!-- <div class="row">
+                      <div class="col-md-12 text-order-code">
+                        <label>Mã đơn hàng: <span
+                            style="font-weight: bold;">{{customerOrderModel.OrderCode}}</span></label>
+                      </div>
+                    </div> -->
+                    <div #boxOrderDate class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.orderDate' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-calendar formControlName="orderDateControl"
+                          [styleClass]="(orderDateControl.invalid  && (orderDateControl.dirty || orderDateControl.touched)) ? 'error-pcalendar': ''"
+                          (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew" dateFormat="dd/mm/yy"
+                          [style]="{'width':'100%'}" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                          [baseZIndex]="999"></p-calendar>
+                      </div>
+                      <div class="col-md-12" [hidden]="orderDateControl.valid || orderDateControl.untouched">
+                        <span *ngIf="orderDateControl.hasError('required')" class="error-message-span">{{
+                          'order.messages_error.no_text' | translate }}</span>
+                      </div>
+                    </div>
+
+                    <!-- <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Tình trạng<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown [options]="listOrderStatus" formControlName="orderStatusControl"
+                          optionLabel="description" [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="orderStatusControl.valid || orderStatusControl.untouched">
+                        <span *ngIf="orderStatusControl.hasError('required')" class="error-message-span">Không được để
+                          trống</span>
+                      </div>
+                    </div> -->
+
+                    <div #boxSeller class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.employee' | translate }}<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown [options]="listEmployee" formControlName="sellerControl"
+                          [styleClass]="(sellerControl.invalid && (sellerControl.dirty || sellerControl.touched)) ? 'error-border' : ''"
+                          (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew" [filter]="true"
+                          [showClear]="true" [resetFilterOnHide]="true"
+                          placeholder="{{ 'order.create.select_employee' | translate }}" optionLabel="employeeCodeName"
+                          [style]="{'width': '100%'}">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-12" [hidden]="sellerControl.valid || sellerControl.untouched">
+                        <span *ngIf="sellerControl.hasError('required')" class="error-message-span">{{
+                          'order.messages_error.no_text' | translate }}</span>
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.quote' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown [options]="listQuoteObj" formControlName="quoteControl" [filter]="true"
+                          [showClear]="true" [resetFilterOnHide]="true" (keydown.enter)="$event.preventDefault()"
+                          [disabled]="!isStatusNew" (onChange)="changeQuote($event.value)"
+                          placeholder="{{ 'order.create.select_quote' | translate }}" optionLabel="quoteCodeName"
+                          [style]="{'width': '100%'}">
+                        </p-dropdown>
+                        <!-- <p-dropdown [options]="listQuote" formControlName="quoteControl"
+                          optionLabel="quoteCodeName" [style]="{'width': '100%'}"></p-dropdown> -->
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.contract' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <p-dropdown [options]="listContract" formControlName="orderContractControl" [filter]="true"
+                          [showClear]="true" [resetFilterOnHide]="true" (keydown.enter)="$event.preventDefault()"
+                          (onChange)="changeContract($event.value)"
+                          [disabled]="!isStatusNew" placeholder="{{ 'order.create.select_contract' | translate }}"
+                          optionLabel="contractCode" [style]="{'width': '100%'}"></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.warehouse' | translate }}</label>
+                      </div>
+                      <div class="col-md-6">
+                        <p-dropdown [options]="listWare" formControlName="wareHouseControl"
+                          (keydown.enter)="$event.preventDefault()" [filter]="true" [showClear]="true"
+                          [resetFilterOnHide]="true" (onChange)="changeWare($event.value)" [disabled]="!isStatusNew"
+                          [styleClass]="(wareHouseControl.invalid && (wareHouseControl.dirty || wareHouseControl.touched)) ? 'error-border' : ''"
+                          placeholder="{{ 'order.create.select_warehouse' | translate }}" optionLabel="warehouseCode"
+                          [style]="{'width': '100%'}">
+                        </p-dropdown>
+                      </div>
+                      <div class="col-md-6">
+                        <label>{{ warehouseName }}</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.delivery_place' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text" formControlName="placeOfDeliveryControl"
+                          (keydown.enter)="$event.preventDefault()" *ngIf="isStatusNew" pInputText />
+                        <input class="w100 input-text" type="text" formControlName="placeOfDeliveryControl"
+                          (keydown.enter)="$event.preventDefault()" *ngIf="!isStatusNew" disabled pInputText />
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.description' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="descriptionControl"
+                          *ngIf="isStatusNew" class="w100"></textarea>
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="descriptionControl"
+                          *ngIf="!isStatusNew" disabled class="w100"></textarea>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label>{{ 'order.create.note' | translate }}</label>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="noteControl" *ngIf="isStatusNew"
+                          class="w100"></textarea>
+                        <textarea rows="5" cols="30" pInputTextarea formControlName="noteControl" *ngIf="!isStatusNew"
+                          disabled class="w100"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{ 'order.create.order_detail' | translate }}" [selected]="true">
+                  <p-tabView>
+                    <p-tabPanel header="{{ 'order.create.info_product' | translate  }}">
+                      <span (click)="addCustomerOrderDetail()" *ngIf="actionEdit && isStatusNew">
+                        <span>
+                          <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                        </span>
+                        <span class="add-product-text">
+                          {{ 'order.create.create_product' | translate }}
+                        </span>
+                      </span>
+                      <div class="mt-5">
+                        <p-table [columns]="selectedColumns" [value]="listCustomerOrderDetailModel" [scrollable]="true"
+                          [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                          (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true"
+                          [rows]="10" [rowsPerPageOptions]="[5,10,50,100]" responsive="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                              <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns"
+                                [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                (keydown.enter)="$event.preventDefault()" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{minWidth: '200px'}"
+                                defaultLabel="{{ 'order.create.select_col' | translate  }}"></p-multiSelect>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                <span *ngSwitchCase="'Move'">
+                                  <button *ngIf="listCustomerOrderDetailModel?.length != 1"
+                                    [disabled]="rowData.OrderNumber == 1" class="btn-move mr-5" pTooltip="Chuyển lên"
+                                    tooltipPosition="top" pButton (click)="moveUp(rowData)"><i
+                                      class="pi pi-arrow-up icons-move"></i></button>
+                                  <button *ngIf="listCustomerOrderDetailModel?.length != 1"
+                                    [disabled]="rowData.OrderNumber == listCustomerOrderDetailModel?.length"
+                                    class="btn-move" pTooltip="Chuyển xuống" tooltipPosition="top" pButton
+                                    (click)="moveDown(rowData)"><i class="pi pi-arrow-down icons-move"></i></button>
+                                </span>
+                                <span *ngSwitchCase="'productName'">
+                                  {{ rowData[col.field] == null || rowData[col.field] == '' ? rowData['productName'] :
+                                  rowData['productName']}}
+                                </span>
+                                <span *ngSwitchCase="'ProductNameUnit'">
+                                  {{ rowData['OrderDetailType'] == 0 ? rowData['ProductNameUnit'] :
+                                  rowData['IncurredUnit'] }}
+                                </span>
+                                <span *ngSwitchCase="'Quantity'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'UnitPrice'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'ExchangeRate'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'Vat'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'DiscountValue'">
+                                  {{rowData['DiscountType'] == true ? (((rowData[col.field] != null ?
+                                  (rowData[col.field] | number) : '0')) + '%') : (rowData[col.field] | number)}}
+                                </span>
+                                <span *ngSwitchCase="'SumAmount'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'GuaranteeTime'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'GuaranteeDatetime'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngSwitchCase="'ExpirationDate'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngSwitchCase="'PriceInitial'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'ActualInventory'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'BusinessInventory'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'Delete'">
+                                  <button pButton icon="pi pi-trash" (click)="deleteItem(rowData, $event)"
+                                    [disabled]="!isStatusNew" class="ui-button-danger"></button>
+                                </span>
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="{{ 'order.create.info_cost' | translate  }}">
+                      <span (click)="addCostQuote()" *ngIf="actionEdit && isStatusNew">
+                        <span style="margin-left: -2px;">
+                          <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                        </span>
+                        <span class="add-product-text">
+                          {{ 'order.create.create_cost' | translate }}
+                        </span>
+                      </span>
+                      <div class="mt-5">
+                        <p-table [columns]="selectedColumnsCost" [value]="listOrderCostDetailModel" [scrollable]="true"
+                          [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                          (onRowSelect)="onRowCostSelect($event.data)" [style]="{width:'100%'}" [paginator]="true"
+                          [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                              <p-multiSelect [options]="colsCost" [(ngModel)]="selectedColumnsCost"
+                                [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                (keydown.enter)="$event.preventDefault()" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{minWidth: '200px'}"
+                                defaultLabel="{{ 'order.create.select_col' | translate  }}"></p-multiSelect>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col *ngFor="let col of columns" style="width: 150px;">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                <span *ngSwitchCase="'costCode'">
+                                  {{ rowData[col.field] }}
+                                </span>
+                                <span *ngSwitchCase="'costName'">
+                                  {{ rowData[col.field] }}
+                                </span>
+                                <span *ngSwitchCase="'quantity'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'unitPrice'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'sumAmount'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchCase="'delete'">
+                                  <button pButton icon="pi pi-trash" (click)="deleteCostItem(rowData)"
+                                    [disabled]="!isStatusNew" class="ui-button-danger"></button>
+                                </span>
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="{{ 'order.create.info_bill' | translate  }}">
+                      <div class="mt-5">
+                        <p-table [columns]="selectedColumnsBill" [value]="listBill" [scrollable]="true"
+                          [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                          (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true"
+                          [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                              <p-multiSelect [options]="colsBill" [(ngModel)]="selectedColumnsBill"
+                                [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                (keydown.enter)="$event.preventDefault()" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{minWidth: '200px'}"
+                                defaultLabel="{{ 'order.create.select_col' | translate  }}"></p-multiSelect>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col *ngFor="let col of columns" style="width: 170px;">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                <span *ngSwitchCase="'inventoryDeliveryVoucherCode'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchCase="'billOfSaLeCode'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchCase="'billDate'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngSwitchCase="'customerName'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchCase="'amount'">
+                                  {{rowData[col.field] | number}}
+                                </span>
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="{{ 'order.create.info_delivery' | translate  }}">
+                      <div class="mt-5">
+                        <p-table [columns]="selectedColumnsDelivery" [value]="listInventoryDeliveryVoucher"
+                          [scrollable]="true" [resizableColumns]="true" selectionMode="single"
+                          [(selection)]="selectedItem" (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}"
+                          [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                          <ng-template pTemplate="caption">
+                            <div style="text-align:left">
+                              <p-multiSelect [options]="colsDelivery" [(ngModel)]="selectedColumnsDelivery"
+                                [ngModelOptions]="{standalone: true}" optionLabel="header"
+                                (keydown.enter)="$event.preventDefault()" selectedItemsLabel="{0} cột được chọn"
+                                [style]="{minWidth: '200px'}"
+                                defaultLabel="{{ 'order.create.select_col' | translate  }}"></p-multiSelect>
+                            </div>
+                          </ng-template>
+                          <ng-template pTemplate="colgroup" let-columns>
+                            <colgroup>
+                              <col *ngFor="let col of columns" style="width: 170px;">
+                            </colgroup>
+                          </ng-template>
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr [pSelectableRow]="rowData">
+                              <td *ngFor="let col of columns" class="ui-resizable-column"
+                                [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                <span *ngSwitchCase="'inventoryDeliveryVoucherCode'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchCase="'inventoryDeliveryVoucherType'">
+                                  {{ (rowData[col.field] == 1 ? 'inventory_delivery_voucher.create.radioXHB' :
+                                  rowData[col.field] == 2 ? 'inventory_delivery_voucher.create.radioXTLNCC' :
+                                  rowData[col.field] == 3 ? 'inventory_delivery_voucher.create.radioXBT' :
+                                  rowData[col.field] == 4 ? 'inventory_delivery_voucher.create.radioXHKD' :
+                                  'inventory_delivery_voucher.create.radioK') | translate }}
+                                </span>
+                                <span *ngSwitchCase="'createdDate'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngSwitchCase="'inventoryDeliveryVoucherDate'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                                </span>
+                                <span *ngSwitchCase="'nameCreate'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchCase="'nameStatus'">
+                                  {{rowData[col.field]}}
+                                </span>
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </p-tabPanel>
+                    <p-tabPanel header="{{ 'order.create.note' | translate  }}">
+                      <div>
+                        <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"
+                          [ngModelOptions]="{standalone: true}" (onTextChange)="changeNoteContent($event)"></p-editor>
+                      </div>
+                      <div *ngIf="actionImport" style="margin-top: 5px;">
+                        <p-fileUpload #fileUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                          accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                          maxFileSize="10000000" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                          invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                          invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                          invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                          chooseLabel="{{ 'order.create.choose_file' | translate  }}"
+                          cancelLabel="{{ 'order.create.cancel_file' | translate  }}"
+                          (onSelect)="handleFile($event, fileUpload)" (onRemove)="removeFile($event)"
+                          (onClear)="clearAllFile()"></p-fileUpload>
+                      </div>
+
+                      <div *ngIf="(listUpdateNoteDocument.length > 0)" style="margin-top: 5px;">
+                        <p-table [columns]="colsFile" [value]="listUpdateNoteDocument" [responsive]="true"
+                          [resizableColumns]="true">
+                          <ng-template pTemplate="header" let-columns>
+                            <tr>
+                              <th *ngFor="let col of columns" pResizableColumn
+                                [ngStyle]="{'text-align': col.textAlign}">
+                                {{col.header}}
+                              </th>
+                              <th style="width:4em"></th>
+                              <th style="width:4em"></th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-rowData let-columns="columns">
+                            <tr>
+                              <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                                [ngStyle]="{'text-align': col.textAlign}">
+                                <span class="ui-column-title">{{col.header}}</span>
+                                <span *ngSwitchCase="'documentSize'">
+                                  <ng-container *ngIf="convertFileSize(rowData[col.field])">
+                                    {{rowData[col.field] / 1024 | number}} KB
+                                  </ng-container>
+                                  <ng-container *ngIf="!convertFileSize(rowData[col.field])">
+                                    {{rowData[col.field] / 1048576 | number}} MB
+                                  </ng-container>
+                                </span>
+                                <span *ngSwitchCase="'updatedDate'">
+                                  {{rowData[col.field] | date:'dd/MM/yyyy h:mm a'}}
+                                </span>
+                                <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                              </td>
+                              <td>
+                                <button *ngIf="actionDelete" pButton icon="pi pi-trash" (click)="deleteFile(rowData)"
+                                  class="ui-button-danger"></button>
+                              </td>
+                              <td>
+                                <button pButton icon="pi pi-download" (click)="downloadFile(rowData)"></button>
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+
+                      <div style="text-align: right; margin-top: 5px;">
+                        <button type="button" class="btn-cancel-note" (click)="cancelNote()">
+                          <span class="save-cancel-lable">{{ 'order.create.cancel' | translate }}</span>
+                        </button>
+                        <button type="button" class="btn-save-note" (click)="saveNote()">
+                          <span class="save-note-lable">{{ (isEditNote == true ? 'order.create.edit_note' :
+                            'order.create.create_note') | translate }}</span>
+                        </button>
+                      </div>
+                    </p-tabPanel>
+                  </p-tabView>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <!-- Thông tin giao hàng -->
+            <!-- <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Thông giao hàng" [selected]="true">
+                  <div class="col-md-4">
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Ngày nhận<span class="require">*</span></label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-calendar formControlName="receivedDateControl"
+                              [styleClass]="(receivedDateControl.invalid  && (receivedDateControl.dirty || receivedDateControl.touched)) ? 'error-pcalendar': ''"
+                              dateFormat="dd/mm/yy" [style]="{'width':'100%'}" showButtonBar="true"
+                              [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+                          </div>
+                          <div class="col-md-12" [hidden]="receivedDateControl.valid || receivedDateControl.untouched">
+                            <span *ngIf="receivedDateControl.hasError('required')" class="error-message-span">Không được
+                              để
+                              trống</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <label>Giờ nhận</label>
+                          </div>
+                          <div class="col-md-12">
+                            <p-calendar class="w100" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                              formControlName="receivedHourControl" [timeOnly]="true" [showButtonBar]="true">
+                            </p-calendar>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mt-5">
+                      <div class="col-md-1">
+                        <p-checkbox name="group1" [binary]="true"
+                          [(ngModel)]="autoGenValue"
+                          [ngModelOptions]="{standalone: true}" (onChange)="autoGen()">
+                        </p-checkbox>
+                      </div>
+                      <div class="col-md-10">
+                        <label>Thông tin người nhận trùng với thông tin khách hàng</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Tên người nhận<span class="require">*</span></label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text"
+                          [ngClass]="(recipientNameControl.invalid && (recipientNameControl.dirty || recipientNameControl.touched)) ? 'error-border' : ''"
+                          formControlName="recipientNameControl" pInputText />
+                      </div>
+                      <div class="col-md-12" [hidden]="recipientNameControl.valid || recipientNameControl.untouched">
+                        <span
+                          *ngIf="recipientNameControl.hasError('required') || recipientNameControl?.errors?.forbiddenSpaceText"
+                          class="error-message-span">Không được để trống</span>
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Địa điểm xuất hàng</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text" formControlName="locationOfShipmentControl"
+                          pInputText />
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Địa điểm giao hàng</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text" formControlName="placeOfDeliveryControl"
+                          pInputText />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Số điện thoại</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text" formControlName="recipientPhoneControl"
+                          [ngClass]="(recipientPhoneControl.invalid && (recipientPhoneControl.dirty || recipientPhoneControl.touched)) ? 'error-border' : ''"
+                          pInputText />
+                      </div>
+                      <div class="col-md-12">
+                        <span *ngIf="recipientPhoneControl.hasError('pattern')" class="error-message-span">
+                          Sai định dạng Số điện thoại</span>
+                      </div>
+                    </div>
+
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Email</label>
+                      </div>
+                      <div class="col-md-12">
+                        <input class="w100 input-text" type="text" formControlName="recipientEmailControl"
+                          [ngClass]="(recipientEmailControl.invalid && (recipientEmailControl.dirty || recipientEmailControl.touched)) ? 'error-border' : ''"
+                          pInputText />
+                      </div>
+                      <div class="col-md-12">
+                        <span *ngIf="recipientEmailControl.hasError('pattern')" class="error-message-span">
+                          Sai định dạng Email</span>
+                      </div>
+                    </div>
+                    <div class="row mt-5">
+                      <div class="col-md-12">
+                        <label>Ghi chú</label>
+                      </div>
+                      <div class="col-md-12">
+                        <textarea rows="4" cols="30" pInputTextarea formControlName="shippingNoteControl"
+                          class="w100"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div> -->
+
+            <!-- Thông tin sản phẩm dịch vụ -->
+            <!-- <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="Danh sách sản phẩm dịch vụ" [selected]="true">
+                  <div *ngIf="actionEdit" class="col-md-12">
+                    <span (click)="addCustomerOrderDetail()">
+                      <span>
+                        <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                      </span>
+                      <span class="add-product-text">
+                        Thêm sản phẩm dịch vụ
+                      </span>
+                    </span>
+                  </div>
+
+                  <div class="col-md-12 mt-5">
+                    <p-table [columns]="selectedColumns" [value]="listCustomerOrderDetailModel" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,50,100]">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns"
+                            [ngModelOptions]="{standalone: true}" optionLabel="header"
+                            selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="Chọn cột"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 170px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span *ngSwitchCase="'ExplainStr'">
+                              {{ rowData[col.field] == null || rowData[col.field] == '' ? rowData['Description'] : rowData['ExplainStr']}}
+                            </span>
+                            <span *ngSwitchCase="'ProductNameUnit'">
+                              {{ rowData['OrderDetailType'] == 0 ? rowData['ProductNameUnit'] : rowData['IncurredUnit'] }}
+                            </span>
+                            <span *ngSwitchCase="'Quantity'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'UnitPrice'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'ExchangeRate'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'Vat'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'DiscountValue'">
+                              {{rowData['DiscountType'] == true ? (((rowData[col.field] != null ? (rowData[col.field] | number) : '0')) + '%') : (rowData[col.field] | number)}}
+                            </span>
+                            <span *ngSwitchCase="'SumAmount'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'GuaranteeTime'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'GuaranteeDatetime'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'ExpirationDate'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'Delete'">
+                              <button pButton icon="pi pi-trash" (click)="deleteItem(rowData)"
+                                class="ui-button-danger"></button>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div> -->
+
+            <div class="row no-margin">
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+
+            <div class="row no-margin">
+              <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+                <p-accordionTab header="{{ 'order.create.history_note' | translate  }}" [selected]="true">
+                  <div class="timeline col-md-12 timeline-content">
+                    <ul class="timeline">
+                      <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                        <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                        <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                        <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                        <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                        <div class="timeline-item" id="{{note.noteId}}">
+                          <span class="time onHover">
+                            <i *ngIf="note.type === 'ADD' && ((note.description !== '' && note.description !== null) || note.noteDocList.length > 0) && actionEdit"
+                              (click)="onClickEditNote(note.noteId, note.description)" class="pi pi-pencil style-edit"
+                              pTooltip="{{ 'lead.tooltip.edit_note' | translate }}" tooltipPosition="bottom"></i>
+                            <i *ngIf="actionDelete" pTooltip="Xóa ghi chú" tooltipPosition="bottom"
+                              (click)="onClickDeleteNote(note.noteId)" class="pi pi-trash style-delete"></i>
+                          </span>
+                          <h3 class="timeline-header">
+                            <span>
+                              <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                                (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                                pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                              <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                            </span>
+                            <div>
+                              <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                                class="timeline-user-avatar" />
+                            </div>
+                            <span class="note-user">{{note.responsibleName}}</span>
+                            <!-- <span>
+                              <i *ngIf="note.noteDocList.length > 0" style="position: absolute;"
+                                 class="material-icons file-icon"
+                                 matTooltip="{{'Đính kèm ' + note.noteDocList.length + ' tài liệu'}}">
+                                insert_drive_file
+                              </i>
+                            </span> -->
+                            <p class="time-note">
+                              {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}}
+                              {{ 'lead.note.day' | translate }}
+                              {{note.createdDate | date:'dd/MM/yyyy'}}
+                            </p>
+                          </h3>
+                          <div class="timeline-body">
+                            <div class="note-content">
+                              <span class="short-content" style="word-wrap: break-word;"></span>
+                              <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                            </div>
+
+                            <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                              style="padding: 0 12px; margin-bottom: 20px !important">
+                              <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                                class="col-md-4 short-content-file" style="padding: 5px 0">
+                                <div class="row no-margin file-item"
+                                  style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                  <div class="col-md-1">
+                                    <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                  </div>
+                                  <div class="col-md-11">
+                                    <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                      <span>
+                                        <a class="preview-doc" (click)="openItem(item.documentName, item.documentUrl)">
+                                          {{ item.documentName }}
+                                        </a>
+                                      </span>
+                                    </div>
+                                    <div style="font-size: 10px; padding: 0 !important">
+                                      {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div *ngFor="let item of note.noteDocList;let i=index" class="col-md-4 full-content-file"
+                                style="display: none;padding: 5px 0">
+                                <div class="row no-margin file-item"
+                                  style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                                  <div class="col-md-1">
+                                    <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                                  </div>
+                                  <div class="col-md-11">
+                                    <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                      <span>
+                                        <a class="preview-doc" (click)="openItem(item.base64Url)">
+                                          {{ item.documentName }}
+                                        </a>
+                                      </span>
+                                    </div>
+                                    <div style="font-size: 10px; padding: 0 !important">
+                                      {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" *ngIf="isShow">
+        <div class="no-margin overview" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexdCol}" id="parentTH">
+          <div class="row no-margin button-group">
+            <div class="col-md-12">
+              <span class="text-title">{{ 'order.create.title_pay_order' | translate }}</span>
+              <!-- <i class="fa fa-window-close fa-2x ios-print" aria-hidden="true" (click)="showTotalOrder()"></i> -->
+              <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+            </div>
+          </div>
+          <div class="row no-margin" style="background: #ffffff;">
+            <div class="col-md-12 mt-10">
+              <div class="row box-part-1">
+                <div class="col-md-8 mt-10">
+                  <label class="total-monney-label">{{ 'order.create.sum_after_vat' | translate }}</label>
+                </div>
+                <div class="col-md-4 mt-10" style="text-align: right;">
+                  <label class="total-monney-number">{{ TotalSumAmountProduct | number }}</label>
+                </div>
+                <div class="col-md-8 mt-10">
+                  <label class="total-monney-label">{{ 'order.create.total_cost' | translate }}</label>
+                </div>
+                <div class="col-md-4 mt-10" style="text-align: right;">
+                  <label class="total-monney-number">{{ TotalSumAmountCost | number }}</label>
+                </div>
+                <div class="col-md-8 mt-10">
+                  <label class="total-monney-label">{{ 'order.create.total_vat' | translate }}</label>
+                </div>
+                <div class="col-md-4 mt-10" style="text-align: right;">
+                  <label class="total-monney-number">{{ TotalSumVatProduct | number }}</label>
+                </div>
+              </div>
+              <!-- <div class="row box-part-1">
+                <div class="col-md-12">
+                  <label class="total-monney-label">Tổng số tiền (VND):</label>
+                </div>
+                <div class="col-md-12 mt-5" style="text-align: right;">
+                  <label class="total-monney-number">{{ customerOrderModel.Amount | number }}</label>
+                </div>
+              </div> -->
+            </div>
+            <div class="col-md-12 mt-10">
+              <div class="row box-part-2">
+                <div class="col-md-12">
+                  <label class="total-monney-label">{{ 'order.create.discount_order' | translate }}</label>
+                </div>
+                <div class="col-md-12 mt-5">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-dropdown [options]="discountTypeList" formControlName="discountTypeControl" optionLabel="name"
+                        (keydown.enter)="$event.preventDefault()" [disabled]="!isStatusNew" [style]="{'width': '100%'}"
+                        (onChange)="changeDiscountType($event.value)"></p-dropdown>
+                    </div>
+                    <div class="col-md-12 mt-5">
+                      <input type="text" class="number-input" formControlName="discountValueControl" *ngIf="isStatusNew"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                        (keydown.enter)="$event.preventDefault()" (change)="changeDiscountValue()">
+
+                      <input type="text" class="number-input" formControlName="discountValueControl"
+                        *ngIf="!isStatusNew" disabled pInputText
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                        (keydown.enter)="$event.preventDefault()" (change)="changeDiscountValue()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="row box-part-1">
+                    <div class="col-md-8">
+                      <label class="total-monney-label">{{ 'order.create.total_discount_order' | translate }}</label>
+                    </div>
+                    <div class="col-md-4" style="text-align: right;">
+                      <label class="total-monney-number">{{ CustomerOrderTotalDiscount | number }}</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-8 mt-10">
+                      <label class="total-monney-label">{{ 'order.create.total_pay_order' | translate }}</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="total-monney-number">{{CustomerOrderAmountAfterDiscount | number:0}}</label>
+                    </div>
+                    <div class="col-md-8 mt-10">
+                      <label class="total-monney-label">{{ 'order.create.total_price_initial' | translate }}</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="total-monney-number">{{TotalPriceInitial | number:0}}</label>
+                    </div>
+                    <div class="col-md-8 mt-10">
+                      <label class="total-monney-label">{{ 'order.create.total_price_profit' | translate }}</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="total-monney-number">{{AmountPriceProfit | number:0}}</label>
+                    </div>
+                    <div class="col-md-8 mt-10">
+                      <label class="total-monney-label">{{ 'order.create.total_price_profit_rate' | translate }}</label>
+                    </div>
+                    <div class="col-md-4 mt-10" style="text-align: right;">
+                      <label class="total-monney-number">{{ValuePriceProfit | number: '.' + defaultNumberType}}
+                      </label>
+                    </div>
+                    <!-- <div class="col-md-12 mt-10">
+                      <label class="result-monney-label">Thành tiền (VND):</label>
+                    </div>
+                    <div class="col-md-12" style="text-align: right;">
+                      <label class="result-monney-number">{{CustomerOrderAmountAfterDiscount | number:0}}</label>
+                    </div>
+                    <div class="col-md-12" style="text-align: right;">
+                      <label
+                        class="result-monney-text">{{CustomerOrderAmountAfterDiscount > 0 ? ('(' + (CustomerOrderAmountAfterDiscount | numbertostring:defaultNumberType) + './)') : ''}}</label>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

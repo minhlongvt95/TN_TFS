@@ -1,0 +1,242 @@
+.menu-build .menu-build-content {
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.menu-build .button-group {
+  width: 100%;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.menu-build .center {
+  margin-left: 10px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.menu-build .header-icon {
+  font-size: 22px;
+  color: #007AFF;
+}
+
+.menu-build .header-text {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+.menu-build .w100 {
+  width: 100% !important;
+}
+
+.menu-build .input-text {
+  min-height: 2.55em !important;
+}
+
+.menu-build .fixed {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #f2f4f8;
+  border: 1px solid #cccccc;
+}
+
+.menu-build .ios-warning {
+  position: relative;
+  top: 0;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.menu-build .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  margin-left: -30px;
+  transform: translate(-50%, -50%);
+}
+
+.menu-build .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.menu-build .notification {
+  position: absolute;
+  top: 38px;
+  right: 90px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 999;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+.menu-build .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+  z-index: 999;
+}
+
+.menu-build .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+  z-index: 999;
+}
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.menu-build .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+  z-index: 999;
+}
+
+.menu-build .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+  z-index: 999;
+}
+
+.menu-build .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+  z-index: 999;
+}
+
+.menu-build .save {
+  width: 86px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+  position: relative;
+}
+
+.menu-build .save .text-save {
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .menu-build .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/*End: Customize Accordion */
+
+.menu-build .mt-10 {
+  margin-top: 10px;
+}
+
+.menu-build .mb-10 {
+  margin-bottom: 10px;
+}
+
+.menu-build .area-2 {
+  margin: 10px 0px;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.menu-build .link {
+  color: #007ad9;
+  cursor: pointer;
+}

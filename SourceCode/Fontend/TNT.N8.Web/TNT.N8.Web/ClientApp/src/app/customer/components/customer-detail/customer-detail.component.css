@@ -1,0 +1,800 @@
+.customer-detail .header {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+}
+
+.customer-detail .header-box-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #0f62fe;
+    border-radius: 50%;
+}
+
+.customer-detail .header-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.customer-detail .customer-name {
+    width: 119px;
+    height: 20px;
+    font-family: 'Inter UI';
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.customer-detail .customer-type {
+    width: 106px;
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 11px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+}
+
+.customer-detail .btn-remove {
+    width: 140px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.customer-detail .btn-remove-text {
+    width: 110px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+::ng-deep .customer-detail .ui-menu ul {
+    text-align: left;
+}
+
+.customer-detail .btn-save {
+    width: 140px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+}
+
+.customer-detail .btn-save-text {
+    width: 110px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.customer-detail .customer-infor {
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+    padding-bottom: 10px;
+}
+
+
+/*Begin: Customize Accordion */
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-header a {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+    font-size: 16px;
+}
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    background-color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #121619 !important;
+}
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+    color: #121619 !important;
+}
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+    color: #121619 !important;
+}
+
+::ng-deep .customer-detail .ui-accordion .ui-accordion-content {
+    border: 1px solid #ffffff !important;
+    background-color: #ffffff !important;
+}
+
+
+/*End: Customize Accordion */
+
+.customer-detail .box-handle-infor {
+    border-right: 1px dashed;
+}
+
+.customer-detail .cus-avatar {
+    width: 50%;
+    border-radius: 50%;
+}
+
+.customer-detail .error-message-span {
+    color: red !important;
+}
+
+.customer-detail .infor-label {
+    width: 97px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+}
+
+.customer-detail .infor-value {
+    width: 67px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.customer-detail .box-level {
+    width: 125px;
+    height: 32px;
+    border-radius: 20px;
+    background-color: rgba(255, 59, 48, 0.1);
+    margin-left: 25px;
+    padding-top: 5px;
+}
+
+.customer-detail .level-text {
+    width: 93px;
+    height: 14px;
+    font-family: 'Inter UI';
+    font-size: 11px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.36;
+    letter-spacing: normal;
+    text-align: left;
+    color: #ff3b30;
+}
+
+.customer-detail .point-text {
+    width: 98px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #4d5358;
+}
+
+.customer-detail .point-number {
+    width: 37px;
+    height: 34px;
+    font-family: 'Inter UI';
+    font-size: 28px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0f62fe;
+}
+
+.customer-detail .box-money {
+    height: 158px;
+    border-radius: 4px;
+    border: solid 1px #dde1e6;
+    background-color: #ffffff;
+    padding: 5px 5px;
+}
+
+.customer-detail .money-label {
+    width: 81px;
+    height: 20px;
+    font-family: 'Inter UI';
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.25;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.customer-detail .box-money-number {
+    margin-top: 20%;
+    text-align: center;
+}
+
+.customer-detail .money-number {
+    width: 170px;
+    height: 34px;
+    font-family: 'Inter UI';
+    font-size: 15px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.customer-detail .btn-cancel-note {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.customer-detail .save-cancel-lable {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.customer-detail .btn-save-note {
+    width: 158px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+}
+
+.customer-detail .save-note-lable {
+    width: 110px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.customer-detail .w100 {
+    width: 100%;
+}
+
+.customer-detail .link {
+    font-family: 'Inter UI';
+    color: #007ad9;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.customer-detail .no-data {
+    height: 330px;
+    border: solid 1px #d7dbe0;
+    background-color: #f2f4f8;
+    text-align: center;
+}
+
+.customer-detail .box-no-data {
+    position: relative;
+    top: 25%;
+}
+
+.customer-detail .box-icon {
+    width: 57.1px;
+    height: 58px;
+    object-fit: contain;
+}
+
+
+/* CSS time line */
+
+.customer-detail .timeline>li {
+    margin-right: 0 !important;
+}
+
+.customer-detail .style-delete {
+    color: #FE747A;
+    cursor: pointer;
+    font-size: 1.55em;
+}
+
+.customer-detail .style-edit {
+    cursor: pointer;
+    font-size: 1.55em;
+}
+
+.customer-detail .note-user {
+    font-family: 'Inter UI';
+    font-weight: bold;
+}
+
+.customer-detail .timeline>li>.timeline-item {
+    box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.customer-detail .timeline-content {
+    margin-top: 20px;
+}
+
+.customer-detail .bg-blueX {
+    background-color: #4E6BA5 !important;
+}
+
+.customer-detail .color-w {
+    color: #fff !important;
+}
+
+.customer-detail .timeline-item .onHover {
+    display: none;
+}
+
+.customer-detail .timeline-item:hover .onHover {
+    display: block;
+}
+
+.customer-detail .material-icons {
+    cursor: pointer;
+}
+
+.customer-detail .timeline-user-avatar {
+    border-radius: 50%;
+    margin-right: 5px;
+    float: left;
+}
+
+.customer-detail .note-title {
+    font-size: 11px !important;
+    color: #222 !important;
+    font-weight: normal !important;
+}
+
+.customer-detail .time-note {
+    font-size: 10px !important;
+    color: #5d5a5a !important;
+    font-weight: normal !important;
+}
+
+.customer-detail .timeline-body {
+    padding: 10px 15px;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+    padding-right: 5px !important;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n) {
+    padding-left: 5px !important;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n+1) {
+    padding-right: 5px !important;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n+2) {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.customer-detail .file-upload-zone .col-md-4:nth-child(3n) {
+    padding-left: 5px !important;
+}
+
+.customer-detail .file-item div:nth-child(1),
+.customer-detail .file-item div:nth-child(3) {
+    padding-left: 0 !important;
+}
+
+.customer-detail .file-item div:nth-child(2) {
+    padding: 0 5px !important;
+}
+
+.customer-detail .item-name {
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
+
+.customer-detail .preview-doc {
+    cursor: pointer;
+}
+
+.customer-detail .box-search {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.customer-detail .text-search {
+    width: 364px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #dde1e6;
+    background-color: #ffffff;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.customer-detail .btn-create {
+    width: 116px;
+    height: 32px;
+    border: solid 1px #c1c7cd;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    margin-left: 5px;
+}
+
+.customer-detail .btn-create-text {
+    width: 68px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+
+/* End */
+
+.customer-detail .btn-choose-time {
+    width: 150px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #f2f4f8;
+    padding-top: 6px;
+}
+
+.customer-detail .icon-choose-left {
+    position: relative;
+    cursor: pointer;
+    left: 5px;
+}
+
+.customer-detail .choose-label {
+    position: relative;
+    left: 16px;
+}
+
+.customer-detail .icon-choose-right {
+    position: relative;
+    cursor: pointer;
+    right: -28px;
+}
+
+.customer-detail .btn-send-email {
+    width: 132px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #af52de;
+    border: solid 1px #cccccc;
+}
+
+.customer-detail .btn-send-email-icon {
+    width: 16px;
+    height: 10.2px;
+    object-fit: contain;
+}
+
+.customer-detail .btn-send-email-text {
+    width: 60px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.customer-detail .btn-send-sms {
+    width: 132px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #ffcc00;
+    border: solid 1px #cccccc;
+}
+
+.customer-detail .btn-send-sms-icon {
+    width: 22px;
+    height: 15px;
+    object-fit: contain;
+}
+
+.customer-detail .btn-send-sms-text {
+    width: 54px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.customer-detail .btn-send-gift {
+    width: 132px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+}
+
+.customer-detail .btn-send-gift-icon {
+    width: 13px;
+    height: 14.9px;
+    object-fit: contain;
+}
+
+.customer-detail .btn-send-gift-text {
+    width: 58px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.customer-detail .cskh-header-timeline {
+    border-bottom: solid 1px #cccccc;
+    padding: 5px 5px;
+    width: 144px;
+}
+
+.customer-detail .cskh-header-week {
+    border-left: solid 1px #cccccc;
+    border-bottom: solid 1px #cccccc;
+    padding: 5px 5px;
+    text-align: center;
+    width: 170.5px;
+}
+
+.customer-detail .cskh-body-emp {
+    border-bottom: solid 1px #cccccc;
+    padding: 5px 0px;
+}
+
+.customer-detail .cskh-body-emp-name {
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #121619;
+}
+
+.customer-detail .cskh-body-emp-position {
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #878d96;
+}
+
+.customer-detail .cskh-body-week {
+  vertical-align: top;
+  border-left: solid 1px #cccccc;
+  border-bottom: solid 1px #cccccc;
+}
+
+.customer-detail .cskh-body-week-block {
+  width: 148px;
+  border-radius: 12px;
+  padding-top: 6px;
+  padding-left: 13px;
+  padding-right: 13px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  position: relative;
+}
+.customer-detail .cskh-body-week-block i{
+  position: absolute;
+  right: 5px;
+  cursor: pointer;
+}
+
+.customer-detail .cskh-body-week-title {
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+  /* padding-right: 10px; */
+}
+
+.customer-detail .cskh-body-week-sub-title {
+font-family: 'Inter UI';
+font-size: 10px;
+font-weight: 500;
+font-stretch: normal;
+font-style: normal;
+line-height: 1.9;
+letter-spacing: normal;
+text-align: left;
+color: #878d96;
+cursor: pointer;
+}
+
+.customer-detail .cskh-body-week-sub-title {
+  font-family: 'Inter UI';
+  font-size: 10px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.9;
+  letter-spacing: normal;
+  text-align: left;
+  color: #878d96;
+  cursor: pointer;
+}
+
+.customer-detail .fixed {
+    position: fixed;
+    top: 0px;
+    z-index: 999;
+}
+
+.customer-detail .require {
+    color: red;
+}
+
+
+/* Start responsive screens */
+
+@media only screen and (max-width: 375px) {
+    .customer-detail .box-handle-infor {
+        border-right: none;
+    }
+    .customer-detail .box-level {
+        margin-left: 80px;
+    }
+    .customer-detail .text-search {
+        width: 264px;
+    }
+    .customer-detail .btn-create {
+        margin-top: 5px;
+    }
+}
+
+@media only screen and (max-width: 414px) and (min-width: 376px) {
+  .customer-detail .box-handle-infor {
+      border-right: none;
+  }
+  .customer-detail .box-level {
+      margin-left: 105px;
+  }
+  .customer-detail .text-search {
+      width: 303px;
+  }
+  .customer-detail .btn-create {
+      margin-top: 5px;
+  }
+}
+
+@media only screen and (max-width: 768px) and (min-width: 415px) {
+  .customer-detail .box-handle-infor {
+      border-right: none;
+  }
+  .customer-detail .box-level {
+      margin-left: 160px;
+  }
+  .customer-detail .text-search {
+      width: 427px;
+  }
+  .customer-detail .btn-create {
+      margin-top: 5px;
+  }
+}
+
+@media only screen and (max-width: 1423px) and (min-width: 769px) {
+    .customer-detail .box-handle-infor {
+        border-right: none;
+    }
+    .customer-detail .box-level {
+        margin-left: 18px;
+    }
+    .customer-detail .money-number {
+        font-size: 14px;
+    }
+}
+
+
+
+/* End responsive screens */

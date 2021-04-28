@@ -1,0 +1,468 @@
+.emp-create {
+  font-family: 'Inter UI';
+}
+
+.emp-create .emp-create-content{
+  margin: 0 !important;
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.emp-create .button-group{
+  width: 100% !important;
+  height: 'auto';
+  border-radius: 4px;
+  background: #f2f4f8;
+  border-bottom: 1px solid #dde1e6;
+  padding: 5px 0px;
+}
+
+.emp-create .fixed{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+
+.emp-create .button-group .btn-cancel {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+.emp-create .button-group .btn-cancel .text-cancel{
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.emp-create .button-group .btn-create-add {
+  width: 142px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #0f62fe;
+  background-color: #ffffff;
+}
+
+.emp-create .button-group .btn-create-add .text-save-and-new{
+  width: 102px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #0f62fe;
+}
+
+.emp-create .button-group .btn-create {
+  width: 72px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+  margin-left: 5px;
+}
+
+.emp-create .button-group .btn-create .text-save{
+  width: 25px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.emp-create .overview .button-group {
+  width: 100% !important;
+  height: 42px;
+  border-radius: 4px;
+  background: #ffffff;
+  border-bottom: 1px solid #dde1e6;
+  padding-top: 10px;
+}
+
+.emp-create .overview .button-group .text-title {
+  width: 152px;
+  height: 17px;
+  font-family: 'Inter UI';
+  font-size: 16px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.25;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.emp-create .overview {
+  border-radius: 4px;
+  border: 1px solid #dde1e6;
+}
+
+.emp-create .overview .button-group .ios-print {
+  width: 17.5px;
+  height: 17.5px;
+  object-fit: contain;
+  float: right;
+  cursor: pointer;
+}
+
+.emp-create .ios-warning {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.emp-create input[name='moneyToLetter'] {
+  font-weight: 600;
+  font-style: italic;
+  font-size: 13px;
+}
+
+.emp-create .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+
+.emp-create .box-waring {
+  display: inline-block;
+  width: 49px;
+  height: 30px;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  text-align: center;
+  cursor: pointer;
+}
+
+.emp-create .notification {
+  position: absolute;
+  top: 38px;
+  width: 307px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+
+.emp-create .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.emp-create .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+
+
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.emp-create .cash-create hr {
+  margin: 15px;
+  border-bottom: none !important;
+  border: 1px solid #999999;
+}
+
+.emp-create .require {
+  color: #F94E4E;
+}
+
+.emp-create .opaque {
+  color: #999999;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.emp-create .right-text {
+  padding: 0px 15px 0 30px;
+  border-left: 1px solid #999999;
+  padding-bottom: 100px;
+}
+
+.emp-create .control-label label,
+.emp-create .control-label {
+  font-weight: 400;
+}
+
+.emp-create .form-control {
+  border-radius: 0.25rem;
+}
+
+.emp-create .form-control,
+.emp-create select.form-control {
+  height: auto;
+  max-height: 34px;
+  margin-bottom: 18px;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.emp-create p.form-control {
+  min-height: 34px ;
+  max-height: none !important;
+}
+
+.emp-create .no-padding {
+  padding: 0 !important;
+}
+
+.emp-create .no-margin {
+  margin: 0 !important;
+}
+
+.emp-create .error-message-span {
+  color: red !important;
+}
+
+.emp-create .error-border,
+.emp-create .error-border:focus {
+  border-color: #f44336;
+}
+
+.emp-create .error-border:focus {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset, 0 0 8px #f44336;
+}
+
+.emp-create .clear {
+  position: relative;
+  float: right;
+  bottom: 16px;
+  left: 22px;
+  font-size: 18px !important;
+}
+
+.emp-create .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.emp-create .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.emp-create .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.emp-create .header-line {
+  height: 1px;
+  background-color: #dde1e6;
+  margin-left: 5px;
+  margin-right: 0px;
+}
+
+.emp-create .header {
+  display: inline-block;
+  width: 250px;
+  height: 26px;
+  font-family: "Inter UI";
+  font-size: 22px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 0.91; */
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+  margin-left: 5px;
+  padding-left: 10px;
+  /* line-height: 50px; */
+}
+
+.emp-create .header-icon {
+  font-size: 22px;
+  color: #007AFF;
+}
+
+.emp-create .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.emp-create .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+/*Begin: Customize Accordion */
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-header a {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+  font-size: 16px;
+}
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  background-color: #ffffff !important;
+  border: 1px solid #ffffff !important;
+  color: #121619 !important;
+}
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-header a .ui-accordion-toggle-icon {
+  color: #121619 !important;
+}
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
+  color: #121619 !important;
+}
+
+::ng-deep .emp-create .ui-accordion .ui-accordion-content {
+  border: 1px solid #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.emp-create .header-box-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+}
+
+.emp-create .w100 {
+  width: 100% !important;
+}
+
+.emp-create .mt-10 {
+  margin-top: 10px;
+}
+
+.emp-create .bt-10{
+  margin-bottom: 15px;
+}
+
+.emp-create .border-right-color {
+  border-right: 1px solid #999999;
+}
+
+
+/*End: Customize Accordion */
+@media only screen and (max-width: 1423px) {
+  .emp-create .ios-warning {
+      top: 0px;
+  }
+  .emp-create .save {
+      margin-left: 0px;
+  }
+}
+
+/* Responsive iPad */
+
+@media only screen and (max-width: 768px) {
+  .emp-create .fixed {
+      width: 62% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 plus */
+
+@media only screen and (max-width: 414px) {
+  .emp-create .fixed {
+      width: 85.3% !important;
+  }
+}
+
+
+/* Responsive iphone 6/7/8 */
+
+@media only screen and (max-width: 375px) {
+  .emp-create .fixed {
+      width: 83.7% !important;
+  }
+}
+
+
+/* Responsive iphone 5/SE */
+
+@media only screen and (max-width: 320px) {
+  .emp-create .fixed {
+      width: 80.7% !important;
+  }
+}

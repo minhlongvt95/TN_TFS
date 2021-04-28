@@ -1,0 +1,87 @@
+<div id="popup-content">
+  <p-confirmDialog [style]="{width: '20vw'}" acceptLabel="Đồng ý" rejectLabel="Đóng"></p-confirmDialog>
+  <div class="row">
+    <div class="col-md-7 top-15">Sản phẩm: <b>{{dataObject.productName}}</b></div>
+    <div class="col-md-5 top-15" style="text-align:right">Vị trí:  <b>{{dataObject.wareHouseName}}</b></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">SL serial/Số lượng nhập kho: <b>{{dataObject.totalSerial}}/{{dataObject.quantity}}</b></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align:right">
+      <div style="float:left;">
+        <p-multiSelect [options]="lstSerialGet"
+                       (onPanelHide)="closePanelSerial()" defaultLabel="Lựa chọn số serial"
+                       [(ngModel)]="selectSerial"
+                       optionLabel="serialCode"></p-multiSelect>
+      </div>
+      <div style="float:left;height:30px;line-height:30px">
+        <i class="pi pi-info-circle" title="Cách 1:Chọn trực tiếp từ danh sách serial tồn kho"></i>
+      </div>
+
+      <div>
+        <a (click)="download()" style="margin-right:20px;cursor:pointer"><u>Tải mẫu excel</u></a>
+        <button class="btn btn-primary btn-file">
+          Nhập từ file excel
+          <input type="file" (change)="onFileChange($event)">
+        </button>
+        <i class="pi pi-info-circle" title=" Cách 2: Nhập từ file excel các serial sẽ xuất kho"></i>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">Danh sách serial</div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-table [value]="dataObject.listSerial" [rows]="rows" [paginator]="true" [responsive]="true" [rowsPerPageOptions]="[10,20,30]" (onPage)="pageChange($event)">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width:80%">Serial</th>
+            <th style="width:20%;text-align:center">
+              <i class="pi pi-trash" style="cursor:pointer" (click)="clearAllData(rowData)"> </i>
+            </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData>
+          <tr>
+            <td style="width:80%" pEditableColumn>
+              <p-cellEditor>
+                <ng-template pTemplate="input">
+                  <input pInputText type="text" [(ngModel)]="rowData.SerialCode">
+                </ng-template>
+                <ng-template pTemplate="output">
+                  {{rowData.SerialCode}}
+                </ng-template>
+              </p-cellEditor>
+            </td>
+            <td style="width:20%;text-align:center">
+              <i class="pi pi-trash" style="cursor:pointer" (click)="cancelRow(rowData)"> </i>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="text-align:right;height:47px">
+      <button mat-raised-button class="btn-cancel" (click)="onCancelClick()">
+        Hủy
+      </button>
+      <button mat-raised-button class="btn-ok" (click)="onSaveClick()">Lưu</button>
+    </div>
+  </div>
+
+  <!--</form>-->
+</div>
+<div style="margin-left:auto;margin-right:auto">
+  <p-dialog header="Thông báo" [(visible)]="displayDialog" [style]="{width: '30vw',left:'none !important'}" [baseZIndex]="10001">
+    Số serial nhập chỉ được nhỏ hơn hoặc bằng số lượng nhập
+    <!--<p-footer>
+      <button type="button" pButton icon="pi pi-check" (click)="displayBasic=false" label="Đóng"></button>
+      <button type="button" pButton icon="pi pi-times" (click)="displayBasic=false" label="No" class="ui-button-secondary"></button>
+    </p-footer>-->
+  </p-dialog>
+
+</div>

@@ -1,0 +1,314 @@
+<section class="add-content w100">
+  <div class="my-4 w100">
+    <div class="row">
+      <div class="button-action bg-white shadow">
+        <h4 class="mt-2 mb-0">Tạo quy trình</h4>
+        <button mat-raised-button class="btn-bordered" (click)="goBack()">Hủy</button>
+        <button mat-raised-button class="btn-bordered" *ngIf="actionAdd" color="accent" (click)="createWorkflow('new')">Lưu và
+          thêm mới</button>
+        <button mat-raised-button class="btn-bordered" *ngIf="actionAdd" color="primary"
+          (click)="createWorkflow('save')">Lưu</button>
+      </div>
+    </div>
+    <div class="row">
+      <form [formGroup]="createWorkflowForm">
+        <div class="bg-white shadow form-content">
+          <h4 class="mt-2 mb-0">Thông tin cơ bản</h4>
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <p-dropdown [options]="systemFeatures" optionLabel="systemFeatureName" [filter]="true"
+                    [autoDisplayFirst]="false"
+                    [styleClass]="(systemFeaturesControl.invalid && (systemFeaturesControl.dirty || systemFeaturesControl.touched)) ? 'error-border' : ''"
+                    formControlName="systemFeaturesControl" [showClear]="true" [resetFilterOnHide]="true"
+                    placeholder="Chọn tính năng áp dụng" [showClear]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="systemFeaturesControl.valid || systemFeaturesControl.untouched">
+                  <span *ngIf="systemFeaturesControl.hasError('required')" class="error-message-span">Không được để
+                    trống</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" placeholder="Tên quy trình"
+                    (keydown.enter)="$event.preventDefault()"
+                    [ngClass]="(nameControl.invalid && (nameControl.dirty || nameControl.touched)) ? 'error-border' : ''"
+                    formControlName="nameControl" pInputText />
+                </div>
+                <div class="col-md-12" [hidden]="nameControl.valid || nameControl.untouched">
+                  <span *ngIf="nameControl.hasError('required') || nameControl?.errors?.forbiddenSpaceText"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <input class="w100 input-text" type="text" placeholder="Mã quy trình"
+                    (keydown.enter)="$event.preventDefault()"
+                    [ngClass]="(codeControl.invalid && (codeControl.dirty || codeControl.touched)) ? 'error-border' : ''"
+                    formControlName="codeControl" pInputText />
+                </div>
+                <div class="col-md-12" [hidden]="codeControl.valid || codeControl.untouched">
+                  <span *ngIf="codeControl.hasError('required') || codeControl?.errors?.forbiddenSpaceText"
+                    class="error-message-span">Không được để trống</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <p-dropdown [options]="wfStatus" optionLabel="categoryName" [filter]="true" [autoDisplayFirst]="false"
+                    [styleClass]="(statusControl.invalid && (statusControl.dirty || statusControl.touched)) ? 'error-border' : ''"
+                    formControlName="statusControl" [showClear]="true" [resetFilterOnHide]="true"
+                    placeholder="Trạng thái" [showClear]="true" [style]="{'width': '100%'}">
+                  </p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="statusControl.valid || statusControl.untouched">
+                  <span *ngIf="statusControl.hasError('required')" class="error-message-span">Không được để
+                    trống</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-md-10">
+              <textarea rows="5" cols="30" pInputTextarea formControlName="descriptionControl" class="w100"></textarea>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <div class="bg-white shadow form-content workflow-create">
+        <h4 class="mb-4">Quy trình làm việc</h4>
+        <div class="row">
+          <div class="col-md-5">
+          </div>
+        </div>
+        <!-- Bước 1 -->
+        <div class="form-horizontal">
+          <div class="row">
+            <label style="color: rgb(45,47,107) !important;" class="mb-3 col-md-12">Bước 1: Gửi phê duyệt</label>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="pull-right">Chọn người phụ trách</label>
+            </div>
+            <div class="col-md-6">
+              <mat-radio-group class="v-radio" [(ngModel)]="firstStepModel.ApprovebyPosition"
+                [ngModelOptions]="{standalone: true}">
+                <mat-radio-button class="v-radio mr-2" [checked]="true" [value]="true">
+                  Theo chức vụ
+                </mat-radio-button>
+                <mat-radio-button class="v-radio mr-2" [value]="false">
+                  Theo nhân viên
+                </mat-radio-button>
+              </mat-radio-group>
+              <mat-form-field class="w100" *ngIf="firstStepModel.ApprovebyPosition">
+                <mat-select required placeholder="Chọn chức vụ" [(ngModel)]="firstStepModel.ApproverPositionId"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let position of postionList" [value]="position.positionId">
+                    {{ position.positionName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w100" *ngIf="!firstStepModel.ApprovebyPosition">
+                <mat-select required placeholder="Chọn nhân viên" [(ngModel)]="firstStepModel.ApproverId"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let employee of employeeList" [value]="employee.employeeId">
+                    <span>{{employee.employeeCode}}</span> - <span>{{ employee.employeeName }}</span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="pull-right">Công việc được hoàn thành</label>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w100">
+                <input matInput placeholder="Trạng thái" required value="" [(ngModel)]="firstStepModel.ApprovedText"
+                  [ngModelOptions]="{standalone: true}" />
+              </mat-form-field>
+              <mat-form-field class="w100">
+                <mat-select placeholder="Bước tiếp theo" [(ngModel)]="firstStepModel.NextStepNumber"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let sl of stepList" [value]="sl">
+                    Bước {{ sl }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <!-- Bước 2 -->
+        <div *ngFor="let step of workflowStepFormList;let i = index">
+          <div class="row">
+            <label style="color: rgb(45,47,107) !important;" class="mb-3 col-md-3">
+              Bước {{step.StepNumber}}: Phê duyệt lần {{step.StepNumber-1}}
+            </label>
+            <div class="col-md-8">
+              <button style="float: right;" mat-raised-button class="btn-bordered" color="warn"
+                (click)="deleteStep(i)">Xóa bước</button>
+            </div>
+          </div>
+          <div class="form-horizontal">
+            <div class="form-group">
+              <div class="col-md-4">
+                <label class="pull-right">Chọn người phụ trách</label>
+              </div>
+              <div class="col-md-6">
+                <mat-radio-group class="v-radio" [(ngModel)]="step.ApprovebyPosition"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-radio-button class="v-radio mr-2" [checked]="true" [value]="true">
+                    Theo chức vụ
+                  </mat-radio-button>
+                  <mat-radio-button class="v-radio mr-2" [value]="false">
+                    Theo nhân viên
+                  </mat-radio-button>
+                </mat-radio-group>
+                <mat-form-field class="w100" *ngIf="step.ApprovebyPosition">
+                  <mat-select placeholder="Chọn chức vụ" required [(ngModel)]="step.ApproverPositionId"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let position of postionList" [value]="position.positionId">
+                      {{ position.positionName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="w100" *ngIf="!step.ApprovebyPosition">
+                  <mat-select placeholder="Chọn nhân viên" [(ngModel)]="step.ApproverId"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let employee of employeeList" [value]="employee.employeeId">
+                      <span>{{employee.employeeCode}}</span> - <span>{{ employee.employeeName }}</span>
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                <label class="pull-right">Công việc được phê duyệt</label>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w100">
+                  <input [(ngModel)]="step.ApprovedText" [ngModelOptions]="{standalone: true}" matInput
+                    placeholder="Trạng thái" required value="" />
+                </mat-form-field>
+                <mat-form-field class="w100">
+                  <mat-select placeholder="Bước tiếp theo" [(ngModel)]="step.NextStepNumber"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let sl of stepList" [value]="sl">
+                      Bước {{sl}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-4">
+                <label class="pull-right">Công việc không được phê duyệt</label>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field class="w100">
+                  <input [(ngModel)]="step.NotApprovedText" [ngModelOptions]="{standalone: true}" matInput
+                    placeholder="Trạng thái" required value="" />
+                </mat-form-field>
+                <mat-form-field class="w100">
+                  <mat-select placeholder="Quay lại bước" [(ngModel)]="step.BackStepNumber"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let sl of stepList" [value]="sl">
+                      Bước {{sl}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bước 3 -->
+        <div class="form-horizontal">
+          <div class="row">
+            <label style="color: rgb(45,47,107) !important;" class="mb-3 col-md-10">Bước {{finalStep}}: Phê duyệt
+              cuối</label>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="pull-right">Chọn người phụ trách</label>
+            </div>
+            <div class="col-md-6">
+              <mat-radio-group class="v-radio" [(ngModel)]="lastStepModel.ApprovebyPosition"
+                [ngModelOptions]="{standalone: true}">
+                <mat-radio-button class="v-radio mr-2" [checked]="true" [value]="true">
+                  Theo chức vụ
+                </mat-radio-button>
+                <mat-radio-button class="v-radio mr-2" [value]="false">
+                  Theo nhân viên
+                </mat-radio-button>
+              </mat-radio-group>
+              <mat-form-field class="w100" *ngIf="lastStepModel.ApprovebyPosition">
+                <mat-select required placeholder="Chọn chức vụ" [(ngModel)]="lastStepModel.ApproverPositionId"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let position of postionList" [value]="position.positionId">
+                    {{ position.positionName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field class="w100" *ngIf="!lastStepModel.ApprovebyPosition">
+                <mat-select placeholder="Chọn nhân viên" [(ngModel)]="lastStepModel.ApproverId"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let employee of employeeList" [value]="employee.employeeId">
+                    <span>{{employee.employeeCode}}</span> - <span>{{ employee.employeeName }}</span>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="pull-right">Công việc được phê duyệt</label>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w100">
+                <input matInput [(ngModel)]="lastStepModel.ApprovedText" [ngModelOptions]="{standalone: true}"
+                  placeholder="Trạng thái" required value="" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-4">
+              <label class="pull-right">Công việc không được phê duyệt</label>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="w100">
+                <input [(ngModel)]="lastStepModel.NotApprovedText" [ngModelOptions]="{standalone: true}" matInput
+                  placeholder="Trạng thái" required value="" />
+              </mat-form-field>
+              <mat-form-field class="w100">
+                <mat-select placeholder="Quay trở lại bước" [(ngModel)]="lastStepModel.BackStepNumber"
+                  [ngModelOptions]="{standalone: true}">
+                  <mat-option *ngFor="let sl of stepList" [value]="sl">
+                    Bước {{ sl }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button mat-fab color="primary" *ngIf="actionAdd" (click)="addStep()" class="add-step" matTooltip="Thêm bước">
+    <i class="material-icons">
+      add
+    </i>
+  </button>
+</section>

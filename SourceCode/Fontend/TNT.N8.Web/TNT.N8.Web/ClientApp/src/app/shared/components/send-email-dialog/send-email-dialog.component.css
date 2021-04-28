@@ -1,0 +1,76 @@
+.send-email-dialog .group-button-footer {
+    text-align: right;
+    padding-top: 10px;
+    border-top: solid 1px #cccccc;
+}
+
+.send-email-dialog .group-button-footer .cancel {
+    width: 72px;
+    height: 30px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+    margin-right: 5px;
+}
+
+.send-email-dialog .group-button-footer .cancel .cancel-label {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.send-email-dialog .group-button-footer .save {
+    width: 70px;
+    height: 30px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+}
+
+.send-email-dialog .group-button-footer .save .save-label {
+    width: 22px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.send-email-dialog .error-message-span {
+    color: red !important;
+}
+
+.send-email-dialog .w100 {
+    width: 100%;
+}
+
+.send-email-dialog .note {
+    font-size: 12px;
+    padding: 5px 0px 0px 4px;
+    border: solid 1px #ccc;
+    margin-top: 15px;
+    border-radius: 5%;
+}
+
+.send-email-dialog .color-link {
+    color: #23527c;
+    cursor: pointer;
+}
+
+::ng-deep .send-email-dialog .ui-datepicker {
+    top: 31px !important;
+}

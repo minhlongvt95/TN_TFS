@@ -1,0 +1,250 @@
+.pay-order-service {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.pay-order-service .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.pay-order-service .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.pay-order-service .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.pay-order-service .box-header-group {
+  margin-top: 10px;
+}
+
+.pay-order-service .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0f62fe;
+  text-align: center;
+}
+
+.pay-order-service .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.pay-order-service .box-header-title {
+  width: 177px;
+  height: 24px;
+  font-family: 'Inter UI';
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.pay-order-service .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.pay-order-service .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.pay-order-service .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.pay-order-service .no-data {
+  height: 320px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.pay-order-service .box-no-data {
+  position: relative; 
+  top: 25%;
+}
+
+.pay-order-service .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.pay-order-service .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.pay-order-service .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.pay-order-service .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.pay-order-service .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.pay-order-service .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.pay-order-service .chips {
+  border: 1px solid #cccccc;
+  color: #ffffff;
+  background-color: #2d5877;
+  height: 25px;
+  margin-top: 5px;
+  margin-left: 5px;
+  border-radius: 10px;
+}
+
+.pay-order-service .chips:hover {
+  cursor: pointer;
+}
+
+.pay-order-service .chips:focus {
+  outline: 0 none;
+}
+
+.pay-order-service .active-chips {
+  background-color: #ce4545;
+}
+
+.pay-order-service .box-point {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #cccccc;
+  float: left;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background-color: #c8c8c8;
+  color: #ffffff;
+}
+
+.pay-order-service .box-point:hover {
+  cursor: pointer;
+}
+
+.pay-order-service .box-point .center {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.pay-order-service .active-box-point {
+  background: #ce4545;
+}
+
+.pay-order-service .using-box-point {
+  background: #3c2c94;
+}
+
+.pay-order-service .error-money {
+  color: #ce4545;
+}
+
+.pay-order-service .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.pay-order-service .pay-order {
+  border: 1px solid #cccccc;
+  height: 40px;
+  padding: 10px 10px;
+  background-color: #ce4545;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+.pay-order-service .pay-order:focus {
+  outline: 0 none;
+}
+
+.pay-order-service .input-text {
+  min-height: 2.55em !important;
+}
+
+.pay-order-service .w100 {
+  width: 100% !important;
+}
+
+.pay-order-service .mt-10 {
+  margin-top: 10px;
+}

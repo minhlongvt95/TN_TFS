@@ -1,0 +1,105 @@
+.content-wrapper {
+  background: #ecf0f5;
+}
+.notification-icon {
+  position: absolute;
+  bottom: 25px;
+  left: 30px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff4081;
+  border-radius: 50%;
+  display: block;
+  padding: 3px 5px;
+  font-size: 10px;
+}
+
+#notification-content {
+  position: absolute;
+  background-color: #fff;
+  top: 101%;
+  right: 0%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+  border: 1px solid #ccc;
+  z-index: 3000;
+}
+
+#notification-content .notification-row {
+  padding: 15px;
+  margin: 0 15px;
+}
+
+#notification-content .notification-row:hover {
+    cursor: pointer;
+    background-color: rgb(191, 191, 191) !important;
+}
+
+#user-content {
+  position: absolute;
+  background-color: #fff;
+  top: 101%;
+  right: 0%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+  border: 1px solid #ccc;
+  z-index: 3000;
+}
+
+  #user-content .row {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #user-content .user-name {
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  #user-content .user-avatar, .small-user-avatar {
+    border-radius: 50%;
+  }
+
+#sys-config {
+  position: absolute;
+  background-color: #fff;
+  top: 101%;
+  right: 0%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+  border: 1px solid #ccc;
+  z-index: 3000;
+}
+
+#sys-config .sys-config-row {
+  padding: 15px 15px 15px 15px;
+  margin: 0 15px;
+}
+
+#sys-config .sys-config-row:hover {
+  cursor: pointer;
+  background-color: rgb(191, 191, 191) !important;
+}
+
+
+#create-config {
+  position: absolute;
+  background-color: #fff;
+  top: 101%;
+  right: 10%;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .2);
+  border: 1px solid #ccc;
+  z-index: 3000;
+}
+    
+#create-config .create-config-row {
+  padding: 15px 15px 15px 15px;
+  margin: 0 15px;
+}
+    
+#create-config .create-config-row:hover {
+  cursor: pointer;
+  background-color: rgb(191, 191, 191) !important;
+}
+@media only screen and (max-width: 480px){
+  .top-header .space_create {
+    display: none;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="lead-edit-person-in-charge-dialog">
+  <div class="org-dialog-title">
+    <span>
+      Gán người phụ trách
+    </span>
+    <i class="material-icons clear" (click)="onCancelClick()">
+      clear
+    </i>
+  </div>
+  <div class="row mt-15">
+    <form class="form-group" [formGroup]="editPersonInChargeForm">
+      <div class="row no-margin">
+        <div class="col-md-12 mt-15">
+          <span class="title">Chọn người phụ trách: </span>
+        </div>
+        <div class="col-md-12">
+          <input  class="w100 form-control"
+                  [ngClass]="personInChargeControl.hasError('required') && !personInChargeControl.valid && !personInChargeControl.untouched ? 'error-border' : ''"
+                  type="text" 
+                  id="personInCharg" 
+                  formControlName="personInChargeControl" 
+                  name="personInCharge"
+                  [matAutocomplete]="autoPic"
+                  style="position: relative"
+                  (change)="changePersonInCharge()">
+            <mat-autocomplete #autoPic="matAutocomplete" (optionSelected)="selectedPicFn($event)">
+              <mat-option *ngFor="let option of filteredPic | async" [value]="option.employeeId">
+                <span>{{ option.employeeCode }}</span> - <span>{{ option.employeeName }}</span>
+              </mat-option>
+            </mat-autocomplete>
+          <i style="position: absolute; right: 20px; top: 5px" class="material-icons arrow_drop_down">arrow_drop_down</i>
+          <div class="md-errors-spacer" [hidden]="personInChargeControl.untouched">
+            <mat-error *ngIf="personInChargeControl.hasError('required')">{{ 'lead.messages.required_field' | translate }}</mat-error>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row org-dialog-buttons">
+    <div class="col-md-12">
+      <button mat-raised-button color="primary" (click)="btnSave()">LƯU</button>
+    </div>
+  </div>
+</div>

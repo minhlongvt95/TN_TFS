@@ -1,0 +1,462 @@
+.list-product {
+  width: 100%;
+  box-shadow: 0 1px 2px 0 rgba(18, 22, 25, 0.08);
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+.list-product .fixed{
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  width: 100%;
+  border: 1px solid #cccccc;
+}
+.list-product .box-header {
+  width: 100%;
+  background-image: linear-gradient(to top, #f2f4f8, #dde1e6);
+}
+
+.list-product .excel{
+  float: right;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+}
+
+.list-product .btn-create {
+  float: right;
+  width: 98px;
+  height: 31px;
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.list-product .btn-create-text {
+  width: 50px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.15;
+  letter-spacing: normal;
+  text-align: center;
+  color: #ffffff;
+}
+
+.list-product .box-header-group {
+  margin-top: 10px;
+}
+
+.list-product .box-header-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0f62fe;
+  text-align: center;
+}
+
+.list-product .Money-2 {
+  width: 20.4px;
+  height: 18.5px;
+  object-fit: contain;
+  margin-top: 10px;
+}
+
+.list-product .box-header-title {
+  /* height: 24px;? */
+  font-family: 'Inter UI';
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+.list-product .box-header-subtitle {
+  font-family: 'Inter UI';
+  font-size: 11px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.36;
+  letter-spacing: normal;
+  text-align: left;
+  color: #4d5358;
+}
+
+.list-product .box-header-group-btn {
+  text-align: right;
+  padding-top: 5px;
+}
+
+.list-product .btn-refresh {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+}
+
+.list-product .ios-refresh {
+  width: 12px;
+  height: 14px;
+  object-fit: contain;
+}
+
+.list-product .btn-filter {
+  width: 104px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #007aff;
+  background-color: #007aff;
+  margin-left: 5px;
+}
+
+.list-product .ios-funnel {
+  width: 12.3px;
+  height: 11.3px;
+  object-fit: contain;
+  margin-right: 5px;
+}
+
+.list-product .btn-filter-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+
+.list-product .iput-text {
+  width: 248px;
+  height: 32px;
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding-left: 5px;
+  margin-left: 5px;
+}
+
+.list-product .box-filter {
+  border: solid 1px #c1c7cd;
+  background-color: #f2f4f8;
+  padding: 10px 0px;
+}
+
+.list-product .quote-code-text {
+  width: 100%;
+  height: 32px;
+  font-family: 'Inter UI';
+  border-radius: 4px;
+  border: solid 1px #c1c7cd;
+  background-color: #ffffff;
+  padding-left: 5px;
+}
+
+.list-product .quote-code-text:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.list-product .mt-5 {
+  margin-top: 5px;
+}
+
+.list-product .btn-search {
+  width: 72px;
+  height: 32px;
+  border: solid 1px #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+  background-color: #0f62fe;
+}
+
+.list-product .btn-search:focus {
+  border-color: #007ad9;
+  outline: 0 none;
+}
+
+.list-product .btn-search-text {
+  width: 36px;
+  height: 13px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ffffff;
+}
+.mt-25{  
+  margin-top: 25px;
+}
+.import-file{
+  width: 170px;
+  height: 32px;
+  border-radius: 4px;
+  color: black;
+  border: solid 1px #c1c7cd;
+}
+.text-import{
+  color: white;
+}
+.list-product .cancel .text-cancel, .text-import-file {
+  width: 24px;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #121619;
+}
+
+/* Config rows Per Page Options */
+
+::ng-deep .list-product .ui-inputtext {
+  padding: 0.3em;
+}
+
+.list-product .link {
+  font-family: 'Inter UI';
+  color: #007ad9;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.list-product .delete-btn {
+  cursor: pointer;
+  color: red;
+}
+
+.list-product .no-data {
+  height: 330px;
+  border: solid 1px #d7dbe0;
+  background-color: #f2f4f8;
+  text-align: center;
+}
+
+.list-product .box-no-data {
+  position: relative;
+  top: 25%;
+}
+
+.list-product .box-icon {
+  width: 57.1px;
+  height: 58px;
+  object-fit: contain;
+}
+
+.list-product .ios-warning-active {
+  position: relative;
+  top: 5px;
+  width: 16.2px;
+  height: 15px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.list-product .notification {
+  position: absolute;
+  top: 38px;
+  width: 400px;
+  box-shadow: 0 6px 12px 0 rgba(18, 22, 25, 0.16);
+  border: solid 1px #dde1e6;
+  background-color: #ffffff;
+  z-index: 1;
+
+}
+
+/*Begin: Tạo góc nhọn trên hộp thoại */
+.list-product .notification::before {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid #ffffff;
+  border-width: 8px;
+  border-bottom-color: #d1d5da;
+}
+
+.list-product .notification::after {
+  position: absolute;
+  bottom: 100%;
+  left: 16px;
+  display: block;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  content: " ";
+  border-left: solid transparent;
+  border-right: solid transparent;
+  border-bottom: solid transparent;
+  margin-bottom: -1px;
+  border-width: 8px;
+  border-bottom-color: #ffffff;
+}
+/*End: Tạo góc nhọn trên hộp thoại */
+
+.list-product .notification .notifi-row {
+  width: 100%;
+  border-bottom: 1px solid #dde1e6;
+  padding: 10px 0px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.list-product .notification .notifi-row .ios-alert {
+  position: absolute;
+  left: 15px;
+  width: 15.9px;
+  height: 15.9px;
+  object-fit: contain;
+}
+
+.list-product .notification .notifi-row .notifi-text {
+  position: relative;
+  left: 50px;
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #ff3b30;
+}
+
+.list-product .notification .notifi-row-footer {
+  width: 100%;
+  padding: 10px 10px;
+  text-align: right;
+}
+
+.list-product .notification .notifi-row-footer .notifi-text-footer {
+  width: 100%;
+  height: 16px;
+  font-family: 'Inter UI';
+  font-size: 13px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #121619;
+}
+
+/* Máy để bàn */
+
+@media only screen and (min-width: 1025px) and (max-width: 1423px) {}
+
+/* Ipad Pro */
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+  .list-product .box-header-icon {
+    width: 27px;
+    height: 27px;
+  }
+  .list-product .Money-2 {
+    width: 15.4px;
+    height: 11.5px;
+    margin-top: 7px;
+  }
+  .list-product .iput-text {
+    margin-top: 5px;
+  }
+}
+
+/* Ipad */
+
+@media only screen and (min-width: 415px) and (max-width: 768px) {
+  .list-product .group-button{
+    display:flex-end;
+  }
+  .list-product .ios-warning{
+    visibility: hidden;
+  }
+}
+
+/* Iphone 6/7/8 Plus */
+
+@media only screen and (min-width: 375px) and (max-width: 415px) {
+  .list-product .iput-text {
+    margin-top: 5px;
+  }
+  .list-product .group-button{
+    margin-right: 16px;
+  }
+  .list-product .notification{
+    left: -70px;
+    top: 105px;
+    height: 400px;
+    overflow-y: scroll;
+  }
+
+  .list-product .ios-warning-active {
+    position: relative;
+    top: 25px;
+    left: -68px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+  .list-product .ios-warning {
+    position: relative;
+    top: 25px;
+    left: -68px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+  .list-product.box-waring{
+    position: relative;
+    top: 25px;
+    left: -68px;
+    width: 16.2px;
+    height: 15px;
+    object-fit: contain;
+    cursor: pointer;
+  }
+}
+
+/* Iphone 6/7/8/X */
+
+@media only screen and (max-width: 375px) {
+  .list-product .iput-text {
+    margin-top: 5px;
+  }
+  .list-product .group-button{
+    margin-right: 16px;
+  }
+}

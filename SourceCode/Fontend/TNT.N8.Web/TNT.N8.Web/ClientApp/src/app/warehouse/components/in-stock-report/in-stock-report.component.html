@@ -1,0 +1,317 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}"
+                     strokeWidth="8"
+                     fill="#EEEEEE"
+                     animationDuration=".5s"></p-progressSpinner>
+</div>
+<p-toast position="bottom-right"></p-toast>
+
+<div class="in-stock-report-list">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/icons/components/money-2.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Danh sách hàng tồn kho</div>
+                  <div class="box-header-subtitle">
+                    {{SumRow}} phiếu tồn kho - Cập nhật {{currentDate|date:'dd/MM/yyyy HH:mm'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" class="iput-text" placeholder="Tìm kiếm trong danh sách"
+                     (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span>Năm</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown [options]="listYear"
+                                [(ngModel)]="selectedYear"
+                                placeholder="Chọn năm" optionLabel="value" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()"
+                                (onChange)="changeYear($event.value)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span>Kỳ</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown [options]="listMonth"
+                                [(ngModel)]="selectedMonth"
+                                placeholder="Chọn kỳ" optionLabel="value" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()"
+                                (onChange)="changeMonth($event.value)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="selectedDay"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+              (keydown.enter)="$event.preventDefault()"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" placeholder="Mã sản phẩm hoặc Tên sản phẩm" [(ngModel)]="productNameCode" (keydown.enter)="$event.preventDefault()"
+              pInputText />
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Nhóm hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listProductCategory" [virtualScroll]="true" itemSize="15"
+                        [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                        [(ngModel)]="selectedProductCategory"
+                        placeholder="Chọn nhóm hàng" optionLabel="productCategoryCodeName" [style]="{'width': '100%'}"
+                        (keydown.enter)="$event.preventDefault()"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Kho hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listWareHouse" [virtualScroll]="true" itemSize="15"
+                        [filter]="true" [resetFilterOnHide]="true"
+                        [(ngModel)]="selectedWareHouse"
+                        placeholder="Chọn kho hàng" optionLabel="warehouseCodeName" [style]="{'width': '100%'}"
+                        (keydown.enter)="$event.preventDefault()"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10" style="text-align: right;">
+            <button type="button" class="btn-search" (click)="findInstock(false)">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="(listResult.length > 0)" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="cols" [value]="listResult"
+               [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]"
+               [responsive]="true">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns"
+                [ngStyle]="{'text-align': col.textAlign, 'width': col.width}"
+                [pSortableColumn]="col.field">
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns"
+              [ngStyle]="{'text-align': col.textAlign, 'width': col.width}"
+              [ngSwitch]="col.field">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'productName'" pTooltip="{{rowData[col.field]}}"
+              tooltipPosition="bottom">
+                {{rowData['productName']?.length > 55 ? rowData['productName']?.slice(0,55)+'...' : rowData['productName']}}
+              </span>
+              <span *ngSwitchCase="'productPrice'">
+                {{rowData['productPrice'] | number:0}}
+              </span>
+
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div *ngIf="!(listResult.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data-quote">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-md-12">
+      <div>
+        <input type="text" [(ngModel)]="message">
+        <button (click)="send()">Send</button>
+      </div>
+      <div *ngFor="let item of notifications">{{item.content}}</div>
+    </div> -->
+
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span>Năm</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown [options]="listYear"
+                                [(ngModel)]="selectedYear"
+                                placeholder="Chọn năm" optionLabel="value" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()"
+                                (onChange)="changeYear($event.value)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-12">
+                    <span>Kỳ</span>
+                  </div>
+                  <div class="col-md-12">
+                    <p-dropdown [options]="listMonth"
+                                [(ngModel)]="selectedMonth"
+                                placeholder="Chọn kỳ" optionLabel="value" [style]="{'width': '100%'}"
+                                (keydown.enter)="$event.preventDefault()"
+                                (onChange)="changeMonth($event.value)"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Đến ngày</span>
+          </div>
+          <div class="col-md-12">
+            <p-calendar [(ngModel)]="selectedDay"
+              dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+              (keydown.enter)="$event.preventDefault()"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="999"></p-calendar>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Sản phẩm</span>
+          </div>
+          <div class="col-md-12">
+            <input class="w100" type="text" placeholder="Mã sản phẩm hoặc Tên sản phẩm" [(ngModel)]="productNameCode" (keydown.enter)="$event.preventDefault()"
+              pInputText />
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Nhóm hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listProductCategory" [virtualScroll]="true" itemSize="15"
+                        [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                        [(ngModel)]="selectedProductCategory"
+                        placeholder="Chọn nhóm hàng" optionLabel="productCategoryCodeName" [style]="{'width': '100%'}"
+                        (keydown.enter)="$event.preventDefault()"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10">
+            <span>Kho hàng</span>
+          </div>
+          <div class="col-md-12">
+            <p-dropdown [options]="listWareHouse" [virtualScroll]="true" itemSize="15"
+                        [filter]="true" [resetFilterOnHide]="true"
+                        [(ngModel)]="selectedWareHouse"
+                        placeholder="Chọn kho hàng" optionLabel="warehouseCodeName" [style]="{'width': '100%'}"
+                        (keydown.enter)="$event.preventDefault()"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12 mt-10" style="text-align: right;">
+            <button type="button" class="btn-search" (click)="findInstock(false)">
+              <span class="btn-search-text">Tìm kiếm</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

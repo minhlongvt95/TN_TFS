@@ -1,0 +1,100 @@
+.permission-detail .bg-white {
+  background: #fff;
+}
+
+.permission-detail div,
+.permission-detail span,
+.permission-detail label {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.permission-detail .shadow {
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+}
+
+.permission-detail .w100 {
+  width: 100% !important;
+}
+
+.permission-detail .pd-10 {
+  padding: 10px 10px 10px 10px;
+}
+
+.permission-detail .pd-20 {
+  padding: 20px 20px 20px 20px;
+}
+
+.permission-detail .title {
+  font-size: 20px;
+}
+
+.permission-detail .mt-10 {
+  margin-top: 10px !important;
+}
+
+.permission-detail .ml-5 {
+  margin-left: 5px;
+}
+
+.permission-detail .ml-10 {
+  margin-left: 10px;
+}
+
+.permission-detail .form-control {
+  border-radius: 0.25rem;
+}
+
+.permission-detail .error-border {
+  border-color: #f44336;
+}
+
+.permission-detail .header-button {
+  float: right;
+}
+
+.permission-detail .permission-action {
+  font-weight: bold;
+}
+
+.permission-detail ul.tree {
+  list-style-type: none;
+}
+
+::ng-deep .permission-detail .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .permission-detail .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+background-color: rgb(109, 152, 231) !important;
+}
+
+::ng-deep .permission-detail .mat-checkbox-inner-container {
+height: 14px;
+width: 14px;
+}
+
+.permission-detail .module {
+  margin-left: 10px;
+}
+
+.permission-detail .icon-collapse {
+  font-size: 20px;
+  position: relative;
+  top: 0.15em;
+}
+
+.permission-detail .icon {
+  font-size: 24px;
+  position: relative;
+  top: 0.25em;
+}
+
+.permission-detail .action-list {
+  margin-left: 15px;
+}
+
+.permission-detail .btnDelete {
+  border: solid 1px #f44336;
+  color: #f44336;
+}
+
+.permission-detail .btnCancel {
+  border: solid 1px #cccccc;
+}

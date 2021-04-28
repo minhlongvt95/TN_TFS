@@ -1,0 +1,99 @@
+<ng-container *ngIf="success == false">
+  <div class="col-md-12 container">
+    <div class="main">
+      <h2 class="no-margin">{{ 'forgotPass.title' | translate }}</h2>
+      <!-- <img src="../../assets/logo.png" class="logo" /> -->
+      <form class="main-content" name="form" (ngSubmit)="f.form.valid && check_user()" #f="ngForm" novalidate>
+        <label class="text-justify mb-30">
+          Vui lòng nhập lại tên đăng nhập. Hệ thống sẽ gửi một hướng dẫn vào email gắn
+          với tài
+          khoản của bạn.
+        </label>
+
+        <!-- username input form -->
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-user" style="font-size: 2em"></i></span>
+            <input type="text" pInputText style="width: -webkit-fill-available;" name="username"
+              [(ngModel)]="model.UserName" #username="ngModel" placeholder="Tên đăng nhập" required
+              (keyup)="onKey($event)" />
+          </div>
+          <div *ngIf="f.submitted && !username.valid" class="help-block">
+            {{ 'forgotPass.messages.username_required' | translate }}
+          </div>
+          <div [ngClass]="{ 'has-error': state && state==-1 }">
+            <div *ngIf="state && state==-1" class="help-block">{{forgotPassMessageCode}}</div>
+          </div>
+        </div>
+
+        <!-- capchar form -->
+        <div class="ui-inputgroup form-group">
+          <div class="capchar">{{capcharLogo}}</div>
+          <span class="ui-inputgroup-addon"><i class="pi pi-refresh icon" aria-hidden="true"
+              (click)="capcharText()"></i></span>
+        </div>
+
+        <!-- input capchar form -->
+        <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !capchar.valid }">
+          <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="pi pi-key" style="font-size: 2em"></i></span>
+            <input type="text" pInputText style="width: -webkit-fill-available;" name="capcharInput"
+              [(ngModel)]="capcharInput" #capchar="ngModel" placeholder="Nhập captcha" required />
+          </div>
+          <div *ngIf="f.submitted && !capchar.valid" class="help-block">
+            {{ 'login.messages.captcha_required' | translate }}</div>
+        </div>
+
+        <div class="form-group">
+          <button [disabled]="loading" class="login-button btn btn-primary">
+            {{ 'forgotPass.buttons.send' | translate }}
+          </button>
+          <div *ngIf="validateCaptcha == true" class="help-block" style="color: #dd4b39;">
+            {{ 'login.messages.captcha_error' | translate }}</div>
+        </div>
+        <img *ngIf="loading"
+          src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <div><a class="ml-16 cursor" (click)="redirectLogin()" style="float: right;">Quay về Đăng nhập</a></div>
+      </form>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="success == true">
+  <div class="col-md-12" style="margin-top: 10%;">
+    <div class="main-result">
+      <h2 class="no-margin">{{ 'forgotPass.title' | translate }}</h2>
+      <form class="main-content" name="form" (ngSubmit)="re_send()" #f="ngForm" novalidate>
+        <p>Tên đăng nhập:</p>
+        <p class="bold">{{model.UserName}} <i class="fas fa-check-circle check-color"></i></p>
+        <label class="text-justify mb-30 no-bold">
+          Hệ thống đã gửi hướng dẫn vào email gắn với tài khoản của bạn. Vui
+          lòng
+          kiểm
+          tra email và làm theo hướng dẫn.
+        </label>
+
+        <!-- <div class="form-group icon-with-input under" style="transform:scale(0.7);transform-origin:0;">
+          <re-captcha (resolved)="resolved($event)" required siteKey="{{ 'login.key_captcha' | translate }}">
+          </re-captcha>
+        </div> -->
+
+        <div *ngIf="validateCaptcha == true" class="help-block" style="color: #dd4b39;">
+          {{ 'login.messages.captcha_required' | translate }}</div>
+
+        <p class="re-send-color">Chưa nhận được email?</p>
+        <div class="form-group">
+          <button [disabled]="loading" class="login-button btn btn-primary">
+            {{ 'forgotPass.buttons.re_send' | translate }}
+          </button>
+        </div>
+
+        <div class="center">
+          <img *ngIf="loading"
+            src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        </div>
+        <div><a class="ml-16 cursor" (click)="redirectLogin()">Quay về Đăng nhập</a></div>
+      </form>
+
+    </div>
+  </div>
+</ng-container>

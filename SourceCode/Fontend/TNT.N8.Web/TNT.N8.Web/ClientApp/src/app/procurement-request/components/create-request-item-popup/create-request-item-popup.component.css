@@ -1,0 +1,118 @@
+.pr-item-create .buffer-top {
+    margin-top: 1.2rem;
+}
+
+.pr-item-create .buffer-bottom {
+    margin-bottom: 1.2rem;
+}
+
+.pr-item-create .buffer-bottom-label {
+    margin-bottom: 3px;
+}
+
+.pr-item-create .required {
+    color: red;
+}
+
+.pr-item-create .error-message-span {
+    color: red;
+}
+
+.pr-item-create .btn-remove {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #c1c7cd;
+    background-color: #ffffff;
+}
+
+.pr-item-create .w100 {
+    width: 100% !important;
+}
+
+.pr-item-create .btn-remove-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #121619;
+}
+
+.pr-item-create .save-and-new {
+    width: 142px;
+    height: 32px;
+    border-radius: 4px;
+    border: solid 1px #0f62fe;
+    background-color: #ffffff;
+    margin-left: 5px;
+}
+
+.pr-item-create .save-and-new .text-save-and-new {
+    width: 102px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #0f62fe;
+}
+
+.pr-item-create .amount-text-area {
+    font-weight: bold;
+    font-style: italic;
+}
+
+::ng-deep .pr-item-create .ui-dropdown {
+    min-width: 0px !important;
+}
+
+::ng-deep .pr-item-create .ui-dropdown-label {
+    font-size: 13px !important;
+}
+
+::ng-deep .pr-item-create .ui-menu ul {
+    text-align: left;
+}
+
+.pr-item-create .btn-save {
+    width: 72px;
+    height: 32px;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+    background-color: #0f62fe;
+    border: solid 1px #cccccc;
+    margin-left: 5px;
+    border: none;
+}
+
+.pr-item-create .btn-save-text {
+    width: 24px;
+    height: 16px;
+    font-family: 'Inter UI';
+    font-size: 13px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.15;
+    letter-spacing: normal;
+    text-align: center;
+    color: #ffffff;
+}
+
+.pr-item-create .error-message-span {
+    color: red !important;
+}
+
+::ng-deep .pr-item-create textarea {
+    resize: none;
+}

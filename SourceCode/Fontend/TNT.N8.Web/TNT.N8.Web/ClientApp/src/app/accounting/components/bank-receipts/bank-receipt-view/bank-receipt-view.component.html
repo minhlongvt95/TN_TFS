@@ -1,0 +1,147 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+
+<div class="bank-receipts-detail">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row bank-receipts-detail-content">
+            <div class="row no-margin button-group">
+              <div class="col-md-6 w-100-res">
+                <div class="row m-0" style="display:flex; align-items: center;">
+                  <div class="col-md-1 col-sm-1 col-xs-3 p-0">
+                    <div class="header-box-icon">
+                      <img src="/assets/icons/components/create_lead.svg" class="header-icon">
+                    </div>
+                  </div>
+                  <div class="col-md-11 col-sm-10 col-xs-9 p-0">
+                    <div>
+                      <span class="text-header">Chi tiết báo có</span>
+                    </div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+
+              </div>
+              <div class="col-md-6 w-100-res">
+                <div class="row btn-group-save">
+                  <div class="col-md-12" style="display: flex; justify-content: flex-end; margin-top: 3px;">
+                    <button class="btn-cancel" (click)="cancel()">
+                      <span class="text-cancel">Quay lại</span></button>
+                    <button class="btn-create" *ngIf="actionDownload" type="button" (click)="exportPdf()"><span
+                        class="text-save">Xuất PDF</span></button>
+                  </div>
+                </div>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+
+            <div class="row no-margin" style="background: #ffffff; padding: 10px 0px;">
+              <div class="row no-margin">
+                <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right"
+                  collapseIcon="pi pi-fw pi-chevron-circle-down">
+                  <p-accordionTab header="Thông tin báo có" [selected]="true">
+                    <div class="row no-margin">
+                      <div class="col-md-12 body">
+                        <div class="row">
+                          <div class="col-md-7 bank-infop">
+                            <div class="row no-margin">
+                              <div class="col-md-6">
+                                <table class="table borderless mt-25">
+                                  <tbody>
+                                    <tr>
+                                      <th class="col-md-4">Mã báo có:</th>
+                                      <td class="col-md-8">{{bankReceiptInvoice.BankReceiptInvoiceCode}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Ngày tạo:</th>
+                                      <td class="col-md-8">{{bankReceiptInvoice.CreatedDate | date : 'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Người tạo:</th>
+                                      <td class="col-md-8">{{createName}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Lý do chi:</th>
+                                      <td class="col-md-8">{{reasonText}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Tài khoản chi:</th>
+                                      <td class="col-md-8">{{bankAccount}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Nơi chi:</th>
+                                      <td class="col-md-8">{{orgText}}</td>
+                                    </tr>
+
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div class="col-md-6">
+                                <table class="table borderless mt-25">
+                                  <tbody>
+                                    <tr class="text-status">
+                                      <th class="col-md-5">Trạng thái:</th>
+                                      <td class="col-md-7">{{statusText}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Ngày hạch toán:</th>
+                                      <td class="col-md-8">{{bankReceiptInvoice.BankReceiptInvoicePaidDate | date :
+                                        'dd/MM/yyyy'}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Nội dung:</th>
+                                      <td class="col-md-8">
+                                        {{bankReceiptInvoice.BankReceiptInvoiceDetail}}</td>
+                                    </tr>
+                                    <tr>
+                                      <th class="col-md-4">Ghi chú:</th>
+                                      <td class="col-md-8">
+                                        {{bankReceiptInvoice.BankReceiptInvoiceNote}}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 bank-money">
+                            <table class="table borderless mt-25">
+                              <tbody>
+                                <tr>
+                                  <th class="col-md-4">Số tiền:</th>
+                                  <td class="col-md-8">{{bankReceiptInvoice.BankReceiptInvoiceAmount | number:0}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Đơn vị tiền:</th>
+                                  <td class="col-md-8">{{pricecurrencyText}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Tỉ giá:</th>
+                                  <td class="col-md-8">{{bankReceiptInvoice.BankReceiptInvoiceExchangeRate | number:0}}</td>
+                                </tr>
+                                <tr>
+                                  <th class="col-md-4">Bằng chữ:</th>
+                                  <td class="col-md-8">{{bankReceiptInvoice.BankReceiptInvoiceAmountText}}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p-accordionTab>
+                </p-accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

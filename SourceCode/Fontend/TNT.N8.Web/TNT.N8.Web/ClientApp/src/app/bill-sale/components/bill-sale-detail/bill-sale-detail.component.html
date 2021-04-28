@@ -1,0 +1,1056 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<!-- Confirm... -->
+<p-confirmDialog header="{{ 'order.messages_title.title_confirm' | translate }}" icon="pi pi-exclamation-triangle"
+  acceptLabel="{{ 'order.buttons.accept' | translate }}" rejectLabel="{{ 'order.buttons.reject' | translate }}">
+</p-confirmDialog>
+
+
+<div class="order-create">
+  <div class="row no-margin">
+
+    <div class="col-md-{{colLeft}}">
+      <div class="row order-create-content" id="parent">
+        <div class="row no-margin button-group" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexd}">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-2" style="padding-bottom: 10px;">
+                <span *ngIf="!isInvalidForm">
+                  <img src="/assets/icons/components/ios-warning.svg" class="ios-warning">
+                </span>
+                <div class="box-waring" *ngIf="isInvalidForm" #toggleButton (click)="toggleNotifiError()">
+                  <img src="/assets/icons/components/ios-warning-active.svg" class="ios-warning-active">
+                </div>
+                <div class="notification" #notifi *ngIf="isOpenNotifiError">
+                  <div *ngIf="(orderControl.invalid && (orderControl.dirty || orderControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.order' | translate }}</span>
+                  </div>
+                  <div
+                    *ngIf="(invoiceSymbolControl.invalid && (invoiceSymbolControl.dirty || invoiceSymbolControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.invoiceSymbol' | translate }}</span>
+                  </div>
+                  <div *ngIf="(customerControl.invalid && (customerControl.dirty || customerControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.customer' | translate }}</span>
+                  </div>
+                  <div *ngIf="(employeeControl.invalid && (employeeControl.dirty || employeeControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.employee' | translate }}</span>
+                  </div>
+                  <div
+                    *ngIf="(customerNameControl.invalid && (customerNameControl.dirty || customerNameControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.customer_name' | translate }}</span>
+                  </div>
+                  <div
+                    *ngIf="(paymentMethodControl.invalid && (paymentMethodControl.dirty || paymentMethodControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.paymentMethod' | translate }}</span>
+                  </div>
+                  <div
+                    *ngIf="(customerAddressControl.invalid && (customerAddressControl.dirty || customerAddressControl.touched))"
+                    class="notifi-row">
+                    <img src="/assets/icons/components/ios-alert.svg" class="ios-alert">
+                    <span class="notifi-text">{{ 'bill.messages_error.customer_address' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div style="float: right;">
+                  <button (click)="cancel()" type="button" class="cancel mr-5">
+                    <span class="btn-remove-text">Thoát</span>
+                  </button>
+                  <button *ngIf="statusBill.categoryCode == 'NEW'" class="cancel mr-5" type="button"
+                    (click)="updateStatusBillSale(1)">
+                    <span class="text-cancel">{{ 'bill.create.cancel' | translate }}</span>
+                  </button>
+                  <button *ngIf="statusBill.categoryCode == 'CANC'" type="button" class="cancel"
+                    (click)="updateStatusBillSale(2)">
+                    Đặt về nháp
+                  </button>
+                  <button *ngIf="statusBill.categoryCode == 'NEW' && actionConfirm" type="button" class="cancel"
+                    (click)="updateStatusBillSale(3)">
+                    Xác nhận
+                  </button>
+                  <button *ngIf="statusBill.categoryCode == 'CONFIRM'" type="button" class="cancel"
+                    (click)="showDialog()">
+                    Thanh toán
+                  </button>
+                  <button #save class="save" style="margin-left:  5px;"
+                    *ngIf="actionAdd && statusBill.categoryCode == 'NEW' && actionEdit" type="button"
+                    [disabled]="awaitResult" (click)="saveBillSale(false)">
+                    <span class="text-save">{{ 'bill.create.save' | translate }}</span>
+                  </button>
+                  <button #saveAndCreate *ngIf="!isShow" class="save-and-new" type="button"
+                    (click)="showTotalBillSale()">
+                    <span class="text-save-and-new"><i class="fa fa-bars" aria-hidden="true"></i>&nbsp; Tổng hợp đơn
+                      hàng</span>
+                  </button>
+                </div>
+              </div>
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <p-steps [model]="stepStatus" [(activeIndex)]="activeIndex" [readonly]="true"></p-steps>
+          </div>
+        </div>
+        <div class="row no-margin" style="background-color: #ffffff;">
+          <form [formGroup]="createBillForm" style="height: 100%;">
+            <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+              <p-accordionTab header="{{ 'bill.create.info_bill' | translate }}" [selected]="true">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.code' | translate}}</label>
+                          <span><b>{{billSaleModel.billOfSaLeCode}}</b></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.code_order' | translate}}<span class="require">*</span></label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listOrder"
+                            formControlName="orderControl" [autoDisplayFirst]="false" (onChange)="changeOrder()"
+                            [styleClass]="(orderControl.invalid && (orderControl.dirty || orderControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true" placeholder="Chọn đơn hàng"
+                            autofocus="true" optionLabel="orderCode" [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12" [hidden]="orderControl.valid || orderControl.untouched">
+                            <span *ngIf="orderControl.hasError('required')" class="error-message-span">Chưa chọn đơn
+                              hàng</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.invoice_symbol' | translate}}<span
+                              class="require">*</span></label>
+                          <div *ngIf="statusBill.categoryCode != 'NEW'">
+                            <input disabled formControlName="invoiceSymbolControl"
+                              (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(invoiceSymbolControl.invalid && (invoiceSymbolControl.dirty || invoiceSymbolControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+                          <div *ngIf="statusBill.categoryCode == 'NEW'">
+                            <input formControlName="invoiceSymbolControl" (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(invoiceSymbolControl.invalid && (invoiceSymbolControl.dirty || invoiceSymbolControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+
+                          <div class="col-md-12"
+                            [hidden]="invoiceSymbolControl.valid || invoiceSymbolControl.untouched">
+                            <span *ngIf="invoiceSymbolControl.hasError('required')" class="error-message-span">Chưa
+                              nhập kí hiệu mẫu hóa đơn
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.terms_of_payment' | translate}}</label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listEmployee"
+                            formControlName="termsOfPaymentControl" [autoDisplayFirst]="false"
+                            [styleClass]="(termsOfPaymentControl.invalid && (termsOfPaymentControl.dirty || termsOfPaymentControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            placeholder="Chọn điều khoản thanh toán" autofocus="true" optionLabel="orderCode"
+                            [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12"
+                            [hidden]="termsOfPaymentControl.valid || termsOfPaymentControl.untouched">
+                            <span *ngIf="termsOfPaymentControl.hasError('required')" class="error-message-span">Chưa
+                              chọn điều khoản thanh toán</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.bill_date' | translate}}<span class="require">*</span></label>
+                          <p-calendar [disabled]="statusBill.categoryCode != 'NEW'" formControlName="billDateControl"
+                            [maxDate]="maxEndDate" showButtonBar="true" [yearNavigator]="true"
+                            yearRange="{{minYear}}:{{currentYear}}"
+                            [styleClass]="(billDateControl.invalid  && (billDateControl.dirty ||  billDateControl.touched)) ? 'error-pcalendar': ''"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                            [baseZIndex]="9999"></p-calendar>
+                          <div class="col-md-12 no-padding"
+                            [hidden]="billDateControl.valid || billDateControl.untouched">
+                            <span *ngIf="billDateControl.hasError('required')" class="error-message-span">Chưa chọn
+                              ngày hóa đơn</span>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.end_date' | translate}}</label>
+                          <p-calendar [disabled]="statusBill.categoryCode != 'NEW'" formControlName="endDateControl"
+                            showButtonBar="true" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                            dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                            [baseZIndex]="9999"></p-calendar>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.code_customer' | translate}}<span
+                              class="require">*</span></label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listCustomer"
+                            formControlName="customerControl" (onChange)="changeCustomer()" [autoDisplayFirst]="false"
+                            [styleClass]="(customerControl.invalid && (customerControl.dirty || customerControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            placeholder="Chọn mã khách hàng" autofocus="true" optionLabel="name"
+                            [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12" [hidden]="customerControl.valid || customerControl.untouched">
+                            <span *ngIf="customerControl.hasError('required')" class="error-message-span">Chưa
+                              chọn khách hàng</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.debt_account' | translate}}</label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listEmployee"
+                            formControlName="debtAccountControl" [autoDisplayFirst]="false"
+                            [styleClass]="(debtAccountControl.invalid && (debtAccountControl.dirty || debtAccountControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            placeholder="Chọn tài khoản nợ" autofocus="true" optionLabel="orderCode"
+                            [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12" [hidden]="debtAccountControl.valid || debtAccountControl.untouched">
+                            <span *ngIf="debtAccountControl.hasError('required')" class="error-message-span">Chưa chọn
+                              tài khoản nợ</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.customer_name' | translate}}<span
+                              class="require">*</span></label>
+                          <div *ngIf="statusBill.categoryCode != 'NEW'">
+                            <input disabled formControlName="customerNameControl"
+                              (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(customerNameControl.invalid && (customerNameControl.dirty || customerNameControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+                          <div *ngIf="statusBill.categoryCode == 'NEW'">
+                            <input formControlName="customerNameControl" (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(customerNameControl.invalid && (customerNameControl.dirty || customerNameControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+                          <div class="col-md-12" [hidden]="customerNameControl.valid || customerNameControl.untouched">
+                            <span *ngIf="customerNameControl.hasError('required')" class="error-message-span">Chưa
+                              nhập tên khách hàng
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.payment_methods' | translate}}<span
+                              class="require">*</span></label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listBanking"
+                            formControlName="paymentMethodControl" [autoDisplayFirst]="false" [filter]="true"
+                            [showClear]="true" [resetFilterOnHide]="true" autofocus="true" optionLabel="categoryName"
+                            [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12"
+                            [hidden]="paymentMethodControl.valid || paymentMethodControl.untouched">
+                            <span *ngIf="paymentMethodControl.hasError('required')" class="error-message-span">Chưa
+                              chọn phương thức thanh toán
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.address' | translate}}<span class="require">*</span></label>
+                          <div *ngIf="statusBill.categoryCode != 'NEW'">
+                            <input disabled formControlName="customerAddressControl"
+                              (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(customerAddressControl.invalid && (customerAddressControl.dirty || customerAddressControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+                          <div *ngIf="statusBill.categoryCode == 'NEW'">
+                            <input formControlName="customerAddressControl" (keydown.enter)="$event.preventDefault()"
+                              [ngClass]="(customerAddressControl.invalid && (customerAddressControl.dirty || customerAddressControl.touched)) ? 'error-border': ''"
+                              type="text" class="w100" pInputText />
+                          </div>
+                          <div class="col-md-12"
+                            [hidden]="customerAddressControl.valid || customerAddressControl.untouched">
+                            <span *ngIf="customerAddressControl.hasError('required')" class="error-message-span">Chưa
+                              nhập địa chỉ
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6"
+                      *ngIf="paymentMethodControl.value != null && paymentMethodControl.value.categoryCode == 'BANK'">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.account_bank' | translate}}</label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'"
+                            [options]="customerControl.value.listBankAccount" formControlName="bankAccountControl"
+                            [autoDisplayFirst]="false" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            autofocus="true" optionLabel="name" [style]="{'width': '100%'}"></p-dropdown>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.mst' | translate}}</label>
+                          <input disabled formControlName="customerMSTControl" (keydown.enter)="$event.preventDefault()"
+                            [ngClass]="(customerMSTControl.invalid && (customerMSTControl.dirty || customerMSTControl.touched)) ? 'error-border': ''"
+                            type="text" class="w100" pInputText />
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6"
+                      *ngIf="paymentMethodControl.value != null && paymentMethodControl.value.categoryCode == 'BANK' && bankAccountControl.value != null">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>{{'bill.create.account_name' |
+                            translate}}<b>{{bankAccountControl.value.bankName}}</b></span>
+                        </div>
+                        <div class="col-md-12 mt-10">
+                          <span>{{'bill.create.account_name' |
+                            translate}}<b>{{bankAccountControl.value.accountName}}</b></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-6">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="">{{'bill.create.employee' | translate}}<span class="require">*</span></label>
+                          <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="listEmployee"
+                            formControlName="employeeControl" [autoDisplayFirst]="false"
+                            [styleClass]="(employeeControl.invalid && (employeeControl.dirty || employeeControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            placeholder="Chọn nhân viên bán hàng" autofocus="true" optionLabel="employeeName"
+                            [style]="{'width': '100%'}"></p-dropdown>
+                          <div class="col-md-12" [hidden]="employeeControl.valid || employeeControl.untouched">
+                            <span *ngIf="employeeControl.hasError('required')" class="error-message-span">Chưa chọn
+                              nhân viên bán
+                              hàng</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6"
+                      *ngIf="paymentMethodControl.value != null && paymentMethodControl.value.categoryCode == 'BANK' && bankAccountControl.value != null">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <span>{{'bill.create.number_account' |
+                            translate}}<b>{{bankAccountControl.value.accountNumber}}</b></span>
+                        </div>
+                        <div class="col-md-12 mt-10">
+                          <span>{{'bill.create.branch_name' |
+                            translate}}<b>{{bankAccountControl.value.branchName}}</b></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-12">
+                      <label for="">{{'bill.create.description' | translate}}</label>
+                      <div *ngIf="statusBill.categoryCode != 'NEW'">
+                        <textarea disabled rows="3" cols="30" pInputTextarea formControlName="descriptionControl"
+                          (keydown.enter)="$event.preventDefault()"
+                          [ngClass]="(descriptionControl.invalid && (descriptionControl.dirty || descriptionControl.touched)) ? 'error-border': ''"
+                          class="w100"></textarea>
+                      </div>
+                      <div *ngIf="statusBill.categoryCode == 'NEW'">
+                        <textarea rows="1" cols="30" pInputTextarea formControlName="descriptionControl"
+                          (keydown.enter)="$event.preventDefault()"
+                          [ngClass]="(descriptionControl.invalid && (descriptionControl.dirty || descriptionControl.touched)) ? 'error-border': ''"
+                          class="w100"></textarea>
+                      </div>
+
+                      <div class="col-md-12" [hidden]="descriptionControl.valid || descriptionControl.untouched">
+                        <span *ngIf="descriptionControl.hasError('required')" class="error-message-span">Chưa
+                          nhập diễn giải
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-10">
+                    <div class="col-md-12">
+                      <label for="">{{'bill.create.note' | translate}}</label>
+                      <div *ngIf="statusBill.categoryCode != 'NEW'">
+                        <input disabled formControlName="noteControl" (keydown.enter)="$event.preventDefault()"
+                          [ngClass]="(noteControl.invalid && (noteControl.dirty || noteControl.touched)) ? 'error-border': ''"
+                          type="text" class="w100" pInputText />
+                      </div>
+                      <div *ngIf="statusBill.categoryCode == 'NEW'">
+                        <input formControlName="noteControl" (keydown.enter)="$event.preventDefault()"
+                          [ngClass]="(noteControl.invalid && (noteControl.dirty || noteControl.touched)) ? 'error-border': ''"
+                          type="text" class="w100" pInputText />
+                      </div>
+
+                      <div class="col-md-12" [hidden]="noteControl.valid || noteControl.untouched">
+                        <span *ngIf="noteControl.hasError('required')" class="error-message-span">Chưa ghi chú
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </form>
+        </div>
+
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <hr />
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="{{ 'bill.create.detail_bill' | translate }}" [selected]="true">
+              <p-tabView>
+                <p-tabPanel header="{{ 'bill.create.info_product' | translate  }}">
+                  <span (click)="addCustomerOrderDetail()"
+                    *ngIf="actionAdd && statusBill.categoryCode == 'NEW' && actionAdd">
+                    <span>
+                      <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                    </span>
+                    <span class="add-product-text">
+                      {{ 'bill.create.create_product' | translate }}
+                    </span>
+                  </span>
+                  <div class="mt-5">
+                    <p-table [columns]="selectedColumns" [value]="billSaleModel.listBillSaleDetail" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns"
+                            (keydown.enter)="$event.preventDefault()" [ngModelOptions]="{standalone: true}"
+                            optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="{{ 'bill.create.select_col' | translate  }}"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 170px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'Move'">
+                              <button *ngIf="billSaleModel.listBillSaleDetail?.length != 1" [disabled]="rowData.orderNumber == 1" class="btn-move mr-5"
+                                pTooltip="Chuyển lên" tooltipPosition="top" pButton (click)="moveUp(rowData)"><i
+                                  class="pi pi-arrow-up icons-move"></i></button>
+                              <button *ngIf="billSaleModel.listBillSaleDetail?.length != 1"
+                                [disabled]="rowData.orderNumber == billSaleModel.listBillSaleDetail?.length" class="btn-move" pTooltip="Chuyển xuống"
+                                tooltipPosition="top" pButton (click)="moveDown(rowData)"><i class="pi pi-arrow-down icons-move"></i></button>
+                            </span>
+                            <span *ngSwitchCase="'explainStr'">
+                              {{ rowData[col.field] == null || rowData[col.field] == '' ? rowData['description'] :
+                              rowData['explainStr']}}
+                            </span>
+                            <span *ngSwitchCase="'productNameUnit'">
+                              {{ rowData['OrderDetailType'] == 0 ? rowData['ProductNameUnit'] : rowData['IncurredUnit']
+                              }}
+                            </span>
+                            <span *ngSwitchCase="'quantity'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'unitPrice'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'moneyForGoods'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'vat'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'vatValue'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'discountValue'">
+                              {{rowData['DiscountType'] == true ? (((rowData[col.field] != null ? (rowData[col.field] |
+                              number) : '0')) + '%') : (rowData[col.field] | number)}}
+                            </span>
+                            <span *ngSwitchCase="'actualInventory'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'businessInventory'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'delete'">
+                              <button pButton icon="pi pi-trash" *ngIf="statusBill.categoryCode == 'NEW'"
+                                (click)="deleteItem(rowData, $event)" class="ui-button-danger"></button>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-tabPanel>
+                <p-tabPanel header="{{ 'bill.create.info_cost' | translate  }}">
+                  <span (click)="addCostQuote()" *ngIf="statusBill.categoryCode == 'NEW' && actionAdd">
+                    <span style="margin-left: -2px;">
+                      <img src="/assets/icons/components/ios-add-circle-outline.svg" class="ios-add-circle-outline">
+                    </span>
+                    <span class="add-product-text">
+                      {{ 'bill.create.create_cost' | translate }}
+                    </span>
+                  </span>
+                  <div class="mt-5">
+                    <p-table [columns]="selectedColumnsCost" [value]="billSaleModel.listCost" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowCostSelect($event.data)" [style]="{width:'100%'}" [paginator]="true"
+                      [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="colsCost" [(ngModel)]="selectedColumnsCost"
+                            (keydown.enter)="$event.preventDefault()" [ngModelOptions]="{standalone: true}"
+                            optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="{{ 'bill.create.select_col' | translate  }}"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 150px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'costCode'">
+                              {{ rowData[col.field] }}
+                            </span>
+                            <span *ngSwitchCase="'costName'">
+                              {{ rowData[col.field] }}
+                            </span>
+                            <span *ngSwitchCase="'quantity'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'unitPrice'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'sumAmount'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchCase="'delete'">
+                              <button pButton icon="pi pi-trash" *ngIf="statusBill.categoryCode == 'NEW'"
+                                (click)="deleteCostItem(rowData)" class="ui-button-danger"></button>
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-tabPanel>
+                <p-tabPanel header="{{ 'bill.create.info_order' | translate  }}">
+                  <div>
+                    <p-table [columns]="selectedColumnsOrder" [value]="listInforOrder" [scrollable]="true"
+                      [resizableColumns]="true" selectionMode="single" [style]="{width:'100%'}" [paginator]="true"
+                      [rows]="10" [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="colsOrder" [(ngModel)]="selectedColumnsOrder"
+                            (keydown.enter)="$event.preventDefault()" [ngModelOptions]="{standalone: true}"
+                            optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                            defaultLabel="{{ 'bill.create.select_col' | translate  }}"></p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 150px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'orderDate'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'totalOrder'">
+                              {{rowData[col.field] | number}}
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-tabPanel>
+                <p-tabPanel header="{{ 'bill.create.info_delivery' | translate  }}">
+                  <div class="mt-5">
+                    <p-table [columns]="selectedColumnsDelivery" [value]="listInventoryDeliveryVoucher"
+                      [scrollable]="true" [resizableColumns]="true" selectionMode="single" [(selection)]="selectedItem"
+                      (onRowSelect)="onRowSelect($event.data)" [style]="{width:'100%'}" [paginator]="true" [rows]="10"
+                      [rowsPerPageOptions]="[10,50,100]" responsive="true">
+                      <ng-template pTemplate="caption">
+                        <div style="text-align:left">
+                          <p-multiSelect [options]="colsDelivery" [(ngModel)]="selectedColumnsDelivery"
+                            [ngModelOptions]="{standalone: true}" optionLabel="header"
+                            (keydown.enter)="$event.preventDefault()" selectedItemsLabel="{0} cột được chọn"
+                            [style]="{minWidth: '200px'}" defaultLabel="{{ 'order.create.select_col' | translate  }}">
+                          </p-multiSelect>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="colgroup" let-columns>
+                        <colgroup>
+                          <col *ngFor="let col of columns" style="width: 170px;">
+                        </colgroup>
+                      </ng-template>
+                      <ng-template pTemplate="header" let-columns>
+                        <tr>
+                          <th *ngFor="let col of columns" pResizableColumn
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}">
+                            {{col.header}}
+                          </th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData">
+                          <td *ngFor="let col of columns" class="ui-resizable-column"
+                            [ngStyle]="{'width': col.width, 'text-align': col.textAlign}" [ngSwitch]="col.field">
+                            <span class="ui-column-title">{{col.header}}</span>
+                            <span *ngSwitchCase="'inventoryDeliveryVoucherCode'">
+                              {{rowData[col.field]}}
+                            </span>
+                            <span *ngSwitchCase="'inventoryDeliveryVoucherType'">
+                              {{ (rowData[col.field] == 1 ? 'inventory_delivery_voucher.create.radioXHB' :
+                              rowData[col.field] == 2 ? 'inventory_delivery_voucher.create.radioXTLNCC' :
+                              rowData[col.field] == 3 ? 'inventory_delivery_voucher.create.radioXBT' :
+                              rowData[col.field] == 4 ? 'inventory_delivery_voucher.create.radioXHKD' :
+                              'inventory_delivery_voucher.create.radioK') | translate }}
+                            </span>
+                            <span *ngSwitchCase="'createdDate'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'inventoryDeliveryVoucherDate'">
+                              {{rowData[col.field] | date:'dd/MM/yyyy'}}
+                            </span>
+                            <span *ngSwitchCase="'nameCreate'">
+                              {{rowData[col.field]}}
+                            </span>
+                            <span *ngSwitchCase="'nameStatus'">
+                              {{rowData[col.field]}}
+                            </span>
+                            <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </p-tabPanel>
+
+              </p-tabView>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+
+        <div class="row no-margin">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Ghi chú" [selected]="true">
+              <div class="col-md-12">
+                <p-editor [(ngModel)]="noteContent" [style]="{'height':'180px', 'width': '100%'}"
+                  [ngModelOptions]="{standalone: true}" (onTextChange)="changeNoteContent($event)">
+                </p-editor>
+              </div>
+              <div *ngIf="actionImport" class="col-md-12" style="margin-top: 5px;">
+                <p-fileUpload #fileNoteUpload name="demo[]" [showUploadButton]="false" multiple="multiple"
+                  accept="image/*,video/*,audio/*,.zip,.rar,.pdf,.xls,.xlsx,.doc,.docx,.ppt,.pptx,.txt"
+                  maxFileSize="10000000" invalidFileSizeMessageSummary="{0}: file kích cỡ quá lớn,"
+                  invalidFileSizeMessageDetail="kích cỡ lớn nhất có thể lưu là {0}."
+                  invalidFileTypeMessageSummary="{0}: định dạng file bị cấm, "
+                  invalidFileTypeMessageDetail="bạn chỉ có thể lưu các file có định dạng như: {0}."
+                  chooseLabel="Chọn file" cancelLabel="Hủy toàn bộ file"
+                  (onSelect)="handleNoteFile($event, fileNoteUpload)" (onRemove)="removeNoteFile($event)"
+                  (onClear)="clearAllNoteFile()">
+                </p-fileUpload>
+              </div>
+
+              <div class="col-md-12" style="text-align: right; margin-top: 5px;">
+                <button type="button" class="btn-cancel-note" (click)="cancelNote()">
+                  <span class="save-cancel-lable">Hủy</span>
+                </button>
+                <button type="button" class="btn-save-note" (click)="saveNote()">
+                  <span class="save-note-lable">{{isEditNote == true ? 'Cập nhật ghi chú' : 'Thêm ghi chú'}}</span>
+                </button>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+        <div class="row no-margin">
+          <div class="col-md-12">
+            <hr />
+          </div>
+        </div>
+
+        <div class="row no-margin">
+          <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+            <p-accordionTab header="Dòng thời gian" [selected]="true">
+              <div class="timeline col-md-12 timeline-content">
+                <ul class="timeline">
+                  <li *ngFor="let note of noteHistory;let noteIndex = index;">
+                    <i *ngIf="note.type == 'ADD'" class="fa fa-file-text-o bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'NOT'" class="fa fa-commenting-o bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'EDT'" class="fa fa-user bg-blueX color-w"></i>
+                    <i *ngIf="note.type == 'NEW'" class="fa fa-user-plus bg-blueX color-w"></i>
+                    <div class="timeline-item" id="{{note.noteId}}">
+                      <span class="time onHover">
+                        <i *ngIf="note.type === 'ADD' && ((note.description !== '' && note.description !== null) || note.noteDocList.length > 0) && actionEdit"
+                          (click)="onClickEditNote(note.noteId, note.description)" class="pi pi-pencil style-edit"
+                          pTooltip="{{ 'lead.tooltip.edit_note' | translate }}" tooltipPosition="bottom"></i>
+                        <i *ngIf="actionDelete" pTooltip="Xóa ghi chú" tooltipPosition="bottom"
+                          (click)="onClickDeleteNote(note.noteId)" class="pi pi-trash style-delete"></i>
+                      </span>
+                      <h3 class="timeline-header">
+                        <span>
+                          <i *ngIf="tooLong(note)" class="trigger_node collapse-content-icon pi pi-chevron-right"
+                            (click)="trigger_node(note.noteId,$event)" style="cursor: pointer;"
+                            pTooltip="{{ toggle_note_label }}" tooltipPosition="bottom"></i>
+                          <span class="alignment" style="padding: 0 12px;" *ngIf="!tooLong(note)"></span>
+                        </span>
+                        <div>
+                          <img *ngIf="note" [src]="defaultAvatar" height="30" width="30" alt=""
+                            class="timeline-user-avatar" />
+                        </div>
+                        <span class="note-user">{{note.responsibleName}}</span>
+                        <!-- <span>
+                          <i *ngIf="note.noteDocList.length > 0" style="position: absolute;"
+                             class="material-icons file-icon"
+                             matTooltip="{{'Đính kèm ' + note.noteDocList.length + ' tài liệu'}}">
+                            insert_drive_file
+                          </i>
+                        </span> -->
+                        <p class="time-note">
+                          {{note.noteTitle}} Lúc {{note.createdDate | date:'HH:mm'}} {{ 'lead.note.day' | translate }}
+                          {{note.createdDate | date:'dd/MM/yyyy'}}
+                        </p>
+                      </h3>
+                      <div class="timeline-body">
+                        <div class="note-content">
+                          <span class="short-content" style="word-wrap: break-word;"></span>
+                          <span class="full-content" style="display: none;word-wrap: break-word;"></span>
+                        </div>
+
+                        <div *ngIf="note.noteDocList.length > 0" class="row no-margin file-upload-zone"
+                          style="padding: 0 12px; margin-bottom: 20px !important">
+                          <div *ngFor="let item of note.noteDocList.slice(0,3); let i=index"
+                            class="col-md-4 short-content-file" style="padding: 5px 0">
+                            <div class="row no-margin file-item"
+                              style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                              <div class="col-md-1">
+                                <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                              </div>
+                              <div class="col-md-11">
+                                <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                  <span>
+                                    <a class="preview-doc" (click)="openItem(item.documentName, item.documentUrl)">
+                                      {{ item.documentName }}
+                                    </a>
+                                  </span>
+                                </div>
+                                <div style="font-size: 10px; padding: 0 !important">
+                                  {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngFor="let item of note.noteDocList;let i=index" class="col-md-4 full-content-file"
+                            style="display: none;padding: 5px 0">
+                            <div class="row no-margin file-item"
+                              style="background-color: rgb(228, 228, 228); padding: 5px 10px">
+                              <div class="col-md-1">
+                                <i class="pi pi-file" style="font-size: 1.55em;"></i>
+                              </div>
+                              <div class="col-md-11">
+                                <div class="item-name" pTooltip="{{ item.documentName }}" tooltipPosition="bottom">
+                                  <span>
+                                    <a class="preview-doc" (click)="openItem(item.base64Url)">
+                                      {{ item.documentName }}
+                                    </a>
+                                  </span>
+                                </div>
+                                <div style="font-size: 10px; padding: 0 !important">
+                                  {{ item.documentSize/1024/1024 | number:'.2' }} MB
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <p *ngIf="note.noteDocList.length > 3" class="col-md-12 continue"><b>...</b></p>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </p-accordionTab>
+          </p-accordion>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4" *ngIf="isShow">
+      <div class="no-margin overview" [ngClass]="{'fixed': fixed}" [ngStyle]="{'width':withFiexdCol}" id="parentTH">
+        <div class="row no-margin button-group">
+          <div class="col-md-12" (click)="showTotalBillSale()">
+            <span class="text-title">{{ 'bill.create.title_pay_order' | translate }}</span>
+            <i class="ios-print"><img src="/assets/icons/components/ios-print.svg" class="ios-print"></i>
+          </div>
+        </div>
+        <div class="row no-margin" style="background: #ffffff;">
+          <div class="col-md-12 mt-10">
+            <div class="row box-part-1">
+              <div class="col-md-8 mt-10">
+                <label class="total-monney-label">{{ 'bill.create.sum_after_vat' | translate }}</label>
+              </div>
+              <div class="col-md-4 mt-10" style="text-align: right;">
+                <label class="total-monney-number">{{ TotalSumAmountProduct | number }}</label>
+              </div>
+              <div class="col-md-8 mt-10">
+                <label class="total-monney-label">{{ 'bill.create.total_cost' | translate }}</label>
+              </div>
+              <div class="col-md-4 mt-10" style="text-align: right;">
+                <label class="total-monney-number">{{ TotalSumAmountCost | number }}</label>
+              </div>
+              <div class="col-md-8 mt-10">
+                <label class="total-monney-label">{{ 'bill.create.total_vat' | translate }}</label>
+              </div>
+              <div class="col-md-4 mt-10" style="text-align: right;">
+                <label class="total-monney-number">{{ TotalSumVatProduct | number }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 mt-10">
+            <div class="row box-part-2">
+              <div class="col-md-12">
+                <label class="total-monney-label">{{ 'bill.create.discount_order' | translate }}</label>
+              </div>
+              <div class="col-md-12 mt-5">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-dropdown [disabled]="statusBill.categoryCode != 'NEW'" [options]="discountTypeList"
+                      optionLabel="name" [(ngModel)]="discountType" (keydown.enter)="$event.preventDefault()"
+                      [style]="{'width': '100%'}" (onChange)="changeDiscountType($event.value)"></p-dropdown>
+                  </div>
+                  <div class="col-md-12 mt-5">
+                    <div *ngIf="statusBill.categoryCode != 'NEW'">
+                      <input disabled type="text" class="number-input" [(ngModel)]="discountValue"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                        (keydown.enter)="$event.preventDefault()" (change)="changeDiscountValue()">
+                    </div>
+
+                    <div *ngIf="statusBill.categoryCode == 'NEW'">
+                      <input type="text" class="number-input" [(ngModel)]="discountValue"
+                        [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                        (keydown.enter)="$event.preventDefault()" (change)="changeDiscountValue()">
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="row box-part-1">
+                      <div class="col-md-8">
+                        <label class="total-monney-label">{{ 'bill.create.total_discount_order' | translate }}</label>
+                      </div>
+                      <div class="col-md-4" style="text-align: right;">
+                        <label class="total-monney-number">{{ CustomerOrderTotalDiscount | number }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-8 mt-10">
+                    <label class="total-monney-label">{{ 'bill.create.total_pay_order' | translate }}</label>
+                  </div>
+                  <div class="col-md-4 mt-10" style="text-align: right;">
+                    <label class="total-monney-number">{{CustomerOrderAmountAfterDiscount | number:0}}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <p-dialog header="Thanh toán hóa đơn" [(visible)]="displayDialog" [modal]="true" [responsive]="true"
+      [style]="{width: '600px', minWidth: '500px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <span style="line-height: 30px;">Phương thức thanh toán</span>
+          </div>
+          <div class="col-md-8">
+            <div class="ui-g" style="width:250px;margin-bottom:10px">
+              <div class="ui-g-12">
+                <div style="display: inline; margin-right: 10px;">
+                  <p-radioButton name="group2" value="1" label="Tiền mặt" [(ngModel)]="paymentMethd" inputId="preopt1">
+                  </p-radioButton>
+                </div>
+                <div style="display: inline;">
+                  <p-radioButton name="group2" value="2" label="Chuyển Khoản" [(ngModel)]="paymentMethd"
+                    inputId="preopt2">
+                  </p-radioButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="paymentMethd == '2'">
+          <div class="col-md-12">
+            <label for="">Tài khoản thanh toán</label>
+            <p-dropdown [options]="listBank" [(ngModel)]="bankSelected" [autoDisplayFirst]="false" [filter]="true"
+              [showClear]="true" [resetFilterOnHide]="true" autofocus="true" optionLabel="name"
+              [style]="{'width': '100%'}"></p-dropdown>
+          </div>
+          <div class="col-md-12 mt-10">
+            <span>{{'bill.create.account_name' | translate}}<b>{{bankSelected ==
+                null?"":bankSelected.bankName}}</b></span>
+          </div>
+          <div class="col-md-12 mt-10">
+            <span>{{'bill.create.account_name' | translate}}<b>{{bankSelected ==
+                null?"":bankSelected.accountName}}</b></span>
+          </div>
+          <div class="col-md-12 mt-10">
+            <span>{{'bill.create.number_account' | translate}}<b>{{bankSelected ==
+                null?"":bankSelected.accountNumber}}</b></span>
+          </div>
+          <div class="col-md-12 mt-10">
+            <span>{{'bill.create.branch_name' | translate}}<b>{{bankSelected ==
+                null?"":bankSelected.branchName}}</b></span>
+          </div>
+        </div>
+        <div class="row mt-10">
+          <div class="col-md-6">
+            <label>Loại tiền</label>
+            <p-dropdown [options]="listMoney" [(ngModel)]="moneySelected" [autoDisplayFirst]="false" [filter]="true"
+              [showClear]="true" [resetFilterOnHide]="true" autofocus="true" optionLabel="categoryName"
+              [style]="{'width': '100%'}">
+            </p-dropdown>
+          </div>
+          <div class="col-md-6">
+            <label>Tỷ giá</label>
+            <input (keydown.enter)="$event.preventDefault()" [(ngModel)]="exchangeRate"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}" type="text" class="w100"
+              pInputText />
+          </div>
+        </div>
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <label>Số tiền</label>
+            <input (keydown.enter)="$event.preventDefault()" [(ngModel)]="amountBill"
+              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: '0'}" type="text" class="w100"
+              pInputText />
+          </div>
+        </div>
+        <div class="row mt-10">
+          <div class="col-md-12">
+            <label>Ngày thu tiền</label>
+            <p-calendar showButtonBar="true" [(ngModel)]="collectMoney" [yearNavigator]="true"
+              yearRange="{{minYear}}:{{currentYear}}" dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+              [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+            </p-calendar>
+          </div>
+        </div>
+      </div>
+      <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="displayDialog=false" label="Thanh toán"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="displayDialog=false" label="Hủy"
+          class="ui-button-secondary"></button>
+      </p-footer>
+    </p-dialog>
+  </div>
+
+</div>

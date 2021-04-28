@@ -1,0 +1,709 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="order-detail-dialog">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <div class="row col-md-6">
+        <div *ngIf="isShowRadioProduct" class="col-md-6">
+          <p-radioButton name="group1" value="0" label="Sản phẩm, hàng hóa" [(ngModel)]="selectedOrderDetailType"
+          [ngModelOptions]="{standalone: true}" (onClick)="changeOrderDetailType(0)">
+          </p-radioButton>
+        </div>
+        <div *ngIf="isShowRadioOC" class="col-md-6">
+          <p-radioButton name="group1" value="1" label="Dịch vụ" [(ngModel)]="selectedOrderDetailType"
+          [ngModelOptions]="{standalone: true}" (onClick)="changeOrderDetailType(1)">
+          </p-radioButton>
+        </div>        
+      </div>      
+      <div class="row col-md-6">  
+        <div class="col-md-12" *ngIf="selectedOrderDetailType == 0">
+          <div class="row">
+            <div class="col-md-12" style="margin-left: 30px;">
+              <p-checkbox name="groupname" [(ngModel)]="IsPriceInitial" [binary]="true" (click)="changePriceInitial()" ></p-checkbox><span style="margin-left: 10px;">Giá vốn đích danh</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form *ngIf="selectedOrderDetailType == 0" [formGroup]="productForm" style="height: 100%;">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <!-- Hàng 1 -->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-10">
+                      <label>Sản phẩm<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-2" style="text-align: right;">
+                      <div pTooltip="Tạo nhanh sản phẩm dịch vụ" tooltipZIndex="10000"
+                        (click)="openQuickCreProductDialog()">
+                        <i class="pi pi-plus" style="color: #0000FF"></i>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listProduct" [virtualScroll]="true" itemSize="30" 
+                                  formControlName="productControl" 
+                                  [styleClass]="(productControl.invalid && (productControl.dirty || productControl.touched)) ? 'error-border' : ''"
+                                  [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                  placeholder="Chọn sản phẩm dịch vụ" 
+                                  optionLabel="productCodeName" [style]="{'width': '100%'}"
+                                  (onChange)="changeProduct($event.value)"></p-dropdown>
+                    </div>
+                    <div class="col-md-12" [hidden]="productControl.valid || productControl.untouched">
+                      <span *ngIf="productControl.hasError('required')" class="error-message-span">Chưa chọn sản phẩm dịch vụ</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tên sản phẩm</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" pInputText 
+                            formControlName="productNameControl"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 2 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">                
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Nhà cung cấp</label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listVendor"
+                                formControlName="vendorControl" 
+                                [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                                placeholder="Chọn nhà cung cấp" 
+                                optionLabel="vendorName" [style]="{'width': '100%'}">
+                        </p-dropdown>
+                    </div>
+                  </div>
+                </div>           
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn vị tính</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" pInputText 
+                            formControlName="unitProductControl"/>
+                    </div>
+                  </div>
+                </div>       
+              </div>
+            </div>
+
+            <!-- Hàng 2 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <label>Mã kho<span class="require">*</span></label>
+                </div>
+                <div class="col-md-12">
+                  <p-dropdown [options]="listWarehouse"
+                            formControlName="warehouseIdControl" 
+                            [styleClass]="(warehouseIdControl.invalid && (warehouseIdControl.dirty || warehouseIdControl.touched)) ? 'error-border' : ''"
+                            [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                            placeholder="Chọn kho" 
+                            optionLabel="warehouseCodeName" [style]="{'width': '100%'}"></p-dropdown>
+                </div>
+                <div class="col-md-12" [hidden]="warehouseIdControl.valid || warehouseIdControl.untouched">
+                  <span *ngIf="warehouseIdControl.hasError('required')" class="error-message-span">Chưa chọn kho</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 3 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tồn kho thực tế</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="actualInventoryControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tồn kho kinh doanh</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="businessInventoryControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 3 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Số lượng<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="quantityProductControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeQuantityProduct()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn giá<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="priceProductControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changePriceProduct()">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 4 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn vị tiền<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listUnitMoney"
+                                  formControlName="unitMoneyProductControl"
+                                  placeholder="Chọn đơn vị tiền" 
+                                  optionLabel="categoryName" [style]="{'width': '100%'}"
+                                  (onChange)="changeUnitMoneyProduct($event.value)"></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Chiết khấu theo SP/DV</label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="discountTypeList" formControlName="discountTypeProductControl"
+                                  optionLabel="name" [style]="{'width': '100%'}"
+                                  (onChange)="changeDiscountTypeProduct($event.value)"></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 5 -->
+            <div *ngIf="(unitMoneyLabel != 'VND')" class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tỷ giá<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="exchangeRateProductControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeExchangeRateProduct()">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 6 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Chiết khấu</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="discountValueProductControl"
+                              [ngClass]="(discountValueProductControl.invalid && (discountValueProductControl.dirty || discountValueProductControl.touched)) ? 'error-border': ''"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeDiscountValueProduct()">
+                    </div>
+                    <div class="col-md-12" [hidden]="discountValueProductControl.valid || discountValueProductControl.untouched">
+                      <span *ngIf="discountValueProductControl?.errors?.numberInvalid" class="error-message-span">Chiết khấu không được lớn hơn tiền sản phẩm</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền chiết khấu (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountDiscountProduct | number:0}}" pInputText disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">          
+          <!-- Hàng 1 -->
+          <div class="row" *ngIf="IsPriceInitial">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Giá vốn<span class="require" *ngIf="IsPriceInitial">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="priceInitialControl" id="priceInitial" #priceInitial
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changePriceInitial()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tiền vốn (VNĐ)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountPriceInitialProduct | number:0}}" pInputText disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!IsPriceInitial">
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Giá vốn</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="priceInitialControl" disabled="true"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tiền vốn (VNĐ)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountPriceInitialProduct | number:0}}" pInputText disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hàng 1 -->
+          <div class="row">
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thuế GTGT (%)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="vatProductControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeVatProduct()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền thuế GTGT (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountVatProduct | number:0}}" pInputText disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hàng 2 -->
+          <div class="row">
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountProduct | number:0}}" pInputText disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thời gian bảo hành</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="warrantyPeriodControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+                      <!-- <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountProduct | number:0}}" pInputText disabled="true"/> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hàng 3 -->
+          <div class="row">
+            <div class="col-md-12 mt-10">
+              <p-table [columns]="cols" [value]="listAttrProduct" [resizableColumns]="true">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn 
+                        [ngStyle]="{'text-align': col.textAlign}">
+                      {{col.header}}
+                    </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column"
+                        pEditableColumn
+                        [ngSwitch]="col.field"
+                        [ngStyle]="{'text-align': col.textAlign}">
+                      <span *ngSwitchCase="'AttrValue'">
+                        <p-cellEditor>
+                          <ng-template pTemplate="input">
+                            <p-dropdown [options]="rowData.AttrValue" 
+                                        [(ngModel)]="rowData.SelectedAttrValue" [ngModelOptions]="{standalone: true}"
+                                        placeholder="Chọn giá trị"
+                                        optionLabel="productAttributeCategoryValue" appendTo="body" baseZIndex="99999"
+                                        [style]="{'width':'100%'}"></p-dropdown>
+                          </ng-template>
+                          <ng-template pTemplate="output">
+                            {{rowData.SelectedAttrValue ? rowData.SelectedAttrValue.productAttributeCategoryValue : ''}}
+                          </ng-template>
+                        </p-cellEditor>
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field] ? rowData[col.field].productAttributeCategoryName : ''}}</span>
+                    </td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <form *ngIf="selectedOrderDetailType == 1" [formGroup]="otherCostsForm" style="height: 100%;">
+    <div class="col-md-12 mt-10">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <!-- Hàng 1 -->
+            <div class="col-md-12">
+              <div class="row">
+                <!-- <div class="col-md-8">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Diễn giải<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="w100" pInputText
+                              [ngClass]="(descriptionOCControl.invalid  && (descriptionOCControl.dirty ||  descriptionOCControl.touched)) ? 'error-border': ''"
+                              formControlName="descriptionOCControl" />
+                    </div>
+                    <div class="col-md-12" [hidden]="descriptionOCControl.valid || descriptionOCControl.untouched">
+                      <span *ngIf="descriptionOCControl.hasError('required')" class="error-message-span">Chưa điền diễn giải</span>
+                      <span *ngIf="descriptionOCControl?.errors?.forbiddenSpaceText" class="error-message-span">Diễn giải không được để trắng</span>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Số lượng<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="quantityOCControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeQuantityOC()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn vị tính<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="w100" pInputText formControlName="unitOCControl"
+                              [ngClass]="(unitOCControl.invalid  && (unitOCControl.dirty ||  unitOCControl.touched)) ? 'error-border': ''"/>
+                    </div>
+                    <div class="col-md-12" [hidden]="unitOCControl.valid || unitOCControl.untouched">
+                      <span *ngIf="unitOCControl.hasError('required')" class="error-message-span">Không được để trống</span>
+                      <span *ngIf="unitOCControl?.errors?.forbiddenSpaceText" class="error-message-span">Không được để trống</span>
+                      <span *ngIf="unitOCControl?.errors?.maxlength" class="error-message-span">Không điền quá 50 ký tự</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 2 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <!-- <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Số lượng<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="quantityOCControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeQuantityOC()">
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn vị tiền<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listUnitMoney"
+                                  formControlName="unitMoneyOCControl"
+                                  placeholder="Chọn đơn vị tiền" 
+                                  optionLabel="categoryName" [style]="{'width': '100%'}"
+                                  (onChange)="changeUnitMoneyOC($event.value)"></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn giá<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="priceOCControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changePriceOC()">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 3 -->
+            <div class="col-md-12 mt-5" *ngIf="(unitMoneyOCLabel == 'VND')">
+              <div class="row">
+                <!-- <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Đơn vị tiền<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="listUnitMoney"
+                                  formControlName="unitMoneyOCControl"
+                                  placeholder="Chọn đơn vị tiền" 
+                                  optionLabel="categoryName" [style]="{'width': '100%'}"
+                                  (onChange)="changeUnitMoneyOC($event.value)"></p-dropdown>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountOC | number:0}}" disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 4 -->
+            <div *ngIf="(unitMoneyOCLabel != 'VND')" class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Tỷ giá<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="exchangeRateOCControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeExchangeRateOC()">
+                    </div>
+                  </div>
+                </div>                
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountOC | number:0}}" disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Diễn giải<span class="require">*</span></label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="w100" pInputText
+                              [ngClass]="(descriptionOCControl.invalid  && (descriptionOCControl.dirty ||  descriptionOCControl.touched)) ? 'error-border': ''"
+                              formControlName="descriptionOCControl" />
+                    </div>
+                    <div class="col-md-12" [hidden]="descriptionOCControl.valid || descriptionOCControl.untouched">
+                      <span *ngIf="descriptionOCControl.hasError('required')" class="error-message-span">Chưa điền diễn giải</span>
+                      <span *ngIf="descriptionOCControl?.errors?.forbiddenSpaceText" class="error-message-span">Diễn giải không được để trắng</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <!-- Hàng 1 -->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thuế GTGT (%)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="vatOCControl"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeVatOC()">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền thuế GTGT (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountVatOC | number:0}}" disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 2 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Chiết khấu theo SP/DV</label>
+                    </div>
+                    <div class="col-md-12">
+                      <p-dropdown [options]="discountTypeList" formControlName="discountTypeOCControl"
+                                  optionLabel="name" [style]="{'width': '100%'}"
+                                  (onChange)="changeDiscountTypeOC($event.value)"></p-dropdown>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Thành tiền chiết khấu (VND)</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="text" class="w100" style="text-align: right;" pInputText value="{{amountDiscountOC | number:0}}" disabled="true"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hàng 3 -->
+            <div class="col-md-12 mt-5">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <label>Chiết khấu</label>
+                    </div>
+                    <div class="col-md-12">
+                      <input  type="text" class="number-input" formControlName="discountValueOCControl"
+                              [ngClass]="(discountValueOCControl.invalid && (discountValueOCControl.dirty || discountValueOCControl.touched)) ? 'error-border': ''"
+                              [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}"
+                              (change)="changeDiscountValueOC()">
+                    </div>
+                    <div class="col-md-12" [hidden]="discountValueOCControl.valid || discountValueOCControl.untouched">
+                      <span *ngIf="discountValueOCControl?.errors?.numberInvalid" class="error-message-span">Chiết khấu không được lớn hơn tiền sản phẩm</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    <div class="col-md-12 mt-10">
+      <div class="group-button-footer">
+        <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+        <button type="button" class="save" (click)="save()" *ngIf="!readOnly"><span class="save-label">Lưu</span></button>
+      </div>
+    </div>
+  </div>
+</div>

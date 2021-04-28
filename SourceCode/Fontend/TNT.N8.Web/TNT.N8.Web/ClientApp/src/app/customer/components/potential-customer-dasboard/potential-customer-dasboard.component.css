@@ -1,0 +1,360 @@
+::ng-deep .content-wrapper {
+	background-color: #fff !important;
+}
+.potential-customer-dashboard {
+	background-color: #ffffff;
+  	/* border: solid 1px #dde1e6; */
+}
+
+.potential-customer-dashboard .title {
+	width: 171px;
+	height: 39px;
+	font-family: 'Inter UI';
+	font-size: 32px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.potential-customer-dashboard .box-search {
+	text-align: right;
+	margin-top: 15px;
+}
+
+.potential-customer-dashboard .text-search {
+	width: 364px;
+	height: 32px;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+	padding-left: 10px;
+	padding-right: 30px;
+}
+
+.potential-customer-dashboard .customize-icons-search {
+	position: relative;
+	right: 25px;
+	top: 2px;
+	cursor: pointer;
+}
+
+.potential-customer-dashboard .btn-create {
+	width: 116px;
+	height: 32px;
+	border: solid 1px #c1c7cd;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+	background-color: #0f62fe;
+}
+
+.potential-customer-dashboard .btn-create-text {
+	width: 68px;
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.15;
+	letter-spacing: normal;
+	text-align: center;
+	color: #ffffff;
+}
+
+.potential-customer-dashboard .box-chart {
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	height: 410px;
+	padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.potential-customer-dashboard .chart-1-title {
+	height: 19px;
+	font-family: 'Inter UI';
+	font-size: 16px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.potential-customer-dashboard .chart {
+	margin-top: 30px;
+}
+
+.potential-customer-dashboard .chart-infor {
+	margin-top: 20px;
+}
+
+.potential-customer-dashboard .chart-infor-text {
+	margin-left: 5px;
+}
+
+.potential-customer-dashboard .color-icon {
+	width: 10px;
+    height: 10px;
+	display: inline-block;
+	position: relative;
+	border-radius: 50%;
+}
+
+.potential-customer-dashboard .box-table-1 {
+	min-height: 315px;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+	padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.potential-customer-dashboard .box-table-1-title {
+	height: 19px;
+	font-family: 'Inter UI';
+	font-size: 16px;
+	font-weight: bold;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.25;
+	letter-spacing: normal;
+	text-align: left;
+	color: #121619;
+}
+
+.potential-customer-dashboard .box-table-1-handle {
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	color: #0f62fe;
+	cursor: pointer;
+}
+
+.potential-customer-dashboard .Double-Arrow-Left-3 {
+	position: relative;
+	right: 5px;
+	width: 16px;
+	height: 16px;
+	object-fit: contain;
+}
+
+.potential-customer-dashboard .link {
+	font-family: 'Inter UI';
+	color: #007ad9;
+	cursor: pointer;
+	font-size: 13px;
+}
+
+.potential-customer-dashboard .btn-create-order {
+	width: 132px;
+	height: 30px;
+	border-radius: 4px;
+	box-shadow: 0 1px 1px 0 rgba(18, 22, 25, 0.08);
+	background-color: #0f62fe;
+	border: solid 1px #cccccc;
+}
+
+.potential-customer-dashboard .btn-create-order-text {
+	width: 84px;
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	text-align: center;
+	color: #ffffff;
+}
+
+.potential-customer-dashboard .no-data {
+	height: 270px;
+	border: solid 1px #d7dbe0;
+	background-color: #f2f4f8;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.potential-customer-dashboard .box-no-data {
+	position: relative;
+	top: 25%;
+}
+
+.potential-customer-dashboard .box-icon {
+	width: 57.1px;
+	height: 58px;
+	object-fit: contain;
+}
+
+.potential-customer-dashboard .box-table-2 {
+	min-height: 315px;
+	border-radius: 4px;
+	border: solid 1px #dde1e6;
+	background-color: #ffffff;
+}
+
+.potential-customer-dashboard .funnel-chart{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.potential-customer-dashboard  .funnel-chart-item-1{
+  width: 90%;
+  text-align: center;
+  background: #e26161;
+  color: #fff;
+  font-weight: 500;
+  font-size: 19px;
+  border-radius: 20px;
+}
+
+.potential-customer-dashboard  .funnel-chart-item-percent{
+  width: 90%;
+  text-align: center;
+  font-weight: 500;
+  font-size: 19px;
+  border-radius: 20px;
+}
+
+.potential-customer-dashboard  .funnel-chart-item-2{
+  width: 70%;
+  text-align: center;
+  background:#db981b;
+  color: #fff;
+  font-weight: 500;
+  font-size: 19px;
+  border-radius: 20px;
+}
+
+.potential-customer-dashboard  .funnel-chart-item-3{
+  width: 50%;
+  text-align: center;
+  background:#73e657;
+  color: #fff;
+  font-weight: 500;
+  font-size: 19px;
+  border-radius: 20px;
+}
+
+.potential-customer-dashboard  .funnel-chart-item-4{
+  width: 30%;
+  text-align: center;
+  background:#2f99f0;
+  color: #fff;
+  font-weight: 500;
+  font-size: 19px;
+  border-radius: 20px;
+}
+
+.potential-customer-dashboard  .funnel-note{
+  display: flex;
+  justify-content: space-between;
+}
+
+.potential-customer-dashboard  .dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.potential-customer-dashboard  .funnel-note-item{
+  display: flex;
+  align-items: center;
+}
+
+.potential-customer-dashboard  .dot-1 {
+  background: #e26161;
+}
+
+.potential-customer-dashboard  .dot-2{
+  background:#db981b;
+}
+
+.potential-customer-dashboard  .dot-3 {
+  background:#73e657;
+}
+
+.potential-customer-dashboard  .dot-4 {
+  background:#2f99f0;
+}
+
+.potential-customer-dashboard  .funnel-note-item-desc{
+  margin-left: 3px;
+}
+.potential-customer-dashboard .content-box-chart {
+	margin-top: 30px; 
+	margin-bottom: 90px;
+}
+
+@media only screen and (max-width: 375px) {
+	.potential-customer-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.potential-customer-dashboard .text-search {
+	  width: 175px;
+	}
+
+	.potential-customer-dashboard .customize-icons-search {
+	  right: unset;
+	  left: -7%;
+	  top: 3px;
+	}
+
+	.potential-customer-dashboard .chart-1-title {
+		font-size: 15px;
+	}
+}
+
+@media only screen and (max-width: 415px) and (min-width: 376px) {
+	.potential-customer-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.potential-customer-dashboard .text-search {
+		width: 220px;
+	}
+
+	.potential-customer-dashboard .customize-icons-search {
+		right: unset;
+		left: -7%;
+		top: 3px;
+	}
+}
+
+@media only screen and (max-width: 1423px) and (min-width: 416px) {
+	.potential-customer-dashboard .box-search {
+		padding-bottom: 5px;
+	}
+
+	.potential-customer-dashboard .text-search {
+		width: 220px;
+	}
+}
+@media screen and (max-width: 768px){
+	.potential-customer-dashboard .title {
+		font-size: 20px;
+	}
+	.potential-customer-dashboard .btn-create {
+		width: 100%;
+	}
+	.potential-customer-dashboard .box-chart {
+		height: auto;
+	}
+	.potential-customer-dashboard .content-box-chart {
+		margin-bottom: 30px;
+	}
+}

@@ -1,0 +1,68 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
+<!-- Message Response... -->
+<p-toast position="bottom-right" key="popup"></p-toast>
+
+<div class="template-quick-gift">
+  <div class="row no-margin">
+    <div class="col-md-12">
+      <form class="form-group" [formGroup]="formQuickGift">
+      <div class="row">
+        <div class="col-md-12">
+          <span style="font-family: 'Inter UI';">Tiêu đề:</span>
+        </div>
+        <div class="col-md-12">
+          <input #autofocus type="text" class="w100" pInputText formControlName="titleControl"
+            [ngClass]="(titleControl.invalid && (titleControl.dirty || titleControl.touched)) ? 'error-border': ''"/>
+        </div>
+        <div class="col-md-12" [hidden]="titleControl.valid || titleControl.untouched">
+          <span *ngIf="titleControl.hasError('required')" class="error-message-span">Tiêu đề không được để trống</span>
+          <span *ngIf="titleControl?.errors?.forbiddenSpaceText" class="error-message-span">Tiêu đề không được để trắng</span>
+          <span *ngIf="titleControl?.errors?.maxlength" class="error-message-span">Tối đa 200 ký tự</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+          <span style="font-family: 'Inter UI';">Chọn quà:</span>
+        </div>
+        <div class="col-md-12">
+          <p-dropdown [options]="listGift" formControlName="giftControl" placeholder="Chọn quà"
+                      [styleClass]="(giftControl.invalid && (giftControl.dirty || giftControl.touched)) ? 'error-border' : ''"
+                      optionLabel="categoryName" [style]="{'width': '100%'}"></p-dropdown>
+        </div>
+        <div class="col-md-12" [hidden]="giftControl.valid || giftControl.untouched">
+          <span *ngIf="giftControl.hasError('required')" class="error-message-span">Chưa chọn quà</span>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-12">
+          <span style="font-family: 'Inter UI';">Số lượng:</span>
+        </div>
+        <div class="col-md-12">
+          <input  type="text" class="number-input" formControlName="quantityControl"
+                  [ngClass]="(quantityControl.invalid  && (quantityControl.dirty ||  quantityControl.touched)) ? 'error-border': ''"
+                  (change)="changeQuantity()"
+                  [cleave]="{numeral: true, numeralPositiveOnly: true, numeralDecimalScale: 'defaultNumberType'}">
+        </div>
+        <div class="col-md-12" [hidden]="quantityControl.valid || quantityControl.untouched">
+          <span *ngIf="quantityControl?.errors?.ageRange" class="error-message-span">Giá trị phải trong khoảng từ 1 đến 200</span>
+        </div>
+      </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12" style="margin-top: 10px;">
+          <div class="group-button-footer">
+            <button type="button" class="cancel" (click)="cancel()"><span class="cancel-label">Hủy</span></button>
+            <button type="button" class="save" (click)="sendGift()" [disabled]="awaitResult"><span class="save-label">Gửi</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,327 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration="1s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+
+<div class="receivable-customer-report">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="\assets\icons\components\money-2.svg" class="noun-product">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10">
+                  <div class="box-header-title">Công nợ khách hàng</div>
+                  <div class="box-header-subtitle">
+                    {{listReceivableCustomerReport.length}} đầu mục - Sắp xếp theo tổng còn phải thu - Cập nhật ngày
+                    {{nowDate | date : 'dd/MM/yyyy'}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input type="text" [(ngModel)]="filterGlobal" class="iput-text" placeholder="Tìm kiếm trong danh sách"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <div class="box-filter">
+
+        <form [formGroup]="searchForm">
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Năm</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown (onChange)="changeYear($event)" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                formControlName="Year" [options]="listyears" optionLabel="label" [autoDisplayFirst]="false"
+                [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Kỳ</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown (onChange)="changePeriod($event)" [filter]="true" [showClear]="true"
+                [resetFilterOnHide]="true" formControlName="Period" [options]="periods" optionLabel="name"
+                [autoDisplayFirst]="false" [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Từ ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar formControlName="FromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                [maxDate]="searchForm.get('ToDate').value != null ? searchForm.get('ToDate').value : maxStartDate"
+                dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="dd/mm/yy" showButtonBar="true"
+                [inputStyle]="{'width':'100%'}" [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Đến ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar formControlName="ToDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                dateFormat="dd/mm/yy" [style]="{'width':'100%'}" [minDate]="searchForm.get('FromDate').value"
+                placeholder="dd/mm/yy" showButtonBar="true" [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+              </p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Mã hoặc tên khách hàng</span>
+            </div>
+            <div class="col-md-12">
+              <input formControlName="CustomerNameCode" type="text" class="full-width" pInputText />
+            </div>
+          </div>
+
+          <div class="row no-margin pb-1">
+            <div class="col-md-12 mt-5" style="text-align: right">
+              <button (click)="search()" type="button" class="btn-search">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <div *ngIf="listReceivableCustomerReport.length > 0" class="col-md-{{leftColNumber}} no-padding"
+      style="border: 1px solid #ccc;">
+      <div class="row" style="margin-left: 20px !important;margin-right: 17px; margin-top: 12px;margin-bottom: 12px;">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-{{colSumarySection}} no-padding">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Tổng đặt hàng (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalPurchase | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img class="tongdathang" src="/assets/icons/components/chitietcongno_tongdathang.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-{{colSumarySection}} no-padding">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Tổng đã thanh toán (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalPaid | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img class="tongdathanhtoan" src="/assets/icons/components/chitietcongno_tongdathanhtoan.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-{{colSumarySection}} no-padding"
+              [style.margin-top]="colSumarySection == 6 ? '10px': '0px'">
+              <div class="number-header-wrapper">
+                <div class="row">
+                  <div class="col-md-12 select-month">
+                    <div class="total-product-label">Tổng còn phải thu (VNĐ)</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12 total-product-number-wrapper">
+                    <span class="total-product-number">{{this.totalReceipt | number}}</span>
+                  </div>
+                </div>
+                <div class="icon-section">
+                  <div class="icon-wrapper">
+                    <img src="/assets/icons/components/chitietcongno_tongconphaithu.svg" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Danh sách công nợ khách hàng" [selected]="true">
+          <p-table #myTable [columns]="selectedColumns" [value]="listReceivableCustomerReport"
+            (sortFunction)="sortColumnInList($event)" [customSort]="true" [scrollable]="true" [resizableColumns]="true"
+            columnResizeMode="colgroup" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,20,30]"
+            [responsive]="true">
+            <ng-template pTemplate="caption">
+              <div style="text-align:left">
+                <p-multiSelect [options]="colsList" [(ngModel)]="selectedColumns" [ngModelOptions]="{standalone: true}"
+                  optionLabel="header" selectedItemsLabel="{0} cột được chọn" [style]="{minWidth: '200px'}"
+                  defaultLabel="Chọn cột"></p-multiSelect>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                  [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                  <span>
+                    {{col.header}}
+                    <p-sortIcon [field]="col.field"></p-sortIcon>
+                  </span>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns" [ngSwitch]="col.field"
+                  [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                  <span *ngSwitchCase="'customerName'" (click)="goToDetail(rowData)" class="link">
+                    {{rowData[col.field]}}
+                  </span>
+                  <span *ngSwitchCase="'nearestTransaction'">
+                    {{rowData[col.field] | date: 'dd/MM/yyyy'}}
+                  </span>
+
+                  <span *ngSwitchCase="'totalSales'">
+                    {{rowData[col.field] | number}}
+                  </span>
+                  <span *ngSwitchCase="'totalPaid'">
+                    {{rowData[col.field] | number}}
+                  </span>
+                  <span *ngSwitchCase="'totalReceipt'">
+                    {{rowData[col.field] | number}}
+                  </span>
+                  <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+    <div *ngIf="!(listReceivableCustomerReport.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <div class="box-filter">
+        <form [formGroup]="searchForm">
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Năm</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown (onChange)="changeYear($event)" [filter]="true" [showClear]="true" [resetFilterOnHide]="true"
+                formControlName="Year" [options]="listyears" optionLabel="label" [autoDisplayFirst]="false"
+                [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Kỳ</span>
+            </div>
+            <div class="col-md-12">
+              <p-dropdown (onChange)="changePeriod($event)" [filter]="true" [showClear]="true"
+                [resetFilterOnHide]="true" formControlName="Period" [options]="periods" optionLabel="name"
+                [autoDisplayFirst]="false" [style]="{'width': '100%'}"></p-dropdown>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Từ ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar formControlName="FromDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                dateFormat="dd/mm/yy" [style]="{'width':'100%'}" placeholder="dd/mm/yy"
+                [maxDate]="searchForm.get('ToDate').value != null ? searchForm.get('ToDate').value : maxStartDate"
+                (onClose)="onChangeFromDate($event)" showButtonBar="true" [inputStyle]="{'width':'100%'}"
+                [baseZIndex]="9999"></p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Đến ngày</span>
+            </div>
+            <div class="col-md-12">
+              <p-calendar formControlName="ToDate" [yearNavigator]="true" yearRange="{{minYear}}:{{currentYear}}"
+                [minDate]="searchForm.get('FromDate').value" dateFormat="dd/mm/yy" [style]="{'width':'100%'}"
+                (onClose)="onChangeToDate($event)" placeholder="dd/mm/yy" showButtonBar="true"
+                [inputStyle]="{'width':'100%'}" [baseZIndex]="9999">
+              </p-calendar>
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Mã hoặc tên khách hàng</span>
+            </div>
+            <div class="col-md-12">
+              <input formControlName="CustomerNameCode" type="text" class="full-width" pInputText />
+            </div>
+          </div>
+
+          <div class="row no-margin pb-1">
+            <div class="col-md-12 mt-5" style="text-align: right">
+              <button (click)="search()" type="button" class="btn-search">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,338 @@
+.employee-datail .employee-detail-content {
+	margin: -15px 0;
+}
+
+.employee-datail .mat-raised-button {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.employee-datail .mat-table {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.employee-datail .mat-paginator {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.employee-datail .mat-select {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.employee-datail .bg-white {
+	background: #fff;
+}
+
+.employee-datail .shadow {
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 2px 1px -1px rgba(0, 0, 0, .12);
+}
+
+.employee-datail .w100 {
+	width: 100% !important;
+}
+
+.employee-datail .text-center {
+	text-align: center;
+}
+
+.employee-datail .linkOpenOrgDialog {
+	bottom: 15px;
+	position: relative;
+}
+
+.employee-datail .emp-avatar {
+	width: 50%;
+	border-radius: 50%;
+}
+
+.employee-datail .triggerEditOrView .material-icons {
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.employee-datail .triggerEditOrView .iconTrigger {
+	position: absolute;
+	right: 20px;
+	z-index: 9999999;
+}
+
+.employee-datail .triggerEditOrView {
+	text-align: right;
+	position: relative;
+}
+
+.employee-datail .button-group {
+	width: 100% !important;
+	height: 'auto';
+	border-radius: 4px;
+	background: #f2f4f8;
+	border-bottom: 1px solid #dde1e6;
+	padding: 5px 0px;
+}
+
+.employee-datail .button-group .btn-create-add {
+	width: 142px;
+	height: 32px;
+	border-radius: 4px;
+	border: solid 1px #0f62fe;
+	background-color: #ffffff;
+	margin-left: 5px;
+}
+
+.employee-datail .button-group .btn-create-add .text-save-and-new {
+	width: 102px;
+	height: 16px;
+	font-family: 'Inter UI';
+	font-size: 13px;
+	font-weight: normal;
+	font-stretch: normal;
+	font-style: normal;
+	line-height: 1.46;
+	letter-spacing: normal;
+	text-align: center;
+	color: #0f62fe;
+}
+
+.employee-datail .content-block {
+	padding: 10px 15px;
+	margin-bottom: 30px;
+}
+
+.employee-datail .block-title {
+	color: #3f51b5;
+	font-size: 16px;
+	margin-bottom: 15px;
+}
+
+.employee-datail .table-list {
+	border: 1px solid #e0e0e0;
+	margin-bottom: 30px;
+}
+
+.employee-datail .btn-bordered {
+	border: 1px solid #ddd;
+}
+
+.employee-datail .basedSalary {
+	font-size: 16px;
+}
+
+.employee-datail .basedSalary>span {
+	color: #618cde;
+	font-weight: 600;
+}
+
+.employee-datail .table-list .mat-header-cell {
+	font-size: 16px !important;
+	font-weight: 600 !important;
+}
+
+.employee-datail .emp-name {
+	font-size: 16px;
+	padding: 15px 0;
+}
+
+.employee-datail .actualWorking>p {
+	white-space: nowrap;
+}
+
+.employee-datail .bottom-block-header {
+	padding: 10px 0;
+}
+
+.employee-datail .bottom-block {
+	padding-bottom: 30px;
+}
+
+.employee-datail .collapse-icon {
+	padding: 0px 0 15px 10px;
+	position: relative;
+	top: 5px;
+}
+
+.employee-datail .radio_description {
+	padding-left: 30px;
+	opacity: 0.8;
+}
+
+.employee-datail .save-icon, .employee-datail .cancel-icon {
+	font-size: 20px;
+}
+
+.employee-datail .icon-edit-ava {
+	position: absolute;
+	bottom: 5px;
+	margin: 0 auto;
+	right: 45%;
+	opacity: 0.8;
+}
+
+.employee-datail th {
+	white-space: nowrap;
+	font-weight: 400;
+	font-size: 11px;
+}
+
+.employee-datail td, .employee-datail th {
+	text-align: center;
+}
+
+::ng-deep .editAssessment .mat-form-field-infix {
+	width: auto !important;
+}
+
+::ng-deep .mat-tab-body {
+	padding-top: 25px;
+}
+
+.employee-datail .button-save-note {
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+	padding: 12px;
+	border-top: 1px solid #ccc;
+	background-color: #ffffff;
+	border-radius: 4px;
+	padding-right: 5px;
+	transition-property: opacity;
+	transition-duration: 2s;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.employee-datail .drag-file {
+	font-size: 14px;
+	padding: 2px 20px;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n+1) {
+	padding-right: 5px !important;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n+2) {
+	padding-right: 5px !important;
+	padding-left: 5px !important;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n) {
+	padding-left: 5px !important;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n+1) {
+	padding-right: 5px !important;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n+2) {
+	padding-right: 5px !important;
+	padding-left: 5px !important;
+}
+
+.employee-datail .file-upload-zone .col-md-4:nth-child(3n) {
+	padding-left: 5px !important;
+}
+
+.employee-datail .file-item div:nth-child(1), .employee-datail .file-item div:nth-child(3) {
+	padding-left: 0 !important;
+}
+
+.employee-datail .file-item div:nth-child(2) {
+	padding: 0 5px !important;
+}
+
+.employee-datail .note-content {
+	padding: 5px;
+}
+
+.employee-datail .item-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.employee-datail .remove-file {
+	border-radius: 50%;
+	padding: 2px;
+	font-size: 13px !important;
+	background: rgba(0, 0, 0, .12);
+	position: relative;
+}
+
+.employee-datail .timeline>li>.timeline-item>.timeline-header {
+	line-height: 1.3 !important;
+}
+
+.employee-datail .timeline-content {
+	margin-top: 20px;
+}
+
+.employee-datail .clock-timeline {
+	top: 5px;
+	position: relative;
+}
+
+.employee-datail .header-timeline {
+	padding: 0 45px;
+}
+
+.employee-datail .title-timeline {
+	padding: 5px 0;
+	border-bottom: 2px solid #454c66;
+}
+
+.employee-datail .bg-blueX {
+	background-color: #4E6BA5 !important;
+}
+
+.employee-datail .color-w {
+	color: #fff !important;
+}
+
+.employee-datail .timeline>li {
+	margin-right: 0 !important;
+}
+
+.employee-datail .timeline>li>.timeline-item {
+	box-shadow: 1px 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.employee-datail .timeline-content .timeline-header {
+	font-size: 12px;
+	color: #6d98e7;
+}
+
+.employee-datail .timeline-content .timeline-header>.responsibleName {
+	font-size: 14px !important;
+	color: #3f51b5 !important;
+}
+
+.employee-datail .timeline-user-avatar {
+	border-radius: 50%;
+	margin-right: 5px;
+	float: left;
+}
+
+.employee-datail .employee-detail-content mat-form-field .material-icons {
+	font-size: 20px;
+	top: 0.25rem;
+	position: relative;
+	padding-right: 0.5rem;
+}
+
+::ng-deep .mat-tab-label .material-icons {
+	font-size: 20px;
+	position: relative;
+	top: 4px;
+}
+
+::ng-deep .mat-tab-label {
+	font-family: 'Open Sans', sans-serif;
+}
+
+.employee-datail .clear {
+	position: absolute !important;
+	float: right;
+	right: 0px;
+	top: 5px !important;
+	font-size: 18px !important;
+}
+
+.employee-datail .cursor {
+	cursor: pointer;
+}

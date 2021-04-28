@@ -1,0 +1,158 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.0.0-rc1-final" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\dist\**" />
+    <Compile Remove="ClientApp\src\assets\fonts\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\dist\**" />
+    <Content Remove="ClientApp\src\assets\fonts\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\dist\**" />
+    <EmbeddedResource Remove="ClientApp\src\assets\fonts\**" />
+    <None Remove="ClientApp\dist\**" />
+    <None Remove="ClientApp\src\assets\fonts\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\accounting\models\bankPayment.model.ts" />
+    <None Remove="ClientApp\src\app\accounting\models\bankPaymentMapping.model.ts" />
+    <None Remove="ClientApp\src\app\accounting\models\cashPayment.model.ts" />
+    <None Remove="ClientApp\src\app\accounting\models\cashReceipt.model.ts" />
+    <None Remove="ClientApp\src\app\accounting\models\salesReport.model.ts" />
+    <None Remove="ClientApp\src\app\admin\admin.routing.ts" />
+    <None Remove="ClientApp\src\app\app.routing.ts" />
+    <None Remove="ClientApp\src\app\customer\models\customer.model.ts" />
+    <None Remove="ClientApp\src\app\lead\lead.routing.ts" />
+    <None Remove="ClientApp\src\app\lead\models\lead.model.ts" />
+    <None Remove="ClientApp\src\app\login\login.routing.ts" />
+    <None Remove="ClientApp\src\app\product\models\product.model.ts" />
+    <None Remove="ClientApp\src\app\product\models\productAttributeCategory.model.ts" />
+    <None Remove="ClientApp\src\app\shared\global.ts" />
+    <None Remove="ClientApp\src\app\shared\global.ts" />
+    <None Remove="ClientApp\src\app\shared\models\auth.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\bank.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\breadCrumMenu.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\category.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\company.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\contact.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\orderStatus.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\organization.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\permission.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\permissionSet.model.ts" />
+    <None Remove="ClientApp\src\app\shared\models\user.model.ts" />
+    <None Remove="ClientApp\src\app\userprofile\userprofile.module.ts" />
+    <None Remove="ClientApp\src\app\userprofile\userprofile.module.ts" />
+    <None Remove="ClientApp\src\app\userprofile\userprofile.routing.ts" />
+    <None Remove="ClientApp\src\app\vendor\models\vendor.model.ts" />
+    <None Remove="ClientApp\src\app\vendor\models\vendorBankAccount.model.ts" />
+    <None Remove="ClientApp\src\app\vendor\models\vendorOrder.model.ts" />
+    <None Remove="ClientApp\src\app\vendor\models\vendorOrderDetail.model.ts" />
+    <None Remove="ClientApp\src\app\vendor\models\vendorOrderProductDetailProductAttributeValue.model.ts" />
+    <None Remove="ClientApp\src\app\vendor\vendor.routing.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\accounting\services\" />
+    <Folder Include="ClientApp\src\app\admin\components\company-configuration\services\" />
+    <Folder Include="ClientApp\src\app\admin\components\product-category\components\" />
+    <Folder Include="ClientApp\src\app\admin\components\product-category\services\" />
+    <Folder Include="ClientApp\src\app\order\services\" />
+    <Folder Include="ClientApp\src\app\product\components\" />
+    <Folder Include="ClientApp\src\app\product\services\" />
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\accounting\models\bankPayment.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\accounting\models\bankPaymentMapping.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\accounting\models\cashPayment.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\accounting\models\cashReceipt.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\accounting\models\salesReport.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\admin\admin.routing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\app.routing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\customer\models\customer.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\lead\lead.routing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\lead\models\lead.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\login\login.routing.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\product\models\productAttributeCategory.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\product\models\product.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\auth.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\breadCrumMenu.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\bank.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\category.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\company.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\contact.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\orderStatus.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\organization.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\permission.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\permissionSet.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\shared\models\user.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\models\vendor.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\models\vendorBankAccount.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\models\vendorOrder.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\models\vendorOrderDetail.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\models\vendorOrderProductDetailProductAttributeValue.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\vendor\vendor.routing.ts" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

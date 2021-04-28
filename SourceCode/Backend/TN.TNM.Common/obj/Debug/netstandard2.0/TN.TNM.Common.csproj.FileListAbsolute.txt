@@ -1,0 +1,12 @@
+C:\SourceCode\Backend\TN.TNM.Common\bin\Debug\netstandard2.0\Select.Html.dep
+C:\SourceCode\Backend\TN.TNM.Common\bin\Debug\netstandard2.0\TN.TNM.Common.deps.json
+C:\SourceCode\Backend\TN.TNM.Common\bin\Debug\netstandard2.0\TN.TNM.Common.dll
+C:\SourceCode\Backend\TN.TNM.Common\bin\Debug\netstandard2.0\TN.TNM.Common.pdb
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.csprojAssemblyReference.cache
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.Resources.CommonResource.resources
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.csproj.GenerateResource.cache
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.AssemblyInfoInputs.cache
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.AssemblyInfo.cs
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.csproj.CoreCompileInputs.cache
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.dll
+C:\SourceCode\Backend\TN.TNM.Common\obj\Debug\netstandard2.0\TN.TNM.Common.pdb

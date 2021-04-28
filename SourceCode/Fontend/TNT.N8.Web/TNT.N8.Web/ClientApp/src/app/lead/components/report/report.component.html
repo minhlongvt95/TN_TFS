@@ -1,0 +1,123 @@
+<div class="report-content">
+<!--Head-title-->
+  <div class="head-content row" style="font-family: 'Open Sans', sans-serif !important;">
+    <div class="col-md-6">
+      <span class="head-title">{{ 'lead.report.title' | translate }}</span>
+    </div>
+    <div class="col-md-6 main-button-row">
+        <button mat-raised-button class="btn-export">{{ 'lead.report.export' | translate }}</button>
+        <button mat-raised-button class="btn-create" tabindex="0">{{ 'lead.report.print' | translate }}</button>
+    </div>
+  </div>
+
+  <hr/>
+<!--Body-content-->
+  <div class="body-content row">
+    <!--Left content-->
+    <div class="col-md-3 left-content">
+      <div class="col-md-12 no-padding" style="margin-bottom: 9px;">
+          <mat-form-field>
+              <mat-select placeholder="Module quản lí bán hàng"  >
+                <mat-option >
+                  Module quan li ban hang
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+      </div>
+    
+      <div class="col-md-12 no-padding" style="border-top: 1px solid #cccccc; background: #F7F7F7">
+        <div class="tab-link"><span>{{ 'lead.report.lead_statistics' | translate }}</span></div>
+        <div class="tab-link">{{ 'lead.report.report_time' | translate }}</div>
+        <div class="tab-link">{{ 'lead.report.report_product' | translate }}</div>
+        <div class="tab-link">{{ 'lead.report.report_employee' | translate }}</div>
+        <div class="tab-link">{{ 'lead.report.compare' | translate }}</div>
+      </div>
+    </div>
+
+    <!--Right content-->
+    <div class="col-md-9 no-padding right-content">
+      <div class="col-md-12 no-padding filter-area no-background" >
+        <div class="col-md-4 no-padding">
+          <div class="col-md-4  report-filter">{{'lead.report.filter' | translate}}</div> 
+          <div class="col-md-7 no-padding employee-select-area"> 
+            <mat-form-field>
+                <mat-select  [(ngModel)]="selectedName" multiple (selectionChange)="selectedchange()" #nameSelect="ngModel">
+                <mat-option *ngFor="let employee of employeeNames " [value]="employee" >{{employee}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-md-4 dateandtime" style="top: -15px;">
+            <div class="col-md-6 no-padding">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker" placeholder="{{ 'lead.placeholder.from' | translate }}" >                            
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          <div class="col-md-6 no-padding">
+              <mat-form-field>
+                <input matInput [matDatepicker]="picker2" placeholder="{{ 'lead.placeholder.to' | translate }}" >
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+                      </div>
+        </div>
+      </div>
+      <div class="col-md-12 no-padding row-selectedname no-background" style="top: -27px;" *ngIf="selected">
+        <mat-form-field>
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let item of selectedName" [selectable]="selectable" [removable]="removable"
+            (removed)="removeselected(item)" >
+              {{item}}
+              <i class="material-icons" style="font-size: 14px" matChipRemove *ngIf="removable">clear</i>
+            </mat-chip>
+            <i class="material-icons btn-reset" matTooltip="Xóa tất cả" (click)="removeAll()" >cached</i>
+          </mat-chip-list>
+          
+        </mat-form-field>
+        
+      </div>
+      <div class="col-md-12 " class="table-content">
+        <div class="heading-report">
+          <span>{{ 'lead.report.table.title' | translate }}</span>
+        </div>
+        <div class="date-report" style="margin-bottom: 5px">
+          <span>{{ 'lead.report.table.create_date' | translate }}</span>
+          <span>20/6/2018</span>
+        </div>
+        <div class="timefrom-to-report" style="margin-bottom: 15px">
+          <span>{{ 'lead.report.table.time' | translate }}</span>
+          <span>Từ 1/6/2018 đến 30/6/2018</span>
+        </div>
+        <table>
+          <tr>
+            <th rowspan="2">STT</th>
+            <th rowspan="2">Tên nhân viên</th>
+            <th colspan="2">Mới</th>
+            <th colspan="2">Đã khảo sát</th>
+            <th colspan="2">Đang báo giá</th>
+            <th colspan="2">Đang chờ phản hồi</th>
+            <th colspan="2">Ngừng theo dõi</th>
+            <th colspan="2">Tỉ lệ chuyển đổi</th>
+            <th rowspan="2">Tổng số lượng</th>
+          </tr>
+          <tr>
+            <td>%</td>
+            <td>Số lượng</td>
+            <td>%</td>
+            <td>Số lượng</td>
+            <td>%</td>
+            <td>Số lượng</td>
+            <td>%</td>
+            <td>Số lượng</td>
+            <td>%</td>
+            <td>Số lượng</td>
+            <td>%</td>
+            <td>Số lượng</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

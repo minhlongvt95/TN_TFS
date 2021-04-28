@@ -1,0 +1,211 @@
+<!-- Loading... -->
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{width: '50px', height: '50px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="list-vendor">
+  <div class="row no-margin">
+    <div class="box-header">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="box-header-group">
+              <div class="row">
+                <div class="col-md-1 col-xs-2">
+                  <div class="box-header-icon">
+                    <img src="/assets/images/product.svg" class="Money-2">
+                  </div>
+                </div>
+                <div class="col-md-11 col-xs-10 supplier-quotes">
+                  <div class="box-header-title">Danh sách giấy đề nghị báo giá nhà cung cấp</div>
+                  <div class="box-header-subtitle">
+                    {{listVendorQuote.length}} nhà cung cấp - Sắp xếp theo ngày tạo gần nhất
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" class="btn-create" *ngIf="actionAdd" (click)="goToCreateVendorQuote()"><span
+                class="btn-create-text">Tạo mới</span></button>
+            <div style="clear: both;"></div>
+          </div>
+          <div class="col-md-12">
+            <div class="box-header-group-btn">
+              <button type="button" class="btn-refresh" (click)="refreshFilter()">
+                <img src="/assets/icons/components/ios-refresh.svg" class="ios-refresh">
+              </button>
+              <button type="button" class="btn-filter" (click)="showFilter()">
+                <img src="/assets/icons/components/ios-funnel.svg" class="ios-funnel">
+                <span class="btn-filter-text">Bộ lọc</span>
+              </button>
+              <input (keypress)="checkEnterPress($event)" [(ngModel)]="filterGlobal" type="text" class="iput-text"
+                placeholder="Tìm kiếm trong danh sách"
+                (input)="myTable.filterGlobal($event.target.value.trim(), 'contains')">
+              <div style="clear: both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row no-margin" style="background-color: #f2f4f8;">
+    <div *ngIf="isShowFilterTop" class="col-md-12 no-padding">
+      <form [formGroup]="searchVendorForm">
+        <div class="box-filter">
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Nhóm nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <p-multiSelect formControlName="VendorGroup" [options]="listVendorGroup"
+                defaultLabel="Chọn nhóm nhà cung cấp" optionLabel="categoryName" [style]="{'width': '100%'}"
+                [resetFilterOnHide]="true" selectedItemsLabel="{0} nhóm được chọn"></p-multiSelect>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12">
+              <span>Tên nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <input (keypress)="checkEnterPress($event)" type="text" class="quote-code-text" placeholder=""
+                formControlName="VendorName">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Mã nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <input (keypress)="checkEnterPress($event)" type="text" class="quote-code-text" placeholder=""
+                formControlName="VendorCode">
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <button type="button" class="btn-search" (click)="searchVendor()">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="listVendorQuote.length > 0" class="col-md-{{leftColNumber}} no-padding">
+      <p-table #myTable [columns]="selectedColumns" [value]="listVendorQuote" [resizableColumns]="true" [(first)]="first"
+        columnResizeMode="expand" [paginator]="true" [rows]="rows" [rowsPerPageOptions]="[10,20,30]"
+        [responsive]="true">
+        <ng-template pTemplate="caption">
+          <div style="text-align:left">
+            <p-multiSelect [options]="colsListProduct" [(ngModel)]="selectedColumns"
+              [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+              [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+              [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+              <span>
+                {{col.header}}
+                <p-sortIcon [field]="col.field"></p-sortIcon>
+              </span>
+            </th>
+            <th style="text-align: center; width: 8rem;">
+              <span>Thao tác</span>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+              [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+              <span class="ui-column-title">{{col.header}}</span>
+              <span *ngSwitchCase="'recommendedDate'">
+                {{rowData[col.field] | date:'dd/MM/yyyy'}}
+              </span>
+              <span *ngSwitchCase="'suggestedSupplierQuote'" (click)="goToDetailVendorQuote(rowData)" class="link">{{rowData[col.field]}}</span>
+              <span *ngSwitchCase="'vendorCode'" (click)="goToDetail(rowData)" class="link">
+                {{rowData[col.field]}}
+              </span>
+              <span *ngSwitchCase="'totalPayableValue'">
+                {{rowData[col.field] | number}}
+              </span>
+              <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+            </td>
+            <td style="text-align: center;  width: 10rem;">
+              <button *ngIf="rowData['canDelete'] === true && actionDelete" class="ui-button-danger" pButton
+                icon="pi pi-trash" (click)="deleteSuggestedSupplierQuoteRequest(rowData)"></button>
+            </td>
+            <!-- <td style="text-align: center; width: 8rem;">
+              <p-splitButton label="Thao tác" icon="" (onDropdownClick)="onChangeAction(rowData)" [model]="actions"
+                appendTo="body" styleClass="ui-button-secondary"></p-splitButton>
+            </td> -->
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div *ngIf="!(listVendorQuote.length > 0)" class="col-md-{{leftColNumber}} no-padding no-data">
+      <div class="box-no-data">
+        <img src="/assets/icons/components/box.svg" class="box-icon">
+        <div>
+          <span>Hiện tại không có dữ liệu</span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isShowFilterLeft" class="col-md-{{rightColNumber}} no-padding">
+      <form [formGroup]="searchVendorForm">
+        <div class="box-filter">
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Nhóm nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <p-multiSelect formControlName="VendorGroup" [options]="listVendorGroup"
+                defaultLabel="Chọn nhóm nhà cung cấp" optionLabel="categoryName" [style]="{'width': '100%'}"
+                [resetFilterOnHide]="true" selectedItemsLabel="{0} nhóm được chọn"></p-multiSelect>
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12">
+              <span>Tên nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <input (keypress)="checkEnterPress($event)" type="text" class="quote-code-text" placeholder=""
+                formControlName="VendorName">
+            </div>
+          </div>
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <span>Mã nhà cung cấp</span>
+            </div>
+            <div class="col-md-12">
+              <input (keypress)="checkEnterPress($event)" type="text" class="quote-code-text" placeholder=""
+                formControlName="VendorCode">
+            </div>
+          </div>
+
+          <div class="row no-margin">
+            <div class="col-md-12 mt-5">
+              <button type="button" class="btn-search" (click)="searchVendor()">
+                <span class="btn-search-text">Tìm kiếm</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

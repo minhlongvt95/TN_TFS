@@ -1,0 +1,122 @@
+<div class="loading-indicator" *ngIf="loading">
+  <p-progressSpinner [style]="{ width: '50px', height: '50px' }" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s">
+  </p-progressSpinner>
+</div>
+<!-- Message Response... -->
+<p-toast position="bottom-right"></p-toast>
+<!-- Confirm... -->
+<p-confirmDialog header="Xác nhận" icon="pi pi-exclamation-triangle" acceptLabel="Chấp nhận" rejectLabel="Không">
+</p-confirmDialog>
+
+<div class="email-config">
+  <div class="row buffer-bottom">
+    <div class="col-md-12">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Quản lý mẫu Email" [selected]="true">
+          <form [formGroup]="searchForm">
+            <div class="row buffer-bottom">
+              <div class="col-md-2 text-label">
+                Tên mẫu Email
+              </div>
+              <div class="col-md-4">
+                <input formControlName="Name" type="text" class="full-width" pInputText />
+              </div>
+              <div class="col-md-2 text-label">
+                Tiêu đề Email
+              </div>
+              <div class="col-md-4">
+                <input formControlName="Title" type="text" class="full-width" pInputText />
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-2 text-label">
+                Trạng thái cần gửi
+              </div>
+              <div class="col-md-4">
+                <p-multiSelect formControlName="EmailType" [options]="listEmailType"
+                  defaultLabel="Chọn trạng thái cần gửi" optionLabel="categoryName" [style]="{'width': '100%'}"
+                  [resetFilterOnHide]="true" selectedItemsLabel="{0} trạng thái cần gửi được chọn"></p-multiSelect>
+              </div>
+              <div class="col-md-2 text-label">
+                Trạng thái
+              </div>
+              <div class="col-md-4">
+                <p-multiSelect formControlName="EmailStatus" [options]="listEmailStatus" defaultLabel="Chọn trạng thái"
+                  optionLabel="categoryName" [style]="{'width': '100%'}" [resetFilterOnHide]="true"
+                  selectedItemsLabel="{0} trạng thái được chọn"></p-multiSelect>
+              </div>
+            </div>
+            <div class="row buffer-bottom">
+              <div class="col-md-12" style="display: flex; justify-content: center;">
+                <p-button (onClick)="searchEmailTemplate()" label="Tìm kiếm" icon="pi pi-search" iconPos="left"
+                  [style]="{'margin-right': '0.3rem'}"></p-button>
+                <p-button (onClick)="addNewTemplate()" label="Thêm mới" icon="pi pi-plus" iconPos="left"
+                  [style]="{'margin-left': '0.3rem'}"></p-button>
+              </div>
+            </div>
+          </form>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p-accordion expandIcon="pi pi-fw pi-chevron-circle-right" collapseIcon="pi pi-fw pi-chevron-circle-down">
+        <p-accordionTab header="Danh sách mẫu Email" [selected]="true">
+          <div class="row">
+            <div class="col-md-12 no-padding">
+              <p-table #myTable [columns]="selectedColumns" [value]="listEmailTemplate" [resizableColumns]="true"
+                [(first)]="first" columnResizeMode="expand" [paginator]="true" [rows]="rows"
+                [rowsPerPageOptions]="[10,20,30]" [responsive]="true">
+                <ng-template pTemplate="caption">
+                  <div style="text-align:left">
+                    <p-multiSelect [options]="colsListProduct" [(ngModel)]="selectedColumns"
+                      [ngModelOptions]="{standalone: true}" optionLabel="header" selectedItemsLabel="{0} cột được chọn"
+                      [style]="{minWidth: '200px'}" defaultLabel="Chọn cột"></p-multiSelect>
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns" pResizableColumn [pSortableColumn]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                      <span>
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                      </span>
+                    </th>
+                    <!-- <th style="text-align: center; width: 10rem;">
+                      <span></span>
+                    </th> -->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                  <tr>
+                    <td *ngFor="let col of columns" class="ui-resizable-column" [ngSwitch]="col.field"
+                      [ngStyle]="{'text-align': col.textAlign, 'display': col.display}">
+                      <span class="ui-column-title">{{col.header}}</span>
+                      <span *ngSwitchCase="'emailTemplateName'" (click)="goToDetail(rowData)" class="link">
+                        {{rowData[col.field]}}
+                      </span>
+                      <span *ngSwitchDefault>{{rowData[col.field]}}</span>
+                    </td>
+                    <!-- <td style="text-align: center;  width: 7rem;">
+                      <button class="ui-button-danger" pButton icon="pi pi-trash"></button>
+                    </td> -->
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+          <!-- <div *ngIf="!(listEmailTemplate.length > 0)" class="col-md-12 no-padding no-data">
+            <div class="box-no-data">
+              <img src="/assets/icons/components/box.svg" class="box-icon">
+              <div>
+                <span>Hiện tại không có dữ liệu</span>
+              </div>
+            </div>
+          </div> -->
+        </p-accordionTab>
+      </p-accordion>
+    </div>
+  </div>
+</div>

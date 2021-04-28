@@ -1,0 +1,48 @@
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+}
+
+#lead-confirm-dialog-content .row {
+  /*margin: -24px !important;*/
+  margin: 0 !important;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#lead-confirm-dialog-content .popup-title {
+  background-color: #6D98E7;
+  padding: 40px 50px 20px !important;
+  color: #fff;
+  font-weight: bold;
+}
+
+#lead-confirm-dialog-content .popup-text {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  padding-left: 15px !important;
+  padding-right: 30px !important;
+  font-size: 16px;
+}
+
+#lead-confirm-dialog-content .popup-buttons {
+  text-align: right;
+}
+
+#lead-confirm-dialog-content .btn-cancel, #lead-confirm-dialog-content .btn-ok {
+  background-color: #fff;
+}
+
+#lead-confirm-dialog-content .btn-ok {
+  color: #6D98E7;
+}
+
+  #lead-confirm-dialog-content .btn-ok:hover,
+  #lead-confirm-dialog-content .btn-ok:focus,
+  #lead-confirm-dialog-content .btn-cancel:hover,
+  #lead-confirm-dialog-content .btn-cancel:focus {
+    color: #fff;
+    background-color: #6D98E7
+  }
+
+.mat-checkbox{
+  margin-right: 30px;
+}
